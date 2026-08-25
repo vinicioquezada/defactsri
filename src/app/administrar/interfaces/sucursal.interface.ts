@@ -1,0 +1,31 @@
+export interface Sucursal {
+  cod_sucursal: number;
+  sucursal: string;
+  estado: number;
+  cod_proyecto: number;
+  resumen_stock_caja: boolean;
+  electronico: boolean;
+  defecto_venta: string;
+  numeracion_automatica: boolean;
+  precios_completos: boolean;
+  codigo_automatico_producto: boolean;
+  comision_venta: boolean;
+  tarifas: boolean;
+  tarifasenlista: boolean;
+  cargartarifasconfigurables: boolean;
+  kardex: boolean;
+  codigo_iva: number;
+  iva: number;
+  afiliacion_cliente: boolean;
+  control_estricto_inventario: boolean;
+  control_estricto_movimiento: boolean;
+  recaudador: boolean;
+  modificacion_supervisor: boolean;
+  firmasruc: boolean;
+  codigosproducto: boolean;
+  ruc_usuario: boolean;
+  compartido_extension: boolean;
+  monitor_actividades: boolean;
+  asistencia_gimnasio: boolean;
+  log_producto: boolean;
+}

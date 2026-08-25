@@ -1,0 +1,83 @@
+<div id="mymodallistadoaperturadiarios" class="modal fade" role="dialog" data-backdrop="false">
+  <div class="modal-dialog modal-xl">
+    <!-- Modal content -->
+    <div class="modal-content">
+      <div class="modal-header">
+      <h5 class="modal-title">LISTADO DE APERTURA DIARIO</h5>
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">×</span>
+          </button>
+      </div>
+      <div class="modal-body">
+
+        <div class="row justify-content-between align-items-center">
+          <span>Total: {{this.cantidad_registros}} Registros</span>
+          <div class="input-group input-group-sm float-right" style="width: 150px;">
+            <input (keyup)="keyFiltrado();" type="text" class="form-control float-right" oninput="javascript:this.value=this.value.toUpperCase();" placeholder="Buscar" [(ngModel)]="filterpost" name="filterpost" autocomplete="off" />
+          </div>
+        </div>
+
+        <br>
+        
+        <div class="row justify-content-between">
+      
+          <span *ngIf="loadinglistado" class="justify-content-center text-center m-auto">
+            <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;"></div>
+          </span>
+      
+          <div class="table-responsive p-0">
+            <table class="design-table resp">
+              <thead>
+                <tr>
+                  <th>N FACTURA</th>
+                  <th>CLIENTE</th>
+                  <th>FECHA</th>
+                  <th>VALOR</th>
+                  <th>CANTIDAD</th>
+                  <th>CANTIDAD INGRESOS</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let item of (datos | filterGenerico:filterpost:['cedula', 'apellido', 'nombre']) | paginate : {
+                  id : 'pagempleado',
+                  itemsPerPage: pagesize,
+                  currentPage: page,
+                  totalItems: count
+                }">
+                  <td>{{item.numero_factura}}</td>
+                  <td>{{item.cliente}}</td>
+                  <td>{{item.fecha_hora}}</td>
+                  <td>{{item.valor}}</td>
+                  <td>{{item.cantidad}}</td>
+                  <td>{{item.cantidad_ingreso}}</td>
+                  <td>
+                    <div class="d-flex justify-content-end">
+                      <button (click)="clickAbrirPuerta(item);" class="btn btn-outline-primary btn-sm" type="button"><i class="fas fa-lock-open"></i></button>
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+            <div class="float-right">
+              <pagination-controls class="pagination-controls" id="pagempleado"
+              previousLabel="Anterior"
+              nextLabel="Siguiente"
+              [responsive]="true"
+              (pageChange)="handlePageChange($event)">
+              </pagination-controls>
+            </div>
+          </div>
+        </div>
+
+        <div class="d-flex justify-content-end align-items-center">
+          <button (click)="actualizarPuertaDiario();" type="button" class="btn btn-primary btn-sm"><i class="fas fa-sync-alt"></i> Actualizar</button>&nbsp;
+          <button class="btn btn-secondary btn-sm" type="button" data-dismiss="modal"><i class="fas fa-times-circle"></i> Cerrar</button>
+        </div>
+
+      </div>
+      
+    </div>
+
+  </div>
+</div>

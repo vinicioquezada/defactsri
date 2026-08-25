@@ -1,0 +1,111 @@
+<app-listado-compra-retencion (datosenviar)="recibirDatosCompra($event)"></app-listado-compra-retencion>
+
+<div class="row">			 
+    <div class="col-md-12">
+
+        <div class="card card-primary card-outline">
+          <div class="card-header">
+            <h3 class="card-title"><i class="fa fa-file-alt"></i> DATOS SUJETOS RETENIDOS</h3>
+            <button (click)="clickListarCompras();" [disabled]="disabledbtn" type="button" class="btn btn-primary btn-xs float-right"> <span class="fa fa-list"></span> Listar Compras</button>
+          </div>
+          <div class="card-body">
+
+              <div style="text-align:center">
+                  <div *ngIf="loading" class="spinner-border text-primary" style="width: 3rem; height: 3rem;"></div>
+              </div>
+
+              <div class="row">	
+
+                  <div class="col-md-6">
+                      <div class="form-group">
+                          <label>Proveedor:</label><label class="text-danger">&nbsp;*</label>
+                              <div class="input-group input-group-sm">
+                                      <div class="input-group-prepend">
+                                      <span class="input-group-text"><i class="fas fa-users"></i></span>
+                                      </div>
+                                      <label class="form-control">{{ proveedor }}</label>
+                              </div>
+                      </div>
+                  </div>
+
+
+                  <div class="col-md-3">
+                      <div class="form-group">
+                          <label>Identificación:</label>
+                          <div class="input-group input-group-sm">
+                              <div class="input-group-prepend">
+                              <span class="input-group-text"><i class="fas fa-id-card"></i></span>
+                              </div>
+                              <label class="form-control">{{ numero_identificacion }}</label>
+                          </div>
+                      </div>
+                  </div>
+
+                  <div class="col-md-3">
+                      <div class="form-group">
+                                  <label>Tipo Identificación:</label>
+                                  <div class="input-group input-group-sm">
+                                      <div class="input-group-prepend">
+                                          <span class="input-group-text"><i class="fas fa-id-card-alt"></i></span>
+                                      </div>
+                                      <label class="form-control">{{ identificacion }}</label>
+                                      <span class="input-group-prepend">
+                                      </span>	
+                                  </div>
+                      </div>
+                  </div>
+
+              </div>
+
+              <div class="row">
+
+                  <div class="col-md-6">
+                      <div class="form-group">
+                          <label>Dirección:</label>
+                          <div class="input-group input-group-sm">
+                          <div class="input-group-prepend">
+                              <span class="input-group-text"><i class="fas fa-location-arrow"></i></span>
+                          </div>
+                          <label class="form-control">{{ direccion }}</label>
+                          </div>
+                      </div>
+                  </div>
+
+                  <div class="col-md-3">
+                          <div class="form-group">
+                              <label>Correo:</label>
+                              <div class="input-group input-group-sm">
+                                  <div class="input-group-prepend">
+                                      <span class="input-group-text"><i class="fas fa-at"></i></span>
+                                  </div>
+                                  <label class="form-control">{{ correo }}</label>
+                              </div>
+                          </div>
+                  </div>
+
+                  <div class="col-md-3">
+                      <div class="form-group">
+                          <label>Celular:</label>
+                          <div class="input-group input-group-sm">
+                          <div class="input-group-prepend">
+                              <span class="input-group-text"><i class="fas fa-mobile"></i></span>
+                          </div>
+                          <label class="form-control" id="lbltelefono">{{ celular }}</label>
+                          </div>
+                      </div>
+                  </div>
+
+
+              </div>
+
+              
+
+
+
+
+
+          </div>
+        </div>
+    
+    </div>
+</div>

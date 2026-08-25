@@ -1,0 +1,81 @@
+<section class="content-header" id="box">
+    <div class="container-fluid">
+      <div class="row mb-2">
+        <div class="col-sm-12">
+            <div class="btn-toolbar" role="toolbar">
+              <div class="btn-group">
+                  <button (click)="clickGuardarFechasCaducidad();" class="btn btn-primary btn-flat btn-sm" type="button"><i class="fas fa-save"></i> Guardar</button>
+                  <button (click)="clickDeshacer();" class="btn btn-secondary btn-flat btn-sm" type="button"><i class="fas fa-redo-alt"></i> Deshacer</button>
+                  <button routerLink="/menucompra/exploradorcompra" class="btn btn-secondary btn-flat btn-sm" type="button"><i class="fa fa-reply"></i> Atrás</button>
+              </div>
+
+              <!--INICIA MULTIEMPRESA-->
+              <!--INICIA MULTIEMPRESA-->
+              <!--INICIA MULTIEMPRESA-->
+              <div class="input-group input-group-sm">  
+                <label *ngIf="multisucursal=='1'" class="form-control">{{sucursal}}</label>
+              </div>
+              <!--TERMINA MULTIEMPRESA-->
+              <!--TERMINA MULTIEMPRESA-->
+              <!--TERMINA MULTIEMPRESA-->
+            </div>
+
+
+        </div>
+
+        
+      </div>
+      
+    </div><!-- /.container-fluid -->
+
+    
+</section>
+
+<!-- Main content -->
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+          <div class="col-md-12">
+
+                  <div class="card card-cyan card-outline">
+                      <div class="card-header">
+
+                        <div style="text-align:center">
+                            <div *ngIf="loading" class="spinner-border text-primary" style="width: 3rem; height: 3rem;"></div>
+                        </div>
+                          <h5 style="font-size: 14px">
+                                    <i class="fa fa-user-circle" aria-hidden="true"></i>&nbsp;<label>{{ this.proveedor }}</label>
+                                    &nbsp;&nbsp;&nbsp;
+                                    <i class="fa fa-id-card" aria-hidden="true"></i>&nbsp;<label>{{ this.numero_identificacion }}</label><br>
+                                    <i class="fas fa-mobile" aria-hidden="true"></i>&nbsp;
+                                    <label id="lblcelular">{{ this.celular }}</label>
+                                    &nbsp;&nbsp;&nbsp;
+                                    <i class="fa fa-envelope" aria-hidden="true"></i>&nbsp;<label>{{ this.correo }}</label>
+                                    <br>
+                                    <i class="fas fa-paperclip" aria-hidden="true"></i>&nbsp;<label>{{this.numero_factura}}</label>
+                                    &nbsp;&nbsp;&nbsp;
+                                    <i class="fas fa-barcode" aria-hidden="true"></i>&nbsp;<label>{{this.numerocompraproveedor}}</label>
+                                    &nbsp;&nbsp;&nbsp;
+                                    <i class="fas fa-calendar" aria-hidden="true"></i>&nbsp;<label>{{this.fecha_registro}}</label>
+                          </h5>
+
+                      </div> 
+                  </div>
+              
+                  <app-detalle-registro-caducidad (datosenviar)="recibirDatosDetalles()"></app-detalle-registro-caducidad>
+                  
+          </div>
+
+          
+      </div>		
+
+
+       
+
+  
+
+      
+
+
+    </div>
+</section>

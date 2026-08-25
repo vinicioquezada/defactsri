@@ -1,0 +1,14 @@
+.custom-label {
+    border: 1px solid #007bff; /* Borde azul inicial */
+    padding: 5px;
+    border-radius: 8px; /* Esquinas redondeadas */
+    transition: border-color 0.3s, box-shadow 0.3s; /* Suaviza el cambio */
+    width: 100%;
+    font-size: 12px;
+  }
+  
+  .custom-label:hover {
+    border-color: #0056b3; /* Cambia a un azul más oscuro al pasar el mouse */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); /* Añade un efecto de sombra */
+  }
+  

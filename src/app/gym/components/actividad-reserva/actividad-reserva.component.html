@@ -1,0 +1,57 @@
+<app-actividad-reserva-form (datosenvio)="recibirDatosActividadReservaform()"></app-actividad-reserva-form>
+<app-listado-actividad-reserva></app-listado-actividad-reserva>
+
+<section class="content-header">
+  <div class="container-fluid">
+    <div class="row mb-2">
+      <div class="col-sm-12">
+          <div class="btn-toolbar" role="toolbar">
+            <div class="btn-group">
+              <button (click)="clickDeshacer();" class="btn btn-secondary btn-flat btn-sm float-right" type="button"><i class="fas fa-redo-alt"></i> Deshacer</button>
+              <button routerLink="/menugym/membresias" class="btn btn-secondary btn-flat btn-sm" type="button"><i class="fas fa-undo"></i> Atrás</button>
+            </div>
+          </div>
+      </div>
+      
+    </div>
+    
+  </div><!-- /.container-fluid -->
+</section>
+
+<!-- Main content -->
+<section class="content">
+    <div class="container-fluid">
+
+      <div class="row">
+        <div class="col-md-6">
+          <label class="form-control form-control-sm d-flex align-items-center">
+            <i class="fas fa-user mr-2"></i>
+            <span class="flex-grow-1 text-center">{{cliente}}</span>
+          </label>
+        </div>
+
+        <div class="col-md-6">
+          <label class="form-control form-control-sm d-flex align-items-center">
+            <i class="fas fa-dumbbell mr-2"></i>
+            <span class="flex-grow-1 text-center">{{actividad}}</span>
+          </label>
+        </div>
+      </div>
+
+      <div *ngIf="!asociado" class="row">
+        <div class="col-md-12">
+          <div class="alert alert-warning alert-dismissible">
+            <h4><i class="icon fas fa-exclamation-triangle"></i> Información de Usuario</h4>
+            <h5>El Cliente no está asociado al dispositivode  de {{ actividad }} presione el botón para asociar</h5><button (click)="guardarUsuarioActividad()" class="btn btn-primary btn-flat btn-sm" type="button"><i class="fas fa-sync"></i> Asociar</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-12">
+            <full-calendar [options]='calendarOptions'></full-calendar>
+        </div>
+      </div>
+
+    </div>
+</section>

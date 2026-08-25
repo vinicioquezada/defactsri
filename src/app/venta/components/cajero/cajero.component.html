@@ -1,0 +1,399 @@
+<section class="content-header">
+  <div class="container-fluid">
+    <div class="row mb-2">
+      <div class="col-sm-12">
+          <div class="btn-toolbar" role="toolbar">
+            <div class="btn-group">
+              <button (click)="clickDeshacer();" class="btn btn-secondary btn-flat btn-sm" type="button"><i class="fas fa-redo-alt"></i> Deshacer</button>
+              <button routerLink="/menuventa" class="btn btn-secondary btn-flat btn-sm" type="button"><i class="fa fa-reply"></i> Atrás</button>
+            </div>
+          </div>
+      </div>
+      
+    </div>
+    
+  </div><!-- /.container-fluid -->
+</section>
+
+<!-- Main content -->
+<section class="content">
+  <div class="container-fluid">
+    <div class="row">
+
+      <div class="col-md-12">
+        
+      <!-- /.Inicia form1 -->
+      <!-- /.Inicia form1 -->
+      <!-- /.Inicia form1 -->
+        <div class="card card-primary card-outline">
+          <div class="card-header">
+            <h3 class="card-title"><i class="fa fa-file-alt"></i> Datos de Cajero</h3>
+          </div>
+          <div class="card-body">
+
+            <div style="text-align:center">
+              <div *ngIf="loading" class="spinner-border text-primary" style="width: 3rem; height: 3rem;"></div>
+            </div>
+
+               <div class="row">
+            
+                    <div class="col-md-6">
+
+                        <div class="form-group">
+                          <label>Sucursal:</label>
+                            <label class="form-control form-control-sm">{{ sucursal }}</label>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Proceso Caja:</label>
+                            <select [disabled]="disabledcmbprocesocaja" (change)="changeProcesoCaja($event)" class="form-control form-control-sm">
+                              <option value="{{item.cod_proceso_caja}}" *ngFor="let item of datosprocesocaja" [selected]="this.cod_proceso_caja == item.cod_proceso_caja">
+                                  {{item.proceso_caja}}
+                              </option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                          <label>Caja:</label>
+                          <div class="input-group input-group-sm">
+                            <select [disabled]="disabledcmbcaja" (change)="changeCaja($event)" class="form-control form-control-sm">
+                              <option value="0">SELECCIONE UNA CAJA</option>
+                              <option value="{{item.cod_caja}}" *ngFor="let item of datoscaja" [selected]="item.cod_caja == this.cod_caja">
+                                  {{item.numero_caja}}
+                              </option>
+                            </select>
+                            <span class="input-group-append">
+                              <button (click)="clickBuscar();" [disabled]="disabledbtnbuscar" class="btn btn-primary btn-flat" type="button"><i class="fa fa-search"></i></button>
+                            </span>
+                          </div>
+                        </div>
+
+                        <div class="form-group">
+                          <label>Estado Caja:</label>
+                          <label class="form-control form-control-sm">{{this.estado_caja}}</label>
+                        </div>
+
+                        <div class="form-group">
+                          <label>Nº Arqueo:</label>
+                          <label class="form-control form-control-sm">{{this.numero_arqueo}}</label>
+                        </div>
+
+                        <div class="form-group">
+                          <label>Fecha Apertura:</label>
+                          <label class="form-control form-control-sm">{{this.fecha_apertura}}</label>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Vendedor:</label>
+                            <label class="form-control form-control-sm">{{this.vendedor}}</label>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Inicio Caja:</label>
+                            <input [ngClass]="{'is-invalid': flaginiciodinero}" [(ngModel)]="inicio_dinero" [disabled]="disabledtxtiniciodinero" class="form-control form-control-sm" onkeypress="return soloNumeros(event)" maxlength="9" placeholder="Dinero Caja Actual" type="text">
+                        </div>
+
+                        <div *ngIf="this.opcionesprivilegios['declaracionefectivo']" class="form-group">
+                            <label>Efectivo Contado:</label>
+                            <input [ngClass]="{'is-invalid': flagefectivocontado}" [(ngModel)]="efectivo_contado" [disabled]="disabledtxtobservacion" class="form-control form-control-sm" onkeypress="return soloNumeros(event)" maxlength="9" placeholder="Ingrese Dinero Efectivo Contado" type="text">
+                        </div>
+
+                        <div class="d-flex justify-content-end align-items-center">
+                          <button (click) = "clickAperturar();" [disabled]="disabledbtnaperturar" class="btn btn-primary btn-sm" type="button"><i class="fas fa-folder-open"></i> Aperturar</button>&nbsp;
+                          <button (click) = "clickCerrar();" [disabled]="disabledbtncerrarcaja" class="btn btn-warning btn-sm" type="button"><i class="fas fa-times-circle"></i> Cerrar Caja</button>&nbsp;
+                          <button *ngIf="this.recaudador!='1'" (click) = "calcularCierreCaja('normal');" [disabled]="disabledbtncalcularcierre" class="btn btn-success btn-flat btn-sm float-right" type="button"><i class="fa fa-money-bill-alt"></i> Calcular Cierre</button>
+                          <button *ngIf="this.recaudador=='1'" (click) = "calcularCierreCaja('general');" [disabled]="disabledbtncalcularcierre" class="btn btn-success btn-flat btn-sm float-right" type="button"><i class="fa fa-money-bill-alt"></i> Calcular Cierre General</button>
+                        </div>
+
+                        <div style="text-align:center">
+                          <div *ngIf="loading" class="spinner-border text-primary" style="width: 3rem; height: 3rem;"></div>
+                        </div>
+
+                    </div>
+
+                    
+
+                    <div class="col-md-6">
+
+                        <div class="form-group">
+                            <label>Fecha Cierre:</label>
+                            <label class="form-control form-control-sm">{{fecha_cierre}}</label>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Observación:</label>
+                            <textarea [(ngModel)]="observacion" [disabled]="disabledtxtobservacion" class="form-control" ></textarea>
+                        </div>
+                                    
+
+                        
+                        <div *ngIf="!this.opcionesprivilegios['bloqueodetalleresumencaja']" class="card card-primary card-outline">
+                          <div class="card-header">
+                            <h3 class="card-title"><i class="fa fa-file-alt"></i> Resumen Caja</h3>
+                          </div>
+                          <div class="card-body">
+
+                              <div class="row">
+                            
+                                    <div class="col-md-12">
+
+                                        <div class="form-group row">
+                                          <label class="col-sm-6 col-form-label">Total Ingreso General:</label>
+                                          <div class="col-sm-6">
+                                            <div class="input-group input-group-sm">
+                                              <label id="lbltotalventa" style="width: 100%; text-align: right; font-size:23px; background-color:#25ad15; color:#ffffff;">{{datos['totales'].total}}</label>
+                                            </div>
+                                          </div>
+                                        </div>
+
+                                        <div class="form-group row cursor-pointer" data-toggle="collapse" href="#collapseExample1">
+                                          <label class="col-sm-6 col-form-label cursor-pointer">+ Venta General:</label>
+                                          <div class="col-sm-6">
+                                            <div class="input-group input-group-sm">
+                                            <label class="text-primary cursor-pointer" style="width: 100%; text-align: right; font-size:20px;">{{datos['venta'].total}}</label>
+                                            </div>
+                                          </div>
+                                        </div>
+
+                                        <div id="collapseExample1" class="collapse" role="tabpanel" aria-labelledby="headinginteriorcontenedor">
+                                          <app-detalle-movimiento-caja [efectivo]="datos['venta'].efectivo" [deposito]="datos['venta'].deposito" [debito]="datos['venta'].debito" [credito]="datos['venta'].credito"></app-detalle-movimiento-caja>
+                                        </div>
+
+
+                                        <div class="form-group row cursor-pointer" data-toggle="collapse" href="#collapseExample2">
+                                          <label class="col-sm-6 col-form-label cursor-pointer">+ Abonos Venta General:</label>
+                                          <div class="col-sm-6">
+                                            <div class="input-group input-group-sm">
+                                            <label class="text-primary cursor-pointer" style="width: 100%; text-align: right; font-size:20px;">{{datos['abono_venta'].total}}</label>
+                                            </div>
+                                          </div>
+                                        </div>
+
+                                        <div id="collapseExample2" class="collapse" role="tabpanel" aria-labelledby="headinginteriorcontenedor">
+                                          <app-detalle-movimiento-caja [efectivo]="datos['abono_venta'].efectivo" [deposito]="datos['abono_venta'].deposito" [debito]="datos['abono_venta'].debito" [credito]="datos['abono_venta'].credito"></app-detalle-movimiento-caja>
+                                        </div>
+
+
+                                        <div class="form-group row cursor-pointer" data-toggle="collapse" href="#collapseExample3">
+                                          <label class="col-sm-6 col-form-label cursor-pointer">+ Ingresos Adicional General:</label>
+                                          <div class="col-sm-6">
+                                            <div class="input-group input-group-sm">
+                                            <label class="text-primary cursor-pointer" style="width: 100%; text-align: right; font-size:20px;">{{datos['ingresos'].total}}</label>
+                                            </div>
+                                          </div>
+                                        </div>
+
+                                        <div id="collapseExample3" class="collapse" role="tabpanel" aria-labelledby="headinginteriorcontenedor">
+                                          <app-detalle-movimiento-caja [efectivo]="datos['ingresos'].efectivo" [deposito]="datos['ingresos'].deposito" [debito]="datos['ingresos'].debito" [credito]="datos['ingresos'].credito"></app-detalle-movimiento-caja>
+                                        </div>
+
+
+                                        <div class="form-group row cursor-pointer" data-toggle="collapse" href="#collapseExample4">
+                                          <label class="col-sm-6 col-form-label cursor-pointer">- Devolución NC General:</label>
+                                          <div class="col-sm-6">
+                                            <div class="input-group input-group-sm">
+                                            <label class="text-danger cursor-pointer" style="width: 100%; text-align: right; font-size:20px;">{{datos['notas_credito'].total}}</label>
+                                            </div>
+                                          </div>
+                                        </div>
+
+                                        <div id="collapseExample4" class="collapse" role="tabpanel" aria-labelledby="headinginteriorcontenedor">
+                                          <app-detalle-movimiento-caja [efectivo]="datos['notas_credito'].efectivo" [deposito]="datos['notas_credito'].deposito" [debito]="datos['notas_credito'].debito" [credito]="datos['notas_credito'].credito"></app-detalle-movimiento-caja>
+                                        </div>
+
+                                        <div class="form-group row cursor-pointer" data-toggle="collapse" href="#collapseExample5">
+                                          <label class="col-sm-6 col-form-label cursor-pointer">- Pago con NC General:</label>
+                                          <div class="col-sm-6">
+                                            <div class="input-group input-group-sm">
+                                            <label class="text-danger cursor-pointer" style="width: 100%; text-align: right; font-size:20px;">{{datos['pago_nota_credito'].total}}</label>
+                                            </div>
+                                          </div>
+                                        </div>
+
+                                        <div id="collapseExample5" class="collapse" role="tabpanel" aria-labelledby="headinginteriorcontenedor">
+                                          <app-detalle-movimiento-caja [efectivo]="datos['pago_nota_credito'].efectivo" [deposito]="datos['pago_nota_credito'].deposito" [debito]="datos['pago_nota_credito'].debito" [credito]="datos['pago_nota_credito'].credito"></app-detalle-movimiento-caja>
+                                        </div>
+
+
+
+                                        <div class="form-group row cursor-pointer" data-toggle="collapse" href="#collapseExample6">
+                                          <label class="col-sm-6 col-form-label cursor-pointer">- Gastos Adicional General:</label>
+                                          <div class="col-sm-6">
+                                            <div class="input-group input-group-sm">
+                                            <label class="text-danger cursor-pointer" style="width: 100%; text-align: right; font-size:20px;">{{datos['gastos'].total}}</label>
+                                            </div>
+                                          </div>
+                                        </div>
+
+                                        <div id="collapseExample6" class="collapse" role="tabpanel" aria-labelledby="headinginteriorcontenedor">
+                                          <app-detalle-movimiento-caja [efectivo]="datos['gastos'].efectivo" [deposito]="datos['gastos'].deposito" [debito]="datos['gastos'].debito" [credito]="datos['gastos'].credito"></app-detalle-movimiento-caja>
+                                        </div>
+                                        
+
+                                        <hr>
+
+                                        <div class="form-group row">
+                                          <label class="col-sm-6 col-form-label">Total General en Caja:</label>
+                                          <div class="col-sm-6">
+                                            <div class="input-group input-group-sm">
+                                              <div class="input-group input-group-sm">
+                                                <label id="lbltotalcaja" style="width: 100%; text-align: right; font-size:23px; background-color:#0054b2; color:#ffffff;">{{total_caja}}</label>
+                                              </div>
+                                            </div>
+                                          </div>
+                                        </div>
+
+                                        <div class="form-group row">
+                                          <label class="col-sm-6 col-form-label">Inicio de Caja:</label>
+                                          <div class="col-sm-6">
+                                            <div class="input-group input-group-sm">
+                                              <label class="text-primary" id="lbliniciocaja" style="width: 100%; text-align: right; font-size:20px">{{inicio_dinero}}</label>
+                                            </div>
+                                          </div>
+                                        </div>
+
+                                        <div class="form-group row">
+                                          <label class="col-sm-6 col-form-label">Total Efectivo:</label>
+                                          <div class="col-sm-6">
+                                            <div class="input-group input-group-sm">
+                                              <div class="input-group input-group-sm">
+                                                <label id="lbltotalcaja" style="width: 100%; text-align: right; font-size:23px; background-color:#25ad15; color:#ffffff;">{{datos['totales'].efectivo}}</label>
+                                              </div>
+                                            </div>
+                                          </div>
+                                        </div>
+
+                                        <div class="form-group row">
+                                          <label class="col-sm-6 col-form-label">+ Venta Efectivo:</label>
+                                          <div class="col-sm-6">
+                                            <div class="input-group input-group-sm">
+                                              <label class="text-primary" id="lbliniciocaja" style="width: 100%; text-align: right; font-size:20px">{{datos['venta'].efectivo}}</label>
+                                            </div>
+                                          </div>
+                                        </div>
+
+                                        <div class="form-group row">
+                                          <label class="col-sm-6 col-form-label">+ Abono Venta Efectivo:</label>
+                                          <div class="col-sm-6">
+                                            <div class="input-group input-group-sm">
+                                              <label class="text-primary" id="lbliniciocaja" style="width: 100%; text-align: right; font-size:20px">{{datos['abono_venta'].efectivo}}</label>
+                                            </div>
+                                          </div>
+                                        </div>
+
+                                        <div class="form-group row">
+                                          <label class="col-sm-6 col-form-label">+ Ingreso Adicional Efectivo:</label>
+                                          <div class="col-sm-6">
+                                            <div class="input-group input-group-sm">
+                                              <label class="text-primary" id="lbliniciocaja" style="width: 100%; text-align: right; font-size:20px">{{datos['ingresos'].efectivo}}</label>
+                                            </div>
+                                          </div>
+                                        </div>
+
+                                        <div class="form-group row">
+                                          <label class="col-sm-6 col-form-label">- Devolución NC Efectivo:</label>
+                                          <div class="col-sm-6">
+                                            <div class="input-group input-group-sm">
+                                              <label class="text-danger" id="lbliniciocaja" style="width: 100%; text-align: right; font-size:20px">{{datos['notas_credito'].efectivo}}</label>
+                                            </div>
+                                          </div>
+                                        </div>
+
+                                        <div class="form-group row">
+                                          <label class="col-sm-6 col-form-label">- Pago con NC Efectivo:</label>
+                                          <div class="col-sm-6">
+                                            <div class="input-group input-group-sm">
+                                              <label class="text-danger" id="lbliniciocaja" style="width: 100%; text-align: right; font-size:20px">{{datos['pago_nota_credito'].efectivo}}</label>
+                                            </div>
+                                          </div>
+                                        </div>
+
+                                        <div class="form-group row">
+                                          <label class="col-sm-6 col-form-label">- Gastos Efectivo:</label>
+                                          <div class="col-sm-6">
+                                            <div class="input-group input-group-sm">
+                                              <label class="text-danger" style="width: 100%; text-align: right; font-size:20px;">{{datos['gastos'].efectivo}}</label>
+                                            </div>
+                                          </div>
+                                        </div>
+                                                            
+
+                                       
+
+                                        
+                                    </div>
+
+                                   
+
+                                    <div class="panel-body table-responsive" id="listadoregistros">
+                                      <table id="tbllistado" border="1" style="font-size: 10px;" class="design-table table-bordered">
+                                        <thead class="thead-light">
+                                          <tr>
+                                            <th>RESUMEN</th>
+                                            <th>EFECTIVO CAJA</th>
+                                            <th>TARJETA DÉBITO</th>
+                                            <th>TARJETA CRÉDITO</th>
+                                            <th>DEPÓSITOS</th>
+                                            <th>TOTAL</th>
+                                          </tr> 
+                                        </thead>
+                                        <tbody>
+                                          <tr *ngFor="let item of detallescajero">
+                                            <td [innerHTML]="item.descripcion"></td>
+                                            <td [innerHTML]="item.efectivo"></td>
+                                            <td [innerHTML]="item.debito"></td>
+                                            <td [innerHTML]="item.credito"></td>
+                                            <td [innerHTML]="item.deposito"></td>
+                                            <td [innerHTML]="item.total"></td>
+                                          </tr>
+                                        </tbody>
+                                        <tfoot>
+                                        </tfoot>
+                                      </table>
+                                    </div>
+
+                                    
+                                   
+
+
+                                </div>
+
+
+                          </div>
+                          <!-- /.card-body -->
+                        </div>
+                   
+
+                        
+
+                        
+                    </div>
+
+
+                </div>
+
+
+          </div>
+          <!-- /.card-body -->
+        </div>
+      <!-- /.Termina form1 -->
+      <!-- /.Termina form1 -->
+      <!-- /.Termina form1 -->
+      </div>
+
+      
+
+
+     
+
+
+    
+
+    </div>
+  </div>
+</section>
+
+
+
+
+                                      

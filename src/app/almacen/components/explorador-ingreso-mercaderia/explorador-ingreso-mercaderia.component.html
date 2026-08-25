@@ -1,0 +1,252 @@
+<div id="mymodalopciones" class="modal fade" role="dialog" data-backdrop="false">
+  <div class="modal-dialog">
+    <!-- Modal content -->
+    <div class="modal-content">
+      <div class="modal-header">
+      <h5 class="modal-title">INGRESO Nº - {{ numero_ingreso }}</h5>
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">×</span>
+          </button>
+      </div>
+      <div class="modal-body">
+
+        <div class="row">
+          <div class="col-12 d-flex flex-wrap justify-content-center">
+
+            <div class="col-md-4 pb-1">
+              <button (click)="editar();" class="btn btn-primary btn-flat btn-sm btn-block" type="button" [disabled]="disabledbtneditar"><i class="fas fa-edit"></i> EDITAR</button>
+            </div>
+
+            <div class="col-md-4 pb-1">
+              <button (click)="visualizar();" class="btn btn-primary btn-flat btn-sm btn-block" type="button"><i class="fas fa-search"></i> VISUALIZAR</button>
+            </div>
+
+            <div class="col-md-4 pb-1">
+              <button (click)="clickAnular();" class="btn btn-danger btn-flat btn-sm btn-block" type="button" [disabled]="disabledbtnanular"><i class="fas fa-trash-alt"></i> ANULAR</button>
+            </div>
+
+            <div class="col-md-4 pb-1">
+              <button (click)="imprimir();" class="btn btn-primary btn-flat btn-sm btn-block" type="button"><i class="fas fa-print"></i> IMPRIMIR</button>
+            </div>
+
+            <div *ngIf="opcionesmenu['registrocaducidadingreso']" class="col-md-4 pb-1">
+              <button (click)="clickRegistroCaducidad();" class="btn btn-primary btn-flat btn-sm btn-block" type="button"><i class="fas fa-clock"></i> CADUCIDAD</button>
+            </div>
+
+          </div>
+        </div>
+
+
+
+ 
+          
+        
+        <div class="row justify-content-between">
+
+          <span *ngIf="loadinglistado" class="justify-content-center text-center m-auto">
+                <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;"></div>
+          </span>
+
+        </div>
+
+        <div class="row">
+          
+
+            <div class="col-md-3">
+
+
+            </div>
+
+
+            <div class="col-md-3">
+              
+              
+
+            </div>
+
+          
+            <div class="col-md-6">
+             
+            </div>
+          </div>
+
+      </div>
+
+
+
+    </div>
+
+  </div>
+</div>
+
+<section class="content-header">
+    <div class="container-fluid">
+      <div class="row mb-2">
+        <div class="col-sm-12">
+            <div class="btn-toolbar" role="toolbar">
+              <div class="btn-group">
+                <button (click)="clickDeshacer();" class="btn btn-secondary btn-flat btn-sm float-right" type="button"><i class="fas fa-redo-alt"></i> Deshacer</button>
+                <button routerLink="/menualmacen" class="btn btn-secondary btn-flat btn-sm" type="button"><i class="fas fa-undo"></i> Atrás</button>
+              </div>
+            </div>
+        </div>
+        
+      </div>
+      
+    </div><!-- /.container-fluid -->
+  </section>
+  
+  <!-- Main content -->
+<section class="content">
+    <div class="container-fluid">
+      <div class="row">
+  
+        <div class="col-md-12">
+
+          <div class="row">
+
+            <div *ngIf="multisucursal=='1' && opcionesprivilegios['bloqueogestionlocales']!=1" class="col-md-6">
+             
+
+              <div class="form-group">
+                  <label>Sucursal:</label>
+                  
+                  <select (change)="changeSucursal($event)" class="form-control form-control-sm">
+                      <option value="{{item.cod_sucursal}}" *ngFor="let item of datossucursal" [selected]="this.cod_sucursal == item.cod_sucursal">
+                          {{item.sucursal}}
+                      </option>
+                  </select>
+
+              </div>	
+
+
+            </div>
+
+              <div class="col-md-3">
+                  <div class="form-group">
+                      <label>Fecha Desde:</label>
+                      <div class="input-group input-group-sm">
+                      <div class="input-group-prepend">
+                          <span class="input-group-text"><i class="fas fa-calendar"></i></span>
+                      </div>
+                      <input [(ngModel)]="fechadesde" type="date" class="form-control">
+                      </div>
+                  </div>		 
+              </div>
+
+              <div class="col-md-3">
+                  <div class="form-group">
+                      <label>Fecha Hasta:</label>
+                      
+                      <div class="input-group input-group-sm">
+                          <div class="input-group-prepend">
+                              <span class="input-group-text"><i class="fas fa-calendar"></i></span>
+                          </div>
+                          <input [(ngModel)]="fechahasta" type="date" class="form-control">
+                          <span class="input-group-append">
+                              <button (click)="clickBuscar();" class="btn btn-primary btn-flat" type="button"><i class="fa fa-search"></i></button>
+                          </span>
+                      </div>
+                  </div>	 
+              </div>
+
+          </div>
+          
+        <!-- /.Inicia form1 -->
+        <!-- /.Inicia form1 -->
+        <!-- /.Inicia form1 -->
+          <div class="card card-primary card-outline">
+            <div class="card-header">
+              <h3 class="card-title"><i class="fa fa-file-alt"></i> Explorador</h3>
+  
+  
+              <div class="card-tools">
+                <div class="input-group input-group-sm">
+  
+                    <input (keyup)="keyFiltrado();" type="text" class="form-control float-right" oninput="javascript:this.value=this.value.toUpperCase();" placeholder="Buscar" [(ngModel)]="filterpost" name="filterpost" autocomplete="off" />
+  
+                    
+  
+                </div>
+              </div>
+  
+  
+            </div>
+            <div class="card-body">
+                <div class="row justify-content-between">
+              
+                  <span *ngIf="loadinglistado" class="justify-content-center text-center m-auto">
+                    <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;"></div>
+                  </span>
+  
+                        <div class="table-responsive p-0">
+                        <table class="design-table resp">
+                          <thead>
+                            <tr>
+                              <th>Nº</th>
+                              <th>ESTADO</th>
+                              <th>USUARIO</th>
+                              <th>TIPO INGRESO</th>
+                              <th>DESCRIPCIÓN</th>
+                              <th>FECHA</th>
+                              <th></th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <tr *ngFor="let item of (datos | filterGenerico:filterpost:['numero_ingreso', 'fecha_hora', 'tipo_ingreso_mercaderia']) | paginate : {
+                              itemsPerPage: pagesize,
+                              currentPage: page,
+                              totalItems: count
+                            }">
+                              <td>{{item.numero_ingreso}}</td>
+                              <td>
+                                <small *ngIf="item.estado=='CREADA'" class="badge badge-success">{{item.estado}}</small>
+                                <small *ngIf="item.estado=='ANULADA'" class="badge badge-warning">{{item.estado}}</small>
+                              </td>
+                              <td><small class="badge badge-primary">{{item.usuario}}</small></td>
+                              <td>{{item.tipo_ingreso_mercaderia}}</td>
+                              <td>{{item.descripcion}}</td>
+                              <td>{{item.fecha_hora}}</td>
+                              <td>
+                                <div class="d-flex justify-content-end">
+                                  <button class="btn btn-outline-primary btn-sm" data-bs-toggle="tooltip" data-bs-placement="top" title="OPCIONES" (click)="opciones(item.cod_ingreso_mercaderia, item.numero_ingreso, item.estado);"><i class="fa fa-cogs"></i></button>
+                                </div>
+                              </td>
+                            </tr>
+                            
+                          </tbody>
+                        </table>
+                        <div class="float-right">
+                          <pagination-controls class="pagination-controls"
+                          previousLabel="Anterior"
+                          nextLabel="Siguiente"
+                          [responsive]="true"
+                          (pageChange)="handlePageChange($event)">
+                          </pagination-controls>
+                        </div>
+                    </div>
+                </div>
+  
+  
+  
+  
+  
+  
+            </div>
+            <!-- /.card-body -->
+          </div>
+        <!-- /.Termina form1 -->
+        <!-- /.Termina form1 -->
+        <!-- /.Termina form1 -->
+        </div>
+  
+      </div>
+  
+  
+  
+      
+  
+  
+  
+    </div>
+  </section>

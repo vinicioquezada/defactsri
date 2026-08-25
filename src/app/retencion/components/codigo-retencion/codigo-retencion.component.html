@@ -1,0 +1,172 @@
+<section class="content-header">
+  <div class="container-fluid">
+    <div class="row mb-2">
+      <div class="col-sm-12">
+          <div class="btn-toolbar" role="toolbar">
+            <div class="btn-group">
+              <button (click)="clickDeshacer();" class="btn btn-secondary btn-flat btn-sm float-right" type="button"><i class="fas fa-redo-alt"></i> Deshacer</button>
+              <button routerLink="/menuretencion" class="btn btn-secondary btn-flat btn-sm" type="button"><i class="fas fa-undo"></i> Atrás</button>
+            </div>
+          </div>
+      </div>
+      
+    </div>
+    
+  </div><!-- /.container-fluid -->
+</section>
+
+<!-- Main content -->
+<section class="content">
+    <div class="container-fluid">
+      <div class="row">
+
+        <div class="col-md-4">
+          
+        <!-- /.Inicia form1 -->
+        <!-- /.Inicia form1 -->
+        <!-- /.Inicia form1 -->
+          <div class="card card-primary card-outline">
+            
+           
+
+            <div class="card-header">
+              <h3 class="card-title"><i class="fa fa-file-alt"></i> Subtipo_impuesto</h3>
+
+              
+
+
+            </div>
+            <!-- /.card-header -->
+            <div class="card-body">
+
+                  <div class="row">
+              
+                      <div class="col-md-12">
+
+                          <div class="form-group">
+                              <label>Tipo Impuesto: </label><label class="text-danger">&nbsp;*</label>
+                              <select [ngClass]="{'is-invalid': flagtipoimpuesto}" (change)="onChangeTipoImpuesto($event)" class="form-control form-control-sm">
+                                  <option value="0">SELECCIONE UN TIPO IMPUESTO</option>
+                                  <option value="{{item.codigo_tipo_impuesto}}" *ngFor="let item of datostipoimpuesto" [selected]="item.codigo_tipo_impuesto == codigo_tipo_impuesto">
+                                      {{item.tipo_impuesto}}
+                              </option>
+                              </select>
+                          </div>
+
+                          <div class="form-group">
+                            <label>Codigo Retención:</label><label class="text-danger">&nbsp;*</label>
+                            <input [ngClass]="{'is-invalid': flagcodigoretencion}" [(ngModel)]="codigo_retencion" class="form-control form-control-sm"  oninput="javascript:this.value=this.value.toUpperCase();" placeholder="Codigo Retención" type="text">
+                          </div>
+
+                          <div class="form-group">
+                            <label>Descripcion:</label>
+                            <input [ngClass]="{'is-invalid': flagdescripcion}" [(ngModel)]="descripcion" class="form-control form-control-sm"  oninput="javascript:this.value=this.value.toUpperCase();" placeholder="Descripción" type="text">
+                          </div>
+
+                          <div class="form-group">
+                            <label>Porcentaje:</label>
+                            <input [ngClass]="{'is-invalid': flagporcentaje}" [(ngModel)]="porcentaje" class="form-control form-control-sm" onKeyPress="return soloNumeros(event)" placeholder="Porcentaje" type="text">
+                          </div> 
+                      </div>
+
+
+                  </div>
+
+                  <div class="d-flex justify-content-end align-items-center">
+                    <button [ngClass]="{'d-none': flagocultarboton}" (click)="clickGuardar();" class="btn btn-primary btn-sm" type="button"><i class="fas fa-save"></i> Guardar</button>
+                    <button [ngClass]="{'d-none': !flagocultarboton}" (click)="clickActualizar();" class="btn btn-warning btn-sm" type="button"><i class="fas fa-save"></i> Actualizar</button>
+                  </div>
+                  
+                  
+                  
+                  <div style="text-align:center">
+                    <div *ngIf="loading" class="spinner-border text-primary" style="width: 3rem; height: 3rem;"></div>
+                  </div>
+
+
+            </div>
+            <!-- /.card-body -->
+          </div>
+        <!-- /.Termina form1 -->
+        <!-- /.Termina form1 -->
+        <!-- /.Termina form1 -->
+        </div>
+
+        <div class="col-md-8">
+
+
+          <div class="card card-primary card-outline">
+            <div class="card-header">
+              <h3 class="card-title"><i class="fa fa-search"></i> Listado</h3>
+
+              <div class="card-tools">
+                <div class="input-group input-group-sm" style="width: 150px;">
+                
+
+                  <input (keyup)="keyFiltrado();" type="text" class="form-control float-right" oninput="javascript:this.value=this.value.toUpperCase();" placeholder="Buscar" [(ngModel)]="filterpost" name="filterpost" autocomplete="off" />
+
+
+                </div>
+
+              </div>
+
+              
+
+
+            </div>
+
+           
+              <span *ngIf="loadinglistado" class="justify-content-center text-center m-auto">
+                <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;"></div>
+              </span>
+          
+            
+            <div class="table-responsive card-body p-0">
+              <table class="design-table resp">
+                <thead>
+                  <tr>
+                    <th>CÓDIGO RETENCIÓN</th>
+                    <th>TIPO IMPUESTO</th>
+                    <th>DESCRIPCIÓN</th>
+                    <th>PORCENTAJE</th>
+                    <th></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let item of (datos | filterGenerico:filterpost:['codigo_retencion', 'tipo_impuesto', 'descripcion', 'porcentaje']) | paginate : {
+                    itemsPerPage: pagesize,
+                    currentPage: page,
+                    totalItems: count
+                  }">
+                    <td>{{item.codigo_retencion}}</td>
+                    <td>{{item.tipo_impuesto}}</td>
+                    <td>{{item.descripcion}}</td>
+                    <td>{{item.porcentaje}}</td>
+                    <td>
+                      <div class="d-flex justify-content-end">
+                        <button (click)="agregar(item.cod_codigo_retencion);" class="btn btn-outline-primary btn-sm" type="button"><i class="fas fa-plus"></i></button>
+                        <button (click)="clickEliminar(item.cod_codigo_retencion, item.codigo_retencion);" class="btn btn-outline-danger btn-sm"><i class="fa fa-trash"></i></button>
+                      </div>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+              <div class="float-right">
+                <pagination-controls class="pagination-controls"
+                previousLabel="Anterior"
+                nextLabel="Siguiente"
+                [responsive]="true"
+                (pageChange)="handlePageChange($event)">
+                </pagination-controls>
+              </div>
+            </div>
+            
+          </div>
+
+        
+        </div>
+
+      </div>
+
+    </div>
+</section>

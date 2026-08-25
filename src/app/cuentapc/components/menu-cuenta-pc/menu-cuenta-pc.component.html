@@ -1,0 +1,197 @@
+<div id="mymodalopcionesreportecuentasporcobrar" class="modal fade" role="dialog" data-backdrop="false">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+      <h5 class="modal-title">REPORTES DE CUENTAS POR COBRAR</h5>
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">×</span>
+          </button>
+      </div>
+      <div class="modal-body">
+
+        <div class="row">
+          <div class="col-12 d-flex flex-wrap justify-content-center">
+
+            <div *ngIf="this.opcionesmenu['reporteventaporcobrar']" class="col-md-4 pb-1">
+              <a routerLink="/menucuentapc/reporteporcobrar" class="btn btn-primary btn-flat btn-sm btn-block">
+                  <i class="fas fa-chart-bar"></i> Listado Generales
+              </a>
+            </div>
+
+            <div *ngIf="this.opcionesmenu['reportecorteporcobrar']" class="col-md-4 pb-1">
+              <a routerLink="/menucuentapc/reportecorteporcobrar" class="btn btn-primary btn-flat btn-sm btn-block">
+                  <i class="fas fa-chart-bar"></i> Corte de Clientes
+              </a>
+            </div>
+
+            <div *ngIf="this.opcionesmenu['reporteformapagovencimiento']" class="col-md-4 pb-1">
+              <a routerLink="/menucuentapc/reporteformapagovencimiento" class="btn btn-primary btn-flat btn-sm btn-block">
+                  <i class="fas fa-chart-bar"></i> Vencimiento Forma Cobros
+              </a>
+            </div>
+
+            <div *ngIf="this.opcionesmenu['reportecuentascobrarconsolidado']" class="col-md-4 pb-1">
+              <a routerLink="/menucuentapc/reportecuentascobrarconsolidado" class="btn btn-primary btn-flat btn-sm btn-block">
+                  <i class="fas fa-chart-bar"></i> Consolidados por Clientes
+              </a>
+            </div>
+            
+
+          </div>
+        </div>
+
+        <div class="d-flex justify-content-end align-items-center">
+          <button class="btn btn-secondary btn-sm mt-2" type="button" data-dismiss="modal"><i class="fas fa-times-circle"></i> Cerrar</button>
+        </div>
+
+      </div>
+
+
+    </div>
+
+  </div>
+</div>
+
+<div id="mymodalopcionesreportecuentasporpagar" class="modal fade" role="dialog" data-backdrop="false">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+      <h5 class="modal-title">REPORTES DE CUENTAS POR PAGAR</h5>
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">×</span>
+          </button>
+      </div>
+      <div class="modal-body">
+
+        <div class="row">
+          <div class="col-12 d-flex flex-wrap justify-content-center">
+
+            <div *ngIf="this.opcionesmenu['reportecompraporpagar']" class="col-md-4 pb-1">
+              <a routerLink="/menucuentapc/reporteporpagar" class="btn btn-primary btn-flat btn-sm btn-block">
+                  <i class="fas fa-chart-bar"></i> Listado Generales
+              </a>
+            </div>
+
+            <div *ngIf="this.opcionesmenu['reportecuentaspagarconsolidado']" class="col-md-4 pb-1">
+              <a routerLink="/menucuentapc/reportecuentaspagarconsolidado" class="btn btn-primary btn-flat btn-sm btn-block">
+                  <i class="fas fa-chart-bar"></i> Consolidado Proveedores
+              </a>
+            </div>
+            
+
+          </div>
+        </div>
+
+        <div class="d-flex justify-content-end align-items-center">
+          <button class="btn btn-secondary btn-sm mt-2" type="button" data-dismiss="modal"><i class="fas fa-times-circle"></i> Cerrar</button>
+        </div>
+
+      </div>
+
+
+    </div>
+
+  </div>
+</div>
+
+<section class="content-header">
+
+  <div class="container-fluid">
+
+      <div *ngIf="permisosProcesosOperativos()" class="card card-outline card-primary">
+        <div class="card-header">
+          <h3 class="card-title"><i class="fas fa-cash-register mr-2"></i> Procesos Operativos</h3>
+        </div>
+        <div class="card-body">
+          
+          <div class="row">
+
+            <div class="col-md-6 col-lg-2 col-xlg-3" *ngIf="this.opcionesmenu['credito']">
+
+                    <a routerLink="/menucuentapc/credito" class="small-box-footer">
+                        <div class="card bg-cyan card-menu">
+                        <h1>
+                        <i class="fas fa-credit-card"></i>
+                        </h1>
+                        <span class="text-white h6">Credito</span>
+                      </div>
+                    </a>
+
+
+            </div>
+        
+            <div class="col-md-6 col-lg-2 col-xlg-3" *ngIf="this.opcionesmenu['abonoventa']">
+            
+                  
+                    <a routerLink="/menucuentapc/abonoventa" class="small-box-footer">
+                        <div class="card bg-cyan card-menu">
+                        <h1>
+                        <i class="fas fa-hand-holding-usd"></i>
+                        </h1>
+                        <span class="text-white h6">Abono Venta</span>
+                      </div>
+                    </a>
+
+
+            </div>
+        
+            <div class="col-md-6 col-lg-2 col-xlg-3" *ngIf="this.opcionesmenu['abonocompra']">
+          
+                
+                  <a routerLink="/menucuentapc/abonocompra" class="small-box-footer">
+                      <div class="card bg-cyan card-menu">
+                      <h1>
+                      <i class="fas fa-hand-holding-usd"></i>
+                      </h1>
+                      <span class="text-white h6">Abono Compra</span>
+                    </div>
+                  </a>
+
+            </div>
+
+            
+
+          </div>
+
+        </div>
+      </div>
+
+      <div *ngIf="permisosInformesReportes()" class="card card-outline card-success mt-4">
+        <div class="card-header">
+          <h3 class="card-title"><i class="fas fa-chart-line mr-2"></i> Informes y Reportes</h3>
+        </div>
+        <div class="card-body">
+          <div class="row">
+
+            <div *ngIf="this.opcionesmenu['reporteabonoventa']" class="col-lg-2 col-md-3 col-12 mb-2 d-flex">
+              <a routerLink="/menucuentapc/reporteabonoventa" class="btn btn-block btn-outline-success btn-sm h-100 d-flex align-items-center justify-content-center">
+          <span>
+                <i class="fas fa-hand-holding-usd"></i> Reporte Abono Venta
+              </span></a>
+            </div>
+
+            <div *ngIf="this.opcionesmenu['reporteabonocompra']" class="col-lg-2 col-md-3 col-12 mb-2 d-flex">
+              <a routerLink="/menucuentapc/reporteabonocompra" class="btn btn-block btn-outline-success btn-sm h-100 d-flex align-items-center justify-content-center">
+          <span>
+                <i class="fas fa-hand-holding-usd"></i> Reporte Abono Compra
+              </span></a>
+            </div>
+
+            <div *ngIf="permisosBotonReportePorCobrar()" class="col-lg-2 col-md-3 col-12 mb-2 d-flex">
+              <button (click)="clickReportePorCobrar()" class="btn btn-block btn-outline-success btn-sm h-100 d-flex align-items-center justify-content-center">
+                <span><i class="fas fa-hand-holding-usd"></i> Reporte por Cobrar</span>
+              </button>
+            </div>
+
+            <div *ngIf="permisosBotonReportePorPagar()" class="col-lg-2 col-md-3 col-12 mb-2 d-flex">
+              <button (click)="clickReportePorPagar()" class="btn btn-block btn-outline-success btn-sm h-100 d-flex align-items-center justify-content-center">
+                <span><i class="fas fa-hand-holding-usd"></i> Reporte por Pagar</span>
+              </button>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+  </div>
+</section>

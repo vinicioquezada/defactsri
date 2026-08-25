@@ -1,0 +1,294 @@
+<div id="mymodalformsucursal" class="modal fade" role="dialog" data-backdrop="false">
+  <div class="modal-dialog modal-lg">
+    <!-- Modal content -->
+    <div class="modal-content">
+      <div class="modal-header">
+      <h5 class="modal-title">{{nombreformulario}} SUCURSAL</h5>
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">×</span>
+          </button>
+      </div>
+
+      <div class="modal-body overlay-wrapper">
+       
+          <div *ngIf="loadingform" class="overlay overlay-custom d-flex flex-column align-items-center">
+            <div class="spinner-border text-primary" style="width: 5rem; height: 5rem; font-size: 30px;" role="status">
+            </div>
+            <div class="text-bold pt-2">Cargando...</div>
+          </div>
+
+          <div class="row">
+                          
+            
+            <div class="col-md-6">
+                    
+                  <div class="form-group">
+                        <label>Cod Sucursal:</label>
+                        <input [(ngModel)]="sucursal.cod_sucursal" [ngClass]="{'is-invalid': flagsucursal}" oninput="javascript:this.value=this.value.toUpperCase();" class="form-control form-control-sm" placeholder="" type="text" onKeyPress="return soloNumerosEnteros(event)">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Sucursal:</label>
+                        <input [(ngModel)]="sucursal.sucursal" [ngClass]="{'is-invalid': flagsucursal}" oninput="javascript:this.value=this.value.toUpperCase();" class="form-control form-control-sm" placeholder="" type="text">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Código Proyecto:</label>
+                        <input [(ngModel)]="sucursal.cod_proyecto" [ngClass]="{'is-invalid': flagcodproyecto}" oninput="javascript:this.value=this.value.toUpperCase();" class="form-control form-control-sm" placeholder="" type="text" onKeyPress="return soloNumerosEnteros(event)">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Por Defecto en Venta Ajustar En:</label>
+                        <select (change)="changeTipoVenta($event)" class="form-control form-control-sm">
+                            <option value="{{item.cod_tipo_venta}}" *ngFor="let item of datostipoventa" [selected]="item.tipo_venta == sucursal.defecto_venta">
+                                {{item.tipo_venta}}
+                            </option>
+                        </select>
+                    </div>
+                    
+                </div>
+
+                <div class="col-md-6">
+                  
+                    <div class="form-group">
+                        <label>Codigo del IVA Actual:</label>
+                        <input [(ngModel)]="sucursal.codigo_iva" [ngClass]="{'is-invalid': flagcodigoiva}" onKeyPress="return soloNumerosEnteros(event)" class="form-control form-control-sm" maxlength="15" placeholder="" type="text" onKeyPress="return soloNumerosEnteros(event)"> 
+                    </div>
+
+                    <div class="form-group">
+                        <label>Valor del IVA Actual:</label>
+                        <input [(ngModel)]="sucursal.iva" [ngClass]="{'is-invalid': flagiva}" onKeyPress="return soloNumerosEnteros(event)" class="form-control form-control-sm" maxlength="15" placeholder="" type="text" onKeyPress="return soloNumerosEnteros(event)"> 
+                    </div>
+                
+                </div>
+
+          </div>
+
+
+
+          <div class="row">
+
+        <div class="col-md-12">
+          
+        <!-- /.Inicia form1 -->
+        <!-- /.Inicia form1 -->
+        <!-- /.Inicia form1 -->
+          <div class="card card-primary card-outline">
+
+            <div class="card-header">
+              <h3 class="card-title"><i class="fa fa-cogs"></i> Configuración</h3>
+
+              
+
+
+            </div>
+
+            <div class="card-body">
+
+              <!-- <div style="text-align:center">
+                <div *ngIf="loadingform" class="spinner-border text-primary" style="width: 3rem; height: 3rem;"></div>
+              </div> -->
+
+                
+              <div class="row">
+                
+                <div class="col-md-6">
+
+                    <div class="form-group">
+                      <div class="custom-control custom-switch">
+                        <input [checked]="sucursal.resumen_stock_caja" (change)="changeChkResumenStockCaja();" type="checkbox" class="custom-control-input" id="customSwitch1">
+                        <label class="custom-control-label" for="customSwitch1">Resumen Stock Cierre Caja</label>
+                      </div>
+                    </div>
+
+                    <div class="form-group">
+                      <div class="custom-control custom-switch">
+                        <input [checked]="sucursal.electronico" (change)="changeChkElectronico();" type="checkbox" class="custom-control-input" id="customSwitch2">
+                        <label class="custom-control-label" for="customSwitch2">Facturacion Electronica</label>
+                      </div>
+                    </div>
+                    
+                    <div class="form-group">
+                      <div class="custom-control custom-switch">
+                        <input [checked]="sucursal.numeracion_automatica" (change)="changeChkNumeracionAutomatica();" type="checkbox" class="custom-control-input" id="customSwitch3">
+                        <label class="custom-control-label" for="customSwitch3">Numeración Automática en Facturación Legal</label>
+                      </div>
+                    </div>
+
+                    <div class="form-group">
+                      <div class="custom-control custom-switch">
+                        <input [checked]="sucursal.precios_completos" (change)="changeChkPreciosCompletos();" type="checkbox" class="custom-control-input" id="customSwitch4">
+                        <label class="custom-control-label" for="customSwitch4">Mostrar Precio Base en Registro Productos</label>
+                      </div>
+                    </div>
+
+                    <div class="form-group">
+                      <div class="custom-control custom-switch">
+                        <input [checked]="sucursal.codigo_automatico_producto" (change)="changeChkCodigoAutomaticoProducto();" type="checkbox" class="custom-control-input" id="customSwitch5">
+                        <label class="custom-control-label" for="customSwitch5">Asignar Código de Barra Automático en Producto</label>
+                      </div>
+                    </div>
+
+                    <div class="form-group">
+                      <div class="custom-control custom-switch">
+                        <input [checked]="sucursal.comision_venta" (change)="changeChkComisionVenta();" type="checkbox" class="custom-control-input" id="customSwitch6">
+                        <label class="custom-control-label" for="customSwitch6">Comisón de Venta Vendedores Ayudantes</label>
+                      </div>
+                    </div>
+                    
+                    <div class="form-group">
+                      <div class="custom-control custom-switch">
+                        <input [checked]="sucursal.tarifas" (change)="changeChkTarifas();" type="checkbox" class="custom-control-input" id="customSwitch7">
+                        <label class="custom-control-label" for="customSwitch7">Tarifas Mayorista, Docenas o Bultos en Registro de Productos</label>
+                      </div>
+                    </div>
+
+                    <div class="form-group">
+                      <div class="custom-control custom-switch">
+                        <input [checked]="sucursal.tarifasenlista" (change)="changeChkTarifasEnLista();" type="checkbox" class="custom-control-input" id="customSwitch8">
+                        <label class="custom-control-label" for="customSwitch8">Listado de Tarifas de Productos en las Ventas</label>
+                      </div>
+                    </div>
+
+
+                    <div class="form-group">
+                      <div class="custom-control custom-switch">
+                        <input [checked]="sucursal.cargartarifasconfigurables" (change)="changeChkCargarTarifasConfigurables();" type="checkbox" class="custom-control-input" id="customSwitch9">
+                        <label class="custom-control-label" for="customSwitch9">Cargar Tarifas Promoción, Mayor al Vender</label>
+                      </div>
+                    </div>
+
+                    <div class="form-group">
+                      <div class="custom-control custom-switch">
+                        <input [checked]="sucursal.kardex" (change)="changeChkKardex();" type="checkbox" class="custom-control-input" id="customSwitch10">
+                        <label class="custom-control-label" for="customSwitch10">Kardex de Productos</label>
+                      </div>
+                    </div>
+
+                    <div class="form-group">
+                      <div class="custom-control custom-switch">
+                        <input [checked]="sucursal.afiliacion_cliente" (change)="changeChkAfiliacionCliente();" type="checkbox" class="custom-control-input" id="customSwitch11">
+                        <label class="custom-control-label" for="customSwitch11">Identificacion de Clientes Afiliados en Venta</label>
+                      </div>
+                    </div>
+
+                    <div class="form-group">
+                      <div class="custom-control custom-switch">
+                        <input [checked]="sucursal.control_estricto_inventario" (change)="changeChkControlEstrictoInventario();" type="checkbox" class="custom-control-input" id="customSwitch12">
+                        <label class="custom-control-label" for="customSwitch12">Control Estricto de Inventarios</label>
+                      </div>
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="form-group">
+                      <div class="custom-control custom-switch">
+                        <input [checked]="sucursal.control_estricto_movimiento" (change)="changeChkControlEstrictoMovimiento();" type="checkbox" class="custom-control-input" id="customSwitch13">
+                        <label class="custom-control-label" for="customSwitch13">Control Estricto de Movimientos de Mercaderia de Local a Local</label>
+                      </div>
+                    </div>
+
+                    <div class="form-group">
+                      <div class="custom-control custom-switch">
+                        <input [checked]="sucursal.recaudador" (change)="changeChkRecaudador();" type="checkbox" class="custom-control-input" id="customSwitch14">
+                        <label class="custom-control-label" for="customSwitch14">Recaudador General</label>
+                      </div>
+                    </div>
+
+                    <div class="form-group">
+                      <div class="custom-control custom-switch">
+                        <input [checked]="sucursal.modificacion_supervisor" (change)="changeChkModificacionSupervisor();" type="checkbox" class="custom-control-input" id="customSwitch15">
+                        <label class="custom-control-label" for="customSwitch15">Supervisor para Editar Venta</label>
+                      </div>
+                    </div>
+
+                    <div class="form-group">
+                      <div class="custom-control custom-switch">
+                        <input [checked]="sucursal.firmasruc" (change)="changeChkFirmasRuc();" type="checkbox" class="custom-control-input" id="customSwitch16">
+                        <label class="custom-control-label" for="customSwitch16">Permitir Firmar Venta Electronica con varios Ruc</label>
+                      </div>
+                    </div>
+
+                    <div class="form-group">
+                      <div class="custom-control custom-switch">
+                        <input [checked]="sucursal.codigosproducto" (change)="changeChkCodigosProducto();" type="checkbox" class="custom-control-input" id="customSwitch17">
+                        <label class="custom-control-label" for="customSwitch17">Agregar varios n codigos de Barras de Productos</label>
+                      </div>
+                    </div>
+
+                    <div class="form-group">
+                      <div class="custom-control custom-switch">
+                        <input [checked]="sucursal.ruc_usuario" (change)="changeChkRucUsuario();" type="checkbox" class="custom-control-input" id="customSwitch18">
+                        <label class="custom-control-label" for="customSwitch18">Permitir que el usuario guarrde configuración de Firmas de Ruc</label>
+                      </div>
+                    </div>
+
+                    <div class="form-group">
+                      <div class="custom-control custom-switch">
+                        <input [checked]="sucursal.compartido_extension" (change)="changeChkCompartidoExtension();" type="checkbox" class="custom-control-input" id="customSwitch19">
+                        <label class="custom-control-label" for="customSwitch19">Extensión de doble monitor en Gimnasio</label>
+                      </div>
+                    </div>
+
+                    <div class="form-group">
+                      <div class="custom-control custom-switch">
+                        <input [checked]="sucursal.monitor_actividades" (change)="changeChkDispositivosAreas();" type="checkbox" class="custom-control-input" id="customSwitch20">
+                        <label class="custom-control-label" for="customSwitch20">Monitores en Áreas de Gimnasio</label>
+                      </div>
+                    </div>
+
+                    <div class="form-group">
+                      <div class="custom-control custom-switch">
+                        <input [checked]="sucursal.asistencia_gimnasio" (change)="changeChkAsistencia();" type="checkbox" class="custom-control-input" id="customSwitch21">
+                        <label class="custom-control-label" for="customSwitch21">Asistencia Gimnasio</label>
+                      </div>
+                    </div>
+
+                    <div class="form-group">
+                      <div class="custom-control custom-switch">
+                        <input [checked]="sucursal.log_producto" (change)="changeChkLogProducto();" type="checkbox" class="custom-control-input" id="customSwitch22">
+                        <label class="custom-control-label" for="customSwitch22">Log Productos</label>
+                      </div>
+                    </div>
+                
+                </div>
+
+              </div>
+
+                
+                
+                
+                
+                
+
+            </div>
+            <!-- /.card-body -->
+
+          
+          </div>
+        <!-- /.Termina form1 -->
+        <!-- /.Termina form1 -->
+        <!-- /.Termina form1 -->
+
+        </div>
+
+      </div>
+
+
+
+
+          <div class="d-flex justify-content-end align-items-center">     
+            <button [ngClass]="{'d-none': flagocultarboton}" (click)="clickGuardar();" class="btn btn-primary btn-sm" type="button"><i class="fas fa-save"></i> Guardar</button>
+            <button [ngClass]="{'d-none': !flagocultarboton}" (click)="clickActualizar();" class="btn btn-warning btn-sm" type="button"><i class="fas fa-save"></i> Actualizar</button>
+            <div *ngIf="flagocultarboton">&nbsp;</div>
+            <button class="btn btn-secondary btn-sm" type="button" data-dismiss="modal"><i class="fas fa-times-circle"></i> Cerrar</button>
+          </div>
+
+
+
+      </div>
+
+    </div>
+
+  </div>
+</div>

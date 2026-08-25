@@ -1,0 +1,204 @@
+<!-- Modal -->
+<div id="mymodalguardar" class="modal fade" role="dialog" data-backdrop="false">
+  <div class="modal-dialog">
+    <!-- Modal content -->
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">INFORMACIÓN DEL SISTEMA</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">×</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p>Está seguro de Guardar Cambios</p>
+      </div>
+      <div class="modal-footer">
+         <button id="btnsiguardar" type="button" class="btn btn-success" data-dismiss="modal">Si</button>
+     <button type="button" class="btn btn-success" data-dismiss="modal">No</button>
+    <!--<a href="index.html" class="btn btn-success">Guardar</a>-->
+      </div>
+    </div>
+
+  </div>
+</div>
+<!-- TERMINA Trigger the modal with a button -->
+
+
+
+
+<section class="content-header">
+    <div class="container-fluid">
+
+    
+
+      <div class="row mb-2">
+        <div class="col-sm-12">
+            <div class="btn-toolbar" role="toolbar">
+              <div class="btn-group">
+                <button *ngIf="tipo_formulario=='nuevoregistro'" (click)="clickNuevo();" [disabled]="disabledbtnnuevo" class="btn btn-secondary btn-flat btn-sm" type="button"><i class="fas fa-file"></i> Nuevo</button>
+                <button *ngIf="tipo_formulario=='actualizarregistro'" (click)="clickModificar();" [disabled]="disabledbtnmodificar" class="btn btn-secondary btn-flat btn-sm" type="button"><i class="fas fa-edit"></i> Modificar</button>
+                <button (click)="visualizar();" [disabled]="disabledbtnimprimir" class="btn btn-primary btn-flat btn-sm" type="button"><i class="fas fa-print"></i> Imprimir</button>
+                <button (click)="clickDeshacer();" class="btn btn-secondary btn-flat btn-sm" type="button"><i class="fas fa-redo-alt"></i> Deshacer</button>
+                <button (click)="goBack();" class="btn btn-secondary btn-flat btn-sm" type="button"><i class="fa fa-reply"></i> Atrás</button>
+              </div>
+              
+      <!--INICIA MULTIEMPRESA-->
+      <!--INICIA MULTIEMPRESA-->
+      <!--INICIA MULTIEMPRESA-->
+      <div *ngIf="tipo_formulario=='nuevoregistro'" class="input-group">  
+        <select *ngIf="multisucursal=='1'" (change)="changeSucursal($event)" class="btn btn-primary btn-flat btn-sm">
+          <option value="{{item.cod_sucursal}}" *ngFor="let item of datossucursal" [selected]="this.cod_sucursal == item.cod_sucursal">
+            {{item.sucursal}}
+          </option>
+        </select>
+      </div>
+
+      <div *ngIf="tipo_formulario=='actualizarregistro'" class="input-group">  
+        <label *ngIf="multisucursal=='1'" class="form-control form-control-sm">{{sucursal}}</label>
+      </div>
+      <!--TERMINA MULTIEMPRESA-->
+      <!--TERMINA MULTIEMPRESA-->
+      <!--TERMINA MULTIEMPRESA-->
+
+        <div class="col-md-12">	
+          <div class="float-sm-right">
+            <label class='d-none' id='lbltiporetencion'>ELECTRONICA</label>					
+          </div>
+        </div>
+            </div>
+        </div>
+        
+      </div>
+      
+    </div><!-- /.container-fluid -->
+</section>
+
+<!-- Main content -->
+<section class="content">
+    <div class="container-fluid">
+
+        
+
+
+
+        <div class="row">			 
+          <div class="col-md-12">
+      
+              <div class="card card-primary card-outline">
+                <div class="card-header">
+                  <h3 class="card-title"><i class="fa fa-file-alt"></i> DATOS RETENCIÓN</h3>
+                </div>
+                <div class="card-body">
+      
+                    <div style="text-align:center">
+                        <div *ngIf="loading" class="spinner-border text-primary" style="width: 3rem; height: 3rem;"></div>
+                    </div>
+      
+                    
+                    <div class="row">	
+
+                      <div class="col-md-3">
+                          <div class="form-group">
+                          <label>N° Ret.:</label>
+                              <div class="input-group input-group-sm">
+                                  <div class="input-group-prepend">
+                                  <span class="input-group-text"><i class="fas fa-paperclip"></i></span>
+                                  </div>
+                                  <label class="form-control">{{numero_retencion}}</label>
+                              </div>
+                          </div>
+                      </div>
+            
+                      <div class="col-md-3">
+                          <div class="form-group">
+                              <label>Fecha:</label><label class="text-danger">&nbsp;*</label>
+                              <div class="input-group input-group-sm">
+                                  <div class="input-group-prepend">
+                                  <span class="input-group-text"><i class="fas fa-calendar"></i></span>
+                                  </div>
+                                  <input (change)="changeFecha();" [(ngModel)]="fecha_registro" [disabled]="disabledbtn" class="form-control" type="date">
+                              </div>
+                          </div>
+                      </div>
+            
+                      <div class="col-md-3">
+                          <div class="form-group">
+                              <label>Mes:</label>
+                              <div class="input-group input-group-sm">
+                                  <div class="input-group-prepend">
+                                  <span class="input-group-text"><i class="fas fa-calendar"></i></span>
+                                  </div>
+                                  <select (change)="onChangeMes($event)" [disabled]="disabledbtn" class="form-control form-control-sm">
+                                      <option value="{{item}}" *ngFor="let item of datosmes" [selected]="item == mes">
+                                          {{item}}
+                                      </option>
+                                  </select>
+                              </div>
+                          </div>
+                      </div>
+            
+                      <div class="col-md-3">
+                          <div class="form-group">
+                              <label>Año:</label>
+                              <div class="input-group input-group-sm">
+                                  <div class="input-group-prepend">
+                                  <span class="input-group-text"><i class="fas fa-calendar"></i></span>
+                                  </div>
+                                  <select (change)="onChangeAnio($event)" [disabled]="disabledbtn" class="form-control form-control-sm">
+                                      <option value="{{item}}" *ngFor="let item of datosanio" [selected]="item == anio">
+                                          {{item}}
+                                      </option>
+                                  </select>
+                              </div>
+                          </div>
+                      </div>
+            
+                    </div>
+            
+                    <div class="row">
+          
+                      <div class="col-md-6">
+                          <div class="form-group">
+                              <label>Clave de Acceso:</label>
+                              <div class="input-group input-group-sm">
+                                  <div class="input-group-prepend">
+                                  <span class="input-group-text"><i class="fas fa-barcode"></i></span>
+                                  </div>
+                                  <label class="form-control">{{claveacceso}}</label>
+                              </div>
+                          </div>
+                      </div>
+
+                      <div class="col-md-6">
+                        <div *ngIf="textomensaje != ''" style='text-align: center;'>
+                            <label style='font-size:30px;' [ngStyle]="{'color':colormensaje}">{{textomensaje}}</label>
+                        </div>
+                      </div>
+            
+                    </div>
+                    
+      
+      
+      
+      
+      
+                </div>
+              </div>
+          
+          </div>
+      </div>
+
+
+
+
+        <app-datos-sujeto-retenido (datosenviar)="recibirDatosSujetoRetenido($event)"></app-datos-sujeto-retenido>
+        <app-detalle-retencion (datosenviar)="recibirDatosDetallesRetencion($event)"></app-detalle-retencion>
+        <app-datos-ventas></app-datos-ventas>
+
+        <div class="d-flex justify-content-end align-items-center">
+          <button *ngIf="tipo_formulario=='nuevoregistro'" (click)="clickVerificar();" [disabled]="disabledbtnguardar" class="btn btn-primary btn-sm" type="button"><i class="fas fa-save"></i> Guardar</button>&nbsp;
+          <button *ngIf="tipo_formulario=='actualizarregistro'" (click)="clickVerificar();" [disabled]="disabledbtnactualizar" class="btn btn-warning btn-sm" type="button"><i class="fas fa-save"></i> Actualizar</button>
+          <button *ngIf="tipo_formulario=='nuevoregistro'" [disabled]="disabledbtnsrienviar" class="btn btn-success btn-sm" type="button"><i class="fas fa-paper-plane"></i> Enviar SRI</button>
+        </div>
+    </div>
+</section>

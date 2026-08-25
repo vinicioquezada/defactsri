@@ -1,0 +1,245 @@
+<section class="content-header" id="box">
+    <div class="container-fluid">
+      <div class="row mb-2">
+        <div class="col-sm-12">
+            <div class="btn-toolbar" role="toolbar">
+              <div class="btn-group">
+                  <button (click)="clickDeshacer();" class="btn btn-secondary btn-flat btn-sm" type="button"><i class="fas fa-redo-alt"></i> Deshacer</button>
+                  <button (click)="goBack();" class="btn btn-secondary btn-flat btn-sm" type="button"><i class="fa fa-reply"></i> Atrás</button>
+              </div>
+              
+              
+              
+
+              <!--INICIA MULTIEMPRESA-->
+              <!--INICIA MULTIEMPRESA-->
+              <!--INICIA MULTIEMPRESA-->
+              <div class="input-group">  
+                <label *ngIf="multisucursal=='1'" class="form-control form-control-sm">{{sucursal}}</label>
+              </div>
+              <!--TERMINA MULTIEMPRESA-->
+              <!--TERMINA MULTIEMPRESA-->
+              <!--TERMINA MULTIEMPRESA-->
+            </div>
+
+
+        </div>
+
+        
+      </div>
+      
+    </div><!-- /.container-fluid -->
+
+    
+</section>
+
+<!-- Main content -->
+<section class="content">
+    <div class="container-fluid">
+
+        <div class="row">
+			<div class="col-md-12">
+
+				<div class="card card-cyan card-outline">
+                    <div class="card-header">
+
+						<div *ngIf="notacreditoexistente == '1'" class="row">
+							<div class="col-md-12">
+								<div id="mensaje_informacion" class="alert alert-warning alert-dismissible">
+									<button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+									<h4><i class="icon fas fa-exclamation-triangle"></i> Advertencia</h4>
+									Ya se ha generado la nota de credito para esta factura de compra, seleccione otra factura para generar la nota de credito.
+								</div>
+							</div>
+						</div>
+
+                        <div style="text-align:center">
+                            <div *ngIf="loading" class="spinner-border text-primary" style="width: 3rem; height: 3rem;"></div>
+                        </div>
+
+						<div class="row">
+
+							<div class="col-md-12">
+								<div class="form-group">
+									<label>N° Nota Crédito:</label>
+									<label class="form-control form-control-sm">{{n_nota_credito_compra}}</label>
+								</div>
+							</div>
+
+							<div class="col-md-3">
+								<div class="form-group">
+									<label>Fecha:</label>
+                                    <input [(ngModel)]="fecha_hora" class="form-control form-control-sm" type="date">
+								</div>
+							</div>
+
+							<div class="col-md-3">
+								<div class="form-group">
+									<label>Razón Modificación:</label>
+									<input [disabled]="disabledtxtfecha" [(ngModel)]="razon_modificacion" class="form-control form-control-sm" type="text">
+								</div>
+							</div>
+
+                            <div class="col-md-3">
+								<div class="form-group">
+									<label>Forma Cobro Devolución:</label>
+                                    <select [disabled]="disabledcmbformapago"  [ngClass]="{'is-invalid': flagformapago}" (change)="changeFormaPago($event)" class="form-control form-control-sm">
+                                        <option value="{{item.id_forma_pago}}" *ngFor="let item of datosformapago" [selected]="item.id_forma_pago == this.id_forma_pago">
+                                            {{item.forma_pago}}
+                                        </option>
+                                    </select>
+								</div>
+							</div>
+
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label>Observación</label>
+                                    <textarea [(ngModel)]="observacion" [disabled]="disabledtxtobservacion" class="form-control"></textarea>
+                                </div>
+                            </div>
+
+						</div>
+
+
+
+
+					</div>
+				</div>
+			</div>
+		</div>
+
+        <div class="row">
+          <div class="col-md-8">
+
+                  <div class="card card-cyan card-outline">
+                      <div class="card-header">
+
+                          <h5 style="font-size: 14px">
+                                  <i class="fa fa-user-circle" aria-hidden="true"></i>&nbsp;<label>{{ this.proveedor }}</label>
+                                  &nbsp;&nbsp;&nbsp;
+                                  <i class="fa fa-id-card" aria-hidden="true"></i>&nbsp;<label>{{ this.numero_identificacion }}</label><br>
+                                  <i class="fas fa-mobile" aria-hidden="true"></i>&nbsp;
+                                  <label id="lblcelular">{{ this.celular }}</label>
+                                  &nbsp;&nbsp;&nbsp;
+                                  <i class="fa fa-envelope" aria-hidden="true"></i>&nbsp;<label>{{ this.correo }}</label>
+                          </h5>
+
+                      </div>
+                      
+                  </div>
+
+                  <div class="row">
+                    <div class="col-md-12">
+                        <div class="alert alert-info alert-dismissible">
+                            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                            <h4><i class="icon fas fa-exclamation-triangle"></i> Información</h4>
+                            Deje los productos que va a devolver de la Factura.
+                        </div>
+                    </div>
+                 </div>
+
+                  
+
+                  <app-detalle-nota-credito (datosenviar)="recibirDatosDetalles($event)"></app-detalle-nota-credito>
+                  
+          </div>
+
+          <div class="col-md-4">
+
+              <div class="card card-cyan card-outline">
+                  <div class="card-header">
+                      <h1><i class="fa fa-money-bill-alt"></i><label id="lblreftotalpagar" class="text-primary float-right">{{this.importetotal}}</label></h1>
+                      <div *ngIf="textomensaje != ''" style='text-align: center;'>
+                            <label style='font-size:30px;' [ngStyle]="{'color':colormensaje}">{{textomensaje}}</label>
+                      </div>
+                  </div>
+                  <div class="card-body">
+                          <div class="row">			 
+                              <div class="col-md-12" style="font-size: 14px">
+
+                                      <div class="form-group row">
+                                          <label class="col-sm-4 col-form-label">Tipo Compra:</label>
+                                          <div class="col-sm-8">
+                                              <div class="input-group input-group-sm">
+                                                  <div class="input-group-prepend">
+                                                      <span class="input-group-text"><i class="fas fa-shopping-cart"></i></span>
+                                                  </div>
+                                                  <label class="form-control">{{this.tipo_compra}}</label>
+                                              </div>
+                                          </div>
+                                      </div>
+
+                                      <div class="form-group row">
+                                          <label class="col-sm-4 col-form-label">Nº Factura:</label>
+                                          <div class="col-sm-8">
+                                              <div class="input-group input-group-sm">
+                                                  <div class="input-group-prepend">
+                                                  <span class="input-group-text"><i class="fas fa-paperclip"></i></span>
+                                                  </div>
+                                                  <label class="form-control">{{this.numero_factura}}</label>
+                                              </div>
+                                          </div>
+                                      </div>
+
+                                      <div class="form-group row">
+                                          <label class="col-sm-4 col-form-label">Fecha:</label>
+                                          <div class="col-sm-8">
+                                              <div class="input-group input-group-sm">
+                                                  <div class="input-group-prepend">
+                                                  <span class="input-group-text"><i class="fas fa-calendar"></i></span>
+                                                  </div>
+                                                  <label class="form-control">{{fecha_registro}}</label>
+                                              </div>
+                                          </div>
+                                      </div>
+
+
+                                      <div class="form-group">
+                                        <button *ngIf="tipo_formulario=='nuevoregistro'" [disabled]="disabledbtnguardar" (click)="clickVerificarDetalles();" class="btn btn-primary btn-block btn-sm" type="button"><i class="fas fa-save"></i> Guardar</button>
+                                        <button *ngIf="tipo_formulario=='actualizarregistro'" (click)="clickVerificarDetalles();" [disabled]="disabledbtnactualizar" class="btn btn-warning btn-block btn-sm" type="button"><i class="fas fa-save"></i> Actualizar</button>
+                                        <button (click)="visualizar();" [disabled]="disabledbtnimprimir" class="btn btn-primary btn-block btn-sm" type="button"><i class="fas fa-print"></i> Imprimir</button>
+                                      </div>
+
+                                      <div class="row justify-content-between pt-2">
+                                        <span *ngIf="loadingalmacenar" class="justify-content-center text-center m-auto">
+                                              <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;"></div>
+                                        </span>
+                                      </div>
+
+                                      
+
+                            
+
+                               
+
+                              </div>
+                          </div>
+
+                  </div>
+                  
+              </div>
+
+
+              
+
+              
+
+              
+
+
+
+          </div>
+      </div>		
+
+
+       
+
+     
+
+  
+
+      
+
+
+    </div>
+</section>

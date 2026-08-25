@@ -1,0 +1,355 @@
+<app-listado-empleado (datosenviar)="recibirDatosEmpleados($event)"></app-listado-empleado>
+
+<app-listado-proveedor (datosenviar)="recibirDatosProveedor($event)"></app-listado-proveedor>
+
+<section class="content-header">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-12">
+              <div class="btn-toolbar" role="toolbar">
+                <div class="btn-group">
+                    <button (click)="clickDeshacer();" class="btn btn-secondary btn-flat btn-sm float-right" type="button"><i class="fas fa-redo-alt"></i> Deshacer</button>
+                    <button routerLink="/menucompra" class="btn btn-secondary btn-flat btn-sm" type="button"><i class="fas fa-undo"></i> Atrás</button>
+                </div>
+              </div>
+          </div>
+          
+        </div>
+        
+      </div><!-- /.container-fluid -->
+    </section>
+    
+    <!-- Main content -->
+  <section class="content">
+      <div class="container-fluid">
+
+        <div style="text-align:center">
+          <div *ngIf="loading" class="spinner-border text-primary" style="width: 3rem; height: 3rem;"></div>
+        </div>
+        
+        <div class="row">
+    
+          <div class="col-md-12">
+  
+            <div class="row">
+  
+              <div class="col-md-6 d-flex align-items-center">
+                <a class="btn btn-primary btn-flat btn-sm" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample"><i class="fa fa-cogs"></i>
+                  Más Formas de búsqueda
+                </a>
+              </div>
+  
+              <div class="col-md-3">
+                  <div class="form-group">
+                      <label>Fecha Compra Desde:</label>
+                      <div class="input-group input-group-sm">
+                      <div class="input-group-prepend">
+                          <span class="input-group-text"><i class="fas fa-calendar"></i></span>
+                      </div>
+                      <input [(ngModel)]="fechadesde" type="date" class="form-control">
+                      </div>
+                  </div>		 
+              </div>
+  
+              <div class="col-md-3">
+                  <div class="form-group">
+                      <label>Fecha Compra Hasta:</label>
+                      <div class="input-group input-group-sm">
+                          <div class="input-group-prepend">
+                              <span class="input-group-text"><i class="fas fa-calendar"></i></span>
+                          </div>
+                          <input [(ngModel)]="fechahasta" type="date" class="form-control">
+                          <span class="input-group-append">
+                              <button (click)="buscar();" class="btn btn-primary btn-flat" type="button"><i class="fa fa-search"></i></button>
+                          </span>
+                      </div>
+                  </div>	 
+              </div>
+  
+            </div>
+            
+            <div class="collapse" id="collapseExample">
+              <div class="card card-body">
+                  <div class="col-md-12">
+   
+                    <div class="row">
+
+
+                        <div *ngIf="multisucursal=='1' && opcionesprivilegios['bloqueogestionlocales']!=1" class="col-md-6">
+                            <div class="form-group">
+                                <label>Sucursal:</label>
+                                <select (change)="changeSucursal($event)" class="form-control form-control-sm">
+                                    <option value="{{item.cod_sucursal}}" *ngFor="let item of datossucursal" [selected]="this.cod_sucursal == item.cod_sucursal">
+                                        {{item.sucursal}}
+                                    </option>
+                                </select>
+                            </div>	
+                        </div>
+          
+                        <div class="col-md-6">
+                          <div class="form-group">
+                            <label>Personal:</label>
+                            <div class="input-group input-group-sm">
+                                <div class="input-group-prepend">
+                                  <span class="input-group-text"><input (change)="changeChkEmpleado();" [checked]="chkempleado" type="checkbox"> TODOS</span>
+                                </div>
+                                <label class="form-control">{{this.empleado}}</label>
+                                <span class="input-group-append">
+                                  <button (click) = "listarEmpleados();" class="btn btn-primary btn-flat" type="button"><i class="fa fa-list"></i></button>
+                                </span>
+                            </div>
+                          </div>
+                        </div>
+        
+                        <div class="col-md-6">
+                            <div class="form-group">
+                              <label>Proveedor:</label>
+                              <div class="input-group input-group-sm">
+                                  <div class="input-group-prepend">
+                                    <span class="input-group-text"><input (change)="changeChkProveedor();" [checked]="chkproveedor" type="checkbox"> TODOS</span>
+                                  </div>
+                                  <label class="form-control">{{this.proveedor}}</label>
+                                  <span class="input-group-append">
+                                    <button (click) = "listarProveedores();" class="btn btn-primary btn-flat" type="button"><i class="fa fa-list"></i></button>
+                                  </span>
+                              </div>
+                            </div>
+                          </div>
+        
+                          <div class="col-md-6">
+                            <div class="form-group">
+                                <label>Tipo Control:</label>
+                                <select (change)="changeTipoControl($event)" class="form-control form-control-sm">
+                                    <option [value]="item.cod_tipo_control" *ngFor="let item of datoscontrolinventario" [selected]="item.cod_tipo_control == cod_tipo_control">
+                                        {{item.tipo_control}}
+                                    </option>
+                                </select>
+                            </div>	
+                          </div>
+        
+                      <div class="col-md-6">
+                        <div class="form-group">
+                            <label>Tipo Documento:</label>
+                            <select (change)="changeTipoDocumento($event)" class="form-control form-control-sm">
+                                <option [value]="item.cod_tipo_documento" *ngFor="let item of datostipodocumento" [selected]="item.cod_tipo_documento == cod_tipo_documento">
+                                    {{item.tipo_documento}}
+                                </option>
+                            </select>
+                        </div>	
+                      </div>
+        
+                      <div class="col-md-6">
+                        <div class="form-group">
+                            <label>Tipo Deuda:</label>
+                            <select (change)="changeTipoDeuda($event)" class="form-control form-control-sm">
+                                <option [value]="item.cod_tipo_deuda" *ngFor="let item of datostipodeuda" [selected]="item.cod_tipo_deuda == cod_tipo_deuda">
+                                    {{item.tipo_deuda}}
+                                </option>
+                            </select>
+                            
+                        </div>	
+                      </div>
+
+
+                    </div>
+
+                  </div>
+              </div>
+            </div>
+
+            <div class="row">
+
+
+              <div class="col-lg-4 col-6">
+                <div class="small-box bg-success">
+                  <div class="inner">
+                    <h3>$ {{ total | number:'1.2-2' }}</h3>
+                    <p>Total General</p>
+                  </div>
+                  <div class="icon">
+                    <i class="fas fa-dollar-sign"></i>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-lg-4 col-6">
+                <div class="small-box bg-primary">
+                  <div class="inner">
+                    <h3>$ {{ totalimpuesto | number:'1.2-2' }}</h3>
+                    <p>Total Impuesto</p>
+                  </div>
+                  <div class="icon">
+                    <i class="fas fa-file-invoice-dollar"></i>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-lg-4 col-6 mx-auto">
+                <div class="small-box bg-info">
+                  <div class="inner">
+                    <h3>{{ cantidad_registros }}</h3>
+                    <p>N° de Compras</p>
+                  </div>
+                  <div class="icon">
+                    <i class="fas fa-shopping-cart"></i>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+
+            <div class="row mt-2 justify-content-center">
+
+              <div class="col-lg-4 col-6">
+                <div class="small-box bg-success">
+                  <div class="inner">
+                    <h3 class="mb-0">$ {{ totalcobrado | number:'1.2-2' }}</h3>
+                    <small>{{ cantidadcobrado }} ventas</small>
+                    <p class="mb-0">Cobrado</p>
+                  </div>
+                  <div class="icon">
+                    <i class="fas fa-money-bill-wave"></i>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-lg-4 col-6">
+                <div class="small-box bg-warning">
+                  <div class="inner">
+                    <h3 class="mb-0">$ {{ totalporcobrar | number:'1.2-2' }}</h3>
+                    <small>{{ cantidadporcobrar }} ventas</small>
+                    <p class="mb-0">Por cobrar</p>
+                  </div>
+                  <div class="icon">
+                    <i class="fas fa-hand-holding-usd"></i>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          <!-- /.Inicia form1 -->
+          <!-- /.Inicia form1 -->
+          <!-- /.Inicia form1 -->
+            <div class="card card-primary card-outline">
+              <div class="card-header">
+                <h3 class="card-title"><i class="fa fa-file-alt"></i><span class="labeloculto">&nbsp;Reporte</span></h3>
+    
+                <div class="card-tools">
+                  <div class="input-group input-group-sm">
+                      <button (click)="exportarExcel()" class="btn btn-success btn-sm mr-1" type="button">
+                        <i class="fa fa-file-excel"></i> Excel
+                      </button>
+                      <button (click)="exportarPdf()" class="btn btn-danger btn-sm mr-2" type="button">
+                        <i class="fa fa-file-pdf"></i> PDF
+                      </button>
+                      <input (keyup)="keyFiltrado();" type="text" class="form-control float-right" oninput="javascript:this.value=this.value.toUpperCase();" placeholder="Buscar" [(ngModel)]="filterpost" name="filterpost" autocomplete="off" />
+                  </div>
+                </div>
+    
+    
+              </div>
+              <div class="card-body">
+                <div *ngIf="loadinglistado" class="d-flex justify-content-center align-items-center">
+                  <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;"></div>
+                </div>
+    
+                      <div class="table-responsive p-0">
+                        <table class="design-table">
+                            <thead>
+                              <tr>
+                                <th width="50px">Nº</th>
+                                <th width="50px">ESTADO</th>
+                                <th width="100px">DOCUMENTO</th>
+                                <th width="300px">PROVEEDOR</th>
+                                <th width="100px">FECHA</th>
+                                <th width="100px">TIPO COMPRA</th>
+                                <th width="50px">TOTAL</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              <tr *ngFor="let item of (datos | filterGenerico:filterpost:['numero_factura', 'fecha_emision', 'ruc', 'proveedor', 'estado']) | paginate : {
+                                id : 'pagreportecompra',
+                                itemsPerPage: pagesize,
+                                currentPage: page,
+                                totalItems: count
+                              }">
+                                <td>{{item.numero_factura}}</td>
+                                <td>{{item.estado}}</td>
+                                <td>{{item.ruc}}</td>
+                                <td>{{item.proveedor}}</td>
+                                <td>
+                                  <div>
+                                    <small class="badge badge-primary"><i class="fas fa-cash-register mr-1"></i> {{item.fecha_hora}} </small>
+                                  </div>
+                                  <div class="mt-1">
+                                    <small class="badge badge-success"><i class="fas fa-file-invoice mr-1"></i> {{item.fecha_emision}}</small>
+                                  </div>
+                                </td>
+                                <td>{{item.tipo_compra}}</td>
+                                <td><label class="text-success">{{item.importetotal | number}}</label></td>
+                              </tr>
+                            </tbody>
+                          </table>  
+                      </div>
+
+                      <div class="row">
+                        <div class="col-md-12">
+                          <div class="float-right text-right">
+                            <table class="design-table">
+                              <tr>
+                                <td><label>SUBTOTAL IMP</label></td>
+                                <td><label class="text-success">{{subtotalconimpuesto}}</label></td>
+                              </tr>
+                              <tr>
+                                <td><label>SUBTOTAL 0</label></td>
+                                <td><label class="text-success">{{subtotal0}}</label></td>
+                              </tr>
+                              <tr>
+                                <td><label>TOTAL IMP</label></td>
+                                <td><label class="text-success">{{totalimpuesto}}</label></td>
+                              </tr>
+                              <tr>
+                                <td><label>TOTAL GENERAL</label></td>
+                                <td><label class="text-success">{{total}}</label></td>
+                              </tr>
+                            </table>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="row">
+                        <div class="col-md-12">
+                          <div class="float-right">
+                            <pagination-controls class="pagination-controls" id="pagreportecompra"
+                            previousLabel="Anterior"
+                            nextLabel="Siguiente"
+                            [responsive]="true"
+                            (pageChange)="handlePageChange($event)">
+                            </pagination-controls>
+                          </div>
+                        </div>
+                      </div>
+               
+
+    
+    
+    
+    
+              </div>
+              <!-- /.card-body -->
+            </div>
+          <!-- /.Termina form1 -->
+          <!-- /.Termina form1 -->
+          <!-- /.Termina form1 -->
+          </div>
+    
+        </div>
+    
+    
+    
+        
+    
+    
+    
+      </div>
+    </section>

@@ -1,0 +1,198 @@
+<app-opciones-explorador-retencion [tipoformulario] = "tipoformulario" (datosenvioestado)="recibirDatosEstado($event)" (datosenviocorreo)="recibirDatosCorreo($event)" (datosenviomantenerestados)="recibirMantenerEstados()"></app-opciones-explorador-retencion>
+
+<section class="content-header">
+    <div class="container-fluid">
+      <div class="row mb-2">
+        <div class="col-sm-12">
+            <div class="btn-toolbar" role="toolbar">
+              <div class="btn-group">
+                <button (click)="clickDeshacer();" class="btn btn-secondary btn-flat btn-sm float-right" type="button"><i class="fas fa-redo-alt"></i> Deshacer</button>
+                <button routerLink="/menuretencion" class="btn btn-secondary btn-flat btn-sm" type="button"><i class="fas fa-undo"></i> Atrás</button>
+              </div>
+            </div>
+        </div>
+        
+      </div>
+      
+    </div><!-- /.container-fluid -->
+  </section>
+  
+  <!-- Main content -->
+<section class="content">
+    <div class="container-fluid">
+
+      <div style="text-align:center">
+        <div *ngIf="loading" class="spinner-border text-primary" style="width: 3rem; height: 3rem;"></div>
+      </div>
+      
+      <div class="row">
+  
+        <div class="col-md-12">
+
+          <div class="row">
+
+            <div *ngIf="multisucursal=='1'" class="col-md-6">
+             
+
+              <div class="form-group">
+                  <label>Sucursal:</label>
+                  
+                  <select (change)="changeSucursal($event)" class="form-control form-control-sm">
+                      <option value="{{item.cod_sucursal}}" *ngFor="let item of datossucursal" [selected]="this.cod_sucursal == item.cod_sucursal">
+                          {{item.sucursal}}
+                      </option>
+                  </select>
+
+              </div>	
+
+
+            </div>
+
+            <div class="col-md-6">
+              <div class="form-group">
+                  <label>Estado Comprobante:</label>
+                  <select (change)="changeEstadoComprobante($event)" [(ngModel)]="estado" class="form-control form-control-sm">
+                      <option value="0">TODOS</option>
+                      <option value="CREADA">CREADA</option>
+                      <option value="AUTORIZADO">AUTORIZADO</option>
+                      <option value="NO AUTORIZADO">NO AUTORIZADO</option>
+                      <option value="DEVUELTA">DEVUELTA</option>
+                      <option value="EN PROCESO">EN PROCESO</option>
+                  </select>
+              </div>	
+            </div>
+
+              <div class="col-md-3">
+                  <div class="form-group">
+                      <label>Fecha Desde:</label>
+                      <div class="input-group input-group-sm">
+                      <div class="input-group-prepend">
+                          <span class="input-group-text"><i class="fas fa-calendar"></i></span>
+                      </div>
+                      <input [(ngModel)]="fechadesde" type="date" class="form-control">
+                      </div>
+                  </div>		 
+              </div>
+
+              <div class="col-md-3">
+                  <div class="form-group">
+                      <label>Fecha Hasta:</label>
+                      
+                      <div class="input-group input-group-sm">
+                          <div class="input-group-prepend">
+                              <span class="input-group-text"><i class="fas fa-calendar"></i></span>
+                          </div>
+                          <input [(ngModel)]="fechahasta" type="date" class="form-control">
+                          <span class="input-group-append">
+                              <button (click)="clickBuscar();" class="btn btn-primary btn-flat" type="button"><i class="fa fa-search"></i></button>
+                          </span>
+                      </div>
+                  </div>	 
+              </div>
+
+          </div>
+          
+        <!-- /.Inicia form1 -->
+        <!-- /.Inicia form1 -->
+        <!-- /.Inicia form1 -->
+          <div class="card card-primary card-outline">
+            <div class="card-header">
+              <h3 class="card-title"><i class="fa fa-file-alt"></i> Explorador</h3>
+  
+  
+              <div class="card-tools">
+                <div class="input-group input-group-sm">
+  
+                    <input (keyup)="keyFiltrado();" type="text" class="form-control float-right" oninput="javascript:this.value=this.value.toUpperCase();" placeholder="Buscar" [(ngModel)]="filterpost" name="filterpost" autocomplete="off" />
+  
+                    
+  
+                </div>
+              </div>
+  
+  
+            </div>
+            <div class="card-body">
+                <div class="row justify-content-between">
+              
+                  <span *ngIf="loadinglistado" class="justify-content-center text-center m-auto">
+                    <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;"></div>
+                  </span>
+  
+                        <div class="table-responsive p-0">
+                        <table class="design-table resp">
+                          <thead>
+                            <tr>
+                              <th width="50px">Nº</th>
+                              <th width="50px">ESTADO</th>
+                              <th width="100px">DOCUMENTO</th>
+                              <th width="300px">PROVEEDOR</th>
+                              <th width="100px">FECHA</th>
+                              <th width="50px">TOTAL RETENIDO</th>
+                              <th width="100px"></th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <tr *ngFor="let item of (datos | filterGenerico:filterpost:['numero_retencion', 'fecha_hora', 'ruc', 'proveedor', 'estado']) | paginate : {
+                              itemsPerPage: pagesize,
+                              currentPage: page,
+                              totalItems: count
+                            }">
+                              <td>{{item.numero_retencion}}</td>
+                              <td>
+                                <small *ngIf="item.estado=='CREADA'" class="badge badge-success">{{item.estado}}</small>
+                                <small *ngIf="item.estado=='AUTORIZADO'" class="badge badge-info">{{item.estado}}</small>
+                                <small *ngIf="item.estado=='DEVUELTA'" class="badge badge-danger">{{item.estado}}</small>
+                                <small *ngIf="item.estado=='NO AUTORIZADO'" class="badge badge-danger">{{item.estado}}</small>
+                                <small *ngIf="item.estado=='EN PROCESO'" class="badge badge-warning">{{item.estado}}</small>
+                                <small *ngIf="item.estado=='ANULADA'" class="badge badge-warning">{{item.estado}}</small>
+                              </td>
+                              <td>{{item.ruc}}</td>
+                              <td>
+                                {{item.proveedor}}<br>
+                                <small *ngIf="item.envio!='ENVIADO'" class="badge badge-warning">@ CORREO NO ENVIADO</small>
+                              </td>
+                              <td>{{item.fecha_hora}}</td>
+                              <td>{{item.total_retenido}}</td>
+                              <td>
+                                <div class="d-flex justify-content-end">
+                                  <button (click)="opciones(item.cod_retencion, item.numero_retencion, item.estado, item.proveedor, item.claveacceso, item.ptoemi, item.correo, item.cod_factura_compra);" data-bs-toggle="tooltip" data-bs-placement="top" title="OPCIONES" class="btn btn-outline-primary btn-sm" type="button"><i class="fa fa-cogs"></i></button>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                        <div class="float-right">
+                          <pagination-controls class="pagination-controls"
+                          previousLabel="Anterior"
+                          nextLabel="Siguiente"
+                          [responsive]="true"
+                          (pageChange)="handlePageChange($event)">
+                          </pagination-controls>
+                        </div>
+                    </div>
+                </div>
+  
+  
+  
+  
+  
+  
+            </div>
+            <!-- /.card-body -->
+          </div>
+        <!-- /.Termina form1 -->
+        <!-- /.Termina form1 -->
+        <!-- /.Termina form1 -->
+        </div>
+  
+      </div>
+  
+  
+  
+      
+  
+  
+  
+    </div>
+  </section>

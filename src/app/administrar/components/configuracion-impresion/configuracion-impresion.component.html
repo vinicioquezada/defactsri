@@ -1,0 +1,372 @@
+<section class="content-header">
+  <div class="container-fluid">
+    <div class="row mb-2">
+      <div class="col-sm-12">
+          <div class="btn-toolbar" role="toolbar">
+            <div class="btn-group">
+              <button (click)="clickDeshacer();" class="btn btn-secondary btn-flat btn-sm float-right" type="button"><i class="fas fa-redo-alt"></i> Deshacer</button>
+              <button routerLink="/menuadministrar" class="btn btn-secondary btn-flat btn-sm" type="button"><i class="fas fa-undo"></i> Atrás</button>
+            </div>
+          </div>
+      </div>
+      
+    </div>
+    
+  </div><!-- /.container-fluid -->
+</section>
+
+<!-- Main content -->
+<section class="content">
+    <div class="container-fluid">
+
+
+
+
+       
+
+
+
+      <div class="row">
+
+        <div class="col-md-12">
+
+
+          <div class="card card-primary card-outline">
+            <div class="card-header">
+              <h3 class="card-title"><i class="fas fa-print"></i> Configuracion de Impresión</h3>
+
+              <div class="card-tools">
+                
+
+              </div>
+
+              
+
+
+            </div>
+          
+            
+            <div class="table-responsive card-body p-0 overlay-wrapper">
+
+              <div *ngIf="loadinglistado" class="overlay overlay-custom d-flex flex-column align-items-center">
+                <div class="spinner-border text-primary" style="width: 5rem; height: 5rem; font-size: 30px;" role="status"></div>
+                <div class="text-bold pt-2">Cargando...</div>
+              </div>
+
+            </div>
+
+
+            <div class="col-md-12">
+
+                    <div class="card card-primary card-outline card-outline-tabs">
+                <div class="card-header p-0 border-bottom-0">
+                    <ul class="nav nav-tabs" id="custom-tabs-four-tab" role="tablist">
+                    <li class="nav-item">
+                        <a class="nav-link active" id="formato-documentos-tabs-tab" data-toggle="pill" href="#formato-documentos-tabs" role="tab" aria-controls="formato-documentos-tabs" aria-selected="true">FORMATO DOCUMENTOS</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="electronica-tabs-tab" data-toggle="pill" href="#electronica-tabs" role="tab" aria-controls="electronica-tabs" aria-selected="false">ELECTRONICA</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="proforma-tabs-tab" data-toggle="pill" href="#proforma-tabs" role="tab" aria-controls="proforma-tabs" aria-selected="false">PROFORMA</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="abono-tabs-tab" data-toggle="pill" href="#abono-tabs" role="tab" aria-controls="abono-tabs" aria-selected="false">ABONO</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="pedidos-tabs-tab" data-toggle="pill" href="#pedidos-tabs" role="tab" aria-controls="pedidos-tabs" aria-selected="false">PEDIDOS</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="gastosingresos-tabs-tab" data-toggle="pill" href="#gastosingresos-tabs" role="tab" aria-controls="gastosingresos-tabs" aria-selected="false">GASTOS INGRESOS</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="compras-tabs-tab" data-toggle="pill" href="#compras-tabs" role="tab" aria-controls="compras-tabs" aria-selected="false">COMPRAS</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="resumen-caja-tabs-tab" data-toggle="pill" href="#resumen-caja-tabs" role="tab" aria-controls="resumen-caja-tabs" aria-selected="false">RESUMEN CAJA</a>
+                    </li>
+                    </ul>
+                </div>
+                <div class="card-body">
+
+                    <div class="tab-content" id="custom-tabs-four-tabContent">
+                    
+                    <div class="tab-pane fade active show" id="formato-documentos-tabs" role="tabpanel" aria-labelledby="formato-documentos-tabs-tab"> 
+
+                        <div class="col-md-12">
+                    
+                            <div *ngFor="let item of datosformatosdocumentos" class="form-group">
+                                <div class="d-flex align-items-center">
+
+                                    <div class="custom-control custom-switch mr-3">
+                                        <input [checked]="item.valor" (change)="changeChkSeleccion(item);" type="checkbox"
+                                            class="custom-control-input"
+                                            [id]="'switch' + item.id_configuracion_documentos">
+                                        <label class="custom-control-label"
+                                            [for]="'switch' + item.id_configuracion_documentos"></label>
+                                    </div>
+
+                                    <div>
+                                        <div class="font-weight-bold">
+                                            {{ item.opciones }}
+                                        </div>
+                                        <small class="text-muted">
+                                            {{ item.descripcion }}
+                                        </small>
+                                    </div>
+
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <div class="tab-pane show" id="electronica-tabs" role="tabpanel" aria-labelledby="electronica-tabs-tab"> 
+
+                        <div class="col-md-12">
+                    
+                            <div *ngFor="let item of datoselectronica" class="form-group">
+                                <div class="d-flex align-items-center">
+
+                                    <div class="custom-control custom-switch mr-3">
+                                        <input [checked]="item.valor" (change)="changeChkSeleccion(item);" type="checkbox"
+                                            class="custom-control-input"
+                                            [id]="'switch' + item.id_configuracion_documentos">
+                                        <label class="custom-control-label"
+                                            [for]="'switch' + item.id_configuracion_documentos"></label>
+                                    </div>
+
+                                    <div>
+                                        <div class="font-weight-bold">
+                                            {{ item.opciones }}
+                                        </div>
+                                        <small class="text-muted">
+                                            {{ item.descripcion }}
+                                        </small>
+                                    </div>
+
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <div class="tab-pane fade" id="proforma-tabs" role="tabpanel" aria-labelledby="proforma-tabs-tab">
+
+                        <div class="col-md-12">
+                    
+                            <div *ngFor="let item of datosproforma" class="form-group">
+                                <div class="d-flex align-items-center">
+
+                                    <div class="custom-control custom-switch mr-3">
+                                        <input [checked]="item.valor" (change)="changeChkSeleccion(item);" type="checkbox"
+                                            class="custom-control-input"
+                                            [id]="'switch' + item.id_configuracion_documentos">
+                                        <label class="custom-control-label"
+                                            [for]="'switch' + item.id_configuracion_documentos"></label>
+                                    </div>
+
+                                    <div>
+                                        <div class="font-weight-bold">
+                                            {{ item.opciones }}
+                                        </div>
+                                        <small class="text-muted">
+                                            {{ item.descripcion }}
+                                        </small>
+                                    </div>
+
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <div class="tab-pane fade" id="abono-tabs" role="tabpanel" aria-labelledby="abono-tabs-tab">
+                        
+                        <div class="col-md-12">
+                    
+                            <div *ngFor="let item of datosabono" class="form-group">
+                                <div class="d-flex align-items-center">
+
+                                    <div class="custom-control custom-switch mr-3">
+                                        <input [checked]="item.valor" (change)="changeChkSeleccion(item);" type="checkbox"
+                                            class="custom-control-input"
+                                            [id]="'switch' + item.id_configuracion_documentos">
+                                        <label class="custom-control-label"
+                                            [for]="'switch' + item.id_configuracion_documentos"></label>
+                                    </div>
+
+                                    <div>
+                                        <div class="font-weight-bold">
+                                            {{ item.opciones }}
+                                        </div>
+                                        <small class="text-muted">
+                                            {{ item.descripcion }}
+                                        </small>
+                                    </div>
+
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="tab-pane fade" id="pedidos-tabs" role="tabpanel" aria-labelledby="pedidos-tabs-tab">
+                        
+                        <div class="col-md-12">
+                    
+                            <div *ngFor="let item of datospedido" class="form-group">
+                                <div class="d-flex align-items-center">
+
+                                    <div class="custom-control custom-switch mr-3">
+                                        <input [checked]="item.valor" (change)="changeChkSeleccion(item);" type="checkbox"
+                                            class="custom-control-input"
+                                            [id]="'switch' + item.id_configuracion_documentos">
+                                        <label class="custom-control-label"
+                                            [for]="'switch' + item.id_configuracion_documentos"></label>
+                                    </div>
+
+                                    <div>
+                                        <div class="font-weight-bold">
+                                            {{ item.opciones }}
+                                        </div>
+                                        <small class="text-muted">
+                                            {{ item.descripcion }}
+                                        </small>
+                                    </div>
+
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <div class="tab-pane fade" id="gastosingresos-tabs" role="tabpanel" aria-labelledby="gastosingresos-tabs-tab">
+                        
+                        <div class="col-md-12">
+                    
+                            <div *ngFor="let item of datosgastosingresos" class="form-group">
+                                <div class="d-flex align-items-center">
+
+                                    <div class="custom-control custom-switch mr-3">
+                                        <input [checked]="item.valor" (change)="changeChkSeleccion(item);" type="checkbox"
+                                            class="custom-control-input"
+                                            [id]="'switch' + item.id_configuracion_documentos">
+                                        <label class="custom-control-label"
+                                            [for]="'switch' + item.id_configuracion_documentos"></label>
+                                    </div>
+
+                                    <div>
+                                        <div class="font-weight-bold">
+                                            {{ item.opciones }}
+                                        </div>
+                                        <small class="text-muted">
+                                            {{ item.descripcion }}
+                                        </small>
+                                    </div>
+
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <div class="tab-pane fade" id="compras-tabs" role="tabpanel" aria-labelledby="compras-tabs-tab">
+                        
+                        <div class="col-md-12">
+                    
+                            <div *ngFor="let item of datoscompras" class="form-group">
+                                <div class="d-flex align-items-center">
+
+                                    <div class="custom-control custom-switch mr-3">
+                                        <input [checked]="item.valor" (change)="changeChkSeleccion(item);" type="checkbox"
+                                            class="custom-control-input"
+                                            [id]="'switch' + item.id_configuracion_documentos">
+                                        <label class="custom-control-label"
+                                            [for]="'switch' + item.id_configuracion_documentos"></label>
+                                    </div>
+
+                                    <div>
+                                        <div class="font-weight-bold">
+                                            {{ item.opciones }}
+                                        </div>
+                                        <small class="text-muted">
+                                            {{ item.descripcion }}
+                                        </small>
+                                    </div>
+
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <div class="tab-pane fade" id="resumen-caja-tabs" role="tabpanel" aria-labelledby="resumen-caja-tabs-tab">
+                        
+                        <div class="col-md-12">
+                    
+                            <div *ngFor="let item of datosresumencaja" class="form-group">
+                                <div class="d-flex align-items-center">
+
+                                    <div class="custom-control custom-switch mr-3">
+                                        <input [checked]="item.valor" (change)="changeChkSeleccion(item);" type="checkbox"
+                                            class="custom-control-input"
+                                            [id]="'switch' + item.id_configuracion_documentos">
+                                        <label class="custom-control-label"
+                                            [for]="'switch' + item.id_configuracion_documentos"></label>
+                                    </div>
+
+                                    <div>
+                                        <div class="font-weight-bold">
+                                            {{ item.opciones }}
+                                        </div>
+                                        <small class="text-muted">
+                                            {{ item.descripcion }}
+                                        </small>
+                                    </div>
+
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                  </div>
+                </div>
+                <!-- /.card -->
+                </div>
+                
+            </div>
+
+
+            
+
+
+            
+          </div>
+
+        
+        </div>
+
+
+     
+
+        
+
+
+      
+
+      </div>
+
+    </div>
+</section>

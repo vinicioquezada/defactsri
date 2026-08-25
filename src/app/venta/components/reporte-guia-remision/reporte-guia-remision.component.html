@@ -1,0 +1,207 @@
+<app-listado-empleado (datosenviar)="recibirDatosEmpleados($event)"></app-listado-empleado>
+  
+  <section class="content-header">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-12">
+              <div class="btn-toolbar" role="toolbar">
+                <div class="btn-group">
+                    <button (click)="clickDeshacer();" class="btn btn-secondary btn-flat btn-sm float-right" type="button"><i class="fas fa-redo-alt"></i> Deshacer</button>
+                    <button routerLink="/menuventa" class="btn btn-secondary btn-flat btn-sm" type="button"><i class="fas fa-undo"></i> Atrás</button>
+                </div>
+              </div>
+          </div>
+          
+        </div>
+        
+      </div><!-- /.container-fluid -->
+    </section>
+    
+    <!-- Main content -->
+  <section class="content">
+      <div class="container-fluid">
+
+        <div style="text-align:center">
+          <div *ngIf="loading" class="spinner-border text-primary" style="width: 3rem; height: 3rem;"></div>
+        </div>
+        
+        <div class="row">
+    
+          <div class="col-md-12">
+  
+            <div class="row">
+  
+              <div class="col-md-6 d-flex align-items-center">
+                <a class="btn btn-primary btn-flat btn-sm" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample"><i class="fa fa-cogs"></i>
+                  Más Formas de búsqueda
+                </a>
+              </div>
+
+              <div class="col-md-3">
+                  <div class="form-group">
+                      <label>Fecha Desde:</label>
+                      <div class="input-group input-group-sm">
+                      <div class="input-group-prepend">
+                          <span class="input-group-text"><i class="fas fa-calendar"></i></span>
+                      </div>
+                      <input [(ngModel)]="fechadesde" type="date" class="form-control">
+                      </div>
+                  </div>		 
+              </div>
+  
+              <div class="col-md-3">
+                  <div class="form-group">
+                      <label>Fecha Hasta:</label>
+                      <div class="input-group input-group-sm">
+                          <div class="input-group-prepend">
+                              <span class="input-group-text"><i class="fas fa-calendar"></i></span>
+                          </div>
+                          <input [(ngModel)]="fechahasta" type="date" class="form-control">
+                          <span class="input-group-append">
+                              <button (click)="buscar();" class="btn btn-primary btn-flat" type="button"><i class="fa fa-search"></i></button>
+                          </span>
+                      </div>
+                  </div>	 
+              </div>
+  
+            </div>
+            
+            <div class="collapse" id="collapseExample">
+              <div class="card card-body">
+                  <div class="col-md-12">
+   
+                    <div class="row">
+
+                      <div *ngIf="multisucursal=='1' && opcionesprivilegios['bloqueogestionlocales']!=1" class="col-md-6">
+                          <div class="form-group">
+                              <label>Sucursal:</label>
+                              <select (change)="changeSucursal($event)" class="form-control form-control-sm">
+                                  <option value="{{item.cod_sucursal}}" *ngFor="let item of datossucursal" [selected]="this.cod_sucursal == item.cod_sucursal">
+                                      {{item.sucursal}}
+                                  </option>
+                              </select>
+                          </div>	
+                      </div>
+
+                      <div *ngIf="firmasruc=='1'" class="col-md-6">
+                        <div class="form-group">
+                            <label>Ruc Empresa:</label>
+                            <select (change)="changeEmpresa($event)" class="form-control form-control-sm">
+                                <option value="{{item.cod_ruc}}" *ngFor="let item of datosrucempresa" [selected]="this.cod_ruc == item.cod_ruc">
+                                    {{item.empresa}}
+                                </option>
+                            </select>
+                        </div>	
+                      </div>
+        
+                      <div class="col-md-6">
+                        <div class="form-group">
+                          <label>Personal:</label>
+                          
+                          <div class="input-group input-group-sm">
+                              <div class="input-group-prepend">
+                                <span class="input-group-text"><input (change)="changeChkEmpleado();" [checked]="chkempleado" type="checkbox"> TODOS</span>
+                              </div>
+                              <label class="form-control">{{this.empleado}}</label>
+                              <span class="input-group-append">
+                                <button (click) = "listarEmpleados();" class="btn btn-primary btn-flat" type="button"><i class="fa fa-list"></i></button>
+                              </span>
+                          </div>
+                        </div>
+                      </div>
+
+                    </div>
+
+                  </div>
+              </div>
+            </div>
+          <!-- /.Inicia form1 -->
+          <!-- /.Inicia form1 -->
+          <!-- /.Inicia form1 -->
+            <div class="card card-primary card-outline">
+              <div class="card-header">
+                <h3 class="card-title"><i class="fa fa-file-alt"></i><span class="labeloculto">&nbsp;Reporte</span></h3>
+                &nbsp;<span class="text-right">(Total: {{this.cantidad_registros}} Registros)</span>
+    
+                <div class="card-tools">
+                  <div class="input-group input-group-sm">
+                      <button (click)="exportarExcel()" class="btn btn-success btn-sm mr-1" type="button">
+                        <i class="fa fa-file-excel"></i> Excel
+                      </button>
+                      <button (click)="exportarPdf()" class="btn btn-danger btn-sm mr-2" type="button">
+                        <i class="fa fa-file-pdf"></i> PDF
+                      </button>
+                      <input (keyup)="keyFiltrado();" type="text" class="form-control float-right" oninput="javascript:this.value=this.value.toUpperCase();" placeholder="Buscar" [(ngModel)]="filterpost" name="filterpost" autocomplete="off" />
+                  </div>
+                </div>
+    
+    
+              </div>
+              <div class="card-body">
+                  <div class="row justify-content-between">
+                
+                    <span *ngIf="loadinglistado" class="justify-content-center text-center m-auto">
+                      <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;"></div>
+                    </span>
+    
+                      <div class="table-responsive p-0">
+                        <table class="design-table resp">
+                            <thead>
+                              <tr>
+                                <th width="50px">Nº</th>
+                                <th width="50px">ESTADO</th>
+                                <th width="100px">IDENTIFICACIÓN</th>
+                                <th width="300px">TRANSPORTISTA</th>
+                                <th *ngIf="firmasruc=='1'">RUC</th>
+                                <th width="100px">FECHA</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              <tr *ngFor="let item of (datos | filterGenerico:filterpost:['numero_guia', 'estado', 'identificacion_transportista', 'razon_social_transportista', 'fecha_hora']) | paginate : {
+                                itemsPerPage: pagesize,
+                                currentPage: page,
+                                totalItems: count
+                              }">
+                                <td>{{item.numero_guia}}</td>
+                                <td>{{item.estado}}</td>
+                                <td>{{item.identificacion_transportista}}</td>
+                                <td>{{item.razon_social_transportista}}</td>
+                                <td *ngIf="firmasruc=='1'"><small class="badge badge-primary">{{item.empresa}}</small></td>
+                                <td>{{item.fecha_hora}}</td>
+                              </tr>
+                            </tbody>
+                          </table>
+                          <div class="float-right">
+                            <pagination-controls class="pagination-controls"
+                            previousLabel="Anterior"
+                            nextLabel="Siguiente"
+                            [responsive]="true"
+                            (pageChange)="handlePageChange($event)">
+                            </pagination-controls>
+                          </div>
+                      </div>
+                  </div>
+    
+    
+    
+    
+    
+    
+              </div>
+              <!-- /.card-body -->
+            </div>
+          <!-- /.Termina form1 -->
+          <!-- /.Termina form1 -->
+          <!-- /.Termina form1 -->
+          </div>
+    
+        </div>
+    
+    
+    
+        
+    
+    
+    
+      </div>
+    </section>

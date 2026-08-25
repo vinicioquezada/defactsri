@@ -1,0 +1,445 @@
+   <section class="content-header">
+    <div class="container-fluid">
+      <div class="row mb-2">
+        <div class="col-sm-12">
+            <div class="btn-toolbar" role="toolbar">
+              <div class="btn-group">
+                <button (click)="clickDeshacer();" class="btn btn-secondary btn-flat btn-sm" type="button"><i class="fas fa-redo-alt"></i> Deshacer</button>
+                <button routerLink="/menuventa" class="btn btn-secondary btn-flat btn-sm" type="button"><i class="fas fa-undo"></i> Atrás</button>
+              </div>
+            </div>
+        </div>
+      </div>
+      
+    </div><!-- /.container-fluid -->
+  </section>
+  
+  <!-- Main content -->
+<section class="content">
+    <div class="container-fluid">
+
+      
+      
+      <div class="row">
+
+        <div class="col-md-12">
+
+          <div class="row">
+
+            
+
+            <div class="col-md-6 d-flex align-items-center">
+              <a class="btn btn-primary btn-flat btn-sm" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample"><i class="fa fa-cogs"></i>
+                Más Formas de búsqueda
+              </a>
+            </div>
+
+              <div class="col-md-3">
+                  <div class="form-group">
+                      <label>Fecha Documento Desde:</label>
+                      <div class="input-group input-group-sm">
+                      <div class="input-group-prepend">
+                          <span class="input-group-text"><i class="fas fa-calendar"></i></span>
+                      </div>
+                      <input [(ngModel)]="fechadesde" type="date" class="form-control">
+                      </div>
+                  </div>		 
+              </div>
+
+              <div class="col-md-3">
+                  <div class="form-group">
+                      <label>Fecha Documento Hasta:</label>
+                      
+                      <div class="input-group input-group-sm">
+                          <div class="input-group-prepend">
+                              <span class="input-group-text"><i class="fas fa-calendar"></i></span>
+                          </div>
+                          <input [(ngModel)]="fechahasta" type="date" class="form-control">
+                          <span class="input-group-append">
+                              <button (click)="clickBuscar();" class="btn btn-primary btn-flat" type="button"><i class="fa fa-search"></i></button>
+                          </span>
+                      </div>
+                  </div>	 
+              </div>
+
+          </div>
+
+          <div class="collapse" id="collapseExample">
+            <div class="card card-body">
+
+
+
+
+                <div class="col-md-12">
+  
+                  <div class="row">
+  
+  
+                        <div *ngIf="multisucursal=='1' && opcionesprivilegios['bloqueogestionlocales']!=1" class="col-md-6">
+                          <div class="form-group">
+                              <label>Sucursal:</label>
+                              
+                              <select (change)="changeSucursal($event)" class="form-control form-control-sm">
+                                  <option value="{{item.cod_sucursal}}" *ngFor="let item of datossucursal" [selected]="this.cod_sucursal == item.cod_sucursal">
+                                      {{item.sucursal}}
+                                  </option>
+                              </select>
+            
+                          </div>	
+                        </div>
+
+                        <div *ngIf="firmasruc=='1'" class="col-md-6">
+                          <div class="form-group">
+                              <label>Ruc Empresa:</label>
+                              
+                              <select (change)="changeEmpresa($event)" class="form-control form-control-sm">
+                                  <option value="{{item.cod_ruc}}" *ngFor="let item of datosrucempresa" [selected]="this.cod_ruc == item.cod_ruc">
+                                      {{item.empresa}}
+                                  </option>
+                              </select>
+            
+                          </div>	
+                        </div>
+
+                        <div class="col-md-6">
+                          <div class="form-group">
+                              <label>Comprobante:</label>
+                              <select (change)="changeTipoComprobante($event)" class="form-control form-control-sm">
+                                  <option [value]="item.cod_tipo_comprobante" *ngFor="let item of datostipocomprobante" [selected]="item.cod_tipo_comprobante == cod_tipo_comprobante">
+                                      {{item.tipo_comprobante}}
+                                  </option>
+                              </select>
+                          </div>	
+                        </div>
+
+                        <div class="col-md-6">
+                          <div class="form-group">
+                              <label>Tipo Documento:</label>
+                              <select (change)="changeTipoDocumento($event)" class="form-control form-control-sm">
+                                  <option [value]="item.cod_tipo_documento" *ngFor="let item of datostipodocumento" [selected]="item.cod_tipo_documento == cod_tipo_documento">
+                                      {{item.tipo_documento}}
+                                  </option>
+                              </select>
+                          </div>	
+                        </div>
+  
+                        <div class="col-md-6">
+                          <div class="form-group">
+                              <label>Estado Comprobante:</label>
+                              <select (change)="changeEstadoComprobante($event)" [(ngModel)]="estado" class="form-control form-control-sm">
+                                  <option value="0">TODOS</option>
+                                  <option value="CREADA">CREADA</option>
+                                  <option value="AUTORIZADO">AUTORIZADO</option>
+                                  <option value="NO AUTORIZADO">NO AUTORIZADO</option>
+                                  <option value="DEVUELTA">DEVUELTA</option>
+                                  <option value="EN PROCESO">EN PROCESO</option>
+                              </select>
+                          </div>	
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>Forma Cobro: </label>
+                                <select (change)="changeFormaPago($event)" class="form-control form-control-sm">
+                                  <option value="{{item.id_forma_pago}}" *ngFor="let item of datosformapago" [selected]="item.id_forma_pago == this.id_forma_pago">
+                                      {{item.forma_pago}}
+                                  </option>
+                              </select>
+                            </div>
+                        </div>
+
+
+
+  
+  
+                  </div>
+  
+                </div>
+            </div>
+          </div>
+        
+        </div>
+          
+        <div class="col-md-12">
+        <!-- /.Inicia form1 -->
+        <!-- /.Inicia form1 -->
+        <!-- /.Inicia form1 -->
+          <div class="card card-primary card-outline">
+            <div class="card-header">
+              <h3 class="card-title"><i class="fa fa-file-alt"></i> Explorador</h3>
+  
+  
+              <div class="card-tools">
+                <div class="input-group input-group-sm">
+  
+                    <input (keyup)="keyFiltrado();" type="text" class="form-control float-right" oninput="javascript:this.value=this.value.toUpperCase();" placeholder="Buscar" [(ngModel)]="filterpost" name="filterpost" autocomplete="off" />
+  
+                    
+  
+                </div>
+              </div>
+  
+  
+            </div>
+
+            <div class="card-body overlay-wrapper">
+
+
+              <div *ngIf="loading" class="overlay overlay-custom d-flex flex-column align-items-center">
+                <div class="spinner-border text-primary" style="width: 5rem; height: 5rem; font-size: 30px;" role="status"></div>
+                <div class="text-bold pt-2">Cargando...</div>
+              </div>
+              
+
+                <div *ngIf="cod_tipo_comprobante=='1'" class="row justify-content-between">
+                  
+                  <div class="col-md-6">
+                    <div class="form-group">
+                        <label>Seleccione Proceso:</label>
+                        <select (change)="changeProceso($event)" [(ngModel)]="proceso" class="form-control form-control-sm">
+                            <option value="0">SELECCIONE PROCESO</option>
+                            <!-- <option value="FIRMADO">FIRMADO</option> -->
+                            <option *ngIf="cod_tipo_documento=='1'" value="ENVIARSRI">ENVIAR SRI</option>
+                            <option *ngIf="cod_tipo_documento=='1'" value="CREARRIDE">CREAR RIDE</option>
+                            <option *ngIf="cod_tipo_documento=='1'" value="ENVIARCORREO">ENVIAR CORREO</option>
+                            <option *ngIf="cod_tipo_documento=='1'" value="DESCARGARXML">DESCARGAR XML</option>
+                            <option *ngIf="cod_tipo_documento=='1'" value="DESCARGARRIDE">DESCARGAR RIDE</option>
+                            <option *ngIf="cod_tipo_documento=='3'" value="DESCARGARFACTURA">DESCARGAR FACTURA</option>
+                            <option *ngIf="cod_tipo_documento=='1'" value="CAMBIARFECHA">CAMBIAR FECHA</option>
+                        </select>
+                    </div>	
+                  </div>
+
+                  <div *ngIf="proceso!='0'" class="row mb-2">
+                    <div class="col-sm-12">
+                        <div class="btn-toolbar" role="toolbar">
+                          <div class="btn-group">
+                            <button *ngIf="proceso=='ENVIARSRI'" (click)="clickEnviarSri();" class="btn btn-primary btn-flat btn-sm" type="button"><i class="fas fa-paper-plane"></i> Enviar Sri</button>
+                            <button *ngIf="proceso=='CREARRIDE'" (click)="clickGenerarRide();" class="btn btn-primary btn-flat btn-sm" type="button"><i class="fas fa-file-pdf"></i> Crear Ride</button>
+                            <button *ngIf="proceso=='ENVIARCORREO'" (click)="clickEnviarCorreo();" class="btn btn-primary btn-flat btn-sm" type="button"><i class="fas fa-envelope"></i> Enviar Correo</button>
+                            <button *ngIf="proceso=='DESCARGARXML'" (click)="clickDescargasXMLAutorizado();" class="btn btn-primary btn-flat btn-sm" type="button"><i class="fas fa-file-download"></i> Descargar XML</button>
+                            <button *ngIf="proceso=='DESCARGARRIDE'" (click)="clickDescargasRIDE();" class="btn btn-danger btn-flat btn-sm" type="button"><i class="fas fa-file-download"></i> Descargar RIDES</button>
+                            <button *ngIf="proceso=='DESCARGARFACTURA'" (click)="clickDescargasFactura();" class="btn btn-danger btn-flat btn-sm" type="button"><i class="fas fa-file-download"></i> Descargar FACTURAS</button>
+                            <div>
+                              <div *ngIf="proceso=='CAMBIARFECHA'">
+                                  <div class="form-group">
+                                      <label>Fecha Actualizar:</label>
+                                      <div class="input-group input-group-sm">
+                                          <div class="input-group-prepend">
+                                              <span class="input-group-text"><i class="fas fa-calendar"></i></span>
+                                          </div>
+                                          <input [(ngModel)]="fechaactualizar" type="date" class="form-control">
+                                          <span class="input-group-append">
+                                              <button (click)="clickActualizarFechas();" class="btn btn-primary btn-flat" type="button"><i class="fa fa-save"></i> Actualizar Fechas</button>
+                                          </span>
+                                      </div>
+                                  </div>	 
+                              </div> 
+                            </div>
+                          </div>
+                        </div>
+                    </div>
+                  </div>
+  
+                    <div class="table-responsive p-0">
+                        <table class="design-table resp">
+                          <thead>
+                            <tr>
+                              <th width="50px"><input *ngIf="proceso!='0'" [(ngModel)]="checktodos" type="checkbox" (change)="changeCheckedTodos($event);"></th>
+                              <th width="50px">Nº</th>
+                              <th width="50px">ESTADO</th>
+                              <th width="100px">USUARIO</th>
+                              <th width="250px">CLIENTE</th>
+                              <th width="100px">FECHA</th>
+                              <th width="50px">TOTAL</th>
+                              <th width="150px">TIPO DOCUMENTO</th>
+                              <th width="150px"></th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <tr *ngFor="let item of (datos | filterGenerico:filterpost:['numero_factura', 'estado', 'cedula', 'cliente', 'fecha_hora', 'importetotal']) | paginate : {
+                              itemsPerPage: pagesize,
+                              currentPage: page,
+                              totalItems: count
+                            }; let i = index" [ngClass]="{'bg-danger': item.fila_error}">
+                              <td><input *ngIf="proceso!='0'" type="checkbox" [checked]="item.seleccion" (change)="changeChecked(item);" [disabled]="verificarProceso(item)"></td>
+                              <td>{{item.numero_factura}}</td>
+                              <td>
+                                <small *ngIf="item.estado=='CREADA'" class="badge badge-success">{{item.estado}}</small>
+                                <small *ngIf="item.estado=='AUTORIZADO'" class="badge badge-info">{{item.estado}}</small>
+                                <small *ngIf="item.estado=='DEVUELTA'" class="badge badge-danger">{{item.estado}}</small>
+                                <small *ngIf="item.estado=='NO AUTORIZADO'" class="badge badge-danger">{{item.estado}}</small>
+                                <small *ngIf="item.estado=='EN PROCESO'" class="badge badge-warning">{{item.estado}}</small>
+                                <small *ngIf="item.estado=='ANULADA'" class="badge badge-warning">{{item.estado}}</small>
+                                <div *ngIf="recaudador=='1'">
+                                  <small *ngIf="item.estado_recaudado==0" class="badge badge-warning">NO RECAUDADO</small>
+                                </div>
+                              </td>
+                              <td><small class="badge badge-primary">{{item.usuario}}</small></td>
+                              <td>
+                                <div class="text-mobile-right">
+                                  <div><small class="badge badge-primary">{{item.cedula}}</small></div>
+                                  {{item.cliente}}<br>
+                                  <small *ngIf="item.tipo_venta=='ELECTRONICA' && item.envio!='ENVIADO'" class="badge badge-warning">@ CORREO NO ENVIADO</small>
+                                </div>
+                              </td>
+                              <td>{{item.fecha_hora}}</td>
+                              <td><label class="text-success">{{item.importetotal}}</label></td>
+                              <td *ngIf="firmasruc=='1'"><small class="badge badge-primary">{{item.empresa}}</small></td>
+                              <td>
+                                <small *ngIf="item.tipo_venta=='ELECTRONICA'" class="badge badge-primary">{{item.tipo_venta}}</small>
+                                <small *ngIf="item.tipo_venta=='RECIBO'" class="badge badge-info">{{item.tipo_venta}}</small>
+                                <small *ngIf="firmasruc=='1'" class="badge badge-primary">{{item.empresa}}</small>
+                              </td>
+                              <td class="d-flex justify-content-end">
+                                <button (click)="imprimirVenta(item.cod_factura_venta);" class="btn btn-outline-primary btn-sm" type="button"><i class="fas fa-print"></i></button>
+                                <button *ngIf="item.estado == 'AUTORIZADO'" (click)="descargarRide(item.cod_factura_venta);" class="btn btn-outline-primary btn-sm" type="button"><i class="fas fa-file-pdf"></i></button>
+                                <button *ngIf="item.estado == 'AUTORIZADO'" (click)="descargarXmlAutorizado(item);" class="btn btn-outline-success btn-sm" type="button"><i class="fas fa-file-excel"></i></button>
+                                <button *ngIf="item.estado == 'DEVUELTA' || item.estado=='NO AUTORIZADO'" (click)="revisarDocumentoError(item.cod_factura_venta);" class="btn btn-outline-danger btn-sm" type="button"><i class="fa fa-info-circle"></i></button>
+                                <button *ngIf="item.estado == 'DEVUELTA' || item.estado=='NO AUTORIZADO'" (click)="revisarDocumentoXml(item.cod_factura_venta);" class="btn btn-outline-danger btn-sm" type="button"><i class="fas fa-file-excel"></i></button>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                        <div class="float-right">
+                          <pagination-controls class="pagination-controls"
+                          previousLabel="Anterior"
+                          nextLabel="Siguiente"
+                          [responsive]="true"
+                          (pageChange)="handlePageChange($event)">
+                          </pagination-controls>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div *ngIf="cod_tipo_comprobante=='2'" class="row justify-content-between">
+                  
+                  <div class="col-md-6">
+                    <div class="form-group">
+                        <label>Seleccione Proceso:</label>
+                        <select (change)="changeProceso($event)" [(ngModel)]="proceso" class="form-control form-control-sm">
+                            <option value="0">SELECCIONE PROCESO</option>
+                            <!-- <option value="FIRMADO">FIRMADO</option> -->
+                            <!-- <option *ngIf="cod_tipo_documento=='1'" value="ENVIARSRI">ENVIAR SRI</option>
+                            <option *ngIf="cod_tipo_documento=='1'" value="CREARRIDE">CREAR RIDE</option>
+                            <option *ngIf="cod_tipo_documento=='1'" value="ENVIARCORREO">ENVIAR CORREO</option> -->
+                            <option *ngIf="cod_tipo_documento=='1'" value="DESCARGARXML">DESCARGAR XML</option>
+                            <option *ngIf="cod_tipo_documento=='1'" value="DESCARGARRIDE">DESCARGAR RIDE</option><!--
+                            <option *ngIf="cod_tipo_documento=='3'" value="DESCARGARFACTURA">DESCARGAR FACTURA</option>
+                            <option *ngIf="cod_tipo_documento=='1'" value="CAMBIARFECHA">CAMBIAR FECHA</option> -->
+                        </select>
+                    </div>	
+                  </div>
+
+                  <div *ngIf="proceso!='0'" class="row mb-2">
+                    <div class="col-sm-12">
+                        <div class="btn-toolbar" role="toolbar">
+                          <div class="btn-group">
+                            <button *ngIf="proceso=='DESCARGARXML'" (click)="clickDescargasXMLAutorizadoNotaCredito();" class="btn btn-primary btn-flat btn-sm" type="button"><i class="fas fa-file-download"></i> Descargar XML Notas Créditos</button>
+                            <button *ngIf="proceso=='DESCARGARRIDE'" (click)="clickDescargasRIDENotaCredito();" class="btn btn-danger btn-flat btn-sm" type="button"><i class="fas fa-file-download"></i> Descargar RIDES Notas Créditos</button>
+                            <!-- <button *ngIf="proceso=='DESCARGARFACTURA'" (click)="clickDescargasFactura();" class="btn btn-danger btn-flat btn-sm" type="button"><i class="fas fa-file-download"></i> Descargar FACTURAS</button> -->
+                            
+                          </div>
+                        </div>
+                    </div>
+                  </div>
+
+                    <div class="table-responsive p-0">
+                        <table class="design-table resp">
+                          <thead>
+                            <tr>
+                              <th width="50px"><input *ngIf="proceso!='0'" [(ngModel)]="checktodos" type="checkbox" (change)="changeCheckedTodos($event);"></th>
+                              <th width="50px">Nº</th>
+                              <th width="50px">ESTADO</th>
+                              <th width="100px">USUARIO</th>
+                              <th width="250px">CLIENTE</th>
+                              <th width="100px">FECHA</th>
+                              <th width="50px">TOTAL</th>
+                              <th width="150px">TIPO DOCUMENTO</th>
+                              <th width="150px"></th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <tr *ngFor="let item of (datos | filterGenerico:filterpost:['numero_factura', 'estado', 'cedula', 'cliente', 'fecha_hora', 'importetotal']) | paginate : {
+                              itemsPerPage: pagesize,
+                              currentPage: page,
+                              totalItems: count
+                            }; let i = index" [ngClass]="{'bg-danger': item.fila_error}">
+                              <td><input *ngIf="proceso!='0'" type="checkbox" [checked]="item.seleccion" (change)="changeChecked(item);" [disabled]="verificarProceso(item)"></td>
+                              <td>{{item.numero_nota_credito}}</td>
+                              <td>
+                                <small *ngIf="item.estado=='CREADA'" class="badge badge-success">{{item.estado}}</small>
+                                <small *ngIf="item.estado=='AUTORIZADO'" class="badge badge-info">{{item.estado}}</small>
+                                <small *ngIf="item.estado=='DEVUELTA'" class="badge badge-danger">{{item.estado}}</small>
+                                <small *ngIf="item.estado=='NO AUTORIZADO'" class="badge badge-danger">{{item.estado}}</small>
+                                <small *ngIf="item.estado=='EN PROCESO'" class="badge badge-warning">{{item.estado}}</small>
+                                <small *ngIf="item.estado=='ANULADA'" class="badge badge-warning">{{item.estado}}</small>
+                                <div *ngIf="recaudador=='1'">
+                                  <small *ngIf="item.estado_recaudado==0" class="badge badge-warning">NO RECAUDADO</small>
+                                </div>
+                              </td>
+                              <td><small class="badge badge-primary">{{item.usuario}}</small></td>
+                              <td>
+                                <div class="text-mobile-right">
+                                  <div><small class="badge badge-primary">{{item.cedula}}</small></div>
+                                  {{item.cliente}}<br>
+                                  <small *ngIf="item.tipo_venta=='ELECTRONICA' && item.envio!='ENVIADO'" class="badge badge-warning">@ CORREO NO ENVIADO</small>
+                                </div>
+                              </td>
+                              <td>{{item.fecha_hora}}</td>
+                              <td><label class="text-success">{{item.importetotal}}</label></td>
+                              <td *ngIf="firmasruc=='1'"><small class="badge badge-primary">{{item.empresa}}</small></td>
+                              <td>
+                                <small *ngIf="item.tipo_venta=='ELECTRONICA'" class="badge badge-primary">{{item.tipo_venta}}</small>
+                                <small *ngIf="item.tipo_venta=='RECIBO'" class="badge badge-info">{{item.tipo_venta}}</small>
+                                <small *ngIf="firmasruc=='1'" class="badge badge-primary">{{item.empresa}}</small>
+                              </td>
+                              <td class="d-flex justify-content-end">
+                                <button (click)="imprimirNotaCredito(item.cod_nota_credito);" class="btn btn-outline-primary btn-sm" type="button"><i class="fas fa-print"></i></button>
+                                <button *ngIf="item.estado == 'AUTORIZADO'" (click)="descargarRideNotaCredito(item.cod_nota_credito);" class="btn btn-outline-primary btn-sm" type="button"><i class="fas fa-file-pdf"></i></button>
+                                <button *ngIf="item.estado == 'AUTORIZADO'" (click)="descargarXmlAutorizadoNotaCredito(item.cod_nota_credito);" class="btn btn-outline-success btn-sm" type="button"><i class="fas fa-file-excel"></i></button>
+                                <button *ngIf="item.estado == 'DEVUELTA' || item.estado=='NO AUTORIZADO'" (click)="revisarDocumentoErrorNotaCredito(item.cod_nota_credito);" class="btn btn-outline-danger btn-sm" type="button"><i class="fa fa-info-circle"></i></button>
+                                <button *ngIf="item.estado == 'DEVUELTA' || item.estado=='NO AUTORIZADO'" (click)="revisarDocumentoXmlNotaCredito(item.cod_nota_credito);" class="btn btn-outline-danger btn-sm" type="button"><i class="fas fa-file-excel"></i></button>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                        <div class="float-right">
+                          <pagination-controls class="pagination-controls"
+                          previousLabel="Anterior"
+                          nextLabel="Siguiente"
+                          [responsive]="true"
+                          (pageChange)="handlePageChange($event)">
+                          </pagination-controls>
+                        </div>
+                    </div>
+                </div>
+  
+  
+  
+  
+  
+  
+            </div>
+            <!-- /.card-body -->
+          </div>
+        <!-- /.Termina form1 -->
+        <!-- /.Termina form1 -->
+        <!-- /.Termina form1 -->
+        </div>
+  
+      </div>
+  
+  
+  
+      
+  
+  
+  
+    </div>
+  </section>
+  
+  
+  
+  

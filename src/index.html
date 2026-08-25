@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>DEVFACT</title>
+  <script>
+  (function () {
+    // Tomamos la primera parte de la URL (la empresa)
+    var pathName = window.location.pathname;
+    // Si estamos en localhost, la base es /
+    if (window.location.hostname === 'localhost') {
+      document.write('<base href="/">');
+    } else {
+      // En producción, extraemos el nombre de la subcarpeta (ej: /novapan/)
+      var segment = pathName.split('/')[1]; 
+      document.write('<base href="/' + segment + '/">');
+    }
+  })();
+  </script>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" type="image/x-icon" href="./assets/image_ico.png">
+
+  <script defer src="https://use.fontawesome.com/releases/v5.15.4/js/all.js" integrity="sha384-rOA1PnstxnOBLzCLMcre8ybwbTmemjzdNlILg8O7z1lUkLXozs4DHonlDtnE7fpc" crossorigin="anonymous"></script>
+  
+  <script src="./assets/validacioningreso.js"></script>
+  
+</head>
+<body id="appmenu" class="hold-transition sidebar-mini layout-fixed layout-navbar-fixed layout-footer-fixed text-sm">
+  <app-root></app-root>
+</body>
+</html>

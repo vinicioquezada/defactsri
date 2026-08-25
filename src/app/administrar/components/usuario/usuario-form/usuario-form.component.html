@@ -1,0 +1,108 @@
+<div id="mymodalformempleado" class="modal fade" role="dialog" data-backdrop="false">
+  <div class="modal-dialog  modal-lg">
+    <!-- Modal content -->
+    <div class="modal-content">
+      <div class="modal-header">
+      <h5 class="modal-title">{{nombreformulario}} USUARIO - PERSONAL</h5>
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">×</span>
+          </button>
+      </div>
+
+      <div class="modal-body overlay-wrapper">
+       
+          <div *ngIf="loadingform" class="overlay overlay-custom d-flex flex-column align-items-center">
+            <div class="spinner-border text-primary" style="width: 5rem; height: 5rem; font-size: 30px;" role="status">
+            </div>
+            <div class="text-bold pt-2">Cargando...</div>
+          </div>
+
+          <div class="row">
+                          
+            <div class="col-md-6">
+                        
+
+                      <div class="form-group">
+                          <label>Cédula: </label><label class="text-danger">&nbsp;*</label>
+                          <input [ngClass]="{'is-invalid': flagcedula}" [(ngModel)]="cedula" autofocus class="form-control form-control-sm"  oninput="javascript:this.value=this.value.toUpperCase();" maxlength="10" placeholder="Cedula" type="text">
+                      </div>
+
+                        <div class="form-group">
+                            <label>Apellido: </label><label class="text-danger">&nbsp;*</label>
+                            <input [ngClass]="{'is-invalid': flagapellido}" [(ngModel)]="apellido" oninput="javascript:this.value=this.value.toUpperCase();" class="form-control form-control-sm" placeholder="" type="text">
+                        </div>
+
+                        <div class="form-group">
+                          <label>Nombre: </label><label class="text-danger">&nbsp;*</label>
+                          <input [ngClass]="{'is-invalid': flagnombre}" [(ngModel)]="nombre" oninput="javascript:this.value=this.value.toUpperCase();" class="form-control form-control-sm" placeholder="" type="text">
+                        </div>
+
+                        <div class="form-group">
+                          <label>Genero:</label>
+                          <select (change)="onchangegenero($event)" class="form-control form-control-sm">
+                            <option [value]="item" *ngFor="let item of datosgenero" [selected]="genero == item">{{item}}</option>
+                          </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Convencional:</label>
+                            <input [(ngModel)]="convencional" class="form-control form-control-sm" maxlength="15" placeholder="Convencional" type="text"> 
+                        </div> 
+
+                    </div>
+
+                    <div class="col-md-6">
+
+                      <div class="form-group">
+                          <label>RRPP: </label>
+                          <input [(ngModel)]="rrpp" oninput="javascript:this.value=this.value.toUpperCase();" class="form-control form-control-sm" placeholder="" type="text">
+                      </div>
+                       
+                        <div class="form-group">
+                            <label>Celular: </label>
+                            <input [(ngModel)]="celular" onKeyPress="return soloNumerosEnteros(event)" class="form-control form-control-sm" maxlength="15" placeholder="Celular" type="text"> 
+                        </div>
+
+                          <div class="form-group">
+                            <label>Correo: </label>
+                            <input [(ngModel)]="correo" class="form-control form-control-sm" maxlength="50" placeholder="Correo" type="text">
+                        </div>
+
+                        <div class="form-group">
+                            <label>Dirección: </label>
+                            <input [(ngModel)]="direccion" class="form-control form-control-sm" maxlength="100" placeholder="Dirección" type="text">
+                        </div>
+
+                        <div class="form-group">
+                          <label>Título: </label>
+                          <input [(ngModel)]="titulo" oninput="javascript:this.value=this.value.toUpperCase();" class="form-control form-control-sm" placeholder="Título" type="text">
+                        </div>
+
+                        <div class="form-group">
+                          <label>Rol: </label><label class="text-danger">&nbsp;*</label>
+                          <select [ngClass]="{'is-invalid': flagroles}" (change)="onChangeRoles($event)" class="form-control form-control-sm">
+                                <option value="{{item.cod_roles}}" *ngFor="let item of datosroles" [selected]="item.cod_roles==cod_roles">
+                                  {{item.roles}}
+                                </option>
+                          </select>
+                        </div>
+
+                    </div>
+
+          </div>
+
+          <div class="d-flex justify-content-end align-items-center">     
+            <button [ngClass]="{'d-none': flagocultarboton}" (click)="clickGuardar();" class="btn btn-primary btn-sm" type="button"><i class="fas fa-save"></i> Guardar</button>
+            <button [ngClass]="{'d-none': !flagocultarboton}" (click)="clickActualizar();" class="btn btn-warning btn-sm" type="button"><i class="fas fa-save"></i> Actualizar</button>
+            <div *ngIf="flagocultarboton">&nbsp;</div>
+            <button class="btn btn-secondary btn-sm" type="button" data-dismiss="modal"><i class="fas fa-times-circle"></i> Cerrar</button>
+          </div>
+
+
+
+      </div>
+
+    </div>
+
+  </div>
+</div>

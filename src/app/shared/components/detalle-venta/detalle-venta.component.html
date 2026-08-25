@@ -1,0 +1,308 @@
+<!-- Modal -->
+<div id="mymodaltarifas" class="modal fade" role="dialog" data-backdrop="false">
+  <div class="modal-dialog">
+    <!-- Modal content -->
+    <div class="modal-content">
+    <div class="modal-header">
+        <h5 class="modal-title">TARIFAS DEL PRODUCTO</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">×</span>
+        </button>
+      </div>
+      <div class="modal-body">
+    <div class="col-md-12">
+      <h5><label class="text-primary">{{this.descripcion_producto}}</label></h5>
+    </div>
+
+    <div class="col-md-12">
+              
+                
+
+        <div style="text-align:center">
+            <div *ngIf="loading" class="spinner-border text-primary" style="width: 3rem; height: 3rem;"></div>
+        </div>
+
+      <div *ngIf="this.tarifas=='0'" class="form-group">
+          <label>Tarifas del Producto</label>
+                      <select (change)="onChangeTarifaProducto($event)" class="form-control form-control-sm">
+                          <option value="{{item.cod_tarifa}}" *ngFor="let item of datostarifa">
+                              {{item.tarifa_producto}}
+                          </option>
+                      </select>
+      </div>
+
+      <div *ngIf="this.tarifas=='1'" class="row pb-1">
+
+
+        <div class="col-md-3">
+            <div class="form-group">
+              <label class="text-primary small">Normal:</label>
+              <button (click)="clickTarifaProducto(precio_base, precio_venta, 'NORMAL');" class="btn btn-outline-success btn-sm btn-block" type="button"> {{precio_venta}}</button>
+            </div>
+        </div>
+        <div class="col-md-3">
+          <div class="form-group">
+            <label class="text-primary small">Mayor: >= {{rpv4}}</label>
+            <button *ngIf="pv4 > 0" (click)="clickTarifaProducto(bpv4, pv4, 'MAYOR');" class="btn btn-outline-success btn-sm btn-block" type="button"> {{pv4}}</button>
+            <button *ngIf="pv4 <= 0" class="btn btn-outline-success btn-sm btn-block" type="button" disabled> {{pv4}}</button>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="form-group">
+            <label class="text-primary small">Docena: >= {{rpv5}}</label>
+            <button *ngIf="pv5 > 0" (click)="clickTarifaProducto(bpv5, pv5, 'DOCENA');" class="btn btn-outline-success btn-sm btn-block" type="button"> {{pv5}}</button>
+            <button *ngIf="pv5 <= 0" class="btn btn-outline-success btn-sm btn-block" type="button" disabled> {{pv5}}</button>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="form-group">
+            <label class="text-primary small">Bulto: => {{rpv6}}</label>
+            <button *ngIf="pv6 > 0" (click)="clickTarifaProducto(bpv6, pv6, 'BULTO');" class="btn btn-outline-success btn-sm btn-block" type="button"> {{pv6}}</button>
+            <button *ngIf="pv6 <= 0" class="btn btn-outline-success btn-sm btn-block" type="button" disabled> {{pv6}}</button>
+          </div>
+        </div>
+
+        <div class="col-md-3">
+          <div class="form-group">
+            <label class="text-primary small">Mayor AF: >= {{rpv1}}</label>
+            <button *ngIf="pv1 > 0" (click)="clickTarifaProducto(bpv1, pv1, 'MAYOR AF');" class="btn btn-outline-success btn-sm btn-block" type="button"> {{pv1}}</button>
+            <button *ngIf="pv1 <= 0" class="btn btn-outline-success btn-sm btn-block" type="button" disabled> {{pv1}}</button>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="form-group">
+            <label class="text-primary small">Docena AF: >= {{rpv2}}</label>
+            <button *ngIf="pv2 > 0" (click)="clickTarifaProducto(bpv2, pv2, 'DOCENA AF');" class="btn btn-outline-success btn-sm btn-block" type="button"> {{pv2}}</button>
+            <button *ngIf="pv2 <= 0" class="btn btn-outline-success btn-sm btn-block" type="button" disabled> {{pv2}}</button>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="form-group">
+            <label class="text-primary small">Bulto AF: => {{rpv3}}</label>
+            <button *ngIf="pv3 > 0" (click)="clickTarifaProducto(bpv3, pv3, 'BULTO AF');" class="btn btn-outline-success btn-sm btn-block" type="button"> {{pv3}}</button>
+            <button *ngIf="pv3 <= 0" class="btn btn-outline-success btn-sm btn-block" type="button" disabled> {{pv3}}</button>
+          </div>
+        </div>
+
+        
+
+        
+
+
+
+
+
+
+      </div>
+
+
+
+
+
+    </div>
+
+
+      </div>
+      <div class="modal-footer">
+     <button class="btn btn-secondary btn-sm" type="button" data-dismiss="modal"><i class="fas fa-times-circle"></i> Cerrar</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+<!-- TERMINA Trigger the modal with a button -->
+
+
+<div *ngIf="tarifas == '1' && this.opcionesprivilegios['botontarifasgenerales']" class="row">
+  <div class="col-md-12 d-flex justify-content-end">
+            <button [disabled]="disabledtxtobservacion" (click)="clickMayorGeneral('NORMAL')" class="btn btn-secondary btn-flat btn-sm" type="button"><i class="fas fa-dollar-sign"></i> Normal</button>
+            <button [disabled]="disabledtxtobservacion" (click)="clickMayorGeneral('MAYOR')" class="btn btn-primary btn-flat btn-sm" type="button"><i class="fas fa-dollar-sign"></i> Mayor</button>
+            <button [disabled]="disabledtxtobservacion" (click)="clickMayorGeneral('MAYOR AF')" class="btn btn-primary btn-flat btn-sm" type="button"><i class="fas fa-dollar-sign"></i> Mayor AF</button>
+  </div>
+</div>
+
+
+<div class="scroll-container" #scrolly>
+  <table border="1" style="font-size: 12px;" class="bordered">
+      <thead>
+        <tr>
+        <th width="5%">Cant.</th>
+        <th width="13%">Tarifa</th>
+        <th width="33%">Detalles</th>
+        <th width="3%">U</th>
+        <th width="10%">Descto</th>
+        <th width="5%">P.V</th>
+        <th width="6%">Total</th>
+        <th width="6%"></th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr *ngFor="let item of datosdetalles; let i = index; let u = last" [ngClass]="{'bg-danger': item.fila_error}">
+              <td>
+                  <input [disabled]="disabledtabladetalles" class="micajatable" type="text" maxlength="15" (keydown)="keyPendiente(i)" (keyup.enter)="keySumar(i, 1)" [(ngModel)]="item.cantidad_comprar">
+              </td>
+              <td>
+                <button [disabled]="disabledtabladetalles" class="btn-label" (click)="cargarTarifa(i);"><span class="fa fa-cog"></span> <label style="font-size:10px;">{{item.tarifa}}</label></button>
+              </td>
+              <td>
+                <span *ngIf="item.ctp==1">{{item.descripcion}}</span>
+                <textarea *ngIf="item.ctp==2" [disabled]="disabledtabladetalles" class="estilo-input" type="text" maxlength="250" (keydown)="bloquearEnter($event, i)" [(ngModel)]="item.descripcion" (blur)="quitarErrorFila(i)"></textarea>
+              </td>
+              <td>{{item.cantidad_unidad}}</td>
+              <td>
+                  <label>%</label>
+                  <input *ngIf="!this.opcionesprivilegios['bloqueovalordetalleventa']" [disabled]="disabledtabladetalles" type="checkbox" [checked]="item.checked" (change)="changeChecked(i)">
+                  <input *ngIf="!this.opcionesprivilegios['bloqueovalordetalleventa']" [disabled]="disabledtabladetalles" class="micajatabledescuento" type="text" maxlength="15" (keydown)="keyPendiente(i)" (keyup.enter)="keySumar(i, 1)" [(ngModel)]="item.descuento">
+                  <label *ngIf="this.opcionesprivilegios['bloqueovalordetalleventa']">{{item.descuento}}</label>
+              </td>
+              <td>
+                  <input *ngIf="!this.opcionesprivilegios['bloqueovalordetalleventa']" [disabled]="disabledtabladetalles" class="micajatable" type="text" maxlength="15" (keydown)="keyPendiente(i)" (keyup.enter)="keySumar2(i, 1)" [(ngModel)]="item.precio_venta">
+                  <label *ngIf="this.opcionesprivilegios['bloqueovalordetalleventa']">{{item.precio_venta}}</label>
+              </td>
+              <td>
+                  <input *ngIf="!this.opcionesprivilegios['bloqueovalordetalleventa']" [disabled]="disabledtabladetalles" class="micajatable" type="text" maxlength="15" (keydown)="keyPendiente(i)" (keyup.enter)="keySumarSi(i, 1)" [(ngModel)]="item.total_final">
+                  <label *ngIf="this.opcionesprivilegios['bloqueovalordetalleventa']">{{item.total_final}}</label>
+              </td>
+              <td>
+                  <button [disabled]="disabledtabladetalles" (click)="borrar(i);" class="btn btn-danger btn-sm"><i class="fa fa-trash"></i></button>
+                  <label *ngIf="u==true">{{ultimaFila(i)}}</label>
+              </td>
+          </tr>
+      </tbody>
+  </table>
+</div>
+
+<br>
+
+<div class="row">
+  <div class="col-md-6">
+      <div class="form-group">
+          <div class="input-group input-group-sm">
+            <textarea [disabled]="disabledtxtobservacion" class="form-control" [(ngModel)]="this.observacion"></textarea>
+          </div>
+      </div>
+  </div>
+
+  <div class="col-md-6">
+
+    <div id="accordion" role="tablist" aria-multiselectable="true">
+        <div class="card card-primary card-outline">
+            <div class="card-header" role="tab" id="headingTwo">
+                <h3 class="card-title">
+                  <a class="collapsed text-secondary" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                    <i class="fa fa-money-bill-alt"></i> Detalle a Pagar
+                  </a>
+                </h3>
+            </div>
+            <div id="collapseTwo" class="collapse" role="tabpanel" aria-labelledby="headingTwo">
+                <div class="card-body">
+                    <div class="row">			 
+                        <div class="col-md-12" style="font-size: 14px">
+                                    
+      
+                                    <div class="d-nonex form-group row">
+                                        <label for="inputEmail3" class="col-sm-4 col-form-label">Subtotal {{ this.iva }}%</label>
+                                        <div class="col-sm-8">
+                                            <div class="input-group input-group-sm">
+                                                <div class="input-group-prepend">
+                                                </div>
+                                                <label class="form-control">{{this.subtotal12}}</label>
+                                            </div>
+                                        </div>
+                                    </div>
+      
+                                    <div class="d-nonex form-group row">
+                                        <label for="inputEmail3" class="col-sm-4 col-form-label">Subtotal 0%</label>
+                                        <div class="col-sm-8">
+                                            <div class="input-group input-group-sm">
+                                                <div class="input-group-prepend">
+                                                </div>
+                                                <label class="form-control">{{this.subtotal0}}</label>
+                                            </div>
+                                        </div>
+                                    </div>
+      
+                                    <div class="form-group row">
+                                        <label for="inputEmail3" class="col-sm-4 col-form-label">Total S/Imp.</label>
+                                        <div class="col-sm-8">
+                                            <div class="input-group input-group-sm">
+                                                <div class="input-group-prepend">
+                                                </div>
+                                                <label class="form-control">{{this.totalsinimpuestos}}</label>
+                                            </div>
+                                        </div>
+                                    </div>
+      
+                                    <div class="form-group row">
+                                        <label for="inputEmail3" class="col-sm-4 col-form-label">Descuento</label>
+                                        <div class="col-sm-8">
+                                            <div class="input-group input-group-sm">
+                                                <div class="input-group-prepend">
+                                                    <span class="input-group-text"><i class="fas fa-percent"></i></span>
+                                                </div>
+                                                <input (keyup.enter)="descontarGeneral();" [(ngModel)]="descuentogeneral" [disabled]="disabledtxtdescuentogeneral" class="form-control" maxlength="10" onKeyPress="return soloNumeros(event)" type="text">
+                                                <label class="form-control">{{this.totaldescuento}}</label>
+                                            </div>
+      
+                                        </div>
+                                    </div>
+      
+                                    <div class="d-none form-group row">
+                                        <label for="inputEmail3" class="col-sm-4 col-form-label">ICE</label>
+                                        <div class="col-sm-8">
+                                            <div class="input-group input-group-sm">
+                                                <div class="input-group-prepend">
+                                                </div>
+                                                <label class="form-control">{{this.totalconice}}</label>
+                                            </div>
+                                        </div>
+                                    </div>
+      
+                                    <div class="form-group row">
+                                        <label for="inputEmail3" class="col-sm-4 col-form-label">IVA {{ this.iva }}%</label>
+                                        <div class="col-sm-8">
+                                            <div class="input-group input-group-sm">
+                                                <div class="input-group-prepend">
+                                                </div>
+                                                <label class="form-control">{{this.totalconimpuestos}}</label>
+                                            </div>
+                                        </div>
+                                    </div>
+      
+                                    <div class="form-group row">
+                                        <label for="inputEmail3" class="col-sm-4 col-form-label">Importe Total</label>
+                                        <div class="col-sm-8">
+                                            <div class="input-group input-group-sm">
+                                                <div class="input-group-prepend">
+                                                </div>
+                                                <label class="form-control">{{this.importetotal}}</label>
+                                            </div>
+                                        </div>
+                                    </div>
+      
+                                    
+      
+                                    
+      
+                                    
+                                    
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+      <!-- <div class="card card-cyan card-outline">
+          <div class="card-header">
+              <h3 class="card-title"><i class="fa fa-money-bill-alt"></i> Detalle a Pagar</h3>
+          </div>
+          <div class="card-body">
+              
+
+          </div>
+      </div> -->
+
+  </div>
+</div>

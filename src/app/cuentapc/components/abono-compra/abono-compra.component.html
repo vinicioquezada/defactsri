@@ -1,0 +1,388 @@
+<app-listado-proveedor (datosenviar)="recibirDatosProveedor($event)"></app-listado-proveedor>
+
+<div id="mymodalrevisardetalles" class="modal fade" role="dialog" data-backdrop="false">
+  <div class="modal-dialog">
+    <!-- Modal content -->
+    <div class="modal-content">
+      <div class="modal-header">
+      <h5 class="modal-title">DETALLES</h5>
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">×</span>
+          </button>
+      </div>
+      <div class="modal-body">
+
+        <div [innerHTML]="this.detalle"></div>
+
+      </div>
+
+    </div>
+
+  </div>
+</div>
+
+<div id="mymodalregistroabono" class="modal fade" role="dialog" data-backdrop="false">
+    <div class="modal-dialog">
+      <!-- Modal content -->
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">REGISTRO DE ABONO</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">×</span>
+          </button>
+        </div>
+
+        <div class="modal-body">
+         
+          <div class="row">
+              <div class="col-md-12">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                          <label>N° Documento:</label>
+                            <div class="input-group input-group-sm">
+                              <label class="form-control" style="color:#0000FF;">{{this.numero_factura}}</label>      
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="form-group">
+                          <label>Deuda $:</label>
+                            <div class="input-group input-group-sm">
+                              <label *ngIf="ban==0" class="form-control" style="color:#FF0000;">{{this.deuda_valor}}</label>
+                              <label *ngIf="ban==1" class="form-control" style="color:#FF0000;">{{this.deuda_valor_editar}}</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+              </div>
+          </div>
+
+          <div class="row">
+              <div class="col-md-12">
+                      <div class="form-group">
+                        <label>Forma Cobro:</label>
+                          <div class="input-group input-group-sm">
+                            <select (change)="changeFormaPago($event)" class="form-control form-control-sm">
+                              <option value="{{item.id_forma_pago}}" *ngFor="let item of datosformapago" [selected]="item.id_forma_pago == this.id_forma_pago">
+                                  {{item.forma_pago}}
+                              </option>
+                          </select>
+                          </div>
+                      </div>
+
+              </div>
+          </div>
+
+          <div class="row">
+              <div class="col-md-12">
+                      <div class="form-group">
+                        <label>Ingrese Abono:</label>
+                          <div class="input-group input-group-sm">
+                            <input [(ngModel)]="valor_cuota" (keyup.enter)="calcularAcredorAbono();" type="text" class="form-control" maxlength="10" placeholder="Ingrese Abono" onKeyPress="return soloNumeros(event)">
+                            <span class="input-group-append">
+                              <button (click)="calcularAcredorAbono();" class="btn btn-primary" type="button"><i class="fa fa-calculator"></i></button>
+                            </span>
+                          </div>
+                      </div>
+
+                      <div class="form-group">
+                        <label>Observación:</label>
+                          <div class="input-group input-group-sm">
+                            <textarea [(ngModel)]="observacion" class="form-control"></textarea>
+                          </div>
+                      </div>
+
+                      <div class="form-group">
+                              <div id="lbltotalpagarmora">
+                              </div>
+                      </div>
+
+                      <div class="form-group">
+                        <div *ngIf="textomensaje != ''" style='text-align: center;'>        
+                            <label style='font-size:30px;' [ngStyle]="{'color':colormensaje}">{{textomensaje}}</label>
+                        </div>
+                      </div>
+                      
+              </div>
+          </div>
+
+          <div style="text-align:center">
+            <div *ngIf="loading" class="spinner-border text-primary" style="width: 3rem; height: 3rem;"></div>
+          </div>
+
+          <div class="d-flex justify-content-end align-items-center">
+            <button (click) = "clickGuardarAbono();" *ngIf="ban == 0" [disabled]="disabledbtnguardarabono" class="btn btn-primary btn-sm" type="button"><i class="fa fa-save"></i> Guardar Abono</button>
+            <button (click) = "clickActualizarAbono();" *ngIf="ban == 1" [disabled]="disabledbtnactualizarabono" class="btn btn-primary btn-sm"><i class='fa fa-edit'></i> Actualizar Abono</button>
+            <div *ngIf="ban == 1">
+              &nbsp;
+              <button *ngIf="!this.opcionesprivilegios['bloqueoanulacionabonocompra']" (click) = "clickAnularAbono();" class="btn btn-warning btn-sm"><i class='fa fa-trash'></i> Anular Abono</button>
+            </div>
+            &nbsp;
+            <button class="btn btn-secondary btn-sm" type="button" data-dismiss="modal"><i class="fas fa-times-circle"></i> Cerrar</button>
+          </div>
+
+        </div>
+      </div>
+    </div>
+</div>
+
+<section class="content-header">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-6">
+              <div class="btn-toolbar" role="toolbar">
+                <div class="btn-group">
+                  <button (click)="clickDeshacer();" class="btn btn-secondary btn-flat btn-sm" type="button"><i class="fas fa-redo-alt"></i> Deshacer</button>
+                  <button routerLink="/menucuentapc" class="btn btn-secondary btn-flat btn-sm" type="button"><i class="fas fa-undo"></i> Atrás</button>
+                </div>
+              </div>
+          </div>
+
+          <div *ngIf="multisucursal=='1'" class="col-sm-6">
+            <div class="input-group input-group-sm">
+              <div class="input-group-prepend">
+                <span class="input-group-text"><i class="fas fa-home"></i></span>
+              </div>
+              <label class="form-control">{{sucursal}}</label>
+            </div>
+          </div>
+        </div>
+        
+      </div><!-- /.container-fluid -->
+</section>
+
+<section class="content">
+      <div class="container-fluid">
+
+
+
+
+          <div class="row">			 
+              <div class="col-md-12">
+
+                  <div class="card card-primary card-outline">
+                    <div class="card-header">
+                      <h3 class="card-title"><i class="fa fa-file-alt"></i> Datos de Proveedor</h3>
+                    </div>
+                    <div class="card-body">
+
+                      <div style="text-align:center">
+                        <div *ngIf="loading" class="spinner-border text-primary" style="width: 3rem; height: 3rem;"></div>
+                      </div>
+                      
+                          <div class="row">
+                                  
+                                <div class="col-md-3">
+                                  <div class="form-group">
+                                      <label id="lblrucd">Nº Identificación:</label>
+                                      <div class="input-group input-group-sm">
+                                            <input [(ngModel)]="ruc" type="text" class="form-control" maxlength="13" (keyup.enter)="buscarproveedoresporpagar();">
+                                            <span class="input-group-append">
+                                              <button (click)="buscarproveedoresporpagar();" class="btn btn-primary btn-flat" type="button"><i class="fa fa-search"></i></button>
+                                            </span>
+                                      </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6">
+                                  <div class="form-group">
+                                      <label>Proveedor:</label>
+                                      <div class="input-group input-group-sm">
+                                            <label class="form-control">{{this.proveedor}}</label>
+                                            <span class="input-group-append">
+                                              <button (click) = "clickListarProveedor();" class="btn btn-primary btn-flat" type="button"><i class="fa fa-list"></i></button>
+                                            </span>
+                                      </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-3">
+                                  <div class="form-group">
+                                    <label>Fecha:</label>
+                                    <!-- <input [(ngModel)]="fecha" type="date" class="form-control form-control-sm"> -->
+                                     <label class="form-control form-control-sm">{{ fecha }}</label>
+                                  </div>
+                                </div>
+
+
+
+                          </div>
+
+
+                    </div>
+                  </div>
+              
+              </div>
+          </div>
+
+
+          <div class="row">			 
+              <div *ngIf="secciondeudas==0" id="seccioncuentas" class="col-md-12">
+
+                  <div class="card card-secondary card-outline">
+                    <div class="card-header">
+                      <h3 class="card-title"><i class="fa fa-file-alt"></i> Deudas</h3>
+                        <div align="right">
+                          <label>Total Deuda: {{deuda_general | number}}</label>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                      
+                          <div class="row">
+                                <div class="table-responsive p-0">
+                                  <table class="design-table resp">
+                                    <thead style="background-color:#A9D0F5;">
+                                      <tr>
+                                        <th width="10%">N° Doc.</th>
+                                        <th width="20%">Detalles</th>
+                                        <th width="20%">Fecha</th>
+                                        <th width="15%">Total</th>
+                                        <th width="20%">Deuda</th>
+                                        <th width="15%"></th>
+                                      </tr>
+                                    </thead>
+                                    <tbody>
+                                      <tr *ngFor="let item of datosdeuda| paginate : {
+                                        itemsPerPage: pagesize,
+                                        currentPage: page,
+                                        totalItems: count
+                                      }">
+                                        <td>{{item.numero_factura}}</td>
+                                        <td>
+                                          <div class="d-flex align-items-center justify-content-between gap-2">
+                                            <!-- Texto visible o truncado -->
+                                            <span>
+                                              {{ item.detalle ? (item.detalle | slice:0:25) : '' }}
+                                              <ng-container *ngIf="item.detalle && item.detalle.length > 25">...</ng-container>
+                                            </span>
+
+                                            <!-- Botón que aparece SOLO si el detalle supera los 50 caracteres -->
+                                            <button *ngIf="item.detalle && item.detalle.length > 25"
+                                                    (click)="revisarDetalles(item.detalle)" 
+                                                    data-bs-toggle="tooltip" 
+                                                    data-bs-placement="top" 
+                                                    title="LISTAR DETALLES" 
+                                                    class="btn btn-outline-primary btn-sm flex-shrink-0" 
+                                                    type="button">
+                                              <i class="fas fa-clipboard-list"></i>
+                                            </button>
+                                          </div>
+                                        </td>
+                                        <td>{{item.fecha_hora}}</td>
+                                        <td><label class="text-success">{{item.importetotal}}</label></td>
+                                        <td>
+                                          <small *ngIf="item.deuda_valor<=0" class="badge badge-warning">CANCELADO</small>
+                                          <label class="text-primary" *ngIf="item.deuda_valor>0">{{item.deuda_valor}}</label>
+                                        </td>
+                                        <td>
+                                          <button (click)="buscarAbono(item);" data-bs-toggle="tooltip" data-bs-placement="top" title="REVISAR ABONOS" class="btn btn-outline-primary btn-sm" type="button"><i class="fa fa-search"></i></button>
+                                        </td>
+                                      </tr>
+                                    </tbody>
+                                  </table>
+                                  <div class="float-right">
+                                    <pagination-controls class="pagination-controls"
+                                    previousLabel="Anterior"
+                                    nextLabel="Siguiente"
+                                    [responsive]="true"
+                                    (pageChange)="handlePageChange($event)">
+                                    </pagination-controls>
+                                  </div>
+                                </div>
+                                <span *ngIf="loadinglistado" class="justify-content-center text-center m-auto">
+                                  <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;"></div>
+                                </span>
+                          </div>
+
+
+                    </div>
+                  </div>
+              
+              </div>
+          
+              
+
+
+              <div *ngIf="secciondeudas==1" id="seccionabonos" class="d-nonex col-md-12">
+
+                  
+      <div class="col-12 col-sm-12">
+          <div class="card card-primary card-outline card-tabs">
+              <div class="card-header p-0 pt-1 border-bottom-0">
+                <ul class="nav nav-tabs" id="custom-tabs-three-tab" role="tablist">
+                  <li class="nav-item">
+                    <a class="nav-link active" id="tab_producto-tab" data-toggle="pill" href="#tab_producto" role="tab" aria-controls="tab_producto" aria-selected="true"><i class="purple ace-icon fa fa-file-alt bigger-125"></i> Abonos</a>
+                  </li>
+                </ul>
+                <button (click)="clickCerrarAbonos();" type="button" class="btn btn-warning btn-flat btn-xs float-right"> <span class="fa fa-ban"></span> Cerrar</button>
+                <button (click)="clickNuevoAbono();" [disabled]="disabledbtnnuevoabono" type="button" class="btn btn-primary btn-flat btn-xs float-right"> <span class="fa fa-plus"></span> Nuevo Abono</button>
+              </div>
+
+              <div class="card-body">
+                <div class="tab-content" id="custom-tabs-three-tabContent">
+                  
+                  <div class="tab-pane fade active show" id="tab_producto" role="tabpanel" aria-labelledby="tab_producto-tab">
+                           
+                        <label>N° Documento: </label><small class="badge badge-primary">{{this.numero_factura}}</small>
+                        <label>Deuda $:</label> <small class="badge badge-danger">{{this.deuda_valor}}</small>
+                              
+                        <div class="row"> 
+                          <div class="table-responsive p-0">
+                            <table class="table resp resp2">
+                                <thead style="background-color:#A9D0F5;">
+                                  <tr>
+                                  <th width="23%">Nº Abono</th>
+                                  <th width="20%">Fecha</th>
+                                  <th width="20%">Valor Cuota</th>
+                                  <th width="20%">Estado</th>
+                                  <th width="20%"></th>
+                                  </tr>
+                                </thead>
+                                <tbody>
+                                  <tr *ngFor="let item of datosabono">
+                                    <td>{{item.numero_abono_compra}}</td>
+                                    <td>{{item.fecha_registro}}</td>
+                                    <td><label class="text-success">{{item.valor}}</label></td>
+                                    <td>
+                                      <small class="badge badge-primary">CANCELADO</small>
+                                    </td>
+                                    <td>
+                                      <!-- *ngIf="this.termino_deudor==0" -->
+                                      <button *ngIf="!this.opcionesprivilegios['bloqueoedicionabonocompra']" (click)="editarAbono(item.cod_abono_compra);" data-bs-toggle="tooltip" data-bs-placement="top" title="EDITAR ABONO" class="btn btn-outline-primary btn-sm" type="button"><i class="fas fa-edit"></i></button>
+                                      <button (click)="exportarPdf(item.cod_abono_compra);" data-bs-toggle="tooltip" data-bs-placement="top" title="EXPORTAR PDF ABONO" class="btn btn-outline-danger btn-sm" type="button"><i class="fa fa-file-pdf"></i></button>
+                                    </td>
+                                  </tr>
+                                </tbody>
+                              </table>
+                          </div>
+                        </div>
+                  </div>
+
+
+ 
+
+                </div>
+              </div>
+              
+            </div>
+      </div>
+          
+
+
+         
+		  
+
+        
+
+              </div>
+
+              
+            </div>
+          </div>
+
+
+
+
+</section>

@@ -1,0 +1,38 @@
+
+@media only screen and (max-width: 768px) {
+  td:nth-of-type(1):before {
+    content: "Nº";
+  }
+  
+  td:nth-of-type(2):before {
+    content: "ESTADO";
+  }
+  
+  td:nth-of-type(3):before {
+    content: "USUARIO";
+  }
+  
+  td:nth-of-type(4):before {
+    content: "PROVEEDOR";
+  }
+  
+  td:nth-of-type(5):before {
+    content: "FECHA";
+  }
+
+  td:nth-of-type(6):before {
+    content: "DEVOLUCIÓN";
+  }
+
+  td:nth-of-type(7):before {
+    content: "TIPO COMPRA";
+  }
+
+  td:nth-of-type(8):before {
+    content: "";
+  }
+
+  .text-mobile-right {
+    text-align: right;
+  }
+}

@@ -1,0 +1,337 @@
+<div id="mymodalopcionesreportekardex" class="modal fade" role="dialog" data-backdrop="false">
+  <div class="modal-dialog">
+    <!-- Modal content -->
+    <div class="modal-content">
+      <div class="modal-header">
+      <h5 class="modal-title">REPORTES DE KARDEX</h5>
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">×</span>
+          </button>
+      </div>
+      <div class="modal-body">
+
+        <div class="row">
+          <div class="col-12 d-flex flex-wrap justify-content-center">
+
+            <div *ngIf="this.opcionesmenu['registrokardex']" class="col-md-4 pb-1">
+              <a routerLink="/menualmacen/registrokardex" class="btn btn-primary btn-flat btn-sm btn-block">
+                  <i class="fas fa-dolly-flatbed"></i> Movimientos Generales
+              </a>
+            </div>
+
+            <div *ngIf="this.opcionesmenu['reportecostoproducto']" class="col-md-4 pb-1">
+              <a routerLink="/menualmacen/reportecostoproducto" class="btn btn-primary btn-flat btn-sm btn-block">
+                  <i class="fas fa-chart-bar"></i> Costo de Productos
+              </a>
+            </div>
+
+            <div *ngIf="this.opcionesmenu['reportemargenganancia']" class="col-md-4 pb-1">
+              <a routerLink="/menualmacen/reportemargenganancia" class="btn btn-primary btn-flat btn-sm btn-block">
+                  <i class="fas fa-chart-bar"></i> Margen de Ganancia
+              </a>
+            </div>
+
+            <div *ngIf="this.opcionesmenu['reporteingresosmanuales']" class="col-md-4 pb-1">
+              <a routerLink="/menualmacen/reporteingresosmanuales" class="btn btn-primary btn-flat btn-sm btn-block">
+                  <i class="fas fa-chart-bar"></i> Ingreso de Productos
+              </a>
+            </div>
+
+            <div *ngIf="this.opcionesmenu['reportesalidasmanuales']" class="col-md-4 pb-1">
+              <a routerLink="/menualmacen/reportesalidasmanuales" class="btn btn-primary btn-flat btn-sm btn-block">
+                  <i class="fas fa-chart-bar"></i> Salida de Productos
+              </a>
+            </div>
+
+            <div *ngIf="this.opcionesmenu['reportecaducidad']" class="col-md-4 pb-1">
+              <a routerLink="/menualmacen/reportecaducidad" class="btn btn-primary btn-flat btn-sm btn-block">
+                  <i class="fas fa-clock"></i> Caducidad de Productos
+              </a>
+            </div>
+
+          </div>
+        </div>
+
+        <div class="d-flex justify-content-end align-items-center">
+          <button class="btn btn-secondary btn-sm mt-2" type="button" data-dismiss="modal"><i class="fas fa-times-circle"></i> Cerrar</button>
+        </div>
+
+      </div>
+
+
+    </div>
+
+  </div>
+</div>
+
+<section class="content-header">
+
+  <div class="container-fluid">
+
+      <div *ngIf="permisosProcesosOperativos()" class="card card-outline card-primary">
+        <div class="card-header">
+          <h3 class="card-title"><i class="fas fa-cash-register mr-2"></i> Procesos Operativos</h3>
+        </div>
+        <div class="card-body">
+          
+          <div class="row">
+
+            <div class="col-md-6 col-lg-2 col-xlg-3" *ngIf="this.opcionesmenu['productos']">
+              <a routerLink="/menualmacen/producto" class="small-box-footer">
+                <div class="card bg-cyan card-menu">
+                  <h1>
+                    <i class="fas fa-cube"></i>
+                    </h1>
+                    <span class="text-white h6">Productos</span>
+                </div>
+              </a>
+            </div>
+
+            <div class="col-md-6 col-lg-2 col-xlg-3" *ngIf="this.opcionesmenu['buscarproducto']">
+              <a routerLink="/menualmacen/buscarproducto" class="small-box-footer">
+                <div class="card bg-cyan card-menu">
+                  <h1>
+                    <i class="fas fa-cube"></i>
+                    </h1>
+                    <span class="text-white h6">Buscar Productos</span>
+                </div>
+              </a>
+            </div>
+
+            <!-- <div class="col-md-6 col-lg-2 col-xlg-3" *ngIf="this.opcionesmenu['codigobarra']">
+              <a routerLink="/menualmacen/codigobarra" class="small-box-footer">
+                <div class="card bg-cyan card-menu">
+                  <h1>
+                  <i class="fas fa-barcode"></i>
+                  </h1>
+                  <span class="text-white h6">Codigo Barra</span>
+                </div>
+              </a>
+            </div> -->
+
+            <div class="col-md-6 col-lg-2 col-xlg-3" *ngIf="this.opcionesmenu['movimientomercaderia']">
+              <a routerLink="/menualmacen/movimientomercaderia/nuevoregistro" class="small-box-footer">
+                <div class="card bg-cyan card-menu">
+                  <h1>
+                  <i class="fas fa-dolly-flatbed"></i>
+                  </h1>
+                  <span class="text-white h6">Movimientos</span>
+                </div>
+              </a>
+            </div>
+
+            <div class="col-md-6 col-lg-2 col-xlg-3" *ngIf="this.opcionesmenu['ingresomercaderia']">
+              <a routerLink="/menualmacen/ingresomercaderia/nuevoregistro" class="small-box-footer">
+                <div class="card bg-cyan card-menu">  
+                  <h1>
+                  <i class="fas fa-dolly-flatbed"></i>
+                  </h1>
+                  <span class="text-white h6">Ingreso Merc.</span>
+                </div>
+              </a>
+            </div>
+
+            <div class="col-md-6 col-lg-2 col-xlg-3" *ngIf="this.opcionesmenu['salidamercaderia']">
+              <a routerLink="/menualmacen/salidamercaderia/nuevoregistro" class="small-box-footer">
+                <div class="card bg-cyan card-menu"> 
+                  <h1>
+                  <i class="fas fa-dolly-flatbed"></i>
+                  </h1>
+                  <span class="text-white h6">Salida Merc.</span>
+                </div>
+              </a>
+            </div>
+
+            <div class="col-md-6 col-lg-2 col-xlg-3" *ngIf="this.opcionesmenu['produccion']">
+              <a routerLink="/menualmacen/produccion/nuevoregistro" class="small-box-footer">
+                <div class="card bg-cyan card-menu"> 
+                  <h1>
+                  <i class="fas fa-industry"></i>
+                  </h1>
+                  <span class="text-white h6">Producción</span>
+                </div>
+              </a>
+            </div>
+
+          </div>
+          
+
+        </div>
+      </div>
+
+      <div *ngIf="permisosGestionDocumentos()" class="card card-outline card-info mt-4">
+        <div class="card-header">
+          <h3 class="card-title"><i class="fas fa-list-alt mr-2"></i> Gestión de Documentos</h3>
+        </div>
+        <div class="card-body">
+          <div class="row">
+
+            <div *ngIf="this.opcionesmenu['exploradormovimientomercaderia']" class="col-lg-2 col-md-3 col-12 mb-2 d-flex">
+              <a routerLink="/menualmacen/exploradormovimientomercaderia" class="btn btn-block btn-outline-info btn-sm h-100 d-flex align-items-center justify-content-center">
+          <span>
+                <i class="fas fa-list-alt"></i> Explorador Movimientos
+              </span></a>
+            </div>
+
+            <div *ngIf="this.opcionesmenu['verificacionmovimientomercaderia']" class="col-lg-2 col-md-3 col-12 mb-2 d-flex">
+              <a routerLink="/menualmacen/verificacionmovimientomercaderia" class="btn btn-block btn-outline-info btn-sm h-100 d-flex align-items-center justify-content-center">
+          <span>
+                <i class="fas fa-check-double"></i> Verificación Movimientos
+              </span></a>
+            </div>
+
+            <div *ngIf="this.opcionesmenu['exploradoringresomercaderia']" class="col-lg-2 col-md-3 col-12 mb-2 d-flex">
+              <a routerLink="/menualmacen/exploradoringresomercaderia" class="btn btn-block btn-outline-info btn-sm h-100 d-flex align-items-center justify-content-center">
+          <span>
+                <i class="fas fa-list-alt"></i> Explorador Ingreso Mercadería
+              </span></a>
+            </div>
+
+            <div *ngIf="this.opcionesmenu['exploradorsalidamercaderia']" class="col-lg-2 col-md-3 col-12 mb-2 d-flex">
+              <a routerLink="/menualmacen/exploradorsalidamercaderia" class="btn btn-block btn-outline-info btn-sm h-100 d-flex align-items-center justify-content-center">
+          <span>
+                <i class="fas fa-list-alt"></i> Explorador Salida Mercadería
+              </span></a>
+            </div>
+
+            <div *ngIf="this.opcionesmenu['exploradorproduccion']" class="col-lg-2 col-md-3 col-12 mb-2 d-flex">
+              <a routerLink="/menualmacen/exploradorproduccion" class="btn btn-block btn-outline-info btn-sm h-100 d-flex align-items-center justify-content-center">
+          <span>
+                <i class="fas fa-industry"></i> Explorador Producción
+              </span></a>
+            </div>
+
+            <div *ngIf="this.opcionesmenu['eliminacionproducto']" class="col-lg-2 col-md-3 col-12 mb-2 d-flex">
+              <a routerLink="/menualmacen/eliminacionproducto" class="btn btn-block btn-outline-info btn-sm h-100 d-flex align-items-center justify-content-center">
+          <span>
+                <i class="fas fa-cube"></i> Peticiones Eliminacion
+              </span></a>
+            </div>
+            
+          </div>
+        </div>
+      </div>
+
+      <div *ngIf="permisosInformesReportes()" class="card card-outline card-success mt-4">
+        <div class="card-header">
+          <h3 class="card-title"><i class="fas fa-chart-line mr-2"></i> Informes y Reportes</h3>
+        </div>
+        <div class="card-body">
+          <div class="row">
+
+            <div *ngIf="permisosBotonReporteKardex()" class="col-lg-2 col-md-3 col-12 mb-2 d-flex">
+              <button (click)="clickReporteKardex()" class="btn btn-block btn-outline-success btn-sm h-100 d-flex align-items-center justify-content-center">
+                <span><i class="fas fa-dolly-flatbed"></i> Reportes de Kardex</span>
+              </button>
+            </div>
+
+            <div *ngIf="this.opcionesmenu['reportestockproducto']" class="col-lg-2 col-md-3 col-12 mb-2 d-flex">
+              <a routerLink="/menualmacen/reportestockproducto" class="btn btn-block btn-outline-success btn-sm h-100 d-flex align-items-center justify-content-center">
+          <span>
+                <i class="fas fa-shopping-cart"></i> Rept. Stock Productos
+              </span></a>
+            </div>
+
+            <div *ngIf="this.opcionesmenu['reporteingresomercaderia']" class="col-lg-2 col-md-3 col-12 mb-2 d-flex">
+              <a routerLink="/menualmacen/reporteingresomercaderia" class="btn btn-block btn-outline-success btn-sm h-100 d-flex align-items-center justify-content-center">
+          <span>
+                <i class="fas fa-dolly-flatbed"></i> Rept. Ingreso Mercadería
+              </span></a>
+            </div>
+
+            <div *ngIf="this.opcionesmenu['reportesalidamercaderia']" class="col-lg-2 col-md-3 col-12 mb-2 d-flex">
+              <a routerLink="/menualmacen/reportesalidamercaderia" class="btn btn-block btn-outline-success btn-sm h-100 d-flex align-items-center justify-content-center">
+          <span>
+                <i class="fas fa-dolly-flatbed"></i> Rept. Salida Mercadería
+              </span></a>
+            </div>
+
+            <div *ngIf="this.opcionesmenu['reportesalidamercaderiavaloradas']" class="col-lg-2 col-md-3 col-12 mb-2 d-flex">
+              <a routerLink="/menualmacen/reportesalidamercaderiavaloradas" class="btn btn-block btn-outline-success btn-sm h-100 d-flex align-items-center justify-content-center">
+          <span>
+                <i class="fas fa-dolly-flatbed"></i> Rept. Sal. Merc. Valoradas
+              </span></a>
+            </div>
+
+            <div *ngIf="this.opcionesmenu['reportemovimientomercaderia']" class="col-lg-2 col-md-3 col-12 mb-2 d-flex">
+              <a routerLink="/menualmacen/reportemovimientomercaderia" class="btn btn-block btn-outline-success btn-sm h-100 d-flex align-items-center justify-content-center">
+          <span>
+                <i class="fas fa-dolly-flatbed"></i> Rept. Movimiento Merc
+              </span></a>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+      <div *ngIf="permisosConfiguracionAuxiliares()" class="card card-outline card-secondary mt-3">
+        <div class="card-header">
+          <h3 class="card-title"><i class="fas fa-tools mr-2"></i> Configuración y Auxiliares</h3>
+        </div>
+        <div class="card-body">
+
+          <div class="row">
+
+            <div *ngIf="this.opcionesmenu['categorias']" class="col-lg-2 col-md-3 col-12 mb-2 d-flex">
+              <a routerLink="/menualmacen/categoria" class="btn btn-block btn-outline-secondary btn-sm h-100 d-flex align-items-center justify-content-center">
+          <span>
+                <i class="fas fa-tag"></i> Categorías
+              </span></a>
+            </div>
+
+            <div *ngIf="this.opcionesmenu['subcategorias']" class="col-lg-2 col-md-3 col-12 mb-2 d-flex">
+              <a routerLink="/menualmacen/subcategoria" class="btn btn-block btn-outline-secondary btn-sm h-100 d-flex align-items-center justify-content-center">
+          <span>
+                <i class="fas fa-tags"></i> Subcategorias
+              </span></a>
+            </div>
+
+            <div *ngIf="this.opcionesmenu['marcas']" class="col-lg-2 col-md-3 col-12 mb-2 d-flex">
+              <a routerLink="/menualmacen/marca" class="btn btn-block btn-outline-secondary btn-sm h-100 d-flex align-items-center justify-content-center">
+          <span>
+                <i class="fas fa-star"></i> Marcas
+              </span></a>
+            </div>
+
+            <div *ngIf="this.opcionesmenu['unidadesmedida']" class="col-lg-2 col-md-3 col-12 mb-2 d-flex">
+              <a routerLink="/menualmacen/unidadmedida" class="btn btn-block btn-outline-secondary btn-sm h-100 d-flex align-items-center justify-content-center">
+          <span>
+                <i class="fas fa-balance-scale"></i> Unidades M.
+              </span></a>
+            </div>
+            
+            <div *ngIf="this.opcionesmenu['tipotarifa']" class="col-lg-2 col-md-3 col-12 mb-2 d-flex">
+              <a routerLink="/menualmacen/tipotarifa" class="btn btn-block btn-outline-secondary btn-sm h-100 d-flex align-items-center justify-content-center">
+          <span>
+                <i class="fas fa-percent"></i> Tipo Tarifa
+              </span></a>
+            </div>
+
+            <div *ngIf="this.opcionesmenu['denominacion']" class="col-lg-2 col-md-3 col-12 mb-2 d-flex">
+              <a routerLink="/menualmacen/denominacion" class="btn btn-block btn-outline-secondary btn-sm h-100 d-flex align-items-center justify-content-center">
+          <span>
+                <i class="fas fa-box-open"></i> Denominación
+              </span></a>
+            </div>
+
+            <div *ngIf="this.opcionesmenu['tipoingresomercaderia']" class="col-lg-2 col-md-3 col-12 mb-2 d-flex">
+              <a routerLink="/menualmacen/tipoingresomercaderia" class="btn btn-block btn-outline-secondary btn-sm h-100 d-flex align-items-center justify-content-center">
+          <span>
+                <i class="fas fa-tag"></i> Tipo Ingreso
+              </span></a>
+            </div>
+
+            <div *ngIf="this.opcionesmenu['tiposalidamercaderia']" class="col-lg-2 col-md-3 col-12 mb-2 d-flex">
+              <a routerLink="/menualmacen/tiposalidamercaderia" class="btn btn-block btn-outline-secondary btn-sm h-100 d-flex align-items-center justify-content-center">
+          <span>
+                <i class="fas fa-tag"></i> Tipo Salida
+              </span></a>
+            </div>
+
+          </div>
+          
+        </div>
+      </div>
+
+  </div>
+</section>

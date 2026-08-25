@@ -1,0 +1,755 @@
+<div id="mymodallistarproductos" class="modal fade" role="dialog" data-backdrop="false">
+  <div class="modal-dialog modal-xl">
+    <!-- Modal content -->
+    <div class="modal-content">
+      <div class="modal-header">
+      <h5 class="modal-title">LISTADO DE PRODUCTOS</h5>
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">×</span>
+          </button>
+      </div>
+      <div class="modal-body">
+          <app-listado-producto-general (datosenviar)="recibirDatosProducto($event)"></app-listado-producto-general>
+
+          <div class="d-flex justify-content-end align-items-center">
+            <button (click)="actualizarListadoProducto();" type="button" class="btn btn-primary btn-sm" data-dismiss="modal"><i class="fas fa-sync-alt"></i> Actualizar</button>&nbsp;
+            <button class="btn btn-secondary btn-sm" type="button" data-dismiss="modal"><i class="fas fa-times-circle"></i> Cerrar</button>
+          </div>
+
+      </div>
+
+    </div>
+
+  </div>
+</div>
+
+<section class="content-header">
+  <div class="container-fluid">
+    <div class="row mb-2">
+      <div class="col-sm-12">
+          <div class="btn-toolbar" role="toolbar">
+            <div class="btn-group">
+              <button (click)="clickDeshacer();" class="btn btn-secondary btn-flat btn-sm float-right" type="button"><i class="fas fa-redo-alt"></i> Deshacer</button>
+              <button routerLink="/menualmacen" class="btn btn-secondary btn-flat btn-sm" type="button"><i class="fas fa-undo"></i> Atrás</button>
+            </div>
+          </div>
+      </div>
+      
+    </div>
+    
+  </div><!-- /.container-fluid -->
+</section>
+
+<section class="content">
+  <div class="container-fluid">
+    <div class="row">
+
+      <div class="col-md-12">
+
+        <div class="row">
+
+        <div *ngIf="multisucursal=='1'" class="col-md-6">
+            <div class="form-group">
+                <label>Sucursal:</label>
+                <select (change)="changeSucursal($event)" class="form-control form-control-sm">
+                    <option value="{{item.cod_sucursal}}" *ngFor="let item of datossucursal" [selected]="this.cod_sucursal == item.cod_sucursal">
+                        {{item.sucursal}}
+                    </option>
+                </select>
+            </div>	
+        </div>
+
+          <div class="col-md-6">
+              <div class="form-group">
+                  <label>Código Barra:</label>                    
+                  <div class="input-group input-group-sm">
+                      <div class="input-group-prepend">
+                          <span class="input-group-text"><i class="fas fa-barcode"></i></span>
+                      </div>
+                      <input #txtcodigobarra [(ngModel)]="codigo_barra" oninput="javascript:this.value=this.value.toUpperCase();" (keyup.enter)="buscarCodigoProducto();" class="form-control" maxlength="35" placeholder="Ingrese Código de Barra"type="text">
+                      <span class="input-group-append">
+                          <button (click)="clickListarProductos();" class="btn btn-primary btn-flat" type="button"><i class="fa fa-list"></i></button>
+                      </span>
+                  </div>
+              </div>
+          </div>
+
+
+        </div>
+        
+      <!-- /.Inicia form1 -->
+      <!-- /.Inicia form1 -->
+      <!-- /.Inicia form1 -->
+        <div class="card card-primary card-outline">
+          <div class="card-header">
+            <h3 class="card-title"><i class="fa fa-file-alt"></i> Información</h3>
+          </div>
+          <div class="card-body">
+              <div class="row justify-content-between">
+
+                <span *ngIf="loadinglistado" class="justify-content-center text-center m-auto">
+                  <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;"></div>
+                </span>
+
+              </div>
+
+              <div class="row">
+
+                <div class="col-md-6">
+
+                  <div class="form-group row">
+                    <label class="col-sm-4 col-form-label">Descripción:</label>
+                    <div class="col-sm-8">
+                      <label class="form-control form-control-sm">{{this.descripcion}}</label>
+                    </div>
+                  </div>
+
+                  <div class="form-group row">
+                    <label class="col-sm-4 col-form-label">Tarifa:</label>
+                    <div class="col-sm-8">
+                      <label class="form-control form-control-sm">{{this.tarifa}}</label>
+                    </div>
+                  </div>
+
+                  <div class="form-group row">
+                    <label class="col-sm-4 col-form-label text-danger">Precio Venta:</label>
+                    <div class="col-sm-8">
+                      <label class="form-control form-control-sm">{{this.precio_base}}</label>
+                    </div>
+                  </div>
+
+                  <div class="form-group row">
+                    <label class="col-sm-4 col-form-label text-primary">P.V.P:</label>
+                    <div class="col-sm-8">
+                      <label class="form-control form-control-sm">{{this.precio_venta}}</label>
+                    </div>
+                  </div>
+
+                  <div class="form-group row">
+                    <label class="col-sm-4 col-form-label text-primary">Existencias:</label>
+                    <div class="col-sm-8">
+                      <label class="form-control form-control-sm">{{this.existencia}}</label>
+                    </div>
+                  </div>
+
+                </div>
+
+                <div *ngIf="tarifas == '0'" class="col-md-6">
+                  <div class="panel-body table-responsive">
+                    <table style='font-size: 14px;' class="design-table">
+                      <thead>
+                        <tr>
+                          <th>TARIFA</th>
+                          <th>CANT U.</th>
+                          <th>PRECIO VENTA</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr *ngFor="let item of datostarifa">
+                          <td>{{item.tipo_tarifa}}</td>
+                          <td>{{item.cantidad_unidad}}</td>
+                          <td>{{item.precio_venta}}</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+
+                <div *ngIf="tarifas == '1'" class="col-md-6">
+                      <div id="accordion" role="tablist" aria-multiselectable="true">
+                        <div class="card card-outline">
+
+                            <a class="d-block w-100 collapsed" data-toggle="collapse" href="#collapsepreciosventas" aria-expanded="false">
+                              <div class="card-header">
+                                  <h4 class="card-title w-100">
+                                    <i class="fa fa-dolly-flatbed"></i> Precios Venta: {{descripcion}}
+                                  </h4>
+                              </div>
+                            </a>
+
+                            <div id="collapsepreciosventas" class="collapse" role="tabpanel" aria-labelledby="headinginteriorcontenedor">
+                                <div class="card-body">
+
+                                  <div class="row">
+
+                                    <div class="col-12">
+                                      <div class="d-flex align-items-center">
+                                        <hr class="flex-grow-1 mt-4">
+                                        <h5 class="text-primary mx-3">Precio Mayor</h5>
+                                        <hr class="flex-grow-1 mt-4">
+                                      </div>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                      <div class="form-group">
+                                        <label class="text-primary">Regla >= a:</label>
+                                        <label class="form-control form-control-sm">{{rpv4}}</label>
+                                      </div>
+                                    </div>
+  
+                                      <div *ngIf="precios_completos == '1'" class="col-md-6">
+                                            <div class="form-group">
+                                              <label class="text-danger">Precio Mayor (-IMP):</label>
+                                              <label class="form-control form-control-sm">{{bpv4}}</label>
+                                            </div>
+                                      </div>
+  
+                                      <div class="col-md-6">
+                                        <div class="form-group">
+                                          <label class="text-primary" data-bs-toggle="tooltip" data-bs-placement="top" title="Precio sin Iva + Iva">Precio Mayor (+IMP):</label>
+                                          <div class="input-group input-group-sm">
+                                            <div *ngIf="precios_completos == '1'" class="input-group-prepend">
+                                              <span class="input-group-text"><i class="fas fa-percent"></i></span>
+                                            </div>
+                                            <label *ngIf="precios_completos == '1'" class="form-control">{{upv4}}</label>
+                                            <div *ngIf="precios_completos == '1'" class="input-group-prepend">
+                                              <span class="input-group-text"><i class="fas fa-dollar-sign"></i></span>
+                                            </div>
+                                            <label class="form-control">{{pv4}}</label>
+                                          </div>
+                                        </div>
+                                      </div>
+
+                                      <div class="col-md-6">
+                                        <div class="form-group">
+                                          <div class="custom-control custom-switch custom-switch-off-secondary custom-switch-on-success">
+                                          <input [checked]="apv4" type="checkbox" class="custom-control-input" id="customSwitchPv4" disabled>
+                                          <label class="custom-control-label" for="customSwitchPv4">Automático</label>
+                                          </div>
+                                        </div>
+                                      </div>
+                                      
+
+                                  </div>
+
+                                  <div class="row">
+        
+                                    <div class="col-12">
+                                      <div class="d-flex align-items-center">
+                                        <hr class="flex-grow-1 mt-4">
+                                        <h5 class="text-primary mx-3">Precio + 3</h5>
+                                        <hr class="flex-grow-1 mt-4">
+                                      </div>
+                                    </div>
+
+                                      <div class="col-md-6">
+                                        <div class="form-group">
+                                          <label class="text-primary">Regla >= a:</label>
+                                          <label class="form-control form-control-sm">{{rpv5}}</label>
+                                        </div>
+                                      </div>
+  
+                                      <div *ngIf="precios_completos == '1'" class="col-md-6">
+                                            <div class="form-group">
+                                              <label class="text-danger">Precio + 3 (-IMP):</label>
+                                              <label class="form-control form-control-sm">{{bpv5}}</label>
+                                            </div>
+                                      </div>
+  
+                                      <div class="col-md-6">
+                                        <div class="form-group">
+                                          <label class="text-primary" data-bs-toggle="tooltip" data-bs-placement="top" title="Precio sin Iva + Iva">Precio + 3 (+IMP):</label>
+                                          <div class="input-group input-group-sm">
+                                            <div *ngIf="precios_completos == '1'" class="input-group-prepend">
+                                              <span class="input-group-text"><i class="fas fa-percent"></i></span>
+                                            </div>
+                                            <label *ngIf="precios_completos == '1'" class="form-control">{{upv4}}</label>
+                                            <div *ngIf="precios_completos == '1'" class="input-group-prepend">
+                                              <span class="input-group-text"><i class="fas fa-dollar-sign"></i></span>
+                                            </div>
+                                            <label class="form-control">{{pv5}}</label>
+                                          </div>
+                                        </div>
+                                      </div>
+
+                                      <div class="col-md-6">
+                                        <div class="form-group">
+                                          <div class="custom-control custom-switch custom-switch-off-secondary custom-switch-on-success">
+                                          <input [checked]="apv5" type="checkbox" class="custom-control-input" id="customSwitchPv5" disabled>
+                                          <label class="custom-control-label" for="customSwitchPv5">Automático</label>
+                                          </div>
+                                        </div>
+                                      </div>
+
+  
+                                  </div>
+                            
+                                  <div class="row">
+        
+                                    <div class="col-12">
+                                      <div class="d-flex align-items-center">
+                                        <hr class="flex-grow-1 mt-4">
+                                        <h5 class="text-primary mx-3">Precio bulto</h5>
+                                        <hr class="flex-grow-1 mt-4">
+                                      </div>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                      <div class="form-group">
+                                        <label class="text-primary">Regla >= a:</label>
+                                        <label class="form-control form-control-sm">{{rpv6}}</label>
+                                      </div>
+                                    </div>
+  
+                                      <div *ngIf="precios_completos == '1'" class="col-md-6">
+                                            <div class="form-group">
+                                              <label class="text-danger">Precio Bulto (-IMP):</label>
+                                              <label class="form-control form-control-sm">{{bpv6}}</label>
+                                            </div>
+                                      </div>
+  
+                                      <div class="col-md-6">
+                                        <div class="form-group">
+                                          <label class="text-primary" data-bs-toggle="tooltip" data-bs-placement="top" title="Precio sin Iva + Iva">Precio Bulto (+IMP):</label>
+                                          <div class="input-group input-group-sm">
+                                            <div *ngIf="precios_completos == '1'" class="input-group-prepend">
+                                              <span class="input-group-text"><i class="fas fa-percent"></i></span>
+                                            </div>
+                                            <label *ngIf="precios_completos == '1'" class="form-control">{{upv6}}</label>
+                                            <div *ngIf="precios_completos == '1'" class="input-group-prepend">
+                                              <span class="input-group-text"><i class="fas fa-dollar-sign"></i></span>
+                                            </div>
+                                            <label class="form-control">{{pv6}}</label>
+                                          </div>
+                                        </div>
+                                      </div>
+
+                                      <div class="col-md-6">
+                                        <div class="form-group">
+                                          <div class="custom-control custom-switch custom-switch-off-secondary custom-switch-on-success">
+                                          <input [checked]="apv6" type="checkbox" class="custom-control-input" id="customSwitchPv6" disabled>
+                                          <label class="custom-control-label" for="customSwitchPv6">Automático</label>
+                                          </div>
+                                        </div>
+                                      </div>
+
+
+                                  </div>
+
+
+
+
+                                </div>
+                            </div>
+                        </div>
+                      </div>
+
+                      <div id="accordion" role="tablist" aria-multiselectable="true">
+                        <div class="card card-outline">
+
+                            <a class="d-block w-100 collapsed" data-toggle="collapse" href="#collapsepreciosventasaf" aria-expanded="false">
+                              <div class="card-header">
+                                  <h4 class="card-title w-100">
+                                    <i class="fa fa-dolly-flatbed"></i> Precios Venta AF: {{descripcion}}
+                                  </h4>
+                              </div>
+                            </a>
+
+                            <div id="collapsepreciosventasaf" class="collapse" role="tabpanel" aria-labelledby="headinginteriorcontenedor">
+                                <div class="card-body">
+
+                                  <div class="row">
+
+                                    <div class="col-12">
+                                      <div class="d-flex align-items-center">
+                                        <hr class="flex-grow-1 mt-4">
+                                        <h5 class="text-primary mx-3">Precio Mayor AF</h5>
+                                        <hr class="flex-grow-1 mt-4">
+                                      </div>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                      <div class="form-group">
+                                        <label class="text-primary">Regla >= a:</label>
+                                        <label class="form-control form-control-sm">{{rpv1}}</label>
+                                      </div>
+                                    </div>
+  
+                                      <div *ngIf="precios_completos == '1'" class="col-md-6">
+                                            <div class="form-group">
+                                              <label class="text-danger">Precio Mayor AF (-IMP):</label>
+                                              <label class="form-control form-control-sm">{{bpv1}}</label>
+                                            </div>
+                                      </div>
+  
+                                      <div class="col-md-6">
+                                        <div class="form-group">
+                                          <label class="text-primary" data-bs-toggle="tooltip" data-bs-placement="top" title="Precio sin Iva + Iva">Precio Mayor AF (+IMP):</label>
+                                          <div class="input-group input-group-sm">
+                                            <div *ngIf="precios_completos == '1'" class="input-group-prepend">
+                                              <span class="input-group-text"><i class="fas fa-percent"></i></span>
+                                            </div>
+                                            <label *ngIf="precios_completos == '1'" class="form-control">{{upv1}}</label>
+                                            <div *ngIf="precios_completos == '1'" class="input-group-prepend">
+                                              <span class="input-group-text"><i class="fas fa-dollar-sign"></i></span>
+                                            </div>
+                                            <label class="form-control">{{pv1}}</label>
+                                          </div>
+                                        </div>
+                                      </div>
+
+                                      <div class="col-md-6">
+                                        <div class="form-group">
+                                          <div class="custom-control custom-switch custom-switch-off-secondary custom-switch-on-success">
+                                          <input [checked]="apv1" type="checkbox" class="custom-control-input" id="customSwitchPv1" disabled>
+                                          <label class="custom-control-label" for="customSwitchPv1">Automático</label>
+                                          </div>
+                                        </div>
+                                      </div>
+                                      
+
+                                  </div>
+
+                                  <div class="row">
+        
+                                    <div class="col-12">
+                                      <div class="d-flex align-items-center">
+                                        <hr class="flex-grow-1 mt-4">
+                                        <h5 class="text-primary mx-3">Precio AF + 3</h5>
+                                        <hr class="flex-grow-1 mt-4">
+                                      </div>
+                                    </div>
+
+                                      <div class="col-md-6">
+                                        <div class="form-group">
+                                          <label class="text-primary">Regla >= a:</label>
+                                          <label class="form-control form-control-sm">{{rpv2}}</label>
+                                        </div>
+                                      </div>
+  
+                                      <div *ngIf="precios_completos == '1'" class="col-md-6">
+                                            <div class="form-group">
+                                              <label class="text-danger">Precio AF + 3 (-IMP):</label>
+                                              <label class="form-control form-control-sm">{{bpv2}}</label>
+                                            </div>
+                                      </div>
+  
+                                      <div class="col-md-6">
+                                        <div class="form-group">
+                                          <label class="text-primary" data-bs-toggle="tooltip" data-bs-placement="top" title="Precio sin Iva + Iva">Precio AF + 3 (+IMP):</label>
+                                          <div class="input-group input-group-sm">
+                                            <div *ngIf="precios_completos == '1'" class="input-group-prepend">
+                                              <span class="input-group-text"><i class="fas fa-percent"></i></span>
+                                            </div>
+                                            <label *ngIf="precios_completos == '1'" class="form-control">{{upv2}}</label>
+                                            <div *ngIf="precios_completos == '1'" class="input-group-prepend">
+                                              <span class="input-group-text"><i class="fas fa-dollar-sign"></i></span>
+                                            </div>
+                                            <label class="form-control">{{pv2}}</label>
+                                          </div>
+                                        </div>
+                                      </div>
+
+                                      <div class="col-md-6">
+                                        <div class="form-group">
+                                          <div class="custom-control custom-switch custom-switch-off-secondary custom-switch-on-success">
+                                          <input [checked]="apv2" type="checkbox" class="custom-control-input" id="customSwitchPv2" disabled>
+                                          <label class="custom-control-label" for="customSwitchPv2">Automático</label>
+                                          </div>
+                                        </div>
+                                      </div>
+
+  
+                                  </div>
+                            
+                                  <div class="row">
+        
+                                    <div class="col-12">
+                                      <div class="d-flex align-items-center">
+                                        <hr class="flex-grow-1 mt-4">
+                                        <h5 class="text-primary mx-3">Precio bulto AF</h5>
+                                        <hr class="flex-grow-1 mt-4">
+                                      </div>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                      <div class="form-group">
+                                        <label class="text-primary">Regla >= a:</label>
+                                        <label class="form-control form-control-sm">{{rpv3}}</label>
+                                      </div>
+                                    </div>
+  
+                                      <div *ngIf="precios_completos == '1'" class="col-md-6">
+                                            <div class="form-group">
+                                              <label class="text-danger">Precio Bulto AF (-IMP):</label>
+                                              <label class="form-control form-control-sm">{{bpv3}}</label>
+                                            </div>
+                                      </div>
+  
+                                      <div class="col-md-6">
+                                        <div class="form-group">
+                                          <label class="text-primary" data-bs-toggle="tooltip" data-bs-placement="top" title="Precio sin Iva + Iva">Precio Bulto AF (+IMP):</label>
+                                          <div class="input-group input-group-sm">
+                                            <div *ngIf="precios_completos == '1'" class="input-group-prepend">
+                                              <span class="input-group-text"><i class="fas fa-percent"></i></span>
+                                            </div>
+                                            <label *ngIf="precios_completos == '1'" class="form-control">{{upv3}}</label>
+                                            <div *ngIf="precios_completos == '1'" class="input-group-prepend">
+                                              <span class="input-group-text"><i class="fas fa-dollar-sign"></i></span>
+                                            </div>
+                                            <label class="form-control">{{pv3}}</label>
+                                          </div>
+                                        </div>
+                                      </div>
+
+                                      <div class="col-md-6">
+                                        <div class="form-group">
+                                          <div class="custom-control custom-switch custom-switch-off-secondary custom-switch-on-success">
+                                          <input [checked]="apv3" type="checkbox" class="custom-control-input" id="customSwitchPv3" disabled>
+                                          <label class="custom-control-label" for="customSwitchPv3">Automático</label>
+                                          </div>
+                                        </div>
+                                      </div>
+
+
+                                  </div>
+
+
+
+
+                                </div>
+                            </div>
+                        </div>
+                      </div>
+                </div>
+
+              </div>
+
+              <div class="row">
+                <div class="col-md-12">
+                  
+
+                  <div class="card">
+                    <div class="card-header border-0">
+                      <h3 class="card-title">Movimientos Generales</h3>
+                      <div class="card-tools">
+                        <a href="#" class="btn btn-tool btn-sm">
+                          <i class="fas fa-download"></i>
+                        </a>
+                        <a href="#" class="btn btn-tool btn-sm">
+                          <i class="fas fa-bars"></i>
+                        </a>
+                      </div>
+                    </div>
+                    <div class="card-body table-responsive p-0">
+
+                      <div class="row px-3 py-0">
+                        <div class="col-md-12">
+
+                          <ul class="nav nav-tabs" id="custom-content-below-tab" role="tablist">
+                            <li class="nav-item">
+                              <a class="nav-link active" id="custom-content-below-home-tab" data-toggle="pill" href="#custom-content-below-home" role="tab" aria-controls="custom-content-below-home" aria-selected="true">Ingreso</a>
+                            </li>
+                            <li class="nav-item">
+                              <a class="nav-link" id="custom-content-below-profile-tab" data-toggle="pill" href="#custom-content-below-profile" role="tab" aria-controls="custom-content-below-profile" aria-selected="false">Compras</a>
+                            </li>
+                          </ul>
+
+                          <div class="tab-content" id="custom-content-below-tabContent">
+                            <div class="tab-pane fade active show" id="custom-content-below-home" role="tabpanel" aria-labelledby="custom-content-below-home-tab">
+                              
+                              <div class="col-md-12">
+                                <div class="form-group pl-1 pr-1 pt-3 pb-0">
+                                  <label>Ingresa Identificador de Ingreso:</label>
+                                  <div class="d-flex">
+                                    <input (keyup.enter)="clickBuscarDetalleIngresoPorId()" [(ngModel)]="id_detalle_ingreso_mercaderia" class="form-control form-control-sm" placeholder="Ingresa Identificador de ingreso" type="text">
+                                    <button (click)="clickBuscarDetalleIngresoPorId()" type="button" class="btn btn-primary btn-sm ml-2">
+                                      <i class="fas fa-search"></i>
+                                    </button>
+                                  </div>
+                                </div>
+                              </div>
+                              
+
+                            </div>
+
+                            <div class="tab-pane fade" id="custom-content-below-profile" role="tabpanel" aria-labelledby="custom-content-below-profile-tab">
+                                <div class="form-group pl-1 pr-1 pt-3 pb-0">
+                                  <label>Ingresa Identificador de Compra:</label>
+                                  <div class="d-flex">
+                                    <input (keyup.enter)="clickBuscarDetalleCompraPorId()" [(ngModel)]="id_detalle_compra" class="form-control form-control-sm" placeholder="Ingresa Identificador de compra" type="text">
+                                    <button (click)="clickBuscarDetalleCompraPorId()" type="button" class="btn btn-primary btn-sm ml-2">
+                                      <i class="fas fa-search"></i>
+                                    </button>
+                                  </div>
+                                </div>
+                            </div>
+                            
+
+                          </div>
+
+
+
+                          
+                        </div>
+
+                        <div class="col-md-12">
+                          <div class="row row px-3 py-0">
+                            <div class="col-md-6">
+
+                              <div class="form-group">
+                                <label>Existencias Anterior:</label>
+                                <label class="form-control form-control-sm">{{stock_anterior}}</label>
+                              </div>
+
+                            </div>
+
+                            <div class="col-md-6">
+
+                              <div class="form-group">
+                                <label>Existencias con el Ingreso:</label>
+                                <label class="form-control form-control-sm">{{stock_actual}}</label>
+                              </div>
+
+                            </div>
+                          </div>
+
+                        </div>
+                      </div>
+
+
+                      <table class="table table-striped table-valign-middle">
+                        <thead>
+                        <tr>
+                          <th>Movimientos</th>
+                          <th>Unidades</th>
+                          <th>Exis. Procesadas</th>
+                          <!-- <th></th> -->
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                          <td>
+                            <img [src]="selectedImageBase64" alt="Product 1" class="img-circle img-size-32 mr-2">
+                            + Ingresos
+                          </td>
+                          <td>{{unidades_ingreso}}</td>
+                          <td><small class="badge badge-primary">{{existencia_ingreso}}</small></td>
+                          <!-- <td>
+                            <a href="#" class="text-muted">
+                              <i class="fas fa-search"></i>
+                            </a>
+                          </td> -->
+                        </tr>
+                        <tr>
+                          <td>
+                            <img [src]="selectedImageBase64" alt="Product 1" class="img-circle img-size-32 mr-2">
+                            + Compras
+                          </td>
+                          <td>{{unidades_compra}}</td>
+                          <td><small class="badge badge-primary">{{existencia_compra}}</small></td>
+                          <!-- <td>
+                            <a href="#" class="text-muted">
+                              <i class="fas fa-search"></i>
+                            </a>
+                          </td> -->
+                        </tr>
+                        <tr>
+                          <td>
+                            <img [src]="selectedImageBase64" alt="Product 1" class="img-circle img-size-32 mr-2">
+                            + Devolución Ventas
+                          </td>
+                          <td>{{unidades_devolucion_venta}}</td>
+                          <td><small class="badge badge-primary">{{existencia_devolucion_venta}}</small></td>
+                          <!-- <td>
+                            <a href="#" class="text-muted">
+                              <i class="fas fa-search"></i>
+                            </a>
+                          </td> -->
+                        </tr>
+                        <tr>
+                          <td>
+                            <img [src]="selectedImageBase64" alt="Product 1" class="img-circle img-size-32 mr-2">
+                            + Movimientos Entradas en locales
+                          </td>
+                          <td>{{unidades_movimiento_entrada}}</td>
+                          <td><small class="badge badge-primary">{{existencia_movimiento_entrada}}</small></td>
+                          <!-- <td>
+                            <a href="#" class="text-muted">
+                              <i class="fas fa-search"></i>
+                            </a>
+                          </td> -->
+                        </tr>
+                        <tr>
+                          <td>
+                            <img [src]="selectedImageBase64" alt="Product 1" class="img-circle img-size-32 mr-2">
+                            - Salidas
+                          </td>
+                          <td>{{unidades_salida}}</td>
+                          <td><small class="badge badge-warning">{{existencia_salida}}</small></td>
+                          <!-- <td>
+                            <a href="#" class="text-muted">
+                              <i class="fas fa-search"></i>
+                            </a>
+                          </td> -->
+                        </tr>
+                        <tr>
+                          <td>
+                            <img [src]="selectedImageBase64" alt="Product 1" class="img-circle img-size-32 mr-2">
+                            - Ventas
+                          </td>
+                          <td>{{unidades_venta}}</td>
+                          <td><small class="badge badge-warning">{{existencia_venta}}</small></td>
+                          <!-- <td>
+                            <a href="#" class="text-muted">
+                              <i class="fas fa-search"></i>
+                            </a>
+                          </td> -->
+                        </tr>
+                        <tr>
+                          <td>
+                            <img [src]="selectedImageBase64" alt="Product 1" class="img-circle img-size-32 mr-2">
+                            - Devolución Compras
+                          </td>
+                          <td>{{unidades_devolucion_compra}}</td>
+                          <td><small class="badge badge-warning">{{existencia_devolucion_compra}}</small></td>
+                          <!-- <td>
+                            <a href="#" class="text-muted">
+                              <i class="fas fa-search"></i>
+                            </a>
+                          </td> -->
+                        </tr>
+                        <tr>
+                          <td>
+                            <img [src]="selectedImageBase64" alt="Product 1" class="img-circle img-size-32 mr-2">
+                            - Movimientos Salidas en locales
+                          </td>
+                          <td>{{unidades_movimiento_salida}}</td>
+                          <td><small class="badge badge-warning">{{existencia_movimiento_salida}}</small></td>
+                          <!-- <td>
+                            <a href="#" class="text-muted">
+                              <i class="fas fa-search"></i>
+                            </a>
+                          </td> -->
+                        </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+
+
+                </div>
+              </div>
+
+
+
+
+
+          </div>
+          <!-- /.card-body -->
+        </div>
+      <!-- /.Termina form1 -->
+      <!-- /.Termina form1 -->
+      <!-- /.Termina form1 -->
+      </div>
+
+    </div>
+
+
+
+    
+
+
+
+  </div>
+</section>

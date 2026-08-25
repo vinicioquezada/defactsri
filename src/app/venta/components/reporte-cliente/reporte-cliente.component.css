@@ -1,0 +1,37 @@
+@media only screen and (max-width: 768px) {
+  td:nth-of-type(1):before {
+    content: "Nº";
+  }
+  
+  td:nth-of-type(2):before {
+    content: "APELLIDO";
+  }
+  
+  td:nth-of-type(3):before {
+    content: "NOMBRE";
+  }
+  
+  td:nth-of-type(4):before {
+    content: "CONVENCIONAL";
+  }
+
+  td:nth-of-type(5):before {
+    content: "CELULAR";
+  }
+
+  td:nth-of-type(6):before {
+    content: "CORREO";
+  }
+
+  td:nth-of-type(7):before {
+    content: "DIRECCIÓN";
+  }
+}
+
+.sticky-header {
+  position: sticky;
+  top: 45px;
+  z-index: 1020;
+  background: #fff;
+  padding: 10px 0;
+}

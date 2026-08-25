@@ -1,0 +1,194 @@
+<section class="content-header">
+  <div class="container-fluid">
+    <div class="row mb-2">
+      <div class="col-sm-12">
+          <div class="btn-toolbar" role="toolbar">
+            <div class="btn-group">
+                <button (click)="clickDeshacer();" class="btn btn-secondary btn-flat btn-sm float-right" type="button"><i class="fas fa-redo-alt"></i> Deshacer</button>
+                <button routerLink="/menualmacen" class="btn btn-secondary btn-flat btn-sm" type="button"><i class="fas fa-undo"></i> Atrás</button>
+            </div>
+          </div>
+      </div>
+      
+    </div>
+    
+  </div><!-- /.container-fluid -->
+</section>
+
+<!-- Main content -->
+<section class="content">
+  <div class="container-fluid">
+    <div class="row">
+
+      <div class="col-md-12">
+
+        <div class="row">
+
+          <div class="col-md-6 d-flex align-items-center">
+            <a class="btn btn-primary btn-flat btn-sm" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample"><i class="fa fa-cogs"></i>
+              Más Formas de búsqueda
+            </a>
+          </div>
+
+          <div class="col-md-6">
+            <div class="form-group">
+                <label>Cantidad:</label>
+                <div class="input-group input-group-sm">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text"><input [checked]="chkminimoinventario" type="checkbox"> Min. Inv</span>		
+                    </div>
+                    <input [(ngModel)]="cantidad" type="text" class="form-control" maxlength="13" placeholder="Todas las cantidades">
+                    <span class="input-group-append">
+                        <button (click)="buscarproductos();" class="btn btn-primary btn-flat" type="button"><i class="fa fa-search"></i></button>
+                    </span>
+                </div>
+            </div>		
+          </div>
+
+        </div>
+
+        <div class="collapse" id="collapseExample">
+          <div class="card card-body">
+              <div class="col-md-12">
+
+                <div class="row">
+
+                    <div *ngIf="multisucursal=='1' && opcionesprivilegios['bloqueogestionlocales']!=1" class="col-md-6">
+                      <div class="form-group">
+                          <label>Sucursal:</label>
+                          <select (change)="changeSucursal($event)" class="form-control form-control-sm">
+                              <option value="{{item.cod_sucursal}}" *ngFor="let item of datossucursal" [selected]="this.cod_sucursal == item.cod_sucursal">
+                                  {{item.sucursal}}
+                              </option>
+                          </select>
+                      </div>	
+                  </div>
+        
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <label>Categoría: </label>
+                      <select (change)="changeCategoria($event)" class="form-control form-control-sm">
+                          <option value="">TODAS</option>
+                          <option value="{{item.cod_categoria}}" *ngFor="let item of datoscategoria" [selected]="categoria == item.categoria">
+                              {{item.categoria}}
+                      </option>
+                      </select>
+                    </div>
+                  </div>
+        
+                  <div class="col-md-6">
+                    <label>SubCategoria:</label>
+                    <ng-select
+                      class="form-control form-control-sm"
+                      [(ngModel)]="cod_subcategoria"
+                      [items]="datossubcategoria"
+                      bindLabel="subcategoria"
+                      bindValue="cod_subcategoria"
+                      (change)="changeSubCategoria($event)">
+                    </ng-select>
+                  </div>
+        
+                </div>
+
+              </div>
+          </div>
+        </div>
+        
+      <!-- /.Inicia form1 -->
+      <!-- /.Inicia form1 -->
+      <!-- /.Inicia form1 -->
+        <div class="card card-primary card-outline">
+          <div class="card-header">
+            <h3 class="card-title"><i class="fa fa-file-alt"></i><span class="labeloculto">&nbsp;Reporte</span></h3>
+            &nbsp;<span class="text-right">(Total: {{this.cantidad_registros}} Registros)</span>
+
+
+            <div class="card-tools">
+              <div class="input-group input-group-sm">
+                  <button (click)="exportarExcel()" class="btn btn-success btn-sm mr-1" type="button">
+                    <i class="fa fa-file-excel"></i> Excel
+                  </button>
+                  <button (click)="exportarPdf()" class="btn btn-danger btn-sm mr-2" type="button">
+                    <i class="fa fa-file-pdf"></i> PDF
+                  </button>
+                  <input (keyup)="keyFiltrado();" type="text" class="form-control float-right" oninput="javascript:this.value=this.value.toUpperCase();" placeholder="Buscar" [(ngModel)]="filterpost" name="filterpost" autocomplete="off" />
+              </div>
+            </div>
+
+
+          </div>
+          <div class="card-body">
+              <div class="row justify-content-between">
+            
+                <span *ngIf="loadinglistado" class="justify-content-center text-center m-auto">
+                  <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;"></div>
+                </span>
+
+                  <div class="table-responsive p-0">
+                      <table class="design-table resp">
+                        <thead>
+                          <tr>
+                            <th><i class="fa fa-fw fa-barcode"></i></th>
+                            <th><i class="fa fa-fw fa-barcode"></i></th>
+                            <th>SUBCATEGORÍA</th>
+                            <th>MARCA</th>
+                            <th>DESCRIPCION</th>
+                            <th>PRECIO COSTO</th>
+                            <th>PRECIO VENTA</th>
+                            <th>EXISTENCIA</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr *ngFor="let item of (datos | filterGenerico:filterpost:['subcategoria', 'marca', 'descripcion', 'codigo', 'codigo_adicional', 'existencia']) | paginate : {
+                            itemsPerPage: pagesize,
+                            currentPage: page,
+                            totalItems: count
+                          }">
+                            <td>{{item.codigo}}</td>
+                            <td>{{item.codigo_adicional}}</td>
+                            <td>{{item.subcategoria}}</td>
+                            <td>{{item.marca}}</td>
+                            <td>{{item.descripcion}}</td>
+                            <td><label class="text-warning">{{item.costo}}</label></td>
+                            <td><label class="text-success">{{item.precio_venta}}</label></td>
+                            <td>
+                              <small *ngIf="item.existencia<=0" class="badge badge-danger">{{item.existencia}}</small>
+                              <label *ngIf="item.existencia>0"><label class="text-primary">{{item.existencia}}</label></label>
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                      <div class="float-right">
+                        <pagination-controls class="pagination-controls"
+                        previousLabel="Anterior"
+                        nextLabel="Siguiente"
+                        [responsive]="true"
+                        (pageChange)="handlePageChange($event)">
+                        </pagination-controls>
+                      </div>
+                  </div>
+              </div>
+
+
+
+
+
+
+          </div>
+          <!-- /.card-body -->
+        </div>
+      <!-- /.Termina form1 -->
+      <!-- /.Termina form1 -->
+      <!-- /.Termina form1 -->
+      </div>
+
+    </div>
+
+
+
+    
+
+
+
+  </div>
+</section>

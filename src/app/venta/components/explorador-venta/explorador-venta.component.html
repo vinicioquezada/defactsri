@@ -1,0 +1,290 @@
+<app-opciones-explorador-venta [tipoformulario] = "tipoformulario" (datosenvioestado)="recibirDatosEstado($event)" (datosenviocorreo)="recibirDatosCorreo($event)"></app-opciones-explorador-venta>
+<app-listar-nota-credito></app-listar-nota-credito>
+<app-listar-guia-remision></app-listar-guia-remision>
+  
+<section class="content-header">
+    <div class="container-fluid">
+      <div class="row mb-2">
+        <div class="col-sm-12">
+            <div class="btn-toolbar" role="toolbar">
+              <div class="btn-group">
+                <button (click)="clickDeshacer();" class="btn btn-secondary btn-flat btn-sm float-right" type="button"><i class="fas fa-redo-alt"></i> Deshacer</button>
+                <button routerLink="/menuventa" class="btn btn-secondary btn-flat btn-sm" type="button"><i class="fas fa-undo"></i> Atrás</button>
+              </div>
+            </div>
+        </div>
+        
+      </div>
+      
+    </div><!-- /.container-fluid -->
+  </section>
+  
+  <!-- Main content -->
+<section class="content">
+    <div class="container-fluid">
+
+      <div style="text-align:center">
+        <div *ngIf="loading" class="spinner-border text-primary" style="width: 3rem; height: 3rem;"></div>
+      </div>
+      
+      <div class="row">
+
+        <div class="col-md-12">
+          
+          
+          <div class="row">
+
+            <div class="col-md-6 d-flex align-items-center">
+              <a class="btn btn-primary btn-flat btn-sm" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample"><i class="fa fa-cogs"></i>
+                Más Formas de búsqueda
+              </a>
+            </div>
+  
+            <div class="col-md-3">
+              <div class="form-group">
+                  <label>Fecha documento desde:</label>
+                  <div class="input-group input-group-sm">
+                  <div class="input-group-prepend">
+                      <span class="input-group-text"><i class="fas fa-calendar"></i></span>
+                  </div>
+                  <input [(ngModel)]="fechadesde" type="date" class="form-control">
+                  </div>
+              </div>		 
+          </div>
+  
+          <div class="col-md-3">
+              <div class="form-group">
+                  <label>Fecha documento hasta:</label>
+                  <div class="input-group input-group-sm">
+                      <div class="input-group-prepend">
+                          <span class="input-group-text"><i class="fas fa-calendar"></i></span>
+                      </div>
+                      <input [(ngModel)]="fechahasta" type="date" class="form-control">
+                      <span class="input-group-append">
+                          <button (click)="clickBuscar();" class="btn btn-primary btn-flat" type="button"><i class="fa fa-search"></i></button>
+                      </span>
+                  </div>
+              </div>	 
+          </div>
+  
+          </div>
+
+
+          <div class="collapse" id="collapseExample">
+            <div class="card card-body">
+                <div class="col-md-12">
+  
+                  <div class="row">
+  
+  
+                        <div *ngIf="multisucursal=='1' && opcionesprivilegios['bloqueogestionlocales']!=1" class="col-md-6">
+                          <div class="form-group">
+                              <label>Sucursal:</label>
+                              
+                              <select (change)="changeSucursal($event)" class="form-control form-control-sm">
+                                  <option value="{{item.cod_sucursal}}" *ngFor="let item of datossucursal" [selected]="this.cod_sucursal == item.cod_sucursal">
+                                      {{item.sucursal}}
+                                  </option>
+                              </select>
+            
+                          </div>	
+                        </div>
+
+                        <div *ngIf="firmasruc=='1'" class="col-md-6">
+                          <div class="form-group">
+                              <label>Ruc Empresa:</label>
+                              
+                              <select (change)="changeEmpresa($event)" class="form-control form-control-sm">
+                                  <option value="{{item.cod_ruc}}" *ngFor="let item of datosrucempresa" [selected]="this.cod_ruc == item.cod_ruc">
+                                      {{item.empresa}}
+                                  </option>
+                              </select>
+            
+                          </div>	
+                        </div>
+          
+                        <div class="col-md-6">
+                          <div class="form-group">
+                              <label>Tipo Documento:</label>
+                              <select (change)="changeTipoDocumento($event)" class="form-control form-control-sm">
+                                  <option [value]="item.cod_tipo_documento" *ngFor="let item of datostipodocumento" [selected]="item.cod_tipo_documento == cod_tipo_documento">
+                                      {{item.tipo_documento}}
+                                  </option>
+                              </select>
+                          </div>	
+                        </div>
+          
+  
+                        <div class="col-md-6">
+                          <div class="form-group">
+                              <label>Estado Comprobante:</label>
+                              <select (change)="changeEstadoComprobante($event)" [(ngModel)]="estado" class="form-control form-control-sm">
+                                  <option value="0">TODOS</option>
+                                  <option value="CREADA">CREADA</option>
+                                  <option value="AUTORIZADO">AUTORIZADO</option>
+                                  <option value="NO AUTORIZADO">NO AUTORIZADO</option>
+                                  <option value="DEVUELTA">DEVUELTA</option>
+                                  <option value="EN PROCESO">EN PROCESO</option>
+                              </select>
+                          </div>	
+                        </div>
+  
+  
+                  </div>
+  
+                </div>
+            </div>
+          </div>
+
+
+        </div>
+
+        
+
+        
+  
+        <div class="col-md-12">
+
+          
+          
+        <!-- /.Inicia form1 -->
+        <!-- /.Inicia form1 -->
+        <!-- /.Inicia form1 -->
+          <div class="card card-primary card-outline">
+            <div class="card-header">
+              <h3 class="card-title"><i class="fa fa-file-alt"></i> Explorador</h3>
+  
+  
+              <div class="card-tools">
+                <div class="input-group input-group-sm">
+  
+                    <input (keyup)="keyFiltrado();" type="text" class="form-control float-right" oninput="javascript:this.value=this.value.toUpperCase();" placeholder="Buscar" [(ngModel)]="filterpost" name="filterpost" autocomplete="off" />
+  
+                    
+  
+                </div>
+              </div>
+  
+  
+            </div>
+            <div class="card-body">
+                <div class="row justify-content-between">
+              
+                  <span *ngIf="loadinglistado" class="justify-content-center text-center m-auto">
+                    <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;"></div>
+                  </span>
+  
+                    <div class="table-responsive p-0">
+                        <table class="design-table resp">
+                          <thead>
+                            <tr>
+                              <th width="50px">Nº</th>
+                              <th width="50px">ESTADO</th>
+                              <th width="100px">USUARIO</th>
+                              <th width="300px">CLIENTE</th>
+                              <th width="100px">FECHA</th>
+                              <th width="50px">TOTAL</th>
+                              <th width="100px">TIPO VENTA</th>
+                              <th width="50px"></th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <tr *ngFor="let item of (datos | filterGenerico:filterpost:['numero_factura', 'estado', 'cedula', 'cliente', 'fecha_hora', 'importetotal', 'tipo_venta']) | paginate : {
+                              id : 'paglistadoexploradorventa',
+                              itemsPerPage: pagesize,
+                              currentPage: page,
+                              totalItems: count
+                            }">
+                              <td>{{item.numero_factura}}</td>
+                              <td>
+                                <div class="text-mobile-right">
+                                  <div>
+                                    <small *ngIf="item.estado=='CREADA'" class="badge badge-success">{{item.estado}}</small>
+                                    <small *ngIf="item.estado=='AUTORIZADO'" class="badge badge-info">{{item.estado}}</small>
+                                    <small *ngIf="item.estado=='DEVUELTA'" class="badge badge-danger">{{item.estado}}</small>
+                                    <small *ngIf="item.estado=='NO AUTORIZADO'" class="badge badge-danger">{{item.estado}}</small>
+                                    <small *ngIf="item.estado=='EN PROCESO'" class="badge badge-warning">{{item.estado}}</small>
+                                    <small *ngIf="item.estado=='ANULADA'" class="badge badge-warning">{{item.estado}}</small>
+                                  </div>
+                                  <div *ngIf="item.error_sri==1">
+                                    <small class="badge badge-danger">Recepción SRI Fallido</small>
+                                  </div>
+                                  <div>
+                                    <small *ngIf="item.nota_credito=='1'" (click)="listarNotaCreditoVenta(item);" class="badge badge-warning cursor-pointer">VER NOTA CREDITO</small>
+                                  </div>
+                                  <div>
+                                    <small *ngIf="item.guia_remision=='1'" (click)="listarGuiaRemisionVenta(item);" class="badge badge-warning cursor-pointer">VER GUIA DE REMISION</small>
+                                  </div>
+                                  <div *ngIf="recaudador=='1'">
+                                    <small *ngIf="item.estado_recaudado==0" class="badge badge-warning">NO RECAUDADO</small>
+                                  </div>
+                                </div>
+                              </td>
+                              <td><small class="badge badge-primary">{{item.usuario}}</small></td>
+                              <td>
+                                <div class="text-mobile-right">
+                                  <div><small class="badge badge-primary">{{item.cedula}}</small></div>
+                                  {{item.cliente}}<br>
+                                  <small *ngIf="item.tipo_venta=='ELECTRONICA' && item.envio!='ENVIADO'" class="badge badge-warning">@ CORREO NO ENVIADO</small>
+                                </div>
+                              </td>
+                              <td>{{item.fecha_hora}}</td>
+                              <td><label class="text-success">{{item.importetotal}}</label></td>
+                              <td>
+                                <small *ngIf="item.tipo_venta=='ELECTRONICA'" class="badge badge-primary">{{item.tipo_venta}}</small>
+                                <small *ngIf="item.tipo_venta=='FACTURA'" class="badge badge-primary">{{item.tipo_venta}}</small>
+                                <!-- <small *ngIf="item.tipo_venta=='PEDIDO RESERVADO'" class="badge badge-warning">{{item.tipo_venta}}</small> -->
+                                <small *ngIf="item.tipo_venta=='RECIBO'" class="badge badge-info">{{item.tipo_venta}}</small>
+                                <small *ngIf="item.tipo_venta=='PROFORMA'" class="badge badge-secondary">{{item.tipo_venta}}</small>
+                                <!--<small *ngIf="item.tipo_venta=='PEDIDO PANADERIA'" class="badge badge-warning">{{item.tipo_venta}}</small> -->
+                                <small *ngIf="item.deudor==1 && item.termino_deudor==0" class="badge badge-warning">POR COBRAR</small>
+                                <small *ngIf="item.excluir_general==1" class="badge badge-success">CON DESCUENTO</small>
+                                <small *ngIf="firmasruc=='1'" class="badge badge-primary">{{item.empresa}}</small>
+                              </td>
+                              <td>
+                                <div class="d-flex justify-content-end">
+                                  <button (click)="opciones(item);" data-bs-toggle="tooltip" data-bs-placement="top" title="OPCIONES" class="btn btn-outline-primary btn-sm" type="button"><i class="fa fa-cogs"></i></button>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                        <div class="float-right">
+                          <pagination-controls class="pagination-controls" id="paglistadoexploradorventa"
+                          previousLabel="Anterior"
+                          nextLabel="Siguiente"
+                          [responsive]="true"
+                          (pageChange)="handlePageChange($event)">
+                          </pagination-controls>
+                        </div>
+                        
+                    </div>
+                </div>
+  
+  
+  
+  
+  
+  
+            </div>
+            <!-- /.card-body -->
+          </div>
+        <!-- /.Termina form1 -->
+        <!-- /.Termina form1 -->
+        <!-- /.Termina form1 -->
+        </div>
+  
+      </div>
+  
+  
+  
+      
+  
+  
+  
+    </div>
+  </section>
+  
+  
+  
+  

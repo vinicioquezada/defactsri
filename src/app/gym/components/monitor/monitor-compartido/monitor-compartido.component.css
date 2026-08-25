@@ -1,0 +1,54 @@
+/* Tamaño base (móvil primero) */
+.size-fuente {
+  font-size: 1.4rem;
+  font-weight: 600;
+}
+
+.icono-dato {
+  font-size: 1.6rem;
+}
+
+/* Tablets */
+@media (min-width: 768px) {
+  .size-fuente {
+    font-size: 1.7rem;
+  }
+
+  .icono-dato {
+    font-size: 2rem;
+  }
+}
+
+/* Escritorio */
+@media (min-width: 992px) {
+  .size-fuente {
+    font-size: 2.1rem;
+  }
+
+  .icono-dato {
+    font-size: 2.3rem;
+  }
+}
+
+/* Pantallas grandes */
+@media (min-width: 1200px) {
+  .size-fuente {
+    font-size: 2.4rem;
+  }
+
+  .icono-dato {
+    font-size: 2.7rem;
+  }
+}
+
+
+/* QHD y superiores */
+@media (min-width: 2500px) {
+  .size-fuente { font-size: 3rem; }
+  .icono-dato { font-size: 3.3rem; }
+}
+
+
+.contenedor-monitor {
+  height: 100vh;
+}

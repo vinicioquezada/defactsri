@@ -1,0 +1,272 @@
+<app-usuario-form (datosenvio)="recibirDatosUsuario()"></app-usuario-form>
+
+<div class="modal fade" id="mymodalactualizarusuario">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">ACTUALIZAR USUARIO <b>{{ persona }}</b></h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        
+        <div class="row">
+          
+            <div class="col-md-12">
+
+               <div class="form-group">
+                      <label>Usuario:</label>
+                      <div class="input-group input-group-sm">
+                        <div class="input-group-prepend">
+                          <span class="input-group-text"><i class="fas fa-user"></i></span>
+                        </div>
+                        <input class="form-control" type="text" [(ngModel)]="usuario">
+                      </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Contraseña:</label>
+                    <div class="input-group input-group-sm">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text"><i class="fas fa-key"></i></span>
+                      </div>
+                      <input class="form-control" type="text" [(ngModel)]="password">
+                    </div>
+                </div>
+
+            </div>
+
+           
+
+
+        </div>
+
+  
+        <div class="d-flex justify-content-end align-items-center">
+          <button (click)="actualizarusuario()" class="btn btn-warning btn-sm" type="button"><i class="fas fa-save"></i> Actualizar</button>&nbsp;
+          <button class="btn btn-secondary btn-sm" type="button" data-dismiss="modal"><i class="fas fa-times-circle"></i> Cerrar</button>
+        </div>
+
+
+
+      </div>
+      
+    </div>
+    <!-- /.modal-content -->
+  </div>
+  <!-- /.modal-dialog -->
+</div>
+
+
+<div id="mymodallistarsucursalesusuario" class="modal fade" role="dialog" data-backdrop="false">
+  <div class="modal-dialog modal-xl">
+    <!-- Modal content -->
+    <div class="modal-content">
+      <div class="modal-header">
+      <h5 class="modal-title">LISTADO DE SUCURSALES</h5>
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">×</span>
+          </button>
+      </div>
+      <div class="modal-body overlay-wrapper">
+
+        <div *ngIf="loadinglistadosucursales" class="overlay overlay-custom d-flex flex-column align-items-center">
+          <div class="spinner-border text-primary" style="width: 5rem; height: 5rem; font-size: 30px;" role="status"></div>
+          <div class="text-bold pt-2">Cargando...</div>
+        </div>
+        
+        <div class="row justify-content-between">
+
+          <div class="table-responsive p-0">
+            <table class="design-table resp">
+              <thead>
+                <tr>
+                  <th>Nº</th>
+                  <th>SUCURSAL</th>
+                  <th>DIRECCIÓN</th>
+                  <th>ESTADO</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let item of datossucursalesusuario; let i = index">
+                  <td>{{i + 1}}</td>
+                  <td>{{item.sucursal}}</td>
+                  <td>{{item.direccion_establecimiento}}</td>
+                  <td>
+                    <small *ngIf="item.estado_sucursal==1" class="badge badge-info">Activado</small>
+                    <small *ngIf="item.estado_sucursal==0" class="badge badge-danger">Desactivado</small>
+                  </td>
+                  <td>
+                    <button (click)="eliminarsucursalusuario(item.cod_sucursal);" *ngIf="item.estado_sucursal==1" class="btn btn-outline-danger btn-sm"><i class="fa fa-toggle-on"></i></button>
+                    <button (click)="guardarsucursalusuario(item.cod_sucursal)" *ngIf="item.estado_sucursal==0" class="btn btn-outline-info btn-sm"><i class="fa fa-toggle-on"></i></button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="d-flex justify-content-end align-items-center">
+          <button class="btn btn-secondary btn-sm" type="button" data-dismiss="modal"><i class="fas fa-times-circle"></i> Cerrar</button>
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+</div>
+  
+  
+  <section class="content-header">
+    <div class="container-fluid">
+      <div class="row mb-2">
+        <div class="col-sm-12">
+            <div class="btn-toolbar" role="toolbar">
+              <div class="btn-group">
+                <button (click)="clickNuevoCliente();" class="btn btn-primary btn-flat btn-sm" type="button"><i class="fa fa-plus"></i> Nuevo</button>
+                <button (click)="clickactualizarlistado();" class="btn btn-secondary btn-flat btn-sm float-right" type="button"><i class="fas fa-redo-alt"></i> Cargar</button>
+                <button routerLink="/menuadministrar" class="btn btn-secondary btn-flat btn-sm" type="button"><i class="fas fa-undo"></i> Atrás</button>
+              </div>
+            </div>
+            
+              
+  
+        </div>
+        
+        
+      </div>
+      
+    </div><!-- /.container-fluid -->
+  </section>
+  
+  <!-- Main content -->
+  <section class="content">
+    <div class="container-fluid">
+      <div class="row">
+  
+        <div class="col-md-12">
+          
+        <!-- /.Inicia form1 -->
+        <!-- /.Inicia form1 -->
+        <!-- /.Inicia form1 -->
+          <div class="card card-primary card-outline">
+            <div class="card-header">
+              <h3 class="card-title"><i class="fa fa-file-alt"></i> Explorador</h3>
+  
+  
+              <div class="card-tools">
+                <div class="input-group input-group-sm">
+  
+                    <input (keyup)="keyFiltrado();" type="text" class="form-control float-right" oninput="javascript:this.value=this.value.toUpperCase();" placeholder="Buscar" [(ngModel)]="filterpost" name="filterpost" autocomplete="off" />
+  
+                    
+  
+                </div>
+              </div>
+  
+  
+            </div>
+            <div class="card-body overlay-wrapper">
+
+              <div *ngIf="loadinglistado" class="overlay overlay-custom d-flex flex-column align-items-center">
+                <div class="spinner-border text-primary" style="width: 5rem; height: 5rem; font-size: 30px;" role="status"></div>
+                <div class="text-bold pt-2">Cargando...</div>
+              </div>
+
+
+                <div class="row justify-content-between">
+              
+                  
+  
+                        <div class="table-responsive p-0">
+                          <table class="design-table resp">
+                        <thead>
+                          <tr>
+                            <th>CÉDULA</th>
+                            <th>APELLIDO</th>
+                            <th>NOMBRE</th>
+                            <th>ROL</th>
+                            <th>USUARIO</th>
+                            <th>ESTADO</th>
+                            <th></th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                        <tr *ngFor="let item of (datos | filterGenerico:filterpost:['cedula', 'apellido', 'nombre', 'roles']) | paginate : {
+                          itemsPerPage: pagesize,
+                          currentPage: page,
+                          totalItems: count
+                        }">
+                          <td>{{item.cedula}}</td>
+                          <td>{{item.apellido}}</td>
+                          <td>{{item.nombre}}</td>
+                          <td>{{item.roles}}</td>
+                          <td>
+                            <div *ngIf="item.estado==null">
+                              <small *ngIf="item.estado==null" class="badge badge-warning">SIN CUENTA</small>
+                            </div>
+                            <div *ngIf="item.estado!=null">
+                              {{item.usuario}}
+                            </div>
+                          </td>
+                          <td>
+                            <small *ngIf="item.estado=='DESHABILITADO'" class="badge badge-danger">{{item.estado}}</small>
+                            <small *ngIf="item.estado=='HABILITADO'" class="badge badge-info">{{item.estado}}</small>
+                            <small *ngIf="item.estado==null" class="badge badge-warning">SIN CUENTA</small>
+                          </td>
+                          <td>
+                            <div class="d-flex justify-content-end">
+                              <div *ngIf="item.estado==null">
+                                <button (click)="crearcuentausuario(item.cod_empleado, item.cedula);" class="btn btn-outline-warning btn-sm"><i class="fa fa-user-plus"></i></button>
+                              </div>
+                              
+                              <div *ngIf="item.estado!=null">
+                                <button (click)="activar(item.cod_usuario, 'DESHABILITADO');" *ngIf="item.estado=='HABILITADO'" class="btn btn-outline-danger btn-sm ml-1"><i class="fa fa-toggle-on"></i></button>
+                                <button (click)="activar(item.cod_usuario, 'HABILITADO')" *ngIf="item.estado=='DESHABILITADO'" class="btn btn-outline-info btn-sm ml-1"><i class="fa fa-toggle-on"></i></button>
+                                <button (click)="agregarsucursal(item.cod_usuario)" class="btn btn-outline-primary btn-sm ml-1"><i class="fa fa-home"></i></button>
+                                <button (click)="actualizarusuariocuenta(item.cod_usuario, item.apellido, item.nombre, item.usuario)" class="btn btn-outline-primary btn-sm ml-1"><i class="fa fa-cog"></i></button>
+                                <button (click)="editar(item);" class="btn btn-outline-warning btn-sm ml-1" type="button"><i class="fas fa-pencil-alt"></i></button>
+                                <button (click)="clickEliminar(item.cod_empleado, item.apellido + ' ' + item.nombre);" class="btn btn-outline-danger btn-sm ml-1"><i class="fa fa-trash"></i></button>
+                              </div>
+                            </div>
+                          </td>
+                        </tr>
+                        </tbody>
+                      </table>
+                      <div class="float-right">
+                        <pagination-controls class="pagination-controls"
+                        previousLabel="Anterior"
+                        nextLabel="Siguiente"
+                        [responsive]="true"
+                        (pageChange)="handlePageChange($event)">
+                        </pagination-controls>
+                      </div>
+                    </div>
+                </div>
+  
+  
+  
+  
+  
+  
+            </div>
+            <!-- /.card-body -->
+          </div>
+        <!-- /.Termina form1 -->
+        <!-- /.Termina form1 -->
+        <!-- /.Termina form1 -->
+        </div>
+  
+      </div>
+  
+  
+  
+      
+  
+  
+  
+    </div>
+  </section>

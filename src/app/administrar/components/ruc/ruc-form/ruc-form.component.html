@@ -1,0 +1,383 @@
+<div id="mymodalformruc" class="modal fade" role="dialog" data-backdrop="false">
+  <div class="modal-dialog modal-lg">
+    <!-- Modal content -->
+    <div class="modal-content">
+      <div class="modal-header">
+      <h5 class="modal-title">{{nombreformulario}} RUC</h5>
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">×</span>
+          </button>
+      </div>
+
+      <div class="modal-body overlay-wrapper">
+       
+          <div *ngIf="loadingform" class="overlay overlay-custom d-flex flex-column align-items-center">
+            <div class="spinner-border text-primary" style="width: 5rem; height: 5rem; font-size: 30px;" role="status">
+            </div>
+            <div class="text-bold pt-2">Cargando...</div>
+          </div>
+
+          
+
+
+
+
+
+
+
+
+<div class="row">
+
+        <div class="col-md-12">
+          
+        <!-- /.Inicia form1 -->
+        <!-- /.Inicia form1 -->
+        <!-- /.Inicia form1 -->
+          <div class="card card-primary card-outline">
+
+            <div class="card-header">
+              <h3 class="card-title"><i class="fas fa-id-card"></i> Datos Generales</h3>
+
+              
+
+
+            </div>
+
+            <div class="card-body">
+
+              <!-- <div style="text-align:center">
+                <div *ngIf="loadingform" class="spinner-border text-primary" style="width: 3rem; height: 3rem;"></div>
+              </div> -->
+
+                
+              <div class="row">
+                
+                 <div class="col-md-6">
+                    
+                  <div class="form-group">
+                        <label>Cod Ruc:</label>
+                        <input [(ngModel)]="rucempresa.cod_ruc" [ngClass]="{'is-invalid': flagcodruc}" onKeyPress="return soloNumerosEnteros(event)" class="form-control form-control-sm" placeholder="" type="text">
+                    </div>
+
+
+                    <div class="form-group">
+                        <label>Cod Sucursal:</label>
+                        <input [(ngModel)]="rucempresa.cod_sucursal" onKeyPress="return soloNumerosEnteros(event)" class="form-control form-control-sm" placeholder="" type="text">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Tipo Ambiente:</label>
+                        <select (change)="changeTipoAmbiente($event)" class="form-control form-control-sm">
+                            <option value="{{item.cod_tipo_ambiente}}" *ngFor="let item of datostipoambiente" [selected]="item.cod_tipo_ambiente == rucempresa.tipo_ambiente">
+                                {{item.tipo_ambiente}}
+                            </option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Empresa:</label>
+                        <input [(ngModel)]="rucempresa.empresa" [ngClass]="{'is-invalid': flagempresa}" oninput="javascript:this.value=this.value.toUpperCase();" class="form-control form-control-sm" placeholder="" type="text">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Número Ruc:</label>
+                        <input [(ngModel)]="rucempresa.ruc_sucursal" [ngClass]="{'is-invalid': flagrucsucursal}" onKeyPress="return soloNumerosEnteros(event)" class="form-control form-control-sm" placeholder="" type="text">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Razón Social:</label>
+                        <input [(ngModel)]="rucempresa.razonsocial" [ngClass]="{'is-invalid': flagrazonsocial}"  oninput="javascript:this.value=this.value.toUpperCase();" class="form-control form-control-sm" placeholder="" type="text">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Tipo Ruc:</label>
+                        <select (change)="changeTipoRuc($event)" class="form-control form-control-sm">
+                            <option value="{{item.cod_tipo_ruc}}" *ngFor="let item of datostiporuc" [selected]="item.cod_tipo_ruc == rucempresa.tipo_ruc">
+                                {{item.tipo_ruc}}
+                            </option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Tipo Contribuyente:</label>
+                        <label class="form-control form-control-sm">{{rucempresa.tipo_contribuyente}}</label>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Contribuyente:</label>
+                        <label class="form-control form-control-sm">{{rucempresa.contribuyente}}</label>
+                    </div>
+
+                    
+
+
+                </div>
+
+                <div class="col-md-6">
+
+                    <div class="form-group">
+                        <label>Leyenda (Opcional):</label>
+                        <input [(ngModel)]="rucempresa.leyenda" class="form-control form-control-sm" placeholder="" type="text"> 
+                    </div>
+                  
+                    <div class="form-group">
+                        <label>Nombre Comercial:</label>
+                        <input [(ngModel)]="rucempresa.nombrecomercial" [ngClass]="{'is-invalid': flagnombrecomercial}" oninput="javascript:this.value=this.value.toUpperCase();" class="form-control form-control-sm" placeholder="" type="text">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Nombre Comercial (Opcional):</label>
+                        <input [(ngModel)]="rucempresa.nombrecomercial1" oninput="javascript:this.value=this.value.toUpperCase();" class="form-control form-control-sm" placeholder="" type="text">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Contabilidad:</label>
+                        <select (change)="changeContabilidad($event)" class="form-control form-control-sm">
+                            <option value="{{item.cod_contabilidad}}" *ngFor="let item of datoscontabilidad" [selected]="item.cod_contabilidad == rucempresa.contabilidad">
+                                {{item.contabilidad}}
+                            </option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Dirección Matriz:</label>
+                        <input [(ngModel)]="rucempresa.direccion_matriz" [ngClass]="{'is-invalid': flagdireccionmatriz}" oninput="javascript:this.value=this.value.toUpperCase();" class="form-control form-control-sm" placeholder="" type="text"> 
+                    </div>
+                
+                </div>
+
+              </div>
+
+                
+                
+                
+                
+                
+
+            </div>
+            <!-- /.card-body -->
+
+          
+          </div>
+        <!-- /.Termina form1 -->
+        <!-- /.Termina form1 -->
+        <!-- /.Termina form1 -->
+
+        </div>
+
+      </div>
+
+
+      <div class="row">
+
+        <div class="col-md-12">
+          
+        <!-- /.Inicia form1 -->
+        <!-- /.Inicia form1 -->
+        <!-- /.Inicia form1 -->
+          <div class="card card-primary card-outline">
+
+            <div class="card-header">
+              <h3 class="card-title"><i class="fas fa-university"></i> Establecimiento</h3>
+
+              
+
+
+            </div>
+
+            <div class="card-body">
+
+              <!-- <div style="text-align:center">
+                <div *ngIf="loadingform" class="spinner-border text-primary" style="width: 3rem; height: 3rem;"></div>
+              </div> -->
+
+                
+              <div class="row">
+                
+                <div class="col-md-6">
+                    
+                    
+
+                    <div class="form-group">
+                        <label>Serie Establecimiento:</label>
+                        <input [(ngModel)]="rucempresa.serieestab" [ngClass]="{'is-invalid': flagserieestab}" oninput="javascript:this.value=this.value.toUpperCase();" class="form-control form-control-sm" placeholder="001" type="text">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Punto Emisión:</label>
+                        <input [(ngModel)]="rucempresa.ptoemi" [ngClass]="{'is-invalid': flagptoemi}" oninput="javascript:this.value=this.value.toUpperCase();" class="form-control form-control-sm" placeholder="001" type="text">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Dirección Establecimiento:</label>
+                        <input [(ngModel)]="rucempresa.direccion_establecimiento" [ngClass]="{'is-invalid': flagdireccionestablecimiento}" oninput="javascript:this.value=this.value.toUpperCase();" class="form-control form-control-sm" placeholder="" type="text"> 
+                    </div>
+
+                    <div class="form-group">
+                        <label>Celular Establecimiento:</label>
+                        <input [(ngModel)]="rucempresa.celular_establecimiento" oninput="javascript:this.value=this.value.toUpperCase();" class="form-control form-control-sm" placeholder="" type="text"> 
+                    </div>
+
+                    
+                    
+                </div>
+
+                <div class="col-md-6">
+                  
+                    <div class="form-group">
+                        <label>Teléfono Establecimiento:</label>
+                        <input [(ngModel)]="rucempresa.telefono_establecimiento" oninput="javascript:this.value=this.value.toUpperCase();" class="form-control form-control-sm" placeholder="" type="text"> 
+                    </div>
+
+                    <div class="form-group">
+                        <label>Ciudad Establecimiento:</label>
+                        <input [(ngModel)]="rucempresa.ciudad_establecimiento" [ngClass]="{'is-invalid': flagciudadestablecimiento}" oninput="javascript:this.value=this.value.toUpperCase();" class="form-control form-control-sm" placeholder="MACHALA - EL ORO - ECUADOR" type="text"> 
+                    </div>
+
+                    <div class="form-group">
+                        <label>Correo Establecimiento:</label>
+                        <input [(ngModel)]="rucempresa.correo_establecimiento" [ngClass]="{'is-invalid': flagcorreoestablecimiento}" class="form-control form-control-sm" placeholder="" type="text"> 
+                    </div>
+
+                    
+
+                    
+                
+                </div>
+
+              </div>
+
+                
+                
+                
+                
+                
+
+            </div>
+            <!-- /.card-body -->
+
+          
+          </div>
+        <!-- /.Termina form1 -->
+        <!-- /.Termina form1 -->
+        <!-- /.Termina form1 -->
+
+        </div>
+
+      </div>
+
+
+      <div class="row">
+
+        <div class="col-md-12">
+          
+        <!-- /.Inicia form1 -->
+        <!-- /.Inicia form1 -->
+        <!-- /.Inicia form1 -->
+          <div class="card card-primary card-outline">
+
+            <div class="card-header">
+              <h3 class="card-title"><i class="fas fa-signature"></i> Firma Electrónica</h3>
+
+              
+
+
+            </div>
+
+            <div class="card-body">
+
+              <!-- <div style="text-align:center">
+                <div *ngIf="loadingform" class="spinner-border text-primary" style="width: 3rem; height: 3rem;"></div>
+              </div> -->
+
+                
+              <div class="row">
+                
+                <div class="col-md-6">
+                    
+                    <div class="form-group">
+                        <label>Empresa Certificado:</label>
+                        <input [(ngModel)]="rucempresa.certificado" [ngClass]="{'is-invalid': flagcertificado}" oninput="javascript:this.value=this.value.toUpperCase();" class="form-control form-control-sm" placeholder="" type="text"> 
+                    </div>
+
+                    <div class="form-group">
+                        <label>Subir Certificado:</label>
+                        <input [(ngModel)]="rucempresa.firmap12" [ngClass]="{'is-invalid': flagfirmap12}" class="form-control form-control-sm" placeholder="" type="text"> 
+                    </div>
+
+                    
+
+                    
+                </div>
+
+                <div class="col-md-6">
+                  
+
+                    <div class="form-group">
+                        <label>Clave Certificado:</label>
+                        <input [(ngModel)]="rucempresa.clavep12" [ngClass]="{'is-invalid': flagclavep12}" class="form-control form-control-sm" placeholder="" type="text"> 
+                    </div>
+
+                    <div class="form-group">
+                        <label>Caducidad Certificado:</label>
+                        <input [(ngModel)]="rucempresa.fecha_caducidad_firma" [ngClass]="{'is-invalid': flagfechacaducidadfirma}" class="form-control form-control-sm" placeholder="" type="text"> 
+                    </div>
+
+                    
+                
+                </div>
+
+              </div>
+
+                
+                
+                
+                
+                
+
+            </div>
+            <!-- /.card-body -->
+
+          
+          </div>
+        <!-- /.Termina form1 -->
+        <!-- /.Termina form1 -->
+        <!-- /.Termina form1 -->
+
+        </div>
+
+      </div>
+
+
+
+
+
+
+
+
+
+
+          <div class="d-flex justify-content-end align-items-center">     
+            <button [ngClass]="{'d-none': flagocultarboton}" (click)="clickGuardar();" class="btn btn-primary btn-sm" type="button"><i class="fas fa-save"></i> Guardar</button>
+            <button [ngClass]="{'d-none': !flagocultarboton}" (click)="clickActualizar();" class="btn btn-warning btn-sm" type="button"><i class="fas fa-save"></i> Actualizar</button>
+            <div *ngIf="flagocultarboton">&nbsp;</div>
+            <button class="btn btn-secondary btn-sm" type="button" data-dismiss="modal"><i class="fas fa-times-circle"></i> Cerrar</button>
+          </div>
+
+
+
+      </div>
+
+    </div>
+
+  </div>
+</div>
+
+
+
+
+
+
+
+
+

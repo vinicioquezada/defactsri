@@ -1,0 +1,21 @@
+@media only screen and (max-width: 768px) {
+  td:nth-of-type(1):before {
+    content: "CÓDIGO";
+  }
+  
+  td:nth-of-type(2):before {
+    content: "TIPO IMPUESTO";
+  }
+  
+  td:nth-of-type(3):before {
+    content: "DESCRIPCIÓN";
+  }
+  
+  td:nth-of-type(4):before {
+    content: "PORCENTAJE";
+  }
+
+  td:nth-of-type(5):before {
+    content: "";
+  }
+}

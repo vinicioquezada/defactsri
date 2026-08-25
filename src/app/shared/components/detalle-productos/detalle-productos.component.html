@@ -1,0 +1,51 @@
+<div class="scroll-container" #scrolly>
+  <table border="1" style="font-size: 12px;" class="bordered">
+          <thead>
+              <tr>
+              <th width="5%">C/U.</th>
+              <th width="5%">C/P.</th>
+              <th width="5%">C/Aj.</th>
+              <th width="32%">Detalles</th>
+              <th width="3%">U</th>
+              <th width="3%" *ngIf="kardex=='1'">Costo</th>
+              <th width="8%" *ngIf="kardex=='1'">Costo+</th>
+              <th *ngIf="tipo_formulario!='visualizarregistro'" width="8%">Opción</th>
+              </tr>
+          </thead>
+          <tbody>
+              <tr *ngFor="let item of datosdetalles; let i = index; let u = last" [ngClass]="{'bg-danger': item.fila_error}">
+                  <td>
+                      <input class="micajatable" type="text" maxlength="15" (keydown)="keyPendiente(i)" (keyup.enter)="keySumar(i)" (blur)="keySumar(i)" [(ngModel)]="item.cantidad_comprar" onKeyPress="return soloNumeros(event)">
+                  </td>
+                  <td>
+                      <input class="micajatable" type="text" maxlength="15" (keydown)="keyPendiente(i)" (keyup.enter)="keySumar(i)" (blur)="keySumar(i)" [(ngModel)]="item.cantidad_paquete" onKeyPress="return soloNumeros(event)">
+                  </td>
+                  <td>
+                      <input class="micajatable" type="text" maxlength="15" (keydown)="keyPendiente(i)" (keyup.enter)="keySumar(i)" (blur)="keySumar(i)" [(ngModel)]="item.cantidad_ajuste" onKeyPress="return soloNumeros(event)">
+                  </td>
+                  <td>{{item.descripcion}}</td>
+                  <td>{{item.cantidad_unidad}}</td>
+                  <td *ngIf="kardex=='1'"><input class="micajatable" type="text" maxlength="15" (keydown)="keyPendiente(i)" (keyup.enter)="keyCalcularCi(i)" (blur)="keyCalcularCi(i)" [(ngModel)]="item.costo_base"></td>
+                  <td *ngIf="kardex=='1'"><input class="micajatable" type="text" maxlength="15" (keydown)="keyPendiente(i)" (keyup.enter)="keyCalcularCb(i)" (blur)="keyCalcularCb(i)" [(ngModel)]="item.costo"></td>
+                  <td *ngIf="tipo_formulario!='visualizarregistro'" >
+                    <div class="d-flex justify-content-end">
+                        <button *ngIf="tipo_formulario=='actualizarregistro' && kardex == '1'" type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                        <i class="fas fa-ellipsis-v"></i> <span></span>
+                        </button>
+                        <ul *ngIf="tipo_formulario=='actualizarregistro' && kardex == '1'" class="dropdown-menu">
+                            <li class="dropdown-item cursor-pointer"><a (click)="clickActualizarCostoKardex(item, i);"><i class="fas fa-dollar-sign"></i>&nbsp;<span>Actualizar Costo Kardex</span></a></li>
+                            <li class="dropdown-item cursor-pointer"><a (click)="clickActualizarIngresoKardex(item, i);"><i class="fas fa-boxes"></i>&nbsp;<span>Actualizar Ingreso Kardex</span></a></li>
+                            <li class="dropdown-divider"></li>
+                            <li class="dropdown-item cursor-pointer"><a (click)="clickEliminarIngresosKardex(item, i);"><i class="fa fa-trash"></i>&nbsp;<span>Eliminar Ingreso Kardex</span></a></li>
+                        </ul>
+                        <button *ngIf="tipo_formulario!='actualizarregistro' && kardex == '1'" (click)="borrar(i);" class="btn btn-danger btn-sm"><i class="fa fa-trash"></i></button>
+                        <button *ngIf="kardex == '0'" (click)="borrar(i);" class="btn btn-danger btn-sm"><i class="fa fa-trash"></i></button>
+                        <label *ngIf="u==true">{{ultimaFila(i)}}</label>
+                    </div>
+                  </td>
+              </tr>
+              
+          </tbody>
+
+  </table>
+</div>

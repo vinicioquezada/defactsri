@@ -1,0 +1,52 @@
+<div>
+
+  <div *ngIf="loadingalmacenar" class="loader-spinner">
+      <div class="center">
+          <div class="spinner-border text-primary border-spinner" role="status" style="width: 3rem; height: 3rem;"></div>
+      </div>
+  </div>
+  
+    <table border="1" style="font-size: 12px;" class="bordered">
+            <thead>
+                <tr>
+                <th width="5%">C/U.</th>
+                <th width="5%">C/P.</th>
+                <th width="5%">C/Aj.</th>
+                <th width="33%">Detalles</th>
+                <th width="15%">Observación</th>
+                <th width="3%">U</th>
+                <th *ngIf="tipo_formulario!='visualizarregistro'" width="10%"></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let item of datosdetalles; let i = index; let u = last" [ngClass]="{'bg-danger': item.fila_error}">
+                    <td>
+                          <label class="badge badge-warning">{{item.cantidad_comprar}}</label>
+                        <input class="micajatable" type="text" maxlength="15" (keydown)="keyPendiente(i)" (keyup.enter)="keySumar(item)" [(ngModel)]="item.cantidad_comprar_revisado" onKeyPress="return soloNumeros(event)">
+                    </td>
+                    <td>
+                      <label class="badge badge-warning">{{item.cantidad_paquete}}</label>
+                        <input class="micajatable" type="text" maxlength="15" (keydown)="keyPendiente(i)" (keyup.enter)="keySumar(item)" [(ngModel)]="item.cantidad_paquete_revisado" onKeyPress="return soloNumeros(event)">
+                    </td>
+                    <td>
+                      <label class="badge badge-warning">{{item.cantidad_ajuste}}</label>
+                        <input class="micajatable" type="text" maxlength="15" (keydown)="keyPendiente(i)" (keyup.enter)="keySumar(item)" [(ngModel)]="item.cantidad_ajuste_revisado" onKeyPress="return soloNumeros(event)">
+                    </td>
+                    <td>{{item.descripcion}}</td>
+                    <td><input class="micajatable" type="text" maxlength="250" (keydown)="keyPendiente(i)" (keyup.enter)="keyConfirmar(item)" [(ngModel)]="item.observacion"></td>
+                    <td>
+                      <label class="badge badge-warning">{{item.cantidad_unidad}}</label>
+                      <div>{{item.cantidad_unidad_revisado}}</div>
+                      </td>
+                    <td *ngIf="tipo_formulario!='visualizarregistro'">
+                      <div class="d-flex justify-content-center">
+                          <label *ngIf="item.estado_movimiento!='PENDIENTE'" class="badge badge-success">Registrado</label>
+                          <button *ngIf="item.estado_movimiento=='PENDIENTE'" (click)="clickSubirInventario(item);" class="btn btn-primary btn-sm"><i class="fas fa-sort-amount-up"></i> Subir</button>
+                      </div>
+                    </td>
+                </tr>
+                
+            </tbody>
+  
+    </table>
+  </div>

@@ -1,0 +1,245 @@
+<app-listado-empleado (datosenviar)="recibirDatosEmpleados($event)"></app-listado-empleado>
+
+<app-listado-proveedor (datosenviar)="recibirDatosProveedor($event)"></app-listado-proveedor>
+
+<section class="content-header">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-12">
+              <div class="btn-toolbar" role="toolbar">
+                <div class="btn-group">
+                    <button (click)="exportarExcel();" class="btn btn-success btn-flat btn-sm float-right" type="button"><i class="fa fa-file-excel"></i> Excel</button>
+                    <button (click)="exportarPdf();" class="btn btn-danger btn-flat btn-sm float-right" type="button"><i class="fa fa-file-pdf"></i> PDF</button>
+                    <button (click)="clickDeshacer();" class="btn btn-secondary btn-flat btn-sm float-right" type="button"><i class="fas fa-redo-alt"></i> Deshacer</button>
+                    <button routerLink="/menuretencion" class="btn btn-secondary btn-flat btn-sm" type="button"><i class="fas fa-undo"></i> Atrás</button>
+                </div>
+              </div>
+          </div>
+          
+        </div>
+        
+      </div><!-- /.container-fluid -->
+    </section>
+    
+    <!-- Main content -->
+  <section class="content">
+      <div class="container-fluid">
+
+        <div style="text-align:center">
+          <div *ngIf="loading" class="spinner-border text-primary" style="width: 3rem; height: 3rem;"></div>
+        </div>
+        
+        <div class="row">
+    
+          <div class="col-md-12">
+  
+            <div class="row">
+  
+              <div class="col-md-6 d-flex align-items-center">
+                <a class="btn btn-primary btn-flat btn-sm" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample"><i class="fa fa-cogs"></i>
+                  Más Formas de búsqueda
+                </a>
+              </div>
+  
+              <div class="col-md-3">
+                  <div class="form-group">
+                      <label>Fecha Desde:</label>
+                      <div class="input-group input-group-sm">
+                      <div class="input-group-prepend">
+                          <span class="input-group-text"><i class="fas fa-calendar"></i></span>
+                      </div>
+                      <input [(ngModel)]="fechadesde" type="date" class="form-control">
+                      </div>
+                  </div>		 
+              </div>
+  
+              <div class="col-md-3">
+                  <div class="form-group">
+                      <label>Fecha Hasta:</label>
+                      <div class="input-group input-group-sm">
+                          <div class="input-group-prepend">
+                              <span class="input-group-text"><i class="fas fa-calendar"></i></span>
+                          </div>
+                          <input [(ngModel)]="fechahasta" type="date" class="form-control">
+                          <span class="input-group-append">
+                              <button (click)="buscar();" class="btn btn-primary btn-flat" type="button"><i class="fa fa-search"></i></button>
+                          </span>
+                      </div>
+                  </div>	 
+              </div>
+  
+            </div>
+            
+            <div class="collapse" id="collapseExample">
+              <div class="card card-body">
+                  <div class="col-md-12">
+   
+                    <div class="row">
+
+
+                        <div *ngIf="multisucursal=='1'" class="col-md-6">
+                            <div class="form-group">
+                                <label>Sucursal:</label>
+                                <select (change)="changeSucursal($event)" class="form-control form-control-sm">
+                                    <option value="{{item.cod_sucursal}}" *ngFor="let item of datossucursal" [selected]="this.cod_sucursal == item.cod_sucursal">
+                                        {{item.sucursal}}
+                                    </option>
+                                </select>
+                            </div>	
+                        </div>
+          
+                        <div class="col-md-6">
+                          <div class="form-group">
+                            <label>Personal:</label>
+                            <div class="input-group input-group-sm">
+                                <div class="input-group-prepend">
+                                  <span class="input-group-text"><input (change)="changeChkEmpleado();" [checked]="chkempleado" type="checkbox"> TODOS</span>
+                                </div>
+                                <label class="form-control">{{this.empleado}}</label>
+                                <span class="input-group-append">
+                                  <button (click) = "listarEmpleados();" class="btn btn-primary btn-flat" type="button"><i class="fa fa-list"></i></button>
+                                </span>
+                            </div>
+                          </div>
+                        </div>
+        
+                        <div class="col-md-6">
+                            <div class="form-group">
+                              <label>Proveedor:</label>
+                              <div class="input-group input-group-sm">
+                                  <div class="input-group-prepend">
+                                    <span class="input-group-text"><input (change)="changeChkProveedor();" [checked]="chkproveedor" type="checkbox"> TODOS</span>
+                                  </div>
+                                  <label class="form-control">{{this.proveedor}}</label>
+                                  <span class="input-group-append">
+                                    <button (click) = "listarProveedores();" class="btn btn-primary btn-flat" type="button"><i class="fa fa-list"></i></button>
+                                  </span>
+                              </div>
+                            </div>
+                          </div>
+        
+                          <div class="col-md-6">
+                            <div class="form-group">
+                                <label>Tipo Impuesto</label>
+                                <select (change)="changeTipoImpuesto($event)" class="form-control form-control-sm">
+                                    <option [value]="item.cod_tipo_control" *ngFor="let item of datostipoimpuesto" [selected]="item.codigo_tipo_impuesto == codigo_tipo_impuesto">
+                                        {{item.tipo_impuesto}}
+                                    </option>
+                                </select>
+                            </div>	
+                          </div>
+
+                    </div>
+
+                  </div>
+              </div>
+            </div>
+          <!-- /.Inicia form1 -->
+          <!-- /.Inicia form1 -->
+          <!-- /.Inicia form1 -->
+            <div class="card card-primary card-outline">
+              <div class="card-header">
+                <h3 class="card-title"><i class="fa fa-file-alt"></i><span class="labeloculto">&nbsp;Explorador</span></h3>
+                &nbsp;<span class="text-right">(Total: {{this.cantidad_registros}} Registros)</span>
+    
+                <div class="card-tools">
+                  <div class="input-group input-group-sm">
+    
+                      <input (keyup)="keyFiltrado();" type="text" class="form-control float-right" oninput="javascript:this.value=this.value.toUpperCase();" placeholder="Buscar" [(ngModel)]="filterpost" name="filterpost" autocomplete="off" />
+    
+                      
+    
+                  </div>
+                </div>
+    
+    
+              </div>
+              <div class="card-body">
+                <div *ngIf="loadinglistado" class="d-flex justify-content-center align-items-center">
+                  <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;"></div>
+                </div>
+    
+                      <div class="table-responsive p-0">
+                        <table class="design-table">
+                          <thead>
+                            <tr>
+                              <th width="50px">Nº</th>
+                              <th width="50px">ESTADO</th>
+                              <th width="100px">DOCUMENTO</th>
+                              <th width="300px">PROVEEDOR</th>
+                              <th width="100px">FECHA RETENCIÓN</th>
+                              <th width="100px">TIPO IMP.</th>
+                              <th width="100px">COD. RETE.</th>
+                              <th width="100px">FECHA COMPRA</th>
+                              <th width="50px">VALOR RETENIDO</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <tr *ngFor="let item of (datos | filterGenerico:filterpost:['numero_retencion', 'fecha_hora', 'ruc', 'proveedor', 'estado', 'tipo_impuesto', 'codigo_retencion', 'valor_retenido']) | paginate : {
+                              itemsPerPage: pagesize,
+                              currentPage: page,
+                              totalItems: count
+                            }">
+                              <td>{{item.numero_retencion}}</td>
+                              <td>{{item.estado}}</td>
+                              <td>{{item.ruc}}</td>
+                              <td>{{item.proveedor}}</td>
+                              <td>{{item.fecha_hora}}</td>
+                              <td>{{item.tipo_impuesto}}</td>
+                              <td>{{item.codigo_retencion}}</td>
+                              <td>{{item.fecha_documento}}</td>
+                              <td>{{item.valor_retenido}}</td>
+                            </tr>
+                          </tbody>
+                          </table>  
+                      </div>
+
+                      <div class="row">
+                        <div class="col-md-12">
+                          <div class="float-right text-right">
+                            <table class="design-table">
+                              <tr>
+                                <td>TOTAL RETENIDO</td>
+                                <td>{{total_retenido}}</td>
+                              </tr>
+                            </table>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="row">
+                        <div class="col-md-12">
+                          <div class="float-right">
+                            <pagination-controls class="pagination-controls"
+                            previousLabel="Anterior"
+                            nextLabel="Siguiente"
+                            [responsive]="true"
+                            (pageChange)="handlePageChange($event)">
+                            </pagination-controls>
+                          </div>
+                        </div>
+                      </div>
+               
+
+    
+    
+    
+    
+              </div>
+              <!-- /.card-body -->
+            </div>
+          <!-- /.Termina form1 -->
+          <!-- /.Termina form1 -->
+          <!-- /.Termina form1 -->
+          </div>
+    
+        </div>
+    
+    
+    
+        
+    
+    
+    
+      </div>
+    </section>

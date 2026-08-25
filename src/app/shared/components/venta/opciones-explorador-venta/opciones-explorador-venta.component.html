@@ -1,0 +1,175 @@
+<div id="mymodalopcionesventas" class="modal fade" role="dialog" data-backdrop="false">
+  <div class="modal-dialog">
+    <!-- Modal content -->
+    <div class="modal-content">
+      <div class="modal-header">
+      <h5 class="modal-title">FACTURA Nº  {{ numero_factura }} - {{ cliente }}</h5>
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">×</span>
+          </button>
+      </div>
+      <div class="modal-body">
+
+        <div *ngIf="tipoformulario!='exploradorventainicio'">
+
+
+          <div class="row">
+            <div class="col-12 d-flex flex-wrap justify-content-center">
+              
+              <div *ngIf="(tipoformulario=='exploradorventa' || tipoformulario=='exploradorventahotel') && !this.opcionesprivilegios['bloqueoedicionventas']" class="col-md-4 pb-1">
+                <button (click)="editarVenta();" [disabled]="disabledbtneditar" class="btn btn-primary btn-flat btn-sm btn-block" type="button"><i class="fas fa-edit"></i> EDITAR</button>
+              </div>
+
+              <div *ngIf="tipoformulario=='exploradorventa' || tipoformulario=='exploradorventahotel'" class="col-md-4 pb-1">
+                <button (click)="imprimirVenta();" class="btn btn-primary btn-flat btn-sm btn-block" type="button"><i class="fas fa-print"></i> IMPRIMIR</button>
+              </div>
+
+              <div *ngIf="(tipoformulario=='exploradorventa' || tipoformulario=='exploradorventahotel') && !this.opcionesprivilegios['bloqueocopiar']" class="col-md-4 pb-1">
+                <button (click)="copiar();" class="btn btn-primary btn-flat btn-sm btn-block" type="button"><i class="fas fa-copy"></i> COPIAR</button>
+              </div>
+
+
+
+              <div *ngIf="tipoformulario=='exploradorventa' && !this.opcionesprivilegios['bloqueonotacredito'] && this.excluir_general==0 && tipo_venta != 'PROFORMA'" class="col-md-4 pb-1">
+                <button (click)="crearNotaCredito();" [disabled]="disabledbtnnotacredito" class="btn btn-warning btn-flat btn-sm btn-block" type="button"><i class="fas fa-cart-arrow-down"></i> NOTA CREDITO</button>
+              </div>
+
+              <div *ngIf="tipoformulario=='exploradorventagym' && !this.opcionesprivilegios['bloqueonotacredito'] && tipo_venta != 'PROFORMA'" class="col-md-4 pb-1">
+                <button (click)="crearNotaCredito();" [disabled]="disabledbtnnotacredito" class="btn btn-warning btn-flat btn-sm btn-block" type="button"><i class="fas fa-cart-arrow-down"></i> NOTA CREDITO</button>
+              </div>
+
+
+              <div *ngIf="tipoformulario=='exploradorventa' && this.tipo_venta=='ELECTRONICA'" class="col-md-4 pb-1">
+                <button (click)="crearGuiaRemision();" class="btn btn-primary btn-flat btn-sm btn-block" type="button"><i class="fas fa-shipping-fast"></i> GUÍA REMISIÓN</button>
+              </div>
+
+
+
+              <div *ngIf="tipoformulario=='exploradorventagym' && !this.opcionesprivilegios['bloqueoedicionmembresias'] && tipo_venta != 'PROFORMA'" class="col-md-4 pb-1">
+                <button (click)="editarVentaGym();" [disabled]="disabledbtneditar" class="btn btn-primary btn-flat btn-sm btn-block" type="button"><i class="fas fa-edit"></i> EDITAR</button>
+              </div>
+
+              <div *ngIf="tipoformulario=='exploradorventagym'" class="col-md-4 pb-1">
+                <button (click)="imprimirVentaGym();" class="btn btn-primary btn-flat btn-sm btn-block" type="button"><i class="fas fa-print"></i> IMPRIMIR</button>
+              </div>
+
+              <div *ngIf="!this.opcionesprivilegios['bloqueoanulacionventas']" class="col-md-4 pb-1">
+                <button (click)="clickAnular();" [disabled]="disabledbtnanular" class="btn btn-danger btn-flat btn-sm btn-block" type="button"><i class="fas fa-trash-alt"></i> ANULAR</button>
+              </div>
+              
+              <div *ngIf="this.opcionesprivilegios['ventacondescuento']==1 && this.excluir_general==0 && tipo_venta != 'PROFORMA'" class="col-md-4 pb-1">
+                <button (click)="copiarConDescuento();" class="btn btn-primary btn-flat btn-sm btn-block" type="button"><i class="fas fa-shopping-cart"></i> FACT DESC</button>
+              </div>
+              
+
+              <div *ngIf="tipo_venta == 'ELECTRONICA'" class="col-md-4 pb-1">
+                <button (click)="enviarCorreo();" [disabled]="disabledbtnenviarcorreo" class="btn btn-primary btn-flat btn-sm btn-block" type="button"><i class="fas fa-at"></i> ENVIAR</button>
+              </div>
+
+              <div *ngIf="tipo_venta == 'ELECTRONICA'" class="col-md-4 pb-1">
+                <button *ngIf="!this.opcionesprivilegios['bloqueoenviosri']" (click)="verificarRecaudacion();" [disabled]="disabledbtnenviarsri" class="btn btn-primary btn-flat btn-sm btn-block" type="button"><i class="fas fa-paper-plane"></i> ENVIAR SRI</button>
+                <button *ngIf="this.opcionesprivilegios['bloqueoenviosri']" disabled="disabled" class="btn btn-secondary btn-flat btn-sm btn-block" type="button"><i class="fas fa-paper-plane"></i> ENVIAR SRI</button>
+              </div>
+
+              <div *ngIf="tipo_venta == 'ELECTRONICA'" class="col-md-4 pb-1">
+                <button (click)="descargarRide();" [disabled]="disabledbtndescargarride" class="btn btn-primary btn-flat btn-sm btn-block" type="button"><i class="fas fa-file-pdf"></i> RIDE</button>
+              </div>
+
+
+              <div *ngIf="tipo_venta == 'ELECTRONICA'" class="col-md-4 pb-1">
+                <button (click)="descargarXml();" [disabled]="disabledbtndescargarxml" class="btn btn-primary btn-flat btn-sm btn-block" type="button"><i class="fas fa-file-excel"></i> XML</button>
+              </div>
+
+              <div *ngIf="tipo_venta == 'ELECTRONICA'" class="col-md-4 pb-1">
+                <button (click)="descargarXmlAutorizado();" [disabled]="disabledbtndescargarxml" class="btn btn-primary btn-flat btn-sm btn-block" type="button"><i class="fas fa-file-download"></i> XML</button>
+              </div>
+              
+
+              <div *ngIf="tipo_venta == 'ELECTRONICA'" class="col-md-4 pb-1">
+                <button (click)="descargarDocumentos();" [disabled]="disabledbtndescargardocumentos" class="btn btn-primary btn-flat btn-sm btn-block" type="button"><i class="fas fa-file-archive"></i> RIDE/XML</button>
+              </div>
+
+              <div *ngIf="tipo_venta == 'ELECTRONICA'" class="col-md-4 pb-1">
+                <button (click)="comprobarSri();" [disabled]="disabledbtncomprobarsri" class="btn btn-primary btn-flat btn-sm btn-block" type="button"><i class="fas fa-search"></i> COMPROBAR</button>
+              </div>
+              
+              <div *ngIf="tipo_venta == 'ELECTRONICA'" class="col-md-4 pb-1">
+                <button (click)="clickCrearRide();" [disabled]="disabledbtncrearride" class="btn btn-primary btn-flat btn-sm btn-block" type="button"><i class="fas fa-file-pdf"></i> CREAR RIDE</button>
+              </div>
+
+              <div *ngIf="estado_comprobante == 'DEVUELTA' || estado_comprobante=='NO AUTORIZADO'" class="col-md-4 pb-1">
+                <button (click)="revisarDocumentoError();" class="btn btn-danger btn-flat btn-sm btn-block" type="button"><i class="fa fa-info-circle"></i> XML</button>
+              </div>
+
+              <div *ngIf="estado_comprobante == 'DEVUELTA' || estado_comprobante=='NO AUTORIZADO'" class="col-md-4 pb-1">
+                <button (click)="revisarDocumentoXml();" class="btn btn-danger btn-flat btn-sm btn-block" type="button"><i class="fas fa-file-excel"></i> XML</button>
+              </div>
+             
+
+            </div>
+          </div>
+          
+          
+
+        </div>
+
+
+       
+
+        <div *ngIf="tipoformulario=='exploradorventainicio'">
+
+          <div class="row">
+            <div class="col-12 d-flex flex-wrap justify-content-center">
+
+              <div class="col-md-4 pb-1">
+                <button (click)="imprimirVenta();" class="btn btn-primary btn-flat btn-sm btn-block" type="button"><i class="fas fa-print"></i> IMPRIMIR</button>
+              </div>
+
+              <div *ngIf="electronico == '1'" class="col-md-4 pb-1">
+                <button (click)="enviarCorreo();" [disabled]="disabledbtnenviarcorreo" class="btn btn-primary btn-flat btn-sm btn-block" type="button"><i class="fas fa-at"></i> ENVIAR</button>
+              </div>
+
+              <div *ngIf="electronico == '1'" class="col-md-4 pb-1">
+                <button (click)="comprobarSri();" [disabled]="disabledbtncomprobarsri" class="btn btn-primary btn-flat btn-sm btn-block" type="button"><i class="fas fa-search"></i> COMPROBAR</button>
+              </div>
+
+              <div *ngIf="electronico == '1'" class="col-md-4 pb-1">
+                <button *ngIf="!this.opcionesprivilegios['bloqueoenviosri']" (click)="verificarRecaudacion();" [disabled]="disabledbtnenviarsri" class="btn btn-primary btn-flat btn-sm btn-block" type="button"><i class="fas fa-paper-plane"></i> ENVIAR SRI</button>
+                <button *ngIf="this.opcionesprivilegios['bloqueoenviosri']" disabled="disabled" class="btn btn-secondary btn-flat btn-sm btn-block" type="button"><i class="fas fa-paper-plane"></i> ENVIAR SRI</button>
+              </div>
+
+              <!-- <div *ngIf="estado_comprobante == 'DEVUELTA' || estado_comprobante=='NO AUTORIZADO'" class="col-md-4 pb-1">
+                <button (click)="revisarDocumentoError();" class="btn btn-danger btn-flat btn-sm btn-block" type="button"><i class="fa fa-info-circle"></i> XML</button>
+              </div> -->
+
+              <div *ngIf="estado_comprobante == 'DEVUELTA' || estado_comprobante=='NO AUTORIZADO'" class="col-md-4 pb-1">
+                <button (click)="revisarDocumentoError();" class="btn btn-danger btn-flat btn-sm btn-block" type="button"><i class="fa fa-info-circle"></i> XML</button>
+              </div>
+
+              <div *ngIf="estado_comprobante == 'DEVUELTA' || estado_comprobante=='NO AUTORIZADO'" class="col-md-4 pb-1">
+                <button (click)="revisarDocumentoXml();" class="btn btn-danger btn-flat btn-sm btn-block" type="button"><i class="fas fa-file-excel"></i> XML</button>
+              </div>
+
+            </div>
+          </div>
+
+        </div>
+
+
+        <div class="row justify-content-between">
+
+          <span *ngIf="loadingmodal" class="justify-content-center text-center m-auto">
+                <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;"></div>
+          </span>
+
+        </div>
+        
+
+        <div class="d-flex justify-content-end align-items-center pt-3">
+          <button class="btn btn-secondary btn-sm" type="button" data-dismiss="modal"><i class="fas fa-times-circle"></i> Cerrar</button>
+        </div>
+
+    </div>
+
+  </div>
+</div>

@@ -1,0 +1,38 @@
+
+@media only screen and (max-width: 768px) {
+  td:nth-of-type(1):before {
+    content: "Nº";
+  }
+
+  td:nth-of-type(2):before {
+    content: "VENDEDOR";
+  }
+  
+  td:nth-of-type(3):before {
+    content: "F. APERTURA";
+  }
+  
+  td:nth-of-type(4):before {
+    content: "F. CIERRE";
+  }
+  
+  td:nth-of-type(5):before {
+    content: "$ INICIO";
+  }
+  
+  td:nth-of-type(6):before {
+    content: "+ EFECTIVO";
+  }
+
+  td:nth-of-type(7):before {
+    content: "- GASTOS";
+  }
+
+  td:nth-of-type(8):before {
+    content: "$ CAJA";
+  }
+
+  td:nth-of-type(9):before {
+    content: "";
+  }
+}

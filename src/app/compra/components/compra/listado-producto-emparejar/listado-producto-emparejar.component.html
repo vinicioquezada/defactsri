@@ -1,0 +1,64 @@
+<div class="row justify-content-between align-items-center">
+  <span>Total: {{this.cantidad_registros}} Registros</span>
+  <div class="input-group input-group-sm float-right" style="width: 150px;">
+    <input #txtfilterpost (keyup)="keyFiltrado();" type="text" class="form-control float-right" oninput="javascript:this.value=this.value.toUpperCase();" placeholder="Buscar" [(ngModel)]="filterpost" name="filterpost" />
+  </div>
+</div>
+
+<br>
+
+<div class="row justify-content-between">
+
+  <span *ngIf="loadinglistado" class="justify-content-center text-center m-auto">
+    <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;"></div>
+  </span>
+
+  <div class="table-responsive p-0">
+    <table class="design-table resp">
+      <thead>
+        <tr>
+          <th>SUBCATEGORIA</th>
+          <th>MARCA</th>
+          <th>DESCRIPCIÓN</th>
+          <th>COSTO</th>
+          <th>EXISTENCIAS</th>
+          <th><i class="fa fa-fw fa-barcode"></i></th>
+          <th><i class="fa fa-fw fa-barcode"></i></th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let item of (datosproducto | filterGenerico:filterpost:['subcategoria', 'marca', 'descripcion', 'codigo', 'codigo_adicional']) | paginate : {
+          id : 'pagproductoemparejar',
+          itemsPerPage: pagesize,
+          currentPage: page,
+          totalItems: count
+        }">
+          <td>{{item.subcategoria}}</td>
+          <td>{{item.marca}}</td>
+          <td>{{item.descripcion}}</td>
+          <td>{{item.costo}}</td>
+
+          <td>{{item.existencia}}<label class="text-primary float-right" *ngIf="item.fraccionado=='SI'">({{item.cantidad_denominacion + " " + item.denominacion}})</label></td>
+
+          <td>{{item.codigo}}</td>
+          <td>{{item.codigo_adicional}}</td>
+          <td>
+            <div class="d-flex justify-content-end">
+              <button *ngIf="this.metodolistado==2" (click)="agregarcompras(item.cod_producto);" class="btn btn-outline-primary btn-sm" type="button"><i class="fas fa-plus"></i></button>
+              <label *ngIf="item.existencia<=0 && this.metodolistado==4 && item.inventario==1" class='right badge badge-warning'>No hay existencias</label>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="float-right">
+      <pagination-controls class="pagination-controls" id="pagproductoemparejar"
+      previousLabel="Anterior"
+      nextLabel="Siguiente"
+      [responsive]="true"
+      (pageChange)="handlePageChange($event)">
+      </pagination-controls>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,51 @@
+<div id="mymodalregistroabono" class="modal fade" role="dialog" data-backdrop="false">
+  <div class="modal-dialog">
+    <!-- Modal content -->
+    <div class="modal-content">
+      <div class="modal-header">
+      <h5 class="modal-title">REGISTRO DE ABONO</h5>
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">×</span>
+          </button>
+      </div>
+      <div class="modal-body">
+
+        <div class="row">
+                
+          <div class="col-md-12">
+        
+              <div class="form-group">
+                <label>Forma Cobro:</label><label class="text-danger">&nbsp;*</label>
+                <select (change)="changeFormaPagoAbono($event)" class="form-control form-control-sm">
+                  <option value="{{item.id_forma_pago}}" *ngFor="let item of datosformapago" [selected]="this.id_forma_pago_abono == item.id_forma_pago">
+                      {{item.forma_pago}}
+                  </option>
+                </select>
+              </div>
+        
+              <div class="form-group">
+                <label>Abono:</label>
+                <input [(ngModel)]="abono" class="form-control form-control-sm" onKeyPress="return soloNumeros(event)" placeholder="Abono" type="text">
+              </div>
+
+          </div>
+        
+        
+        </div>
+        
+        <div style="text-align:center">
+          <div *ngIf="loading" class="spinner-border text-primary" style="width: 3rem; height: 3rem;"></div>
+        </div>
+        
+        <div class="d-flex justify-content-end align-items-center">
+          <button (click)="clickCambio()" class="btn btn-success btn-sm" type="button"><i class="fas fa-money-bill-alt"></i> Recibido</button>&nbsp;
+          <button (click)="clickAceptar();" class="btn btn-primary btn-sm" type="button"><i class="fas fa-check"></i> Aceptar</button>
+        </div>
+
+
+      </div>
+
+    </div>
+
+  </div>
+</div>

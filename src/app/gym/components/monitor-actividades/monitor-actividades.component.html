@@ -1,0 +1,22 @@
+<div class="row mb-3">
+    <div class="col-md-4">
+
+        <!-- <button (click)="buscarUsuarioActividadPorNumero('2', '1');" class="btn btn-primary btn-flat btn-sm float-right" type="button"><i class="fas fa-wifi"></i> Probar 1</button> -->
+        
+        <button *ngIf="!socketActivo1" (click)="clickConectar1();" class="btn btn-danger btn-sm btn-block" type="button"><i class="fas fa-wifi"></i> Monitor 2 Desconectado</button>
+
+        <button *ngIf="socketActivo1" (click)="clickConectar1();" class="btn btn-success btn-sm btn-block" type="button"><i class="fas fa-wifi"></i> Monitor 2 Conectado</button>
+    </div>
+
+    <div class="col-md-4">
+        <button *ngIf="!socketActivo2" (click)="clickConectar2();" class="btn btn-danger btn-sm btn-block" type="button"><i class="fas fa-wifi"></i> Monitor 3 Desconectado</button>
+
+        <button *ngIf="socketActivo2" (click)="clickConectar2();" class="btn btn-success btn-sm btn-block" type="button"><i class="fas fa-wifi"></i> Monitor 3 Conectado</button>
+    </div>
+
+    <div class="col-md-4">
+        <button *ngIf="!socketActivo3" (click)="clickConectar3();" class="btn btn-danger btn-sm btn-block" type="button"><i class="fas fa-wifi"></i> Monitor 4 Desconectado</button>
+
+        <button *ngIf="socketActivo3" (click)="clickConectar3();" class="btn btn-success btn-sm btn-block" type="button"><i class="fas fa-wifi"></i> Monitor 4 Conectado</button>
+    </div>
+</div>

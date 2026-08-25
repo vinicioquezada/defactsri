@@ -1,0 +1,19 @@
+.scroll-container {
+  overflow: auto;
+}
+
+.estilo-input {
+  width: 100%;
+  max-width: 300px;
+  resize: none;
+  overflow-y: auto;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+  white-space: pre-wrap;
+  border: 0px solid #ccc;
+  border-radius: 4px;
+  font-family: inherit;
+  font-size: inherit;
+  padding: 4px 8px;
+  line-height: 1.4;
+}

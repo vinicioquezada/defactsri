@@ -1,0 +1,171 @@
+<app-proveedor-form (datosenvio)="recibirDatosProveedor()"></app-proveedor-form>
+<app-productos-proveedor></app-productos-proveedor>
+
+<section class="content-header">
+  <div class="container-fluid">
+    <div class="row mb-2">
+      <div class="col-sm-12">
+          <div class="btn-toolbar" role="toolbar">
+            <div class="btn-group">
+              <button (click)="clickNuevoProveedor();" class="btn btn-primary btn-flat btn-sm" type="button"><i class="fa fa-plus"></i> Nuevo</button>
+              <button (click)="clickDeshacer();" class="btn btn-secondary btn-flat btn-sm float-right" type="button"><i class="fas fa-redo-alt"></i> Deshacer</button>
+              <button routerLink="/menucompra" class="btn btn-secondary btn-flat btn-sm" type="button"><i class="fas fa-undo"></i> Atrás</button>
+            </div>
+          </div>
+          
+            
+
+      </div>
+      
+      
+    </div>
+    
+  </div><!-- /.container-fluid -->
+</section>
+
+<!-- Main content -->
+<section class="content">
+    <div class="container-fluid">
+      <div class="row">
+
+        <div class="col-md-12">
+          
+        <!-- /.Inicia form1 -->
+        <!-- /.Inicia form1 -->
+        <!-- /.Inicia form1 -->
+          <div class="card card-primary card-outline">
+
+            <div class="card-header">
+              <h3 class="card-title"><i class="fa fa-file-alt"></i><span class="labeloculto">&nbsp;Explorador</span></h3>
+                &nbsp;<span class="text-right">(Total: {{this.cantidad_registros}} Registros)</span>
+  
+  
+              <div class="card-tools">
+                <div class="input-group input-group-sm">
+  
+                    <input (keyup)="keyFiltrado();" type="text" class="form-control float-right" oninput="javascript:this.value=this.value.toUpperCase();" placeholder="Buscar" [(ngModel)]="filterpost" name="filterpost" autocomplete="off" />
+  
+                    
+  
+                </div>
+              </div>
+  
+  
+            </div>
+
+            <div class="card-body overlay-wrapper">
+
+              <div *ngIf="loadinglistado" class="overlay overlay-custom d-flex flex-column align-items-center">
+                <div class="spinner-border text-primary" style="width: 5rem; height: 5rem; font-size: 30px;" role="status"></div>
+                <div class="text-bold pt-2">Cargando...</div>
+              </div>
+
+              <div class="row justify-content-between">
+
+                <div class="table-responsive p-0">
+                  <table class="design-table resp">
+                    <thead>
+                      <tr>
+                        <th>RUC</th>
+                        <th>RAZÓN SOCIAL</th>
+                        <th>NOMBRE COMERCIAL</th>
+                        <th>IDENTIFICACIÓN</th>
+                        <th></th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let item of (datos | filterGenerico:filterpost:['ruc', 'razon_social', 'nombre_comercial']) | paginate : {
+                        itemsPerPage: pagesize,
+                        currentPage: page,
+                        totalItems: count
+                      }">
+                      <td>{{item.ruc}}</td>
+                        <td>{{item.razon_social}}</td>
+                        <td>{{item.nombre_comercial}}</td>
+                        <td>{{item.identificacion}}</td>
+                        <td>
+                          <div class="d-flex justify-content-end">
+                            <button (click)="editar(item);" class="btn btn-outline-warning btn-sm mr-1" type="button"><i class="fas fa-pencil-alt"></i></button>
+                            <button (click)="clickEliminar(item.cod_proveedor, item.razon_social + ' ' + item.nombre_comercial);" class="btn btn-outline-danger btn-sm mr-1"><i class="fa fa-trash"></i></button>
+                            <button (click)="revisarProductos(item.cod_proveedor, item.razon_social);" data-bs-toggle="tooltip" data-bs-placement="top" title="REVISAR PRODUCTOS" class="btn btn-outline-primary btn-sm" type="button"><i class="fa fa-cube"></i></button>
+                          </div>
+                        </td>
+                      </tr>
+                    </tbody>
+
+                    <!-- <tbody *ngIf="datos as lista">
+                        <ng-container *ngIf="(lista | filterGenerico:filterpost:['ruc', 'razon_social', 'nombre_comercial']) as filtrados">
+                          <tr *ngFor="let item of filtrados | paginate : { itemsPerPage: pagesize, currentPage: page, totalItems: count }">
+                            <td>{{item.ruc}}</td>
+                            <td>{{item.razon_social}}</td>
+                            <td>{{item.nombre_comercial}}</td>
+                            <td>{{item.identificacion}}</td>
+                            <td>
+                              <div class="d-flex justify-content-end">
+                                <button (click)="agregar(item.cod_proveedor);" class="btn btn-outline-primary btn-sm" type="button"><i class="fas fa-plus"></i></button>
+                                <button (click)="clickEliminar(item.cod_proveedor, item.razon_social + ' ' + item.nombre_comercial);" class="btn btn-outline-danger btn-sm"><i class="fa fa-trash"></i></button>
+                              </div>
+                            </td>
+                          </tr>
+
+                          <tr *ngIf="filtrados.length === 0">
+                            <td colspan="5" class="text-center">No se encontraron resultados</td>
+                          </tr>
+
+
+                          <div class="d-flex justify-content-between align-items-center mt-2">
+                            <div>
+                              <span *ngIf="filterpost; else totalGeneral">
+                                Total filtrados: {{filtrados.length}} / {{lista.length}} registros
+                              </span>
+                              <ng-template #totalGeneral>
+                                <span>Total: {{lista.length}} registros</span>
+                              </ng-template>
+                            </div>
+                            <div>
+                              <pagination-controls class="pagination-controls"
+                              previousLabel="Anterior"
+                              nextLabel="Siguiente"
+                              [responsive]="true"
+                              (pageChange)="handlePageChange($event)">
+                              </pagination-controls>
+                            </div>
+                          </div>
+                        </ng-container>
+                    </tbody> -->
+
+                  </table>
+                  <div class="float-right">
+                    <pagination-controls class="pagination-controls"
+                    previousLabel="Anterior"
+                    nextLabel="Siguiente"
+                    [responsive]="true"
+                    (pageChange)="handlePageChange($event)">
+                    </pagination-controls>
+                  </div>
+                </div>
+
+              </div>
+
+
+
+            </div>
+            <!-- /.card-body -->
+
+          
+          </div>
+        <!-- /.Termina form1 -->
+        <!-- /.Termina form1 -->
+        <!-- /.Termina form1 -->
+        </div>
+
+      </div>
+
+
+
+      
+
+
+
+    </div>
+</section>

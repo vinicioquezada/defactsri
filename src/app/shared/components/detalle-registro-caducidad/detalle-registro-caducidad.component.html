@@ -1,0 +1,16 @@
+<div>
+  <table border="1" style="font-size: 12px;" class="bordered">
+        <thead>
+          <tr>
+          <th width="30%">Detalles</th>
+          <th width="5%">Fecha Caducidad</th>
+          </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let item of datosdetalles; let i = index; let u = last" [ngClass]="{'bg-danger': item.fila_error}">
+                <td>{{item.descripcion}}</td>
+                <td><input class="micajatable" type="date" (keydown)="keyPendiente(i)" (change)="changeFechaCaducidad(i)" [(ngModel)]="item.fecha_caducidad"></td>
+            </tr>
+        </tbody>
+  </table>
+</div>

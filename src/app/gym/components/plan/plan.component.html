@@ -1,0 +1,172 @@
+<app-plan-form (datosenvio)="recibirDatosPlanForm()"></app-plan-form>
+
+
+<div id="mymodallistarproductos" class="modal fade" role="dialog" data-backdrop="false">
+    
+  <div class="modal-dialog modal-xl">
+    <!-- Modal content -->
+    <div class="modal-content">
+      <div class="modal-header">
+      <h5 class="modal-title">LISTADO DE PLANES</h5>
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">×</span>
+          </button>
+      </div>
+      <div class="modal-body">
+
+        <div class="d-flex justify-content-end align-items-center">
+          <button class="btn btn-secondary btn-sm" type="button" data-dismiss="modal"><i class="fas fa-times-circle"></i> Cerrar</button>
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+</div>
+
+<section class="content-header">
+  <div class="container-fluid">
+    <div class="row mb-2">
+      <div class="col-sm-12">
+          <div class="btn-toolbar" role="toolbar">
+            <div class="btn-group">
+              <button (click)="clickNuevoProducto();" class="btn btn-primary btn-flat btn-sm" type="button"><i class="fa fa-plus"></i> Nuevo</button>
+              <button (click)="clickDeshacer();" class="btn btn-secondary btn-flat btn-sm float-right" type="button"><i class="fas fa-redo-alt"></i> Deshacer</button>
+              <button routerLink="/menugym" class="btn btn-secondary btn-flat btn-sm" type="button"><i class="fas fa-undo"></i> Atrás</button>
+            </div>
+          </div>
+      </div>
+      
+    </div>
+    
+  </div><!-- /.container-fluid -->
+</section>
+
+<!-- Main content -->
+<section class="content">
+    <div class="container-fluid">
+      <div class="row">
+
+        <div class="col-md-12">
+          
+        <!-- /.Inicia form1 -->
+        <!-- /.Inicia form1 -->
+        <!-- /.Inicia form1 -->
+          <div class="card card-primary card-outline">
+            
+           
+
+            <div class="card-header">
+              <h3 class="card-title"><i class="fa fa-file-alt"></i><span class="labeloculto">&nbsp;Explorador</span></h3>
+                &nbsp;<span class="text-right">(Total: {{this.cantidad_registros}} Registros)</span>
+  
+  
+              <div class="card-tools">
+                <div class="input-group input-group-sm">
+  
+                    <input (keyup)="keyFiltrado();" type="text" class="form-control float-right" oninput="javascript:this.value=this.value.toUpperCase();" placeholder="Buscar" [(ngModel)]="filterpost" name="filterpost" autocomplete="off" />
+  
+                    
+  
+                </div>
+              </div>
+  
+  
+            </div>
+            <!-- /.card-header -->
+            <div class="card-body overlay-wrapper">
+
+                <div *ngIf="loadinglistado" class="overlay overlay-custom d-flex flex-column align-items-center">
+                  <div class="spinner-border text-primary" style="width: 5rem; height: 5rem; font-size: 30px;" role="status"></div>
+                  <div class="text-bold pt-2">Cargando...</div>
+                </div>
+
+                  
+                <div class="row justify-content-between">
+
+                  <div class="table-responsive p-0">
+                    <table class="design-table resp">
+                      <thead>
+                        <tr>
+                          <th>SUBCATEGORIA</th>
+                          <th>DESCRIPCIÓN</th>
+                          <th>PRECIO VENTA</th>
+                          <th><i class="fa fa-fw fa-barcode"></i></th>
+                          <th></th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr *ngFor="let item of (datos | filterGenerico:filterpost:['subcategoria', 'marca', 'descripcion', 'precio_venta', 'codigo']) | paginate : {
+                          itemsPerPage: pagesize,
+                          currentPage: page,
+                          totalItems: count
+                        }">
+                          <td>
+                            {{item.subcategoria}}
+                            <div>
+                              <small *ngIf="item.grupal==1" class="badge badge-primary mr-1">GRUPAL</small>
+                              <small *ngIf="item.compartido==1" class="badge badge-info">COMPARTIDO</small>
+                            </div>
+                          </td>
+                          <td>
+                            {{item.descripcion}}
+                            <div>
+                              <small *ngIf="item.actividad==1" class="badge badge-primary">ACTIVIDADES</small>
+                            </div>
+                          </td>
+                          <td><label class="text-success">{{item.precio_venta}}</label></td>
+                          <td>{{item.codigo}}</td>
+                          <td>
+                            <div class="d-flex justify-content-end">
+                              <button (click)="editar(item);" class="btn btn-outline-warning btn-sm ml-1" type="button"><i class="fas fa-pencil-alt"></i></button>
+                              <button (click)="clickEliminar(item.cod_producto, item.descripcion);" class="btn btn-outline-danger btn-sm"><i class="fa fa-trash"></i></button>
+                            </div>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+
+                    <div class="modal-footer align-items-center">
+                      <pagination-controls class="pagination-controls"
+                      previousLabel="Anterior"
+                      nextLabel="Siguiente"
+                      [responsive]="true"
+                      (pageChange)="handlePageChange($event)">
+                      </pagination-controls>
+                    </div>
+                  </div>
+                </div>
+
+                  
+
+
+            </div>
+            <!-- /.card-body -->
+          </div>
+        <!-- /.Termina form1 -->
+        <!-- /.Termina form1 -->
+        <!-- /.Termina form1 -->
+        </div>
+
+
+
+
+      
+
+
+       
+
+
+      
+
+      </div>
+
+
+
+      
+
+
+
+    </div>
+</section>

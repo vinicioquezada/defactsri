@@ -1,0 +1,119 @@
+ 
+  <section class="content-header">
+    <div class="container-fluid">
+      <div class="row mb-2">
+        <div class="col-sm-12">
+            <div class="btn-toolbar" role="toolbar">
+              <div class="btn-group">
+                <button (click)="clickDeshacer();" class="btn btn-secondary btn-flat btn-sm float-right" type="button"><i class="fas fa-redo-alt"></i> Deshacer</button>
+                <button routerLink="/menuventa" class="btn btn-secondary btn-flat btn-sm" type="button"><i class="fas fa-undo"></i> Atrás</button>
+              </div>
+            </div>
+        </div>
+        
+      </div>
+      
+    </div><!-- /.container-fluid -->
+  </section>
+  
+  <!-- Main content -->
+<section class="content">
+    <div class="container-fluid">
+      <div class="row">
+  
+        <div class="col-md-12">
+
+          <div class="row"></div>
+          
+        <!-- /.Inicia form1 -->
+        <!-- /.Inicia form1 -->
+        <!-- /.Inicia form1 -->
+          <div class="card card-primary card-outline">
+            <div class="card-header">
+              <h3 class="card-title"><i class="fa fa-file-alt"></i><span class="labeloculto">&nbsp;Reporte</span></h3>
+                &nbsp;<span class="text-right">(Total: {{this.cantidad_registros}} Registros)</span>
+  
+              <div class="card-tools">
+                <div class="input-group input-group-sm">
+                    <button (click)="exportarExcel()" class="btn btn-success btn-sm mr-1" type="button">
+                      <i class="fa fa-file-excel"></i> Excel
+                    </button>
+                    <button (click)="exportarPdf()" class="btn btn-danger btn-sm mr-2" type="button">
+                      <i class="fa fa-file-pdf"></i> PDF
+                    </button>
+                    <input (keyup)="keyFiltrado();" type="text" class="form-control float-right" oninput="javascript:this.value=this.value.toUpperCase();" placeholder="Buscar" [(ngModel)]="filterpost" name="filterpost" autocomplete="off" />
+                </div>
+              </div>
+  
+  
+            </div>
+            <div class="card-body">
+                <div class="row justify-content-between">
+              
+                  <span *ngIf="loadinglistado" class="justify-content-center text-center m-auto">
+                    <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;"></div>
+                  </span>
+  
+                        <div class="table-responsive p-0">
+                        <table class="design-table resp">
+                          <thead>
+                            <tr>
+                              <th width="50px">Nº</th>
+                              <th width="200px">APELLIDO</th>
+                              <th width="200px">NOMBRE</th>
+                              <th width="100px">CONVENCIONAL</th>
+                              <th width="100px">CELULAR</th>
+                              <th width="100px">CORREO</th>
+                              <th width="100px">DIRECCIÓN</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <tr *ngFor="let item of (datos | filterGenerico:filterpost:['cedula', 'apellido', 'nombre']) | paginate : {
+                              itemsPerPage: pagesize,
+                              currentPage: page,
+                              totalItems: count
+                            }">
+                              <td>{{item.cedula}}</td>
+                              <td>{{item.apellido}}</td>
+                              <td>{{item.nombre}}</td>
+                              <td>{{item.convencional}}</td>
+                              <td>{{item.celular}}</td>
+                              <td>{{item.correo}}</td>
+                              <td>{{item.direccion}}</td>
+                            </tr>
+                          </tbody>
+                        </table>
+                        <div class="float-right">
+                          <pagination-controls class="pagination-controls"
+                          previousLabel="Anterior"
+                          nextLabel="Siguiente"
+                          [responsive]="true"
+                          (pageChange)="handlePageChange($event)">
+                          </pagination-controls>
+                        </div>
+                    </div>
+                </div>
+  
+  
+  
+  
+  
+  
+            </div>
+            <!-- /.card-body -->
+          </div>
+        <!-- /.Termina form1 -->
+        <!-- /.Termina form1 -->
+        <!-- /.Termina form1 -->
+        </div>
+  
+      </div>
+  
+  
+  
+      
+  
+  
+  
+    </div>
+  </section>

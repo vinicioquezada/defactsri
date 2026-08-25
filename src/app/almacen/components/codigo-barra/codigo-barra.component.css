@@ -1,0 +1,29 @@
+@media only screen and (max-width: 768px) {
+  .resp td:nth-of-type(1):before {
+    content: "SUBCATEGORIA";
+  }
+  
+  .resp td:nth-of-type(2):before {
+    content: "MARCA";
+  }
+  
+  .resp td:nth-of-type(3):before {
+    content: "DESCRIPCION";
+  }
+  
+  .resp td:nth-of-type(4):before {
+    content: "PVP";
+  }
+  
+  .resp td:nth-of-type(5):before {
+    content: "CODIGO 1";
+  }
+
+  .resp td:nth-of-type(6):before {
+      content: "CODIGO 2";
+    }
+
+  .resp td:nth-of-type(7):before {
+      content: "";
+  }
+}

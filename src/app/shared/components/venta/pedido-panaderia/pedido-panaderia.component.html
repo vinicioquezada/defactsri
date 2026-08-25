@@ -1,0 +1,200 @@
+<div id="mymodalagregarpastel" class="modal fade" role="dialog" data-backdrop="false">
+  <div class="modal-dialog">
+    <!-- Modal content -->
+    <div class="modal-content">
+      <div class="modal-header">
+      <h5 class="modal-title">PASTEL</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">×</span>
+          </button>
+      </div>
+
+      <div class="modal-body">
+    
+        <div class="form-group">
+          <label>Pastel:</label> 
+          <div class="input-group input-group-sm">
+            <input [(ngModel)]="pastel" [ngClass]="{'is-invalid': flagtext}" class="form-control form-control-sm" maxlength="50" placeholder="Ingrese nombre de Pastel" type="text">
+            <span class="input-group-append">
+              <button (click)="verificarItem('pastel');" class="btn btn-info btn-flat"><i class="fas fa-save"></i></button>
+            </span>
+          </div>
+        </div>
+
+        <div style="text-align:center">
+          <div *ngIf="loadingalmacenar" class="spinner-border text-primary" style="width: 3rem; height: 3rem;"></div>
+        </div>
+
+
+      </div>
+
+       <div class="modal-footer">
+          <button class="btn btn-secondary btn-sm" type="button" data-dismiss="modal"><i class="fas fa-times-circle"></i> Cerrar</button>
+       </div>
+    </div>
+
+  </div>
+</div>
+
+<div id="mymodalagregarrelleno" class="modal fade" role="dialog" data-backdrop="false">
+  <div class="modal-dialog">
+    <!-- Modal content -->
+    <div class="modal-content">
+      <div class="modal-header">
+      <h5 class="modal-title">RELLENO</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">×</span>
+          </button>
+      </div>
+
+      <div class="modal-body">
+    
+        <div class="form-group">
+          <label>Relleno:</label>
+          <div class="input-group input-group-sm">
+            <input [(ngModel)]="relleno" [ngClass]="{'is-invalid': flagtext}" class="form-control form-control-sm" maxlength="50" placeholder="Ingrese nombre de Relleno" type="text">
+            <span class="input-group-append">
+              <button (click)="verificarItem('relleno');" class="btn btn-info btn-flat"><i class="fas fa-save"></i></button>
+            </span>
+          </div>
+        </div>
+
+        <div style="text-align:center">
+          <div *ngIf="loadingalmacenar" class="spinner-border text-primary" style="width: 3rem; height: 3rem;"></div>
+        </div>
+
+
+      </div>
+
+       <div class="modal-footer">
+          <button class="btn btn-secondary btn-sm" type="button" data-dismiss="modal"><i class="fas fa-times-circle"></i> Cerrar</button>
+       </div>
+    </div>
+
+  </div>
+</div>
+
+<div style="text-align:center">
+  <div *ngIf="loading" class="spinner-border text-primary" style="width: 3rem; height: 3rem;"></div>
+</div>
+
+<div class="card card-cyan card-outline">
+  <div class="card-header">
+
+    <div class="row">
+
+      <div class="col-md-8">
+        <div class="callout callout-info">
+          <label>TORTA</label><button (click)="clickAgregarItem('pastel');" class="btn btn-primary btn-xs float-right" type="button">
+            <i class="fa fa-plus"></i>
+          </button>
+          <div class="row">
+
+            <div class="col-md-4">
+              
+              <div class="icheck-primary" *ngFor="let item of itemsforma; let i = index;">
+                <input type="radio" [id]="'radioPrimary' + i" name="r1" (change)="seleccionarForma(item.item);" [checked]="item.item == selectedItemForma">
+                <label [for]="'radioPrimary' + i"> {{item.item}}</label>
+              </div>
+              
+            </div>
+            
+            <div class="col-md-8">
+
+              <ng-select class="ng-select-bootstrap"
+                [items]="itemspastel" 
+                bindLabel="item" 
+                bindValue="item"
+                [(ngModel)]="selectedItemsPastel" 
+                [multiple]="true" 
+                placeholder="">
+              </ng-select>
+
+            </div>
+
+          </div>
+
+          <label class="pt-2">RELLENO</label><button (click)="clickAgregarItem('relleno');" class="btn btn-primary btn-xs float-right" type="button"><i class="fa fa-plus"></i>
+          </button>
+          <div class="row">
+            <div class="col-md-12">
+
+              <ng-select class="ng-select-bootstrap"
+                           [items]="itemsrelleno" 
+                           bindLabel="item" 
+                           bindValue="item"
+                           [(ngModel)]="selectedItemsRelleno" 
+                           [multiple]="true" 
+                           placeholder="">
+                </ng-select>
+              
+              
+           
+
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="callout callout-info">
+          <label>COLORES</label>
+          <div class="row">
+            <textarea rows="2" class="form-control" [(ngModel)]="color"></textarea>
+          </div>
+
+          <label>TEXTO</label>
+          <div class="row">
+            <textarea rows="2" class="form-control" [(ngModel)]="texto"></textarea>
+          </div>
+        </div>
+      </div>
+
+
+    </div>
+
+    <div class="row">
+      <div class="col-md-12">
+        <div class="callout callout-info">
+          <label>FECHA ENTREGA</label>
+          <div class="row">
+            <input [(ngModel)]="fecha_entrega" class="form-control" type="date">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-12">
+        <div class="callout callout-info">
+          <label>DESCRIPCIÓN</label>
+          <div class="row">
+            <textarea rows="2" class="form-control" [(ngModel)]="descripcion"></textarea>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <button *ngIf="selectedImageBase64" (click)="clearImage()" class="btn btn-danger btm-sm"><i class="fa fa-trash"></i> Borrar</button>
+    </div>
+
+    <div class="row pt-1">
+      <div class="justify-content-center text-center m-auto">
+        <img class="img-fluid" *ngIf="selectedImageBase64" [src]="selectedImageBase64" alt="Selected Image" />
+      </div>
+    </div>
+
+    <div class="row pt-1">
+      <div class="drag-drop">
+        <input type="file" (change)="onFileSelected($event)" accept="image/*" #fileImage/>
+          <span class="fa-stack fa-2x">
+              <i class="fa fa-cloud fa-stack-2x bottom pulsating"></i>
+              <i class="fa fa-circle fa-stack-1x top medium"></i>
+              <i class="fa fa-arrow-circle-up fa-stack-1x top"></i>
+          </span>
+          <span class="desc">Añadir Foto</span>
+      </div>
+    </div>
+
+</div>

@@ -1,0 +1,167 @@
+<section class="content-header">
+
+  <div class="container-fluid">
+
+      <div *ngIf="permisosProcesosOperativos()" class="card card-outline card-primary">
+        <div class="card-header">
+          <h3 class="card-title"><i class="fas fa-cash-register mr-2"></i> Procesos Operativos</h3>
+        </div>
+        <div class="card-body">
+          
+          <div class="row">
+
+            <div class="col-md-6 col-lg-2 col-xlg-3 cursor-pointer" *ngIf="this.opcionesmenu['monitor']">
+              <a (click)="primeraPantalla()" class="small-box-footer">
+                <div class="card bg-navy card-menu">
+                  <h1>
+                    <i class="fas fa-desktop"></i>
+                  </h1>
+                  <span class="text-white h6">Monitor</span>
+                </div>
+              </a>
+            </div>
+
+            <div class="col-md-6 col-lg-2 col-xlg-3 cursor-pointer" *ngIf="this.opcionesmenu['monitor'] && compartido_extension=='1'">
+              <a (click)="segundaPantalla()" class="small-box-footer">
+                <div class="card bg-purple card-menu">
+                  <h1>
+                    <i class="fas fa-desktop"></i>
+                  </h1>
+                  <span class="text-white h6">Monitor 2</span>
+                </div>
+              </a>
+            </div>
+
+            <div class="col-md-6 col-lg-2 col-xlg-3" *ngIf="this.opcionesmenu['socios']">
+              <a routerLink="/menugym/socios" class="small-box-footer">
+                <div class="card bg-cyan card-menu">
+                  <h1>
+                    <i class="fas fa-users-cog"></i>
+                  </h1>
+                  <span class="text-white h6">Socios</span>
+                </div>
+              </a>
+            </div>
+
+            <div class="col-md-6 col-lg-2 col-xlg-3" *ngIf="this.opcionesmenu['actividad']">
+              <a routerLink="/menugym/actividad" class="small-box-footer">
+                <div class="card bg-cyan card-menu">
+                  <h1>
+                    <i class="fas fa-dumbbell"></i>
+                  </h1>
+                  <span class="text-white h6">Actividades</span>
+                </div>
+              </a>
+            </div>
+
+            <div class="col-md-6 col-lg-2 col-xlg-3" *ngIf="this.opcionesmenu['planes']">
+              <a routerLink="/menugym/planes" class="small-box-footer">
+                <div class="card bg-cyan card-menu">
+                  <h1>
+                    <i class="fas fa-file-contract"></i>
+                  </h1>
+                  <span class="text-white h6">Planes</span>
+                </div>
+              </a>
+            </div>
+
+            <div class="col-md-6 col-lg-2 col-xlg-3" *ngIf="this.opcionesmenu['membresias']">
+              <a routerLink="/menugym/membresias" class="small-box-footer">
+                <div class="card bg-cyan card-menu">
+                  <h1>
+                    <i class="fas fa-bookmark"></i>
+                  </h1>
+                  <span class="text-white h6">Membresias</span>
+                </div>
+              </a>
+            </div>
+
+            <div class="col-md-6 col-lg-2 col-xlg-3" *ngIf="this.opcionesmenu['ventadiario']">
+              <a routerLink="/menugym/facturaplan/nuevoregistrodiario/1" class="small-box-footer">
+                <div class="card bg-cyan card-menu">
+                  <h1>
+                    <i class="fas fa-cart-plus"></i>
+                  </h1>
+                  <span class="text-white h6">Diario</span>
+                </div>
+              </a>
+            </div>
+
+            <div class="col-md-6 col-lg-2 col-xlg-3" *ngIf="this.opcionesmenu['exploradorventamembresias']">
+              <a routerLink="/menugym/exploradorventamembresias" class="small-box-footer">
+                <div class="card bg-cyan card-menu">
+                  <h1>
+                    <i class="fas fa-list-alt"></i>
+                  </h1>
+                  <span class="text-white h6">Vta. Membresías</span>
+                </div>
+              </a>
+            </div>
+
+            <div class="col-md-6 col-lg-2 col-xlg-3" *ngIf="this.opcionesmenu['cupon']">
+              <a routerLink="/menugym/cupon" class="small-box-footer">
+                <div class="card bg-cyan card-menu">
+                  <h1>
+                    <i class="fas fa-ticket-alt"></i>
+                  </h1>
+                  <span class="text-white h6">Cupones</span>
+                </div>
+              </a>
+            </div>
+
+
+
+          </div>
+          
+
+        </div>
+      </div>
+
+      <div *ngIf="permisosInformesReportes()" class="card card-outline card-success mt-4">
+        <div class="card-header">
+          <h3 class="card-title"><i class="fas fa-chart-line mr-2"></i> Informes y Reportes</h3>
+        </div>
+        <div class="card-body">
+          <div class="row">
+
+            <div *ngIf="this.opcionesmenu['reportesocios']" class="col-lg-2 col-md-3 col-12 mb-2 d-flex">
+              <a routerLink="/menugym/reportesocios" class="btn btn-block btn-outline-success btn-sm h-100 d-flex align-items-center justify-content-center">
+          <span>
+                <i class="fas fa-users"></i> Listado de Socios Gym
+              </span></a>
+            </div>
+
+            <div *ngIf="this.opcionesmenu['reporteestadomembresia']" class="col-lg-2 col-md-3 col-12 mb-2 d-flex">
+              <a routerLink="/menugym/reporteestadomembresia" class="btn btn-block btn-outline-success btn-sm h-100 d-flex align-items-center justify-content-center">
+          <span>
+                <i class="fas fa-book"></i> Estados de Membresía
+              </span></a>
+            </div>
+
+            <div *ngIf="this.opcionesmenu['reporteventassocios']" class="col-lg-2 col-md-3 col-12 mb-2 d-flex">
+              <a routerLink="/menugym/reporteventassocios" class="btn btn-block btn-outline-success btn-sm h-100 d-flex align-items-center justify-content-center">
+          <span>
+                <i class="fas fa-users"></i> Listado de Ventas Socios
+              </span></a>
+            </div>
+
+            <div *ngIf="this.opcionesmenu['reportepromocionalmes']" class="col-lg-2 col-md-3 col-12 mb-2 d-flex">
+              <a routerLink="/menugym/reportepromocionalmes" class="btn btn-block btn-outline-success btn-sm h-100 d-flex align-items-center justify-content-center">
+          <span>
+                <i class="fas fa-book"></i> Cumpleañero del Mes
+              </span></a>
+            </div>
+
+            <div *ngIf="this.opcionesmenu['reporteasistencia']" class="col-lg-2 col-md-3 col-12 mb-2 d-flex">
+              <a routerLink="/menugym/reporteasistencia" class="btn btn-block btn-outline-success btn-sm h-100 d-flex align-items-center justify-content-center">
+          <span>
+                <i class="fas fa-clock"></i> Listado Asistencia
+              </span></a>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+  </div>
+</section>

@@ -1,0 +1,115 @@
+<div id="mymodalfirma" class="modal fade" role="dialog" data-backdrop="false">
+    <div class="modal-dialog">
+      <!-- Modal content -->
+      <div class="modal-content">
+        <div class="modal-header">
+        <h5 class="modal-title">FIRMA {{ empresa }}</h5>
+      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">×</span>
+            </button>
+        </div>
+        <div class="modal-body">
+
+            <div class="row">
+                
+              <div class="col-md-12">
+
+                    <div class="row">
+                
+                      <div class="col-md-6">
+                          
+                          <div class="form-group">
+                              <label>Empresa Certificado:</label>
+                              <label class="form-control form-control-sm">{{ certificado }}</label>
+                          </div>
+
+                          <div class="form-group">
+                              <label>Clave Certificado:</label>
+                              <input [(ngModel)]="clavep12" class="form-control form-control-sm" maxlength="15" placeholder="" type="text">
+                          </div>
+                          
+                      </div>
+
+                      <div class="col-md-6">
+                        
+                          <div class="form-group">
+                              <label>Caducidad Certificado:</label>
+                              <label class="form-control form-control-sm">{{ fecha_caducidad_firma }}</label>
+                          </div>
+
+                      </div>
+
+                      <div *ngIf="firmap12subida!=''"  class="col-md-12">
+                        
+                          <div class="form-group">
+                              <label>Firma Cargada:</label>
+                              <label class="form-control form-control-sm" style="height: auto;">{{ firmap12subida }}</label>
+                          </div>
+
+                          <button class="btn btn-outline-primary btn-sm" (click)="descargarFirma()"><i class="fas fa-file-signature mr-1"></i>Descargar firma electrónica (.p12)</button>
+
+                      </div>
+
+                    </div>
+                
+                    <div class="row">
+                      <button 
+                        *ngIf="selectedP12File" 
+                        (click)="clearP12()" 
+                        class="btn btn-danger btn-sm">
+                        <i class="fa fa-trash"></i> Borrar
+                      </button>
+                    </div>
+
+                    <div class="row pt-1">
+                      <div class="justify-content-center text-center m-auto">
+
+                        <div *ngIf="selectedP12File" class="alert alert-info">
+                          <i class="fa fa-file"></i>
+                          {{ selectedP12File.name }}
+                          <br>
+                          Tamaño: {{ (selectedP12File.size / 1024).toFixed(2) }} KB
+                        </div>
+
+                      </div>
+                    </div>
+
+                    <div class="row pt-1">
+                      <div class="drag-drop">
+
+                        <input 
+                          type="file"
+                          accept=".p12"
+                          (change)="onP12Selected($event)"
+                          #fileP12
+                        />
+
+                        <span class="fa-stack fa-2x">
+                          <i class="fa fa-cloud fa-stack-2x bottom pulsating"></i>
+                          <i class="fa fa-circle fa-stack-1x top medium"></i>
+                          <i class="fa fa-arrow-circle-up fa-stack-1x top"></i>
+                        </span>
+
+                        <span class="desc">Añadir Archivo .P12</span>
+
+                      </div>
+                    </div>
+
+                  
+              </div>
+
+            </div>
+
+
+
+            <div class="d-flex justify-content-end align-items-center">
+              <button (click)="clickSubir();" class="btn btn-primary btn-sm mr-1" type="button"><i class="fas fa-upload"></i> Subir</button>
+              <button class="btn btn-secondary btn-sm" type="button" data-dismiss="modal"><i class="fas fa-times-circle"></i> Cerrar</button>
+            </div>
+  
+        </div>
+        
+      </div>
+  
+    </div>
+</div>

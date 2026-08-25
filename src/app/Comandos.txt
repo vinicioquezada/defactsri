@@ -1,0 +1,530 @@
+ng build --configuration production
+
+TypeScript: Select TypeScript Version
+
+navbar-dark navbar-success
+npm uninstall --save-dev bootstrap
+Marco de Trabajo: npm install -g @angular/cli@14.2.0
+npm install ngx-filter-pipe --save
+npm install ngx-toastr@15.0.0 --save
+npm install @angular/animations --save
+npm install crypto-js --save
+npm install moment --save
+npm install --save @ng-select/ng-select@9.0.3
+npm install socket.io-client@4.7.2
+ng new app_ssfact
+ng g m appRouting --flat
+ng g s auth-interceptor
+ng g m administrar/rutasadministrar --routing
+ng g s services/access
+
+/*SHARED*/
+/*SHARED*/
+/*SHARED*/
+ng g m shared/shared --flat
+ng g c shared/components/detalle-compra --skip-tests
+ng g c shared/components/detalle-fijar-precios --skip-tests
+ng g c shared/components/detalle-registro-caducidad --skip-tests
+ng g c shared/components/detalle-nota-credito --skip-tests
+ng g c shared/components/detalle-productos --skip-tests
+ng g c shared/components/detalle-productos-salidas --skip-tests
+ng g c shared/components/detalle-venta --skip-tests
+ng g c shared/components/detalle-venta-guia-remision --skip-tests
+ng g c shared/components/encabezado --skip-tests
+ng g c shared/components/listado-cliente --skip-tests
+ng g c shared/components/observacion-cliente --skip-tests
+ng g c shared/components/listado-socios --skip-tests
+ng g c shared/components/listado-empleado --skip-tests
+ng g c shared/components/listado-vendedor --skip-tests
+ng g c shared/components/listado-planes-gym --skip-tests
+ng g c shared/components/listado-producto --skip-tests
+ng g c shared/components/listado-proveedor --skip-tests
+ng g c shared/components/listado-tarifas --skip-tests
+ng g c shared/components/loader --skip-tests
+ng g c shared/components/loader-listado --skip-tests
+ng g c shared/components/menu --skip-tests
+ng g c shared/components/modal-carga --skip-tests
+ng g c shared/components/nuevo-proveedor --skip-tests
+ng g c shared/components/opciones-menu --skip-tests
+ng g c shared/components/pie --skip-tests
+ng g c shared/components/venta/opciones-explorador-venta --skip-tests
+ng g c shared/components/venta/listar-nota-credito --skip-tests
+ng g c shared/components/venta/listar-guia-remision --skip-tests
+ng g c shared/components/venta/listar-facturas-ventas --skip-tests
+ng g c shared/components/venta/pedido-panaderia --skip-tests
+ng g c shared/components/retencion/datos-sujeto-retenido --skip-tests
+ng g c shared/components/retencion/datos-ventas --skip-tests
+ng g c shared/components/retencion/detalle-retencion --skip-tests
+ng g c shared/components/transportista/listado-transportista --skip-tests
+ng g c shared/components/transportista/nuevo-transportista --skip-tests
+ng g c shared/components/transportista/nuevo-punto-transporte --skip-tests
+ng g c shared/components/transportista/nueva-ruta --skip-tests
+ng g c shared/components/transportista/nuevo-vehiculo --skip-tests
+ng g c shared/components/forma-pago --skip-tests
+ng g c shared/components/enviar-sri-venta --skip-tests
+ng g c shared/components/registro-abono-venta --skip-tests
+ng g c shared/components/listado-existencias-sucursal --skip-tests
+ng g c shared/components/detalle-productos-movimientos --skip-tests
+ng g c shared/components/detalle-productos-revision --skip-tests
+ng g c shared/components/recargo-factura --skip-tests
+ng g c shared/components/venta/transacciones-banco --skip-tests
+ng g c shared/components/venta/listar-ventas-cliente --skip-tests
+ng g c shared/components/codigo-producto --skip-tests
+ng g c shared/components/compensacion --skip-tests
+ng g c shared/components/acceso-denegado --skip-tests
+ng g c shared/components/registro-abono --skip-tests
+ng g c shared/components/venta/factura-pedidos --skip-tests
+ng g c shared/components/venta/visualizar-listado-venta-cliente --skip-tests
+ng g c shared/components/venta/visualizar-listado-pedido-cliente --skip-tests
+ng g c shared/components/venta/opciones-explorador-pedido --skip-tests
+ng g c shared/components/cajero/detalle-movimiento-caja --skip-tests
+ng g c shared/components/venta/listado-cliente-venta --skip-tests
+
+ng g c shared/components/listado-producto/listado-producto-ventas --skip-tests
+ng g c shared/components/listado-producto/listado-producto-compras --skip-tests
+ng g c shared/components/listado-producto/listado-producto-ingresos --skip-tests
+ng g c shared/components/listado-producto/listado-producto-salidas --skip-tests
+ng g c shared/components/listado-producto/listado-producto-general --skip-tests
+
+ng g s shared/services/access --skip-tests
+ng g s shared/services/error --skip-tests
+ng g s shared/services/body-style --skip-tests
+ng g s shared/services/image --skip-tests
+ng g s shared/services/storage-encryption --skip-tests
+ng g s shared/services/storage-print --skip-tests
+ng g s shared/services/user-session --skip-tests
+ng g s shared/services/loader --skip-tests
+ng g s shared/services/sri-venta --skip-tests
+ng g s shared/services/sri-nota-credito --skip-tests
+ng g s shared/services/sri-guia-remision --skip-tests
+ng g s shared/services/impresion --skip-tests
+ng g s shared/services/config --skip-tests
+ng g s shared/services/swal --skip-tests
+ng g s shared/services/ws --skip-tests
+
+ng g guard shared/guards/auth --skip-tests
+
+ng g c shared/components/venta/opciones-explorador-nota-credito --skip-tests
+ng g c shared/components/venta/opciones-explorador-guia-remision --skip-tests
+ng g c shared/components/retencion/opciones-explorador-retencion --skip-tests
+
+ng g c shared/components/venta/configurar-firma-venta --skip-tests
+
+ng g p shared/pipes/filter-generico --skip-tests
+/*SHARED*/
+/*SHARED*/
+/*SHARED*/
+
+/*ADMINISTRAR*/
+/*ADMINISTRAR*/
+/*ADMINISTRAR*/
+ng g m administrar/administrar --flat
+ng g c administrar/components/empleado --skip-tests
+ng g c administrar/components/empleado/empleado-form --skip-tests
+ng g c administrar/components/funcionalidad --skip-tests
+ng g c administrar/components/menu-administrar --skip-tests
+ng g c administrar/components/roles --skip-tests
+ng g c administrar/components/roles/roles-form --skip-tests
+ng g c administrar/components/roles/funcionalidad --skip-tests
+ng g c administrar/components/usuario --skip-tests
+ng g c administrar/components/usuario/usuario-form --skip-tests
+ng g c administrar/components/configuracion --skip-tests
+ng g c administrar/components/sucursal --skip-tests
+ng g c administrar/components/ruc --skip-tests
+ng g c administrar/components/ruc/ruc-form --skip-tests
+ng g c administrar/components/ruc/logo-ruc --skip-tests
+ng g c administrar/components/ruc/firma-ruc --skip-tests
+ng g c administrar/components/sucursal/sucursal-form --skip-tests
+ng g c administrar/components/sucursal/asignacion-ruc --skip-tests
+ng g c administrar/components/sucursal/logo-sucursal --skip-tests
+ng g c administrar/components/ruc/secuencias_factura --skip-tests
+ng g c administrar/components/sucursal/configuracion-servicio --skip-tests
+
+ng g c administrar/components/configuracion-impresion --skip-tests
+
+ng g s administrar/services/empleado --skip-tests
+ng g s administrar/services/funcionalidad --skip-tests
+ng g s administrar/services/roles --skip-tests
+ng g s administrar/services/usuario --skip-tests
+ng g s administrar/services/configuracion-documentos --skip-tests
+
+/*ADMINISTRAR*/
+/*ADMINISTRAR*/
+/*ADMINISTRAR*/
+
+/*ALMACEN*/
+/*ALMACEN*/
+/*ALMACEN*/
+ng g m almacen/almacen --flat
+ng g c almacen/components/buscar-producto --skip-tests
+ng g c almacen/components/categoria --skip-tests
+ng g c almacen/components/categoria/categoria-form --skip-tests
+ng g c almacen/components/codigo-barra --skip-tests
+ng g c almacen/components/denominacion --skip-tests
+ng g c almacen/components/denominacion/denominacion-form --skip-tests
+ng g c almacen/components/explorador-ingreso-mercaderia --skip-tests
+ng g c almacen/components/explorador-movimiento-mercaderia --skip-tests
+ng g c almacen/components/explorador-salida-mercaderia --skip-tests
+ng g c almacen/components/explorador-producto --skip-tests
+ng g c almacen/components/ingreso-mercaderia --skip-tests
+ng g c almacen/components/marca --skip-tests
+ng g c almacen/components/marca/marca-form --skip-tests
+ng g c almacen/components/menu-almacen --skip-tests
+ng g c almacen/components/movimiento-mercaderia --skip-tests
+ng g c almacen/components/producto --skip-tests
+ng g c almacen/components/producto/existencias --skip-tests
+ng g c almacen/components/producto/tarifas --skip-tests
+ng g c almacen/components/producto/precios-proveedor --skip-tests
+ng g c almacen/components/producto/factura-proveedor --skip-tests
+ng g c almacen/components/reporte-ingreso-mercaderia --skip-tests
+ng g c almacen/components/reporte-salida-mercaderia --skip-tests
+ng g c almacen/components/reporte-stock-producto --skip-tests
+ng g c almacen/components/salida-mercaderia --skip-tests
+ng g c almacen/components/subcategoria --skip-tests
+ng g c almacen/components/subcategoria/subcategoria-form --skip-tests
+ng g c almacen/components/tipo-ingreso-mercaderia --skip-tests
+ng g c almacen/components/tipo-ingreso-mercaderia/tipo-ingreso-mercaderia-form --skip-tests
+ng g c almacen/components/tipo-salida-mercaderia --skip-tests
+ng g c almacen/components/tipo-salida-mercaderia/tipo-salida-mercaderia-form --skip-tests
+ng g c almacen/components/tipo-tarifa --skip-tests
+ng g c almacen/components/tipo-tarifa/tipo-tarifa-form --skip-tests
+ng g c almacen/components/unidad-medida --skip-tests
+ng g c almacen/components/unidad-medida/unidad-medida-form --skip-tests
+ng g c almacen/components/verificacion-movimiento-mercaderia --skip-tests
+ng g c almacen/components/movimiento-mercaderia-verificar --skip-tests
+ng g c almacen/components/reporte-movimiento-mercaderia --skip-tests
+ng g c almacen/components/produccion --skip-tests
+ng g c almacen/components/explorador-produccion --skip-tests
+ng g c almacen/components/reporte-salida-mercaderia-valoradas --skip-tests
+ng g c almacen/components/eliminacion-producto --skip-tests
+
+ng g s almacen/services/categoria --skip-tests
+ng g s almacen/services/denominacion --skip-tests
+ng g s almacen/services/ingreso-mercaderia --skip-tests
+ng g s almacen/services/marca --skip-tests
+ng g s almacen/services/movimiento-mercaderia --skip-tests
+ng g s almacen/services/producto --skip-tests
+ng g s almacen/services/existencias --skip-tests
+ng g s almacen/services/iva --skip-tests
+ng g s almacen/services/iva-compra --skip-tests
+ng g s almacen/services/tarifa --skip-tests
+ng g s almacen/services/tipo-producto --skip-tests
+ng g s almacen/services/salida-mercaderia --skip-tests
+ng g s almacen/services/subcategoria --skip-tests
+ng g s almacen/services/tipo-ingreso-mercaderia --skip-tests
+ng g s almacen/services/tipo-salida-mercaderia --skip-tests
+ng g s almacen/services/tipo-tarifa --skip-tests
+ng g s almacen/services/unidad-medida --skip-tests
+ng g s almacen/services/orden-movimiento --skip-tests
+ng g s almacen/services/codigo-producto --skip-tests
+ng g c almacen/components/producto/producto-form --skip-tests
+ng g s almacen/services/formula --skip-tests
+ng g s almacen/services/eliminacion-producto --skip-tests
+/*ALMACEN*/
+/*ALMACEN*/
+/*ALMACEN*/
+
+/*COMPRA*/
+/*COMPRA*/
+/*COMPRA*/
+ng g m compra/compra --flat
+ng g c compra/components/compra --skip-tests
+ng g c compra/components/compra/listado-producto-emparejar --skip-tests
+ng g c compra/components/compra-actualizar --skip-tests
+ng g c compra/components/compra-gastos --skip-tests
+ng g c compra/components/explorador-compra --skip-tests
+ng g c compra/components/explorador-nota-credito-compras --skip-tests
+ng g c compra/components/explorador-proveedor --skip-tests
+ng g c compra/components/fijar-precios-productos --skip-tests
+ng g c compra/components/menu-compra --skip-tests
+ng g c compra/components/nota-credito-compras --skip-tests
+ng g c compra/components/nota-credito-compras-actualizar --skip-tests
+ng g c compra/components/proveedor --skip-tests
+ng g c compra/components/proveedor/proveedor-form --skip-tests
+ng g c compra/components/proveedor/productos-proveedor --skip-tests
+ng g c compra/components/reporte-compra --skip-tests
+ng g c compra/components/reporte-compra-credito --skip-tests
+ng g c compra/components/reporte-compra-detalles --skip-tests
+ng g c compra/components/reporte-nota-credito-compras --skip-tests
+ng g c compra/components/reporte-proveedor --skip-tests
+
+ng g s compra/services/compra --skip-tests
+ng g s compra/services/nota-credito-compras --skip-tests
+ng g s compra/services/proveedor --skip-tests
+ng g s compra/services/proveedor-producto --skip-tests
+/*COMPRA*/
+/*COMPRA*/
+/*COMPRA*/
+
+/*CUENTAPC*/
+/*CUENTAPC*/
+/*CUENTAPC*/
+ng g m cuentapc/cuentapc --flat
+ng g m cuentapc/cuenta-pc --flat
+ng g c cuentapc/components/abono-compra --skip-tests
+ng g c cuentapc/components/abono-venta --skip-tests
+ng g c cuentapc/components/credito --skip-tests
+ng g c cuentapc/components/menu-cuenta-pc --skip-tests
+ng g c cuentapc/components/observaciones-credito --skip-tests
+ng g c cuentapc/components/reporte-abono-compras --skip-tests
+ng g c cuentapc/components/reporte-abono-ventas --skip-tests
+ng g c cuentapc/components/reporte-corte-por-cobrar --skip-tests
+ng g c cuentapc/components/reporte-por-cobrar --skip-tests
+ng g c cuentapc/components/reporte-por-pagar --skip-tests
+ng g c cuentapc/components/reporte-forma-pago-vencimiento --skip-tests
+ng g c cuentapc/components/reporte-cuentas-pagar-consolidado --skip-tests
+ng g c cuentapc/components/reporte-cuentas-cobrar-consolidado --skip-tests
+
+ng g s cuentapc/services/abono-compra --skip-tests
+ng g s cuentapc/services/abono-venta --skip-tests
+ng g s cuentapc/services/credito --skip-tests
+ng g s cuentapc/services/observaciones-credito --skip-tests
+/*CUENTAPC*/
+/*CUENTAPC*/
+/*CUENTAPC*/
+
+/*GASTOSINGRESOS*/
+/*GASTOSINGRESOS*/
+/*GASTOSINGRESOS*/
+ng g m gastosingresos/gastos-ingresos --flat
+ng g c gastosingresos/components/categoria-gastos --skip-tests
+ng g c gastosingresos/components/categoria-gastos/categoria-gastos-form --skip-tests
+ng g c gastosingresos/components/categoria-ingresos --skip-tests
+ng g c gastosingresos/components/categoria-ingresos/categoria-ingresos-form --skip-tests
+ng g c gastosingresos/components/gastos --skip-tests
+ng g c gastosingresos/components/ingresos --skip-tests
+ng g c gastosingresos/components/menu-gastos-ingresos --skip-tests
+ng g c gastosingresos/components/reporte-gastos --skip-tests
+ng g c gastosingresos/components/reporte-ingresos --skip-tests
+
+ng g s gastosingresos/services/categoria-gastos --skip-tests
+ng g s gastosingresos/services/categoria-ingresos --skip-tests
+ng g s gastosingresos/services/gastos --skip-tests
+ng g s gastosingresos/services/ingresos --skip-tests
+/*GASTOSINGRESOS*/
+/*GASTOSINGRESOS*/
+/*GASTOSINGRESOS*/
+
+/*GYM*/
+/*GYM*/
+/*GYM*/
+ng g m gym/gym --flat
+ng g c gym/components/explorador-venta-membresia --skip-tests
+ng g c gym/components/factura-plan --skip-tests
+ng g c gym/components/factura-plan-actualizar --skip-tests
+ng g c gym/components/membresia --skip-tests
+ng g c gym/components/menu-gym --skip-tests
+ng g c gym/components/plan --skip-tests
+ng g c gym/components/plan/plan-form --skip-tests
+ng g c gym/components/reporte-estado-membresia --skip-tests
+ng g c gym/components/reporte-promocion-al-mes --skip-tests
+ng g c gym/components/reporte-socios --skip-tests
+ng g c gym/components/reporte-asistencia --skip-tests
+ng g c gym/components/socio --skip-tests
+ng g c gym/components/socio/foto-form- --skip-tests
+ng g c gym/components/tipo-usuario-gym --skip-tests
+ng g c gym/components/venta-diario --skip-tests
+ng g c gym/components/monitor --skip-tests
+ng g c gym/components/monitor/gestion-socios --skip-tests
+ng g c gym/components/monitor/monitor-compartido --skip-tests
+ng g c gym/components/monitor-secundario --skip-tests
+ng g c gym/components/monitor/listado-apertura-diario --skip-tests
+ng g c gym/components/socio/socio-form --skip-tests
+ng g c gym/components/reporte-ventas-socios --skip-tests
+ng g c gym/components/actividad --skip-tests
+ng g c gym/components/actividad/actividad-form --skip-tests
+ng g c gym/components/actividad-horario --skip-tests
+ng g c gym/components/actividad-horario/actividad-horario-form --skip-tests
+ng g c gym/components/actividad-membresia --skip-tests
+ng g c gym/components/actividad-reserva --skip-tests
+ng g c gym/components/actividad-reserva/actividad-reserva-form --skip-tests
+ng g c gym/components/horario-reserva-actividad --skip-tests
+ng g c gym/components/monitor/monitor-actividades --skip-tests
+ng g c gym/components/cupon --skip-tests
+ng g c gym/components/cupon/cupon-form --skip-tests
+
+ng g s gym/services/socket --skip-tests
+ng g s gym/services/socket-secundario --skip-tests
+ng g s gym/services/socket3 --skip-tests
+ng g s gym/services/socket4 --skip-tests
+ng g s gym/services/socket5 --skip-tests
+ng g s gym/services/membresia --skip-tests
+ng g s gym/services/plan --skip-tests
+ng g s gym/services/socio --skip-tests
+ng g s gym/services/tipo-usuario-gym --skip-tests
+ng g s gym/services/monitor-local --skip-tests
+ng g s gym/services/monitor-local-secundario --skip-tests
+ng g s gym/services/monitor-local-actividad --skip-tests
+ng g s gym/services/monitor --skip-tests
+ng g s gym/services/puerta-diario --skip-tests
+ng g s gym/services/calcular-membresia --skip-tests
+ng g s gym/services/actividad --skip-tests
+ng g s gym/services/cupon --skip-tests
+ng g s gym/services/actividad-horario --skip-tests
+ng g s gym/services/actividad-reserva --skip-tests
+ng g s gym/services/asistencia --skip-tests
+/*GYM*/
+/*GYM*/
+/*GYM*/
+
+/*HOTEL*/
+/*HOTEL*/
+/*HOTEL*/
+ng g m hotel/hotel --flat
+ng g c hotel/components/abono-reserva --skip-tests
+ng g c hotel/components/asignacion --skip-tests
+ng g c hotel/components/explorador-departamentos --skip-tests
+ng g c hotel/components/explorador-pagos --skip-tests
+ng g c hotel/components/factura-reserva --skip-tests
+ng g c hotel/components/factura-reserva-actualizar --skip-tests
+ng g c hotel/components/menu-hotel --skip-tests
+ng g c hotel/components/reservas --skip-tests
+ng g c hotel/components/servicios-hotel --skip-tests
+ng g c hotel/components/servicios-hotel/servicios-hotel-form --skip-tests
+ng g c hotel/components/disponibilidad-departamentos --skip-tests
+
+ng g s hotel/services/abono-reserva --skip-tests
+ng g s hotel/services/asignacion --skip-tests
+ng g s hotel/services/factura-reserva --skip-tests
+ng g s hotel/services/reservas --skip-tests
+ng g s hotel/services/servicios-hotel --skip-tests
+/*HOTEL*/
+/*HOTEL*/
+/*HOTEL*/
+
+/*KARDEX*/
+/*KARDEX*/
+/*KARDEX*/
+ng g m kardex/kardex --flat
+ng g c kardex/components/kardex --skip-tests
+ng g c kardex/components/registro-caducidad --skip-tests
+ng g c kardex/components/registro-caducidad-ingreso --skip-tests
+ng g c kardex/components/menu-kardex --skip-tests
+ng g c kardex/components/reporte-costo-producto --skip-tests
+ng g c kardex/components/reporte-ingresos-manuales --skip-tests
+ng g c kardex/components/reporte-margen-ganancia --skip-tests
+ng g c kardex/components/reporte-salidas-manuales --skip-tests
+ng g c kardex/components/reporte-caducidad --skip-tests
+
+ng g s kardex/services/kardex --skip-tests
+/*KARDEX*/
+/*KARDEX*/
+/*KARDEX*/
+
+/*RETENCIÓN*/
+/*RETENCIÓN*/
+/*RETENCIÓN*/
+ng g m retencion/retencion --flat
+ng g c retencion/components/codigo-retencion --skip-tests
+ng g c retencion/components/explorador-retencion --skip-tests
+ng g c retencion/components/menu-retencion --skip-tests
+ng g c retencion/components/reporte-retencion --skip-tests
+ng g c retencion/components/retencion --skip-tests
+ng g c retencion/components/explorador-compra-retencion --skip-tests
+ng g c retencion/components/listado-compra-retencion --skip-tests
+
+ng g s retencion/services/codigo-retencion --skip-tests
+ng g s retencion/services/retencion --skip-tests
+ng g s retencion/services/tipo-documento --skip-tests
+ng g s retencion/services/tipo-impuesto --skip-tests
+/*RETENCIÓN*/
+/*RETENCIÓN*/
+/*RETENCIÓN*/
+
+/*USUARIO*/
+/*USUARIO*/
+/*USUARIO*/
+ng g m usuario/usuario --flat
+ng g c usuario/components/inicio --skip-tests
+ng g c usuario/components/login --skip-tests
+ng g c usuario/components/perfil --skip-tests
+ng g c usuario/components/sucursales --skip-tests
+
+ng g s usuario/services/inicio --skip-tests
+ng g s usuario/services/login --skip-tests
+ng g s usuario/services/sucursales --skip-tests
+ng g s usuario/services/perfil --skip-tests
+ng g s usuario/services/ruc-empresa --skip-tests
+ng g s usuario/services/firma-usuario --skip-tests
+/*USUARIO*/
+/*USUARIO*/
+/*USUARIO*/
+
+/*VENTA*/
+/*VENTA*/
+/*VENTA*/
+ng g m venta/venta --flat
+ng g c venta/components/cajero --skip-tests
+ng g c venta/components/cliente --skip-tests
+ng g c venta/components/cliente/cliente-form --skip-tests
+ng g c venta/components/explorador-cajero --skip-tests
+ng g c venta/components/explorador-factura --skip-tests
+ng g c venta/components/explorador-guia-remision --skip-tests
+ng g c venta/components/explorador-nota-credito --skip-tests
+ng g c venta/components/explorador-pedidos --skip-tests
+ng g c venta/components/explorador-venta --skip-tests
+ng g c venta/components/forma-pago --skip-tests
+ng g c venta/components/guia-remision --skip-tests
+ng g c venta/components/guia-remision-actualizar --skip-tests
+ng g c venta/components/menu-venta --skip-tests
+ng g c venta/components/nota-credito --skip-tests
+ng g c venta/components/nota-credito-actualizar --skip-tests
+ng g c venta/components/reporte-cliente --skip-tests
+ng g c venta/components/reporte-guia-remision --skip-tests
+ng g c venta/components/reporte-nota-credito --skip-tests
+ng g c venta/components/reporte-rotacion-producto --skip-tests
+ng g c venta/components/reporte-venta --skip-tests
+ng g c venta/components/reporte-control-venta --skip-tests
+ng g c venta/components/reporte-venta-credito --skip-tests
+ng g c venta/components/reporte-venta-detalles --skip-tests
+ng g c venta/components/reporte-venta-por-categoria --skip-tests
+ng g c venta/components/reporte-venta-por-producto --skip-tests
+ng g c venta/components/reporte-venta-consolidado-vendedor --skip-tests
+ng g c venta/components/tipo-cliente --skip-tests
+ng g c venta/components/tipo-cliente/tipo-cliente-form --skip-tests
+ng g c venta/components/transportista --skip-tests
+ng g c venta/components/transportista/transportista-form --skip-tests
+ng g c venta/components/venta --skip-tests
+ng g c venta/components/pedido --skip-tests
+ng g c venta/components/venta-actualizar --skip-tests
+ng g c venta/components/venta-copiar --skip-tests
+ng g c venta/components/venta-test --skip-tests
+ng g c venta/components/venta-actualizar-test --skip-tests
+ng g c venta/components/explorador-venta-recaudacion --skip-tests
+ng g c venta/components/pre-venta --skip-tests
+ng g c venta/components/aprobar-pre-venta --skip-tests
+ng g c venta/components/venta-descuento --skip-tests
+ng g c venta/components/pago-nota-credito --skip-tests
+ng g c venta/components/reporte-saldo-nota-credito --skip-tests
+ng g c venta/components/resumen-ventas --skip-tests
+ng g c venta/components/reporte-venta-forma-pago --skip-tests
+ng g c venta/components/reporte-consolidado-saldo-pendiente-nota-credito --skip-tests
+ng g c venta/components/reporte-pago-nota-credito --skip-tests
+ng g c venta/components/explorador-cliente --skip-tests
+ng g c venta/components/reporte-nota-credito-detalles --skip-tests
+
+
+ng g s venta/services/empleado --skip-tests
+ng g s venta/services/caja --skip-tests
+ng g s venta/services/cajero --skip-tests
+ng g s venta/services/cliente --skip-tests
+ng g s venta/services/tipo-identificacion --skip-tests
+ng g s venta/services/forma-pago --skip-tests
+ng g s venta/services/guia-remision --skip-tests
+ng g s venta/services/nota-credito --skip-tests
+ng g s venta/services/tipo-cliente --skip-tests
+ng g s venta/services/punto-transportista --skip-tests
+ng g s venta/services/ruta --skip-tests
+ng g s venta/services/transportista --skip-tests
+ng g s venta/services/vehiculo --skip-tests
+ng g s venta/services/tarjeta-tarifa --skip-tests
+ng g s venta/services/venta --skip-tests
+ng g s venta/services/item-pastel --skip-tests
+ng g s venta/services/detalle-pedido-pastel --skip-tests
+ng g s venta/services/pre-venta --skip-tests
+ng g s venta/services/transaccion-tarjeta --skip-tests
+ng g s venta/services/transaccion-banco --skip-tests
+ng g s venta/services/saldo-nota-credito --skip-tests
+/*VENTA*/
+/*VENTA*/
+/*VENTA*/

@@ -1,0 +1,96 @@
+<section class="content-header">
+
+  <div class="container-fluid">
+
+      <div *ngIf="permisosProcesosOperativos()" class="card card-outline card-primary">
+        <div class="card-header">
+          <h3 class="card-title"><i class="fas fa-cash-register mr-2"></i> Procesos Operativos</h3>
+        </div>
+        <div class="card-body">
+          
+          <div class="row">
+
+            <div class="col-md-6 col-lg-2 col-xlg-3" *ngIf="this.opcionesmenu['ingresos']">
+                <a routerLink="/menugastosingresos/ingresos" class="small-box-footer">
+                    <div class="card bg-cyan card-menu">
+                        <h1>
+                            <i class="fas fa-coins"></i>
+                        </h1>
+                        <span class="text-white h6">Ingresos</span>
+                    </div>
+                </a>
+            </div>
+
+            <div class="col-md-6 col-lg-2 col-xlg-3" *ngIf="this.opcionesmenu['gastos']">
+                <a routerLink="/menugastosingresos/gastos" class="small-box-footer">
+                    <div class="card bg-cyan card-menu">
+                        <h1>
+                            <i class="fas fa-coins"></i>
+                        </h1>
+                        <span class="text-white h6">Gastos</span>
+                    </div>
+                </a>
+            </div>
+
+          </div>
+          
+
+        </div>
+      </div>
+
+      <div *ngIf="permisosInformesReportes()" class="card card-outline card-success mt-4">
+        <div class="card-header">
+          <h3 class="card-title"><i class="fas fa-chart-line mr-2"></i> Informes y Reportes</h3>
+        </div>
+        <div class="card-body">
+          <div class="row">
+
+            <div *ngIf="this.opcionesmenu['reporteingresos']" class="col-lg-2 col-md-3 col-12 mb-2 d-flex">
+              <a routerLink="/menugastosingresos/reporteingresos" class="btn btn-block btn-outline-success btn-sm h-100 d-flex align-items-center justify-content-center">
+          <span>
+                <i class="fas fa-coins"></i> Reporte Ingresos
+              </span></a>
+            </div>
+
+            <div *ngIf="this.opcionesmenu['reportegastos']" class="col-lg-2 col-md-3 col-12 mb-2 d-flex">
+              <a routerLink="/menugastosingresos/reportegastos" class="btn btn-block btn-outline-success btn-sm h-100 d-flex align-items-center justify-content-center">
+          <span>
+                <i class="fas fa-coins"></i> Reporte Gastos
+              </span></a>
+            </div>
+
+
+          </div>
+        </div>
+      </div>
+
+      <div *ngIf="permisosConfiguracionAuxiliares()" class="card card-outline card-secondary mt-3">
+        <div class="card-header">
+          <h3 class="card-title"><i class="fas fa-tools mr-2"></i> Configuración y Auxiliares</h3>
+        </div>
+        <div class="card-body">
+
+          <div class="row">
+
+            <div *ngIf="this.opcionesmenu['categoriaingresos']" class="col-lg-2 col-md-3 col-12 mb-2 d-flex">
+              <a routerLink="/menugastosingresos/categoriaingresos" class="btn btn-block btn-outline-secondary btn-sm h-100 d-flex align-items-center justify-content-center">
+          <span>
+                <i class="fas fa-tag"></i> Categoría de Ingresos
+              </span></a>
+            </div>
+
+            <div *ngIf="this.opcionesmenu['categoriagastos']" class="col-lg-2 col-md-3 col-12 mb-2 d-flex">
+              <a routerLink="/menugastosingresos/categoriagastos" class="btn btn-block btn-outline-secondary btn-sm h-100 d-flex align-items-center justify-content-center">
+          <span>
+                <i class="fas fa-tag"></i> Categoría de Gastos
+              </span></a>
+            </div>
+
+
+          </div>
+          
+        </div>
+      </div>
+
+  </div>
+</section>

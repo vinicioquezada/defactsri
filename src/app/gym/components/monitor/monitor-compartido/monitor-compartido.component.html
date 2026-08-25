@@ -1,0 +1,114 @@
+<app-loader [loading]="loading"></app-loader>
+<div class="dark-mode contenedor-monitor">
+
+    <div class="card card-primary card-outline">
+        <div class="card-header">
+            <h3 class="card-title"><i class="fas fa-desktop"></i> Datos de Membresía</h3>
+        </div>
+        <!-- /.card-header -->
+        <div class="card-body">
+        
+
+                        <div>
+                        
+                            <i class="fas fa-barcode icono-dato mr-3"></i>
+                            <label class="size-fuente">
+                                {{ data.numero_usuario }}
+                            </label>
+
+                            <i class="fas fa-user-tag icono-dato ml-5 mr-3"></i>
+                            <label class="size-fuente">
+                                {{ data.tipo_usuario }}
+                            </label>
+                                
+                        </div>
+    
+            
+                        <div>
+                            <i class="fas fa-credit-card icono-dato mr-3"></i>
+                            <label class="size-fuente">
+                                {{ data.identificacion }}
+                            </label>
+                        </div>
+                
+    
+
+        
+            
+                        <div>
+                            <i class="fas fa-user icono-dato mr-3"></i>
+                            <label class="size-fuente">
+                                {{ data.cliente }}
+                            </label>
+                        </div>
+                
+                        <div>
+                            <i class="fas fa-tag icono-dato mr-3"></i>
+                            <label class="size-fuente">
+                                {{ data.membresia }}
+                            </label>
+                        </div>
+            
+
+                        <div>
+                            <i class="fas fa-calendar icono-dato mr-3"></i>
+                            <label class="size-fuente">
+                                <small class="badge badge-primary mr-1">Horario</small>
+                                {{ data.horario }}
+                            </label>
+                        </div>
+
+                        <div>
+                        
+                            <i class="fas fa-calendar icono-dato mr-3"></i>
+                            <label class="size-fuente">
+                                <small class="badge badge-primary mr-1">Vigencia</small>
+                                {{ data.vigencia }}
+                            </label>
+                        </div>
+                        
+                        <div>
+                            <i class="fas fa-calendar icono-dato mr-3"></i>
+                            <label class="size-fuente">
+                                <small class="badge badge-warning mr-1">Días Restantes</small>
+                                {{ data.dias_restantes }}
+                            </label>
+                                
+                        </div>
+
+
+        
+                    
+
+            <div *ngIf="data.estado_valor" class="row">
+                <div class="col-md-12">
+                    <div class="alert alert-success size-fuente text-center">
+                        {{ data.estado_plan }}
+                    </div>
+                </div>
+            </div>
+
+            <div *ngIf="data.estado_valor==false && data.cod_cliente!=0" class="row">
+                <div class="col-md-12">
+                    <div class="alert alert-danger size-fuente text-center">
+                        {{ data.estado_plan }}
+                    </div>
+                </div>
+            </div>
+            
+                    
+
+
+            
+        
+                
+
+        
+    
+                
+
+        </div>
+        <!-- /.card-body -->
+    </div>
+
+</div>

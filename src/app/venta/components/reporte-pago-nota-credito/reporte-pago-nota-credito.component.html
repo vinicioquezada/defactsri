@@ -1,0 +1,353 @@
+  <app-listado-empleado (datosenviar)="recibirDatosEmpleados($event)"></app-listado-empleado>
+  
+  <app-listado-cliente (datosenviar)="recibirDatosCliente($event)"></app-listado-cliente>
+  
+  <app-listado-vendedor (datosenviar)="recibirDatosVendedor($event)"></app-listado-vendedor>
+    
+    <section class="content-header">
+        <div class="container-fluid">
+          <div class="row mb-2">
+            <div class="col-sm-12">
+                <div class="btn-toolbar" role="toolbar">
+                  <div class="btn-group">
+                      <button (click)="clickDeshacer();" class="btn btn-secondary btn-flat btn-sm float-right" type="button"><i class="fas fa-redo-alt"></i> Deshacer</button>
+                      <button routerLink="/menuventa" class="btn btn-secondary btn-flat btn-sm" type="button"><i class="fas fa-undo"></i> Atrás</button>
+                  </div>
+                </div>
+            </div>
+            
+          </div>
+          
+        </div><!-- /.container-fluid -->
+      </section>
+      
+      <!-- Main content -->
+    <section class="content">
+        <div class="container-fluid">
+  
+          <div style="text-align:center">
+            <div *ngIf="loading" class="spinner-border text-primary" style="width: 3rem; height: 3rem;"></div>
+          </div>
+  
+          <div class="row">
+  
+            <div class="col-md-12">
+  
+  
+  
+              <div class="row">
+  
+                <div class="col-md-6 d-flex align-items-center">
+                  <a class="btn btn-primary btn-flat btn-sm" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample"><i class="fa fa-cogs"></i>
+                    Más Formas de búsqueda
+                  </a>
+                </div>
+
+                <div class="col-md-3">
+                  
+                    <div class="form-group">
+                        <label>Fecha Desde:</label>
+                        <div class="input-group input-group-sm">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text"><i class="fas fa-calendar"></i></span>
+                        </div>
+                        <input [(ngModel)]="fechadesde" type="date" class="form-control">
+                        </div>
+                    </div>		 
+                </div>
+    
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label>Fecha Hasta:</label>
+                        <div class="input-group input-group-sm">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text"><i class="fas fa-calendar"></i></span>
+                            </div>
+                            <input [(ngModel)]="fechahasta" type="date" class="form-control">
+                            <span class="input-group-append">
+                                <button (click)="buscar();" class="btn btn-primary btn-flat" type="button"><i class="fa fa-search"></i></button>
+                            </span>
+                        </div>
+                    </div>	 
+                </div>
+  
+              </div>
+  
+  
+  
+              <div class="collapse" id="collapseExample">
+                <div class="card card-body">
+                    <div class="col-md-12">
+     
+                      <div class="row">
+  
+  
+                            <div *ngIf="multisucursal=='1' && opcionesprivilegios['bloqueogestionlocales']!=1" class="col-md-6">
+                                <div class="form-group">
+                                    <label>Sucursal:</label>
+                                    <select (change)="changeSucursal($event)" class="form-control form-control-sm">
+                                        <option value="{{item.cod_sucursal}}" *ngFor="let item of datossucursal" [selected]="this.cod_sucursal == item.cod_sucursal">
+                                            {{item.sucursal}}
+                                        </option>
+                                    </select>
+                                </div>	
+                            </div>
+
+                            <div *ngIf="firmasruc=='1'" class="col-md-6">
+                              <div class="form-group">
+                                  <label>Ruc Empresa:</label>
+                                  <select (change)="changeEmpresa($event)" class="form-control form-control-sm">
+                                      <option value="{{item.cod_ruc}}" *ngFor="let item of datosrucempresa" [selected]="this.cod_ruc == item.cod_ruc">
+                                          {{item.empresa}}
+                                      </option>
+                                  </select>
+                              </div>	
+                            </div>
+              
+                            <div class="col-md-6">
+                              <div class="form-group">
+                                <label>Personal:</label>
+                                
+                                <div class="input-group input-group-sm">
+                                    <div class="input-group-prepend">
+                                      <span class="input-group-text"><input (change)="changeChkEmpleado();" [checked]="chkempleado" type="checkbox"> TODOS</span>
+                                    </div>
+                                    <label class="form-control">{{this.empleado}}</label>
+                                    <span class="input-group-append">
+                                      <button (click) = "listarEmpleados();" class="btn btn-primary btn-flat" type="button"><i class="fa fa-list"></i></button>
+                                    </span>
+                                </div>
+                              </div>
+                            </div>
+  
+                            <div *ngIf="this.comision_venta == '1'" class="col-md-6">
+                              <div class="form-group">
+                                <label>Vendedor:</label>
+                                
+                                <div class="input-group input-group-sm">
+                                    <div class="input-group-prepend">
+                                      <span class="input-group-text"><input (change)="changeChkVendedor();" [checked]="chkvendedor" type="checkbox"> TODOS</span>
+                                    </div>
+                                    <label class="form-control">{{this.vendedor}}</label>
+                                    <span class="input-group-append">
+                                      <button (click) = "listarVendedor();" class="btn btn-primary btn-flat" type="button"><i class="fa fa-list"></i></button>
+                                    </span>
+                                </div>
+                              </div>
+                            </div>
+  
+                            <div class="col-md-6">
+                              <div class="form-group">
+                                <label>Cliente:</label>
+                                <div class="input-group input-group-sm">
+                                    <div class="input-group-prepend">
+                                      <span class="input-group-text"><input (change)="changechkcliente();" [checked]="chkcliente" type="checkbox"> TODOS</span>
+                                    </div>
+                                    <label class="form-control">{{this.cliente}}</label>
+                                    <span class="input-group-append">
+                                      <button (click) = "listarClientes();" class="btn btn-primary btn-flat" type="button"><i class="fa fa-list"></i></button>
+                                    </span>
+                                </div>
+                              </div>
+                            </div>
+  
+                            <div class="col-md-6">
+                              <div class="form-group">
+                                  <label>Tipo Documento:</label>
+                                  <select (change)="changeTipoDocumento($event)" class="form-control form-control-sm">
+                                      <option [value]="item.cod_tipo_documento" *ngFor="let item of datostipodocumento" [selected]="item.cod_tipo_documento == cod_tipo_documento">
+                                          {{item.tipo_documento}}
+                                      </option>
+                                  </select>
+                              </div>	
+                            </div>
+              
+                            <div class="col-md-6">
+                              <div class="form-group">
+                                  <label>Tipo Deuda:</label>
+                                  <select (change)="changeTipoDeuda($event)" class="form-control form-control-sm">
+                                      <option [value]="item.cod_tipo_deuda" *ngFor="let item of datostipodeuda" [selected]="item.cod_tipo_deuda == cod_tipo_deuda">
+                                          {{item.tipo_deuda}}
+                                      </option>
+                                  </select>
+                                  
+                              </div>	
+                            </div>
+  
+                            <div class="col-md-6">
+                              <div class="form-group">
+                                <label>Identificación:</label>
+                                <select (change)="changeIdentificacion($event)" class="form-control form-control-sm">
+                                  <option value="{{item.cod_identificacion}}" *ngFor="let item of datosidentificacion" [selected]="item.cod_identificacion == cod_identificacion">
+                                    {{item.identificacion}}
+                                </option>
+                                </select>
+                              </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>Forma Cobro: </label>
+                                    <select (change)="changeFormaPago($event)" class="form-control form-control-sm">
+                                      <option value="{{item.id_forma_pago}}" *ngFor="let item of datosformapago" [selected]="item.id_forma_pago == this.id_forma_pago">
+                                          {{item.forma_pago}}
+                                      </option>
+                                  </select>
+                                </div>
+                            </div>
+  
+  
+                      </div>
+  
+                    </div>
+                </div>
+              </div>
+
+            <div class="row mt-2 justify-content-center">
+
+              <div class="col-lg-4 col-6">
+                <div class="small-box bg-success">
+                  <div class="inner">
+                    <h3>$ {{ total | number:'1.2-2' }}</h3>
+                    <p>Total Pagos Generales</p>
+                  </div>
+                  <div class="icon">
+                    <i class="fas fa-dollar-sign"></i>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-lg-4 col-6">
+                <div class="small-box bg-info">
+                  <div class="inner">
+                    <h3>{{ cantidad_registros }}</h3>
+                    <p>N° de Pagos</p>
+                  </div>
+                  <div class="icon">
+                    <i class="fas fa-shopping-cart"></i>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+              
+            <!-- /.Inicia form1 -->
+            <!-- /.Inicia form1 -->
+            <!-- /.Inicia form1 -->
+              <div class="card card-primary card-outline">
+                <div class="card-header">
+                  <h3 class="card-title"><i class="fa fa-file-alt"></i><span class="labeloculto">&nbsp;Reporte</span></h3>
+      
+                  <div class="card-tools">
+                    <div class="input-group input-group-sm">
+                      
+                        <button (click)="exportarExcel()" class="btn btn-success btn-sm mr-1" type="button">
+                          <i class="fa fa-file-excel"></i> Excel
+                        </button>
+
+                        <button (click)="exportarPdf()" class="btn btn-danger btn-sm mr-2" type="button">
+                          <i class="fa fa-file-pdf"></i> PDF
+                        </button>
+
+                        <input (keyup)="keyFiltrado();" type="text" class="form-control float-right" oninput="javascript:this.value=this.value.toUpperCase();" placeholder="Buscar" [(ngModel)]="filterpost" name="filterpost" autocomplete="off" />
+
+                    </div>
+                  </div>
+      
+      
+                </div>
+                <div class="card-body">
+                    
+                      <div *ngIf="loadinglistado" class="d-flex justify-content-center align-items-center">
+                        <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;"></div>
+                      </div>
+                        <div class="table-responsive">
+                            <table class="design-table">
+                              <thead>
+                                <tr>
+                                  <th width="50px">Nº</th>
+                                  <th width="300px">CLIENTE</th>
+                                  <th width="100px">TIPO VENTA</th>
+                                  <th width="200px">FORMA PAGO</th>
+                                  <th width="50px">TOTAL</th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                <tr *ngFor="let item of (datos | filterGenerico:filterpost:['numero_factura', 'estado', 'cedula', 'cliente', 'fecha_registro', 'tipo_venta', 'forma_pago', 'valor']) | paginate : {
+                                  itemsPerPage: pagesize,
+                                  currentPage: page,
+                                  totalItems: count
+                                }">
+                                  <td>
+                                    <div>{{item.numero_factura}}</div>
+                                    <div><small class="badge badge-primary"><i class="fa fa-info"></i> {{item.estado}}</small></div>
+                                  </td>
+                                  <td>
+                                    <div>{{item.cliente}}</div>
+                                    <div><small class="badge badge-primary"><i class="fa fa-id-card"></i> {{item.cedula}}</small></div>
+                                  </td>
+                                  <td>
+                                    <div>{{item.tipo_venta}}</div>
+                                    <div *ngIf="firmasruc=='1'"><small class="badge badge-primary">{{item.empresa}}</small></div>
+                                    <div><small class="badge badge-primary"><i class="fas fa-cash-register"></i> {{item.fecha_registro}}</small></div>
+                                  </td>
+                                  <td>
+                                    <div><small class="badge badge-primary">NOTA CRÉDITO Nº: {{item.numero_nota_credito}}</small></div>
+                                    <small *ngIf="item.id_forma_pago=='01'" class="badge badge-success">{{item.forma_pago}}</small>
+                                    <small *ngIf="item.id_forma_pago!='01'" class="badge badge-primary">{{item.forma_pago}}</small>
+                                  </td>
+                                  <td><label class="text-success">{{item.valor | number}}</label></td>
+                                </tr>
+                              </tbody>
+                            </table>
+                        </div>
+                        <div class="row">
+                          <div class="col-md-12">
+                            <div class="float-right text-right">
+                              <table class="design-table">
+                                <tr>
+                                  <td><label>TOTAL GENERAL</label></td>
+                                  <td><label class="text-success">{{total}}</label></td>
+                                </tr>
+                              </table>
+                            </div>
+                          </div>
+                        </div>
+  
+                        <div class="row">
+                          <div class="col-md-12">
+                            <div class="float-right">
+                              <pagination-controls class="pagination-controls"
+                              previousLabel="Anterior"
+                              nextLabel="Siguiente"
+                              [responsive]="true"
+                              (pageChange)="handlePageChange($event)">
+                              </pagination-controls>
+                            </div>
+                          </div>
+                        </div>
+                    
+      
+      
+      
+      
+      
+      
+                </div>
+                <!-- /.card-body -->
+              </div>
+            <!-- /.Termina form1 -->
+            <!-- /.Termina form1 -->
+            <!-- /.Termina form1 -->
+            </div>
+      
+          </div>
+      
+      
+      
+          
+      
+      
+      
+        </div>
+      </section>

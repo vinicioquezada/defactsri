@@ -1,0 +1,177 @@
+<div id="mymodalopcionesreportecompras" class="modal fade" role="dialog" data-backdrop="false">
+  <div class="modal-dialog">
+    <!-- Modal content -->
+    <div class="modal-content">
+      <div class="modal-header">
+      <h5 class="modal-title">REPORTES DE COMPRAS</h5>
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">×</span>
+          </button>
+      </div>
+      <div class="modal-body">
+
+        <div class="row">
+          <div class="col-12 d-flex flex-wrap justify-content-center">
+
+            <div *ngIf="this.opcionesmenu['reportecompra']" class="col-md-4 pb-1">
+              <a routerLink="/menucompra/reportecompras" class="btn btn-primary btn-flat btn-sm btn-block">
+                  <i class="fas fa-chart-bar"></i> Generales
+              </a>
+            </div>
+
+            <div *ngIf="this.opcionesmenu['reportecompradetalle']" class="col-md-4 pb-1">
+              <a routerLink="/menucompra/reportecompradetalle" class="btn btn-primary btn-flat btn-sm btn-block">
+                  <i class="fas fa-chart-bar"></i> Detalle
+              </a>
+            </div>
+
+            <div *ngIf="this.opcionesmenu['reportecomprascredito']" class="col-md-4 pb-1">
+              <a routerLink="/menucompra/reportecompracredito" class="btn btn-primary btn-flat btn-sm btn-block">
+                  <i class="fas fa-coins"></i> Credito Acredor
+              </a>
+            </div>
+
+          </div>
+        </div>
+
+        <div class="d-flex justify-content-end align-items-center">
+          <button class="btn btn-secondary btn-sm mt-2" type="button" data-dismiss="modal"><i class="fas fa-times-circle"></i> Cerrar</button>
+        </div>
+
+      </div>
+
+
+    </div>
+
+  </div>
+</div>
+
+<section class="content-header">
+
+  <div class="container-fluid">
+
+
+      <div *ngIf="permisosProcesosOperativos()" class="card card-outline card-primary">
+        <div class="card-header">
+          <h3 class="card-title"><i class="fas fa-cash-register mr-2"></i> Procesos Operativos</h3>
+        </div>
+        <div class="card-body">
+          
+          <div class="row">
+
+        
+            <div class="col-md-6 col-lg-2 col-xlg-3" *ngIf="this.opcionesmenu['proveedores']">
+                <a routerLink="/menucompra/proveedor" class="small-box-footer">
+                    <div class="card bg-cyan card-menu">
+                        <h1>
+                            <i class="fas fa-users"></i>
+                        </h1>
+                        <span class="text-white h6">Proveedores</span>
+                    </div>
+                </a>
+            </div>
+
+            <div class="col-md-6 col-lg-2 col-xlg-3" *ngIf="this.opcionesmenu['facturacompra']">
+                <a routerLink="/menucompra/compra/nuevoregistro" class="small-box-footer">
+                    <div class="card bg-cyan card-menu">
+                        <h1>
+                            <i class="fas fa-shopping-cart"></i>
+                        </h1>
+                        <span class="text-white h6">Compras</span>
+                    </div>
+                </a>
+            </div>
+
+            <div class="col-md-6 col-lg-2 col-xlg-3" *ngIf="this.opcionesmenu['compragastos']">
+                <a routerLink="/menucompra/compra/nuevoregistrogastos" class="small-box-footer">
+                    <div class="card bg-cyan card-menu">
+                        <h1>
+                            <i class="fas fa-shopping-cart"></i>
+                        </h1>
+                        <span class="text-white h6">C. Gastos</span>
+                    </div>
+                </a>
+            </div>
+
+          </div>
+          
+
+        </div>
+      </div>
+
+      <div *ngIf="permisosGestionDocumentos()" class="card card-outline card-info mt-4">
+        <div class="card-header">
+          <h3 class="card-title"><i class="fas fa-list-alt mr-2"></i> Gestión de Documentos</h3>
+        </div>
+        <div class="card-body">
+          <div class="row">
+
+            <div *ngIf="this.opcionesmenu['exploradorcompra']" class="col-lg-2 col-md-3 col-12 mb-2 d-flex">
+              <a routerLink="/menucompra/exploradorcompra" class="btn btn-block btn-outline-info btn-sm h-100 d-flex align-items-center justify-content-center">
+          <span>
+                <i class="fas fa-shopping-cart"></i> Explorador Compras
+              </span></a>
+            </div>
+
+            <div *ngIf="this.opcionesmenu['exploradornotacreditocompras']" class="col-lg-2 col-md-3 col-12 mb-2 d-flex">
+              <a routerLink="/menucompra/exploradornotacreditocompras" class="btn btn-block btn-outline-info btn-sm h-100 d-flex align-items-center justify-content-center">
+          <span>
+                <i class="fas fa-cart-arrow-down"></i> Explorador Nota Crédito
+              </span></a>
+            </div>
+            
+          </div>
+        </div>
+      </div>
+
+      <div *ngIf="permisosInformesReportes()" class="card card-outline card-success mt-4">
+        <div class="card-header">
+          <h3 class="card-title"><i class="fas fa-chart-line mr-2"></i> Informes y Reportes</h3>
+        </div>
+        <div class="card-body">
+          <div class="row">
+
+            <div *ngIf="this.opcionesmenu['reporteproveedores']" class="col-lg-2 col-md-3 col-12 mb-2 d-flex">
+              <a routerLink="/menucompra/reporteproveedor" class="btn btn-block btn-outline-success btn-sm h-100 d-flex align-items-center justify-content-center">
+          <span>
+                <i class="fas fa-users"></i> Reporte Proveedores
+              </span></a>
+            </div>
+
+            <div *ngIf="permisosBotonReporteCompras()" class="col-lg-2 col-md-3 col-12 mb-2 d-flex">
+              <button (click)="clickReporteCompras()" class="btn btn-block btn-outline-success btn-sm h-100 d-flex align-items-center justify-content-center">
+                <span><i class="fas fa-chart-bar"></i> Reportes de Compras</span>
+              </button>
+            </div>
+
+            <div *ngIf="this.opcionesmenu['reportenotacreditocompras']" class="col-lg-2 col-md-3 col-12 mb-2 d-flex">
+              <a routerLink="/menucompra/reportenotacreditocompras" class="btn btn-block btn-outline-success btn-sm h-100 d-flex align-items-center justify-content-center">
+          <span>
+                <i class="fas fa-users"></i> Reporte Nota Créditos
+              </span></a>
+            </div>
+
+
+
+          </div>
+        </div>
+      </div>
+
+      <!-- <div *ngIf="permisosConfiguracionAuxiliares()" class="card card-outline card-secondary mt-3">
+        <div class="card-header">
+          <h3 class="card-title"><i class="fas fa-tools mr-2"></i> Configuración y Auxiliares</h3>
+        </div>
+        <div class="card-body">
+
+          <div class="row">
+
+          
+
+          </div>
+          
+        </div>
+      </div> -->
+
+
+  </div>
+</section>

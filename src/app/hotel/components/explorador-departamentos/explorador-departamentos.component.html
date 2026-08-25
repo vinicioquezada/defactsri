@@ -1,0 +1,334 @@
+<div id="mymodalopciones" class="modal fade" role="dialog" data-backdrop="false">
+  <div class="modal-dialog">
+    <!-- Modal content -->
+    <div class="modal-content">
+      <div class="modal-header">
+      <h5 class="modal-title"><label>NOMBRE:</label> {{this.descripcion}} <label>- PRECIO:</label> ${{this.precio_venta}}</h5>
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">×</span>
+          </button>
+      </div>
+      <div class="modal-body">
+
+        <div class="row">
+
+            <div *ngIf="this.estado_reserva==null" class="col-md-6">
+              <div class="form-group">
+                <button (click)="clicknuevareserva();" type="button" class="btn btn-primary btn-flat btn-sm btn-block"><i class="fas fa-file"></i> Nueva Reserva</button>
+              </div>
+            </div>
+
+            <div *ngIf="this.estado_reserva==null" class="col-md-6">
+              <div class="form-group">
+                <button (click)="clickasignacion();" type="button" class="btn btn-primary btn-flat btn-sm btn-block"><i class="fas fa-file-signature"></i> Asignar Habitación</button>
+              </div>
+            </div>
+
+            <div *ngIf="this.estado_reserva==1 && this.estado_pago==0"  class="col-md-6">
+              <div class="form-group">
+                <button (click)="clickmodificarreserva();" type="button" class="btn btn-warning btn-flat btn-sm btn-block"><i class="fas fa-edit"></i> Modificar Reserva</button>
+              </div>
+            </div>
+
+            <div *ngIf="this.estado_reserva==1 && this.estado_pago==0"  class="col-md-6">
+              <div class="form-group">
+                <button (click)="clickbuscarasignacion();" type="button" class="btn btn-primary btn-flat btn-sm btn-block"><i class="fas fa-file-signature"></i> Asignar Habitación</button>
+              </div>
+            </div>
+
+            <div *ngIf="this.estado_reserva==1 && this.estado_pago==1"  class="col-md-6">
+              <div class="form-group">
+                <button (click)="clickbuscarasignacion();" type="button" class="btn btn-primary btn-flat btn-sm btn-block"><i class="fas fa-file-signature"></i> Asignar Habitación</button>
+              </div>
+            </div>
+
+            <div *ngIf="this.estado_reserva==0"  class="col-md-6">
+              <div class="form-group">
+                <button (click)="clickmodificarasignacion();" type="button" class="btn btn-warning btn-flat btn-sm btn-block"><i class="fas fa-edit"></i> Modificar Asignación</button>
+              </div>
+            </div>
+
+            <div *ngIf="this.estado_reserva==0"  class="col-md-6">
+              <div class="form-group">
+                <button (click)="clickcontrato();" type="button" class="btn btn-danger btn-flat btn-sm btn-block"><i class="fas fa-file-signature"></i> Contrato</button>
+              </div>
+            </div>
+            
+            <div *ngIf="this.estado_reserva!=null"  class="col-md-6">
+              <div class="form-group">
+                <button (click)="clickexploradorpagos();" type="button" class="btn btn-success btn-flat btn-sm btn-block"><i class="fa fa-money-bill-alt"></i> Pagos</button>
+              </div>
+            </div>
+         
+        </div>
+        
+      </div>
+
+
+    </div>
+
+  </div>
+</div>
+
+<div id="mymodalcontrato" class="modal fade" role="dialog" data-backdrop="false">
+<div class="modal-dialog">
+  <!-- Modal content -->
+  <div class="modal-content">
+    <div class="modal-header">
+    <h5 class="modal-title">CONTRATO</h5>
+  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <span aria-hidden="true">×</span>
+        </button>
+    </div>
+    <div class="modal-body">
+      <div class="row">
+       
+
+          <div class="col-md-6">
+            <div class="form-group">
+              <button (click)="clickdescargarcontrato();" type="button" class="btn btn-danger"><i class="fas fa-file-signature"></i> Descargar Formato</button>
+            </div>
+          </div>
+
+          <div class="col-md-6">
+            <div class="form-group">
+              <input id="file-upload" type="file" accept=".jpg,.png" (change)="upload($event)">
+              <label for="file-upload" class="btn btn-primary btn-block"><i class="fas fa-file-signature"></i> Subir Contrato</label>
+            </div>
+          </div>
+
+          
+
+          <div class="col-md-6">
+            <div class="form-group">
+              <button type="button" class="btn btn-success"><i class="fas fa-search"></i> Visualizar Contrato</button>
+            </div>
+          </div>
+          
+       
+      </div>
+      
+    
+      
+    </div>
+
+  </div>
+
+</div>
+</div>
+
+<section class="content-header">
+  <div class="container-fluid">
+    <div class="row mb-2">
+      <div class="col-sm-12">
+          <div class="btn-toolbar" role="toolbar">
+            <div class="btn-group">
+            
+              <button (click)="deshacer();" class="btn btn-secondary btn-flat btn-sm float-right" type="button"><i class="fas fa-redo-alt"></i> Deshacer</button>
+              <button routerLink="/menuhotel" class="btn btn-secondary btn-flat btn-sm" type="button"><i class="fas fa-undo"></i> Atrás</button>
+            </div>
+          </div>
+      </div>
+      
+    </div>
+    
+  </div><!-- /.container-fluid -->
+</section>
+
+<!-- Main content -->
+<section class="content">
+  <div class="container-fluid">
+    <div class="row">
+
+      <div class="col-md-12">
+
+        <div class="row">
+
+          <div class="col-md-6 d-flex align-items-center">
+                <a class="btn btn-primary btn-flat btn-sm" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample"><i class="fa fa-cogs"></i>
+                  Disponibilidad Habitación
+                </a>
+          </div>
+
+          <div class="col-md-6">
+              <div class="form-group">
+                  <label>Fecha Actual:</label>
+                  <div class="input-group input-group-sm">
+                      <div class="input-group-prepend">
+                          <span class="input-group-text"><i class="fas fa-calendar"></i></span>
+                      </div>
+                      <label class="form-control">{{fechadesdeactual}}</label>
+                      <span class="input-group-append">
+                          <button (click)="buscaractual();" class="btn btn-primary btn-flat" type="button"><i class="fa fa-search"></i></button>
+                      </span>
+                  </div>
+              </div>	 
+          </div>
+
+          <!-- <div class="col-md-6">
+            <div class="form-group">
+                <label>Fecha Configurable:</label>
+                <div class="input-group input-group-sm">
+                  <div class="input-group-prepend">
+                      <span class="input-group-text"><i class="fas fa-calendar"></i></span>
+                  </div>
+                  <input [(ngModel)]="fechadesde" type="date" class="form-control">
+                  <input [(ngModel)]="hora_desde" type="time" class="form-control">
+                  <span class="input-group-append">
+                    <button (click)="buscar();" class="btn btn-primary btn-flat" type="button"><i class="fa fa-search"></i></button>
+                  </span>
+                </div>
+            </div>	 
+          </div> -->
+
+        </div>
+
+        <div class="collapse" id="collapseExample">
+              <div class="card card-body">
+                  <div class="col-md-12">
+   
+                    <div class="row">
+
+                      <div *ngIf="multisucursal=='1'" class="col-md-6">
+                          <div class="form-group">
+                              <label>Sucursal:</label>
+                              <select (change)="changeSucursal($event)" class="form-control form-control-sm">
+                                  <option value="{{item.cod_sucursal}}" *ngFor="let item of datossucursal" [selected]="this.cod_sucursal == item.cod_sucursal">
+                                      {{item.sucursal}}
+                                  </option>
+                              </select>
+                          </div>	
+                      </div>
+
+                      <div class="col-md-6">
+                        <div class="form-group">
+                            <label>Fecha Configurable:</label>
+                            <div class="input-group input-group-sm">
+                              <div class="input-group-prepend">
+                                  <span class="input-group-text"><i class="fas fa-calendar"></i></span>
+                              </div>
+                              <input [(ngModel)]="fechadesde" type="date" class="form-control">
+                              <input [(ngModel)]="hora_desde" type="time" class="form-control">
+                              <span class="input-group-append">
+                                <button (click)="buscar();" class="btn btn-primary btn-flat" type="button"><i class="fa fa-search"></i></button>
+                              </span>
+                            </div>
+                        </div>	 
+                      </div>
+
+                    </div>
+
+                  </div>
+              </div>
+            </div>
+        
+      <!-- /.Inicia form1 -->
+      <!-- /.Inicia form1 -->
+      <!-- /.Inicia form1 -->
+        <div class="card card-primary card-outline">
+          <div class="card-body overlay-wrapper">
+
+            <div *ngIf="loadinglistado" class="overlay overlay-custom d-flex flex-column align-items-center">
+              <div class="spinner-border text-primary" style="width: 5rem; height: 5rem; font-size: 30px;" role="status"></div>
+              <div class="text-bold pt-2">Cargando...</div>
+            </div>
+
+              <div class="contenedor justify-content-center">
+
+
+
+                <table class="table resp m-0">
+                  <thead>
+                  <tr>
+                    <th></th>
+                    <th>HABITACIÓN</th>
+                    <th>PRECIO</th>
+                    <th>ESTADO</th>
+                    <th>PERSONA</th>
+                    <th></th>
+                  </tr>
+                  </thead>
+                  <tbody>
+                  <tr *ngFor="let item of datos" [ngClass]="cambiarcolor(item.estado_reserva, item.estado_pago)">
+                    <td><i class="fa fa-hotel fa-2x"></i></td>
+                    <td><label class="info-box-text">{{item.descripcion}}</label></td>
+                    <td><label class="info-box-number">${{item.precio_venta}}</label></td>
+                    <td>
+                      <label *ngIf="item.estado_reserva==null" class="info-box-number">DISPONIBLE</label>
+                      <label *ngIf="item.estado_reserva==1" class="info-box-number">RESERVADO</label>
+                      <label *ngIf="item.estado_reserva==0" class="info-box-number">OCUPADA</label>
+                      <label *ngIf="item.estado_pago==0" class="info-box-number">&nbsp;POR PAGAR</label>
+                      <label *ngIf="item.estado_pago==1" class="info-box-number">&nbsp;PAGADO</label>
+                      <label *ngIf="item.estado_reserva==null" class="info-box-number"></label>
+                    </td>
+                    <td>
+                      <span *ngIf="procesarestadoreserva(item.estado_reserva)==0">{{item.persona}}</span>
+                      <span *ngIf="procesarestadoreserva(item.estado_reserva)==1">{{item.persona}}</span>
+                      <span *ngIf="procesarestadoreserva(item.estado_reserva)==2">{{item.persona}}</span>
+                      <span *ngIf="procesarestadoreserva(item.estado_reserva)==3">NO APLICA</span> 
+                    </td>
+                    <td>
+                      <button (click)="clickopciones(item.cod_producto, item.descripcion, item.persona, item.precio_venta, item.estado_reserva, item.cod_reserva, item.estado_pago, item.cod_cliente, item.codigo);" class="btn btn-info btn-sm" type="button"><i class="fa fa-cogs"></i></button>
+                    </td>
+                  </tr>
+                  </tbody>
+                </table>
+
+                      
+                <!-- <div *ngFor="let item of datos">
+                  
+                  <div [ngClass]="cambiarcolor(item.estado_reserva, item.estado_pago)" class="boxcard">
+                    <div class="cuerpocard">
+                        <div class="seccionimagen">
+                          <i class="fa fa-hotel fa-2x"></i>
+                        </div>
+                        
+                        <div class="secciondetallescard">
+                           <div><label class="info-box-text">{{item.descripcion}}</label></div>
+                           <div><label class="info-box-number">${{item.precio_venta}}</label></div>
+                           <div>
+                            <label *ngIf="item.estado_reserva==null" class="info-box-number">DISPONIBLE</label>
+                            <label *ngIf="item.estado_reserva==1" class="info-box-number">RESERVADO</label>
+                            <label *ngIf="item.estado_reserva==0" class="info-box-number">OCUPADA</label>
+                            <label *ngIf="item.estado_pago==0" class="info-box-number">POR PAGAR</label>
+                            <label *ngIf="item.estado_pago==1" class="info-box-number">PAGADO</label>
+                            <label *ngIf="item.estado_reserva==null" class="info-box-number">------</label>
+                           </div>
+                        </div>
+                    </div>
+
+                    <div class="info-box-number textocard">
+                      <span *ngIf="procesarestadoreserva(item.estado_reserva)==0">{{item.persona}}</span>
+                      <span *ngIf="procesarestadoreserva(item.estado_reserva)==1">{{item.persona}}</span>
+                      <span *ngIf="procesarestadoreserva(item.estado_reserva)==2">{{item.persona}}</span>
+                      <span *ngIf="procesarestadoreserva(item.estado_reserva)==3">NO APLICA</span> 
+                    </div>
+
+                    <div (click)="clickopciones(item.cod_producto, item.descripcion, item.persona, item.precio_venta, item.estado_reserva, item.cod_reserva, item.estado_pago, item.cod_cliente, item.codigo);" class="piecard btn btn-block">
+                      <i class="fa fa-cogs"></i> Configurar
+                    </div>
+                    <br>
+                  </div>
+
+                </div> -->
+
+              </div>
+
+          </div>
+          <!-- /.card-body -->
+        </div>
+      <!-- /.Termina form1 -->
+      <!-- /.Termina form1 -->
+      <!-- /.Termina form1 -->
+      </div>
+
+    </div>
+
+
+
+    
+
+
+
+  </div>
+</section>

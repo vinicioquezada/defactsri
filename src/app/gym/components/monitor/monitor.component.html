@@ -1,0 +1,218 @@
+<app-loader [loading]="loading"></app-loader>
+<section class="content-header">
+  <div class="container-fluid">
+    <div class="row mb-2">
+      <div class="col-sm-6">
+          <div class="btn-toolbar" role="toolbar">
+            <div class="btn-group">
+                <!-- <button (click)="consultarUsuarioMembresiaOnnLine('2');" class="btn btn-primary btn-flat btn-sm float-right" type="button"><i class="fas fa-wifi"></i> Probar</button> -->
+                <button (click)="clickConectar();" class="btn btn-primary btn-flat btn-sm float-right" type="button"><i class="fas fa-wifi"></i> Conectar</button>
+                <button (click)="clickCompartir();" class="btn btn-primary btn-flat btn-sm float-right" type="button"><i class="fas fa-share-square"></i> Compartir</button>
+            </div>
+          </div>
+      </div>
+
+        <div class="col-sm-6 d-flex">
+            <div class="input-group input-group-sm ml-auto" style="width: auto;"> 
+                <div class="input-group-prepend">
+                    <button 
+                        (click)="cambiarModoMonitor()" 
+                        class="btn btn-flat" 
+                        [ngClass]="onnline ? 'btn-success' : 'btn-secondary'"
+                        type="button">
+                        
+                        <i class="fas fa-wifi"></i> 
+                        {{ onnline ? 'Modo Online Activo' : 'Modo Offline Activo' }}
+                        
+                    </button>
+                </div>
+            </div>
+        </div>
+      
+    </div>
+    
+  </div><!-- /.container-fluid -->
+</section>
+
+<!-- Main content -->
+<section class="content">
+    <div class="container-fluid">
+
+
+      <div class="row">
+        <div class="col-md-12">
+            <div *ngIf="!socketActivo" class="alert alert-danger">
+              Servidor de tiempo real no disponible
+            </div>
+
+            <div *ngIf="socketActivo" class="alert alert-success">
+              Conectado al servidor en tiempo real
+            </div>
+
+        </div>
+      </div>
+
+        <div *ngIf="monitor_actividades=='1'">
+            <app-monitor-actividades></app-monitor-actividades>
+        </div>
+      
+      <div class="row">
+
+        <div class="col-md-12">
+
+
+          <div class="card card-primary card-outline">
+            <div class="card-header">
+              <h3 class="card-title"><i class="fas fa-desktop"></i> Monitor Principal</h3>
+            </div>
+            <!-- /.card-header -->
+            <div class="card-body">
+
+              <div *ngIf="monitordata.estado_valor" class="row">
+                  <div class="col-md-12">
+                      <div class="alert alert-success text-center">
+                          {{ monitordata.estado_plan }}
+                      </div>
+                  </div>
+              </div>
+
+              <div *ngIf="monitordata.estado_valor==false && monitordata.cod_cliente!=0" class="row">
+                  <div class="col-md-12">
+                      <div class="alert alert-danger text-center">
+                          {{ monitordata.estado_plan }}
+                      </div>
+                  </div>
+              </div>
+
+              <div class="row">
+
+                <div class="col-md-6">
+                  <div class="form-group row">
+                      <div class="col-sm-12">
+                          <div class="input-group input-group-sm">
+                              <div class="input-group-prepend">
+                                  <span class="input-group-text"><i class="fas fa-barcode"></i></span>
+                              </div>
+                              <label class="form-control form-control-sm">{{ monitordata.numero_usuario }}</label>
+                          </div>
+                      </div>
+                  </div>
+                </div>
+
+                <div class="col-md-6">
+                  <div class="form-group row">
+                      <div class="col-sm-12">
+                          <div class="input-group input-group-sm">
+                              <div class="input-group-prepend">
+                                  <span class="input-group-text"><i class="fas fa-user-tag"></i></span>
+                              </div>
+                              <label class="form-control form-control-sm">{{ monitordata.tipo_usuario }}</label>
+                          </div>
+                      </div>
+                  </div>
+                </div>
+
+              </div>
+
+              <div class="row">
+
+                <div class="col-md-12">
+                  <div class="form-group row">
+                      <div class="col-sm-12">
+                          <div class="input-group input-group-sm">
+                              <div class="input-group-prepend">
+                                  <span class="input-group-text"><i class="fas fa-credit-card"></i></span>
+                              </div>
+                              <label class="form-control form-control-sm">{{ monitordata.identificacion }}</label>
+                          </div>
+                      </div>
+                  </div>
+                </div>
+
+                <div class="col-md-12">
+                  <div class="form-group row">
+                      <div class="col-sm-12">
+                          <div class="input-group input-group-sm">
+                              <div class="input-group-prepend">
+                                  <span class="input-group-text"><i class="fas fa-user"></i></span>
+                              </div>
+                              <label class="form-control form-control-sm">{{ monitordata.cliente }}</label>
+                          </div>
+                      </div>
+                  </div>
+                </div>
+
+              </div>
+
+              
+              <div class="row">
+
+                <div class="col-md-12">
+                  <div class="form-group row">
+                      <div class="col-sm-12">
+                          <div class="input-group input-group-sm">
+                              <div class="input-group-prepend">
+                                  <span class="input-group-text"><i class="fas fa-tag"></i></span>
+                              </div>
+                              <label class="form-control form-control-sm">{{ monitordata.membresia }}</label>
+                          </div>
+                      </div>
+                  </div>
+                </div>
+
+                <div class="col-md-12">
+                  <div class="form-group row">
+                      <div class="col-sm-12">
+                          <div class="input-group input-group-sm">
+                              <div class="input-group-prepend">
+                                  <span class="input-group-text"><i class="fas fa-calendar"></i></span>
+                              </div>
+                              <label class="form-control form-control-sm"><small class="badge badge-primary mr-1">Horario</small>{{ monitordata.horario }}</label>
+                          </div>
+                      </div>
+                  </div>
+                </div>
+
+              </div>
+
+              <div class="form-group row">
+                  <!-- <label class="col-sm-4 col-form-label">Vigencia:</label> -->
+                  <div class="col-sm-12">
+                      <div class="input-group input-group-sm">
+                          <div class="input-group-prepend">
+                              <span class="input-group-text"><i class="fas fa-user-clock"></i></span>
+                          </div>
+                          <label class="form-control form-control-sm"><small class="badge badge-primary mr-1">Vigencia</small>{{ monitordata.vigencia }}</label>
+                      </div>
+                  </div>
+              </div>
+
+              <div class="form-group row">
+                  <div class="col-sm-12">
+                      <div class="input-group input-group-sm">
+                          <div class="input-group-prepend">
+                              <span class="input-group-text"><i class="fas fa-clock"></i></span>
+                          </div>
+                          <label class="form-control form-control-sm"><small class="badge badge-warning mr-1">Días Restantes</small>{{ monitordata.dias_restantes }}</label>
+                      </div>
+                  </div>
+              </div>
+
+            </div>
+            <!-- /.card-body -->
+          </div>
+
+        
+        </div>
+
+
+       
+
+
+
+      
+
+      </div>
+
+    </div>
+</section>

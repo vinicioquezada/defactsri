@@ -1,0 +1,66 @@
+<nav class="col-sm-12 navbar navbar-expand-sm bg-light">
+    
+  <span>Total: {{this.cantidad_registros}} Registros</span>
+
+  <div class="card-tools ml-auto">
+    <div class="input-group input-group-sm float-right" style="width: 150px;">
+    
+
+      <input (keyup)="keyFiltrado();" type="text" class="form-control float-right" oninput="javascript:this.value=this.value.toUpperCase();" placeholder="Buscar" [(ngModel)]="filterpost" name="filterpost" autocomplete="off" />
+
+      <div class="input-group-append">
+        <label class="input-group-text"><i class="fas fa-search"></i></label>
+      </div>
+    </div>
+  </div>
+
+</nav>
+
+<br>
+
+<div class="row justify-content-between">
+
+<span *ngIf="loadinglistado" class="justify-content-center text-center m-auto">
+  <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;"></div>
+</span>
+
+<div class="table-responsive p-0">
+  <table class="design-table resp">
+    <thead>
+      <tr>
+        <th>CÉDULA/RUC</th>
+        <th>APELLIDO/RAZÓN SOCIAL</th>
+        <th>NOMBRE/NOMBRE COMERCIAL</th>
+        <th>IDENTIFICACIÓN</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let item of (datos | filterGenerico:filterpost:['cedula', 'apellido', 'nombre', 'identificacion']) | paginate : {
+        id : 'pagtransportista',
+        itemsPerPage: pagesize,
+        currentPage: page,
+        totalItems: count
+      }">
+        <td>{{item.cedula}}</td>
+        <td>{{item.apellido}}</td>
+        <td>{{item.nombre}}</td>
+        <td>{{item.identificacion}}</td>
+        <td>
+          <div class="d-flex justify-content-end">
+            <button (click)="agregar(item.cod_transportista);" class="btn btn-outline-primary btn-sm" type="button"><i class="fas fa-plus"></i></button>
+          </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <div class="float-right">
+    <pagination-controls class="pagination-controls" id="pagtransportista"
+    previousLabel="Anterior"
+    nextLabel="Siguiente"
+    [responsive]="true"
+    (pageChange)="handlePageChange($event)">
+    </pagination-controls>
+  </div>
+</div>
+</div>

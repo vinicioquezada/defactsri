@@ -1,0 +1,347 @@
+.design-table {
+	border-collapse: collapse;
+	margin: 0px 0px 5px;
+	font-size: 14px;
+	width: 100%;
+}
+
+.design-table thead tr {
+  /* background-color: rgb(71 65 215);
+  color: #ffffff; */
+  text-align: left;
+  font-weight: bold;
+	border-top: 1px solid #dddddd;
+	border-bottom: 2px solid #dddddd;
+}
+
+.design-table th,
+.design-table td {
+  padding: 10px 15px;
+}
+
+.design-table tbody tr {
+  border-bottom: 1px solid #dddddd;
+}
+
+.design-table tbody tr:hover {
+  background-color: #f3f3f3;
+}
+
+.btn-label {
+    all: unset;        /* Elimina todos los estilos del botón */
+    font-size: 12px;   /* Puedes personalizar el tamaño como un label */
+    color: #000;       /* Color del texto */
+    cursor: pointer;   /* Para que se note que es interactivo */
+}
+
+.labeloculto {
+	display: inline-block;
+	}
+	
+	@media only screen and (max-width: 512px) {
+		.labeloculto {
+			display: none;
+		}
+	}
+	
+	@media only screen and (max-width: 768px) {	
+		.resp,
+		.resp thead,
+		.resp tbody,
+		.resp tr,
+		.resp th,
+		.resp td,
+		.resp caption {
+			display: block;
+		}
+		
+		.resp {
+			border: none
+		}
+		
+		.resp thead tr {
+			display: none;
+		}
+		
+		.resp tbody tr {
+			margin: 1em 0;
+			border: 1px solid lightgray;
+			/* box-shadow: 2px 2px 8px 4px #d3d3d3d1; */
+			border-radius:15px;
+		}
+		
+		.resp td {
+			border: none;
+			display: flex;
+			/* border-bottom: 1px solid #dddddd; */
+			
+			justify-content: space-between;
+			align-items: center;
+		}
+		.resp tr td:first-child {
+			border: none;
+		}
+
+		.resp tr:last-child td:last-child {
+			border: none;
+		}
+		
+		.resp td:before {
+			left: 6px;
+			width: 45%;
+			padding-right: 10px;
+			white-space: nowrap;
+			text-align: left;
+			font-weight: bold;
+		}
+	
+		
+	}
+
+	.bordered {
+    border: solid #ccc 1px;
+    -moz-border-radius: 6px;
+    -webkit-border-radius: 6px;
+    border-radius: 6px;
+    -webkit-box-shadow: 0 1px 1px #ccc; 
+    -moz-box-shadow: 0 1px 1px #ccc; 
+    box-shadow: 0 1px 1px #ccc;
+
+    border-collapse: collapse;
+    border-spacing: 0;
+    width: 100%;
+    font-size: 12px;    
+    background-color:#ffffff;    
+}
+
+.bordered tr:hover {
+    background: #fbf8e9;
+    -o-transition: all 0.1s ease-in-out;
+    -webkit-transition: all 0.1s ease-in-out;
+    -moz-transition: all 0.1s ease-in-out;
+    -ms-transition: all 0.1s ease-in-out;
+    transition: all 0.1s ease-in-out;     
+}    
+    
+.bordered td, .bordered th {
+    border-left: 1px solid #ccc;
+    border-top: 1px solid #ccc;
+    padding: 10px;
+    text-align: left;    
+}
+
+.bordered th {
+    /*Color Original #dce9f9*/
+    background-color: #dce9f9;
+    
+    background-image: -webkit-gradient(linear, left top, left bottom, from(#ebf3fc), to(#dce9f9));
+    background-image: -webkit-linear-gradient(top, #ebf3fc, #dce9f9);
+    background-image:    -moz-linear-gradient(top, #ebf3fc, #dce9f9);
+    background-image:     -ms-linear-gradient(top, #ebf3fc, #dce9f9);
+    background-image:      -o-linear-gradient(top, #ebf3fc, #dce9f9);
+    background-image:         linear-gradient(top, #ebf3fc, #dce9f9);
+    
+    -webkit-box-shadow: 0 1px 0 rgba(255,255,255,.8) inset; 
+    -moz-box-shadow:0 1px 0 rgba(255,255,255,.8) inset;  
+    box-shadow: 0 1px 0 rgba(255,255,255,.8) inset;        
+    border-top: none;
+    text-shadow: 0 1px 0 rgba(255,255,255,.5); 
+}
+
+.bordered td:first-child, .bordered th:first-child {
+    border-left: none;
+}
+
+.bordered th:first-child {
+    -moz-border-radius: 6px 0 0 0;
+    -webkit-border-radius: 6px 0 0 0;
+    border-radius: 6px 0 0 0;
+}
+
+.bordered th:last-child {
+    -moz-border-radius: 0 6px 0 0;
+    -webkit-border-radius: 0 6px 0 0;
+    border-radius: 0 6px 0 0;
+}
+
+.bordered th:only-child{
+    -moz-border-radius: 6px 6px 0 0;
+    -webkit-border-radius: 6px 6px 0 0;
+    border-radius: 6px 6px 0 0;
+}
+
+.bordered tr:last-child td:first-child {
+    -moz-border-radius: 0 0 0 6px;
+    -webkit-border-radius: 0 0 0 6px;
+    border-radius: 0 0 0 6px;
+}
+
+.bordered tr:last-child td:last-child {
+    -moz-border-radius: 0 0 6px 0;
+    -webkit-border-radius: 0 0 6px 0;
+    border-radius: 0 0 6px 0;
+}
+
+.micajatable
+{
+	font-family:"Times New Roman", Times, serif;
+	font-size:14px;
+	color: #000000;
+	border:0px; 
+    width: 100%;
+    background-color:#ffffff;
+}
+
+.micajatabledescuento
+{
+	font-family:"Times New Roman", Times, serif;
+	font-size:14px;
+	color: #000000;
+	border:0px;
+    width: 50%;
+    background-color:#ffffff;
+}
+
+.bordered td {
+   padding-left: 2px;
+   padding-right: 2px;    
+}
+
+.h6 {
+	font-size: 1rem;
+}
+
+.card-menu {
+	padding-top: 15px;
+	padding-bottom: 10px;
+	text-align: center;
+}
+
+.loader-spinner {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1050;
+}
+
+.overlay2 {
+  position: fixed; /* Mantén la superposición fija en la ventana */
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  /*background-color: rgba(0, 0, 0, 0.5);*/
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1050; /* Asegúrate de que la superposición esté por encima de otros elementos */
+}
+
+.overlay3 {
+  height:100vh;
+  width:100%;
+
+  display:flex;
+  justify-content: center;
+  align-items: center;
+
+  /*background-color:rgba(255, 255, 255, 0.286);*/
+  z-index:    10;
+  top:        0; 
+  left:       0; 
+  position:   fixed;
+}
+
+.cursor-pointer {
+	cursor: pointer;
+}
+
+.precio-venta {
+  display: inline-block; /* Necesario para el comportamiento de botón */
+  border: 2px solid transparent; /* Borde invisible inicialmente */
+  border-radius: 10px; /* Bordes semiredondeados */
+  padding: 5px 10px; /* Espaciado interno para el efecto de botón */
+  transition: all 0.3s ease; /* Suaviza el cambio de estilo */
+}
+
+.precio-venta:hover {
+  border-color: #28a745; /* Cambia el borde a verde */
+  background-color: transparent; /* Asegura que el fondo siga siendo transparente */
+  cursor: pointer; /* Muestra el cursor de mano */
+}
+
+.color-existencia {
+  display: inline-block; /* Necesario para el comportamiento de botón */
+  border: 2px solid transparent; /* Borde invisible inicialmente */
+  border-radius: 10px; /* Bordes semiredondeados */
+  padding: 5px 10px; /* Espaciado interno para el efecto de botón */
+  transition: all 0.3s ease; /* Suaviza el cambio de estilo */
+}
+
+.color-existencia:hover {
+  border-color: #007bff;; /* Cambia el borde a verde */
+  background-color: transparent; /* Asegura que el fondo siga siendo transparente */
+  cursor: pointer; /* Muestra el cursor de mano */
+}
+
+.fila-rojo {
+  background-color: #f5c6cb;
+}
+
+.fila-verde {
+  background-color: #c3e6cb;
+}
+
+.sticky-toolbar {
+    position: sticky;
+    /* Ajusta este valor al alto de tu navbar azul */
+    top: 45px; 
+    
+    z-index: 1030;
+
+    margin-top: -3px;      /* elimina el padding superior del content */
+    margin-left: -15px;
+    margin-right: -15px;
+
+    /* Aumentamos el padding izquierdo de 15px a 20px o 25px para despegar el botón del borde */
+    padding: 10px 15px 10px 25px;
+    background: red;
+
+    /* El color gris claro oficial del fondo de AdminLTE */
+    background-color: #f4f6f9; 
+    
+    /* Un borde sutil abajo opcional para delimitar la barra */
+    /* border-bottom: 1px solid #dee2e6; */
+}
+
+/* Fuerza la forma circular perfecta e impide que se deforme antes de tiempo */
+.overlay-custom .spinner-border {
+  width: 5rem !important;
+  height: 5rem !important;
+  min-width: 5rem !important;
+  min-height: 5rem !important;
+  border-radius: 50% !important; /* <--- Esto evita que se vea plano u ovalado al cargar */
+  flex-shrink: 0 !important;
+  aspect-ratio: 1 / 1 !important;
+}
+
+/* Pantallas de 800px o menos: Spinner Arriba */
+@media (max-width: 800px) {
+  .overlay-custom {
+    justify-content: flex-start !important;
+    padding-top: 3rem !important; /* Espacio superior para que no pegue arriba */
+  }
+}
+
+/* Pantallas mayores a 800px: Spinner Centrado */
+@media (min-width: 801px) {
+  .overlay-custom {
+    justify-content: center !important;
+    padding-top: 0 !important;
+  }
+}

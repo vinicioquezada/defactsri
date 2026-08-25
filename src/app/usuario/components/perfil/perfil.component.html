@@ -1,0 +1,264 @@
+<!-- Modal -->
+<div id="mymodalguardar" class="modal fade" role="dialog" data-backdrop="false">
+  <div class="modal-dialog">
+    <!-- Modal content -->
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">INFORMACIÓN DEL SISTEMA</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">×</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p>Está seguro de Guardar Cambios</p>
+      </div>
+      <div class="modal-footer">
+         <button id="btnsiguardar" type="button" class="btn btn-success" data-dismiss="modal">Si</button>
+     <button type="button" class="btn btn-success" data-dismiss="modal">No</button>
+    <!--<a href="index.html" class="btn btn-success">Guardar</a>-->
+      </div>
+    </div>
+
+  </div>
+</div>
+<!-- TERMINA Trigger the modal with a button -->
+
+<!-- Modal -->
+<div id="mymodalactualizarpassword" class="modal fade" role="dialog" data-backdrop="false">
+  <div class="modal-dialog">
+    <!-- Modal content -->
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">INFORMACIÓN DEL SISTEMA</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">×</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p>Está seguro de Actualizar Password</p>
+      </div>
+      <div class="modal-footer">
+         <button id="btnsiactualizarpassword" type="button" class="btn btn-success" data-dismiss="modal">Si</button>
+     <button type="button" class="btn btn-success" data-dismiss="modal">No</button>
+    <!--<a href="index.html" class="btn btn-success">Guardar</a>-->
+      </div>
+    </div>
+
+  </div>
+</div>
+<!-- TERMINA Trigger the modal with a button -->
+
+
+
+
+<!-- Main content -->
+<section class="content">
+
+   
+<br>
+
+    <div class="container-fluid">
+
+      <div class="row">
+        
+
+            <div class="col-md-3">
+
+              <div class="card card-primary card-outline">
+                <div class="card-body box-profile">
+                  <div class="text-center">
+                    <img class="profile-user-img img-responsive imgRedonda" [src]="selectedImageBase64" alt="User profile picture">
+                  </div>
+
+                  <h3 class="profile-username text-center">{{this.usuario}}</h3>
+
+                  <p class="text-muted text-center">{{this.rrpp}}</p>
+
+                    <div style="text-align:center">
+                      <div *ngIf="loading" class="spinner-border text-primary" style="width: 3rem; height: 3rem;"></div>
+                    </div>
+
+                    <input id="file-upload" type="file" (change)="onFileSelected($event)" accept="image/*" #fileImage>
+                    <label for="file-upload" class="btn btn-primary btn-block btm-sm font-weight-normal">Añadir Imagen</label>
+
+                
+                      <button *ngIf="selectedimagefile" (click)="upload()" class="btn btn-primary btn-block btm-sm">Actualizar Imagen</button>
+                    
+
+
+                </div>
+                <!-- /.card-body -->
+    </div>
+            </div>
+
+
+      <div class="col-md-8">
+          <div class="card card-primary card-outline card-tabs">
+            <div class="card-header p-0 pt-1 border-bottom-0">
+              <ul class="nav nav-tabs" id="custom-tabs-three-tab" role="tablist">
+                <li class="nav-item">
+                  <a class="nav-link active" id="tab_producto-tab" data-toggle="pill" href="#tab_producto" role="tab" aria-controls="tab_producto" aria-selected="true"><i class="purple ace-icon fa fa-cogs bigger-125"></i> Información Básica</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" id="tab_tarifa-tab" data-toggle="pill" href="#tab_tarifa" role="tab" aria-controls="tab_tarifa" aria-selected="false"><i class="blue ace-icon fa fa-key bigger-125"></i> Contraseña</a>
+                </li>
+              </ul>
+            </div>
+            <div class="card-body">
+              <div class="tab-content" id="custom-tabs-three-tabContent">
+                <div class="tab-pane fade active show" id="tab_producto" role="tabpanel" aria-labelledby="tab_producto-tab">
+          <div class="row">	
+            <div class="col-md-12">
+
+      <div class="input-group mb-3 input-group-sm">
+          <label  class="col-lg-2 control-label">Cédula:</label>
+          <input [(ngModel)]="cedula" type="text" class="form-control" maxlength="10">
+      </div>
+
+      <div class="input-group mb-3 input-group-sm">
+    <label  class="col-lg-2 control-label">RRPP:</label>
+          <input [(ngModel)]="rrpp" type="text" class="form-control" maxlength="50">
+      </div>
+      
+
+  <div class="input-group mb-3 input-group-sm">
+    <label  class="col-lg-2 control-label">Apellidos:</label>
+          <input [(ngModel)]="apellido" type="text" class="form-control" maxlength="50">
+      </div>
+
+      <div class="input-group mb-3 input-group-sm">
+    <label  class="col-lg-2 control-label">Nombres:</label>
+          <input [(ngModel)]="nombre" type="text"  class="form-control" maxlength="50">
+      </div>
+
+      <div class="input-group mb-3 input-group-sm">
+          <label  class="col-lg-2 control-label">Género:</label>
+          <select (change)="changegenero($event)" class="form-control form-control-sm">
+            <option [value]="item.cod_genero" *ngFor="let item of datosgenero" [selected]="item.cod_genero == cod_genero">
+                {{item.genero}}
+            </option>
+        </select>
+      </div>
+
+      <div class="input-group mb-3 input-group-sm">
+    <label  class="col-lg-2 control-label">Teléfono:</label>
+          <input [(ngModel)]="convencional" type="text"  class="form-control" maxlength="15">
+      </div>
+
+      <div class="input-group mb-3 input-group-sm">
+    <label  class="col-lg-2 control-label">Celular:</label>
+          <input [(ngModel)]="celular" type="text"  class="form-control" maxlength="15">
+      </div>
+
+      <div class="input-group mb-3 input-group-sm">
+    <label  class="col-lg-2 control-label">Correo:</label>
+          <input [(ngModel)]="correo" type="text"  class="form-control" maxlength="50">
+      </div>
+
+      <div class="input-group mb-3 input-group-sm">
+    <label  class="col-lg-2 control-label">Dirección:</label>
+          <textarea [(ngModel)]="direccion" class="form-control" maxlength="100"></textarea>
+      </div>
+
+      <div class="input-group mb-3 input-group-sm">
+    <label  class="col-lg-2 control-label">Título:</label>
+          <input [(ngModel)]="titulo" type="text" class="form-control" maxlength="50">
+      </div>
+
+      <div style="text-align:center">
+        <div *ngIf="loading" class="spinner-border text-primary" style="width: 3rem; height: 3rem;"></div>
+      </div>
+      
+      <button (click)="actualizardatosperfil();" class="btn btn-primary btn-sm float-right" type="button"><i class="fa fa-save"></i> Actualizar</button>
+      
+
+
+
+
+
+
+
+
+            
+            </div>
+            
+        </div>
+                </div>
+
+
+                <div class="tab-pane fade" id="tab_tarifa" role="tabpanel" aria-labelledby="tab_tarifa-tab">
+                   
+           
+          <div class="row">
+            <div class="col-md-12">
+              
+                              <div class="input-group mb-3 input-group-sm">
+                                  <label  class="col-lg-6 control-label">Escriba nueva contraseña:</label>
+                                  <input [(ngModel)]="password1" class="form-control" type="password" maxlength="15">
+                              </div>
+
+                              <div class="input-group mb-3 input-group-sm">
+                                  <label  class="col-lg-6 control-label">Escriba nuevamente la contraseña:</label>
+                                  <input [(ngModel)]="password2" class="form-control" type="password" maxlength="15">
+                              </div>
+
+
+                <button (click)="clickactualizarpassword();" class="btn btn-primary btn-sm float-right" type="button"><i class="fa fa-save"></i> Actualizar</button>
+
+                                  
+
+              
+              
+            </div>
+          </div>
+
+
+
+                
+
+                
+              </div>
+            </div>
+            <!-- /.card -->
+          </div>
+        </div>
+
+
+
+        
+
+
+       
+    
+
+      
+
+      </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        </div>
+   
+    </div>
+
+   
+      
+
+</section>

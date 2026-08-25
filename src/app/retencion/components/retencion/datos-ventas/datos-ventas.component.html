@@ -1,0 +1,67 @@
+<div class="row">
+  <div class="col-md-12">
+
+      <div class="card card-primary card-outline">
+        <div class="card-header">
+          <h3 class="card-title"><i class="fa fa-file-alt"></i> DETALLES DE COMPROBANTE DE RETENCIÓN</h3>
+        </div>
+        <div class="card-body">
+          
+            <div class="row">					  
+                    <div class="panel-body table-responsive" id="listadoregistros">
+                            <table border="1" style="font-size: 12px;" class="bordered">
+                            <thead>
+                                <th>Código Retención</th>
+                                <th>Impuesto</th>
+                                <th>Base Imponible</th>
+                                <th>% Retención</th>
+                                <th>Valor Retenido</th>
+                                <th></th>
+                            </thead>
+                            <tbody>
+                              <tr *ngFor="let item of datosdetalles; let i = index; let u = last" [ngClass]="{'bg-danger': item.fila_error}">
+                                  <td>{{ item.codigo_retencion }}</td>
+                                  <td>{{ item.tipo_impuesto }}</td>
+                                  <td>{{ item.base_imponible }}</td>
+                                  <td>{{ item.porcentaje_retencion }}</td>
+                                  <td>{{ item.valor_retenido }}</td>
+                                  <td>
+                                    <button [disabled]="disabledbtn" (click)="borrar(i);" class="btn btn-danger btn-sm"><i class="fa fa-trash"></i></button>
+                                  </td>
+                              </tr>
+                            </tbody>
+                            </table>
+                    </div>
+            </div>
+
+            <div class="row">
+                
+                 <div class="col-md-8">
+                     
+                 </div>
+                 
+                 <div class="col-md-3">
+                     <div class="form-group">
+                        <label>Total Retenido:</label>
+                        <div class="input-group input-group-sm">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text"><i class="fas fa-dollar-sign"></i></span>
+                        </div>
+                        <label class="form-control">{{this.total_retenido}}</label>
+                        </div>
+                    </div>
+                 </div>
+            </div>
+
+            <div style="text-align:center">
+                <div *ngIf="loading" class="spinner-border text-primary" style="width: 3rem; height: 3rem;"></div>
+            </div>
+
+
+
+
+        </div>
+      </div>
+  
+  </div>
+</div>

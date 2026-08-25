@@ -1,0 +1,165 @@
+<div id="mymodalagregartarifas" class="modal fade" role="dialog" data-backdrop="false">
+  <div class="modal-dialog modal-xl">
+    <!-- Modal content -->
+    <div class="modal-content">
+      <div class="modal-header">
+      <h5 class="modal-title">AGREGAR TARIFAS - {{ descripcion }}</h5>
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">×</span>
+          </button>
+      </div>
+      <div class="modal-body">
+
+        
+        
+        <div class="row justify-content-between">
+
+          <span *ngIf="loadinglistado" class="justify-content-center text-center m-auto">
+                <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;"></div>
+          </span>
+
+        </div>
+
+        <div class="row">
+          
+
+            <div class="col-md-3">
+
+              <div class="form-group">
+                <label>Compra:</label>
+                <label *ngIf="precios_completos == '1'" class="form-control form-control-sm"><span>{{this.costo_base}}</span><span class="float-right">{{this.costo_compra}}</span></label>
+                <label *ngIf="precios_completos == '0'" class="form-control form-control-sm"><span>{{this.costo_compra}}</span></label>
+              </div>
+            
+            
+              <div class="form-group">
+                <label>Venta:</label>
+                <label *ngIf="precios_completos == '1'" class="form-control form-control-sm"><span class="text-danger">{{this.precio_base}}</span><span class="text-primary float-right">{{this.precio_venta}}</span></label>
+                <label *ngIf="precios_completos == '0'" class="form-control form-control-sm"><span class="text-primary">{{this.precio_venta}}</span></label>
+              </div>
+
+              <div class="form-group">
+                <label>Forma Tarifa:</label>
+                <select (change)="changeFormaTarifa($event)" class="form-control form-control-sm">
+                  <option [value]="item.cod_forma_tarifa" *ngFor="let item of datosformatarifa" [selected]="item.cod_forma_tarifa == cod_forma_tarifa">
+                      {{item.forma_tarifa}}
+                  </option>
+                </select>
+              </div>
+
+              <div *ngIf="bcodigo" class="form-group">
+                <label>Codigo Producto (Opcional):</label>
+                <input [(ngModel)]="codigo" class="form-control form-control-sm" oninput="javascript:this.value=this.value.toUpperCase();" placeholder="Codigo" type="text">
+              </div>
+
+              <div *ngIf="bporx" class="form-group">
+                <label>Promoción (Por X):</label>
+                <input [(ngModel)]="porx" [ngClass]="{'is-invalid': flagporx}" onKeyPress="return soloNumeros(event)" class="form-control form-control-sm" maxlength="9" placeholder="Por x" type="text">
+              </div>
+
+              <div *ngIf="bmayorigual" class="form-group">
+                <label>Mayoreo (Mayor Igual):</label>
+                <input [(ngModel)]="mayorigual" [ngClass]="{'is-invalid': flagmayorigual}" onKeyPress="return soloNumeros(event)" class="form-control form-control-sm" maxlength="9" placeholder="Mayor Igual" type="text">
+              </div>
+              
+              <div class="form-group">
+                <label>Tipo Tarifa:</label><label class="text-danger">&nbsp;*</label>
+                <select [ngClass]="{'is-invalid': flagtipotarifa}" (change)="onchangetipotarifa($event)" class="form-control form-control-sm">
+                  <option value="0">SELECCIONE UN TIPO TARIFA</option>
+                  <option value="{{item.cod_tipo_tarifa}}" *ngFor="let item of datostipotarifa" [selected]="tipo_tarifa == item.tipo_tarifa">
+                      {{item.tipo_tarifa}}
+                  </option>
+                </select>
+              </div>
+
+              <div *ngIf="bcodigo" class="form-group">
+                <label>Cantidad Unidad:</label><label class="text-danger">&nbsp;*</label>
+                  <input [(ngModel)]="cantidad_unidad" [ngClass]="{'is-invalid': flagcantidadunidad}" onKeyPress="return soloNumerosEnteros(event)" class="form-control form-control-sm" maxlength="9" placeholder="Cantidad Unidad" type="text">
+              </div>
+
+            </div>
+
+
+            <div class="col-md-3">
+
+              <div class="form-group">
+                <label>Utilidad:</label>
+                <input [(ngModel)]="utilidad" (keyup)="calcularUtilidad()" onKeyPress="return soloNumeros(event)" class="form-control form-control-sm" maxlength="9" placeholder="Utilidad" type="text">
+              </div>
+
+              <div *ngIf="precios_completos == '1'" class="form-group">
+                <label class="text-danger">Precio Base Tarifa: *</label>
+                <input [(ngModel)]="precio_base_tarifa" [ngClass]="{'is-invalid': flagpreciobasetarifa}" onKeyPress="return soloNumeros(event)" (keyup)="calcularPrecioBase()" class="form-control form-control-sm" maxlength="9" placeholder="Precio Base" type="text">
+              </div>
+
+              <div class="form-group">
+                <label class="text-primary">Precio Venta Tarifa: *</label>
+                <input [(ngModel)]="precio_venta_tarifa" [ngClass]="{'is-invalid': flagprecioventatarifa}" onKeyPress="return soloNumeros(event)" (keyup)="calcularPrecioVenta()" class="form-control form-control-sm" maxlength="9" placeholder="Ubicar todos los decimales" type="text">
+              </div>
+
+              <div class="form-group">
+                <label>Observaciones:</label>
+                <textarea [(ngModel)]="observacion" class="form-control"></textarea>
+              </div>
+
+            </div>
+
+          
+            <div class="col-md-6">
+              <div class="panel-body table-responsive"> 
+                <table style='font-size: 14px;' class="design-table">
+                  <thead>
+                    <tr>
+                      <th>TARIFA</th>
+                      <th>PRECIO VENTA</th>
+                      <th width="120"></th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let item of datostarifa">
+                      <td>
+                        <div>{{item.tipo_tarifa}}</div>
+                        <small *ngIf="item.cod_forma_tarifa==0" class="badge badge-info">MANUAL</small>
+                        <small *ngIf="item.cod_forma_tarifa==1" class="badge badge-primary">PROMOCIÓN (POR X)</small>
+                        <small *ngIf="item.cod_forma_tarifa==2" class="badge badge-success">MAYOREO (>=)</small>
+                        <div><small class="badge badge-primary">{{ item.cantidad_unidad }} (Unidades)</small></div>
+                      </td>
+                      <td>{{item.precio_venta}}</td>
+                      <td>
+                        <small *ngIf="item.estado_visible==0" class="badge badge-danger">DESHABILITADO</small>
+                        <small *ngIf="item.estado_visible==1" class="badge badge-info">HABILITADO</small>
+                      </td>
+                      <td>
+                        <button (click)="agregartarifaeditar(item);" class="btn btn-outline-primary btn-sm" type="button"><i class="fas fa-plus"></i></button>
+                        <button (click)="activarTarifa(item.cod_tarifa, 0);" *ngIf="item.estado_visible==1" class="btn btn-outline-danger btn-sm"><i class="fa fa-toggle-on"></i></button>
+                        <button (click)="activarTarifa(item.cod_tarifa, 1)" *ngIf="item.estado_visible==0" class="btn btn-outline-info btn-sm"><i class="fa fa-toggle-on"></i></button>
+                        <button (click)="clickEliminartarifa(item.cod_tarifa, item.tipo_tarifa);" class="btn btn-outline-danger btn-sm"><i class="fa fa-trash"></i></button>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+        </div>
+
+        <div class="row justify-content-between">
+          <span *ngIf="loading" class="justify-content-center text-center m-auto">
+                <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;"></div>
+          </span> 
+        </div>
+  
+        <div class="d-flex justify-content-end align-items-center">
+          <button (click)="clickdeshacertarifa();" type="button" class="btn btn-secondary btn-sm"><i class="fas fa-redo-alt"></i> Deshacer</button>&nbsp;
+          <button [ngClass]="{'d-none': flagocultarboton}" (click)="clickguardartarifa();" type="button" class="btn btn-primary btn-sm"><i class="fas fa-save"></i> Guardar</button>
+          <button [ngClass]="{'d-none': !flagocultarboton}" (click)="clickactualizartarifa();" type="button" class="btn btn-warning btn-sm"><i class="fas fa-save"></i> Actualizar</button>&nbsp;
+          <button class="btn btn-secondary btn-sm" type="button" data-dismiss="modal"><i class="fas fa-times-circle"></i> Cerrar</button>
+        </div>
+
+
+      </div>
+
+
+    </div>
+
+  </div>
+</div>

@@ -1,0 +1,213 @@
+<div id="mymodallistarproductosproveedor" class="modal fade" role="dialog" data-backdrop="false">
+  <div class="modal-dialog modal-xl">
+    <!-- Modal content -->
+    <div class="modal-content">
+      <div class="modal-header">
+      <h5 class="modal-title"><span>PRODUCTOS DE PROVEEDOR: {{ proveedor }}</span></h5>
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">×</span>
+          </button>
+      </div>
+      <div class="modal-body">
+
+
+        <div class="form-group">
+          <button (click)="agregarProducto();" class="btn btn-primary btn-sm" type="button"><i class="fas fa-plus"></i> Agregar</button>
+        </div>
+
+
+        <div class="row justify-content-between align-items-center">
+          <span>Total: {{this.cantidad_registros}} Registros</span>
+          <div class="input-group input-group-sm float-right" style="width: 150px;">
+            <input (keyup)="keyFiltradoProductoProveedor();" type="text" class="form-control float-right" oninput="javascript:this.value=this.value.toUpperCase();" placeholder="Buscar" [(ngModel)]="filterpostproductoproveedor" name="filterpostproductoproveedor" autocomplete="off" />
+          </div>
+        </div>
+  
+          <br>
+
+        <div class="row justify-content-between">
+
+          <span *ngIf="loadingmodal" class="justify-content-center text-center m-auto">
+                <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;"></div>
+          </span>
+          
+        </div>
+
+        <div class="row">
+
+          <div class="col-md-12">
+
+              <div class="table-responsive p-0">
+                  <table class="design-table">
+                    <thead>
+                      <tr>
+                        <th>SUBCATEGORIA</th>
+                        <th>MARCA</th>
+                        <th>DESCRIPCION</th>
+                        <th>PVP</th>
+                        <th>CODIGO</th>
+                        <th>FRACC.</th>
+                        <th>U/D</th>
+                        <th></th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let item of (datosproductos | filterGenerico:filterpostproductoproveedor:['subcategoria', 'marca', 'descripcion', 'codigo']) | paginate : {
+                        id : 'pagproductoproveedor',
+                        itemsPerPage: pagesizeproductoproveedor,
+                        currentPage: pageproductoproveedor,
+                        totalItems: countproductoproveedor
+                      }">
+                        <td>{{item.subcategoria}}</td>
+                        <td>{{item.marca}}</td>
+                        <td>{{item.descripcion}}</td>
+                        <td>{{item.precio_venta}}</td>
+                        <td>{{item.codigo}}</td>
+                        <td>{{item.fraccionado}}</td>
+                        <td>{{item.unidades_denominacion}}</td>
+                        <td class="d-flex justify-content-end">
+                          <button (click)="clickEliminar(item.cod_producto_proveedor, item.descripcion);" class="btn btn-outline-danger btn-sm"><i class="fa fa-trash"></i></button>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                  <div class="float-right">
+                    <pagination-controls class="pagination-controls" id="pagproductoproveedor"
+                    previousLabel="Anterior"
+                    nextLabel="Siguiente"
+                    [responsive]="true"
+                    (pageChange)="handlePageChangeProductoProveedor($event)">
+                    </pagination-controls>
+                  </div>
+              </div>
+
+          </div>
+
+
+        </div>
+
+
+        <div class="d-flex justify-content-end align-items-center">
+          <button class="btn btn-secondary btn-sm" type="button" data-dismiss="modal"><i class="fas fa-times-circle"></i> Cerrar</button>
+        </div>
+       
+
+      </div>
+
+
+
+    </div>
+
+  </div>
+</div>
+
+<div id="mymodalagregarproducto" class="modal fade" role="dialog" data-backdrop="false">
+  <div class="modal-dialog">
+    <!-- Modal content -->
+    <div class="modal-content">
+      <div class="modal-header">
+      <h5 class="modal-title">AGREGAR PRODUCTO</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">×</span>
+          </button>
+      </div>
+
+      <div class="modal-body">
+    
+        <div class="row">
+
+          <div *ngIf="multisucursal=='1'" class="col-md-12">
+              <div class="form-group">
+                  <label>Sucursal:</label>
+                  <label class="form-control form-control-sm">{{ sucursal }}</label>
+              </div>	
+          </div>
+  
+            <div class="col-md-12">
+                <div class="form-group">
+                    <label>Código Barra:</label>                    
+                    <div class="input-group input-group-sm">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text"><i class="fas fa-barcode"></i></span>
+                        </div>
+                        <input [(ngModel)]="codigo_barra" oninput="javascript:this.value=this.value.toUpperCase();" (keyup.enter)="buscarCodigoProducto();" class="form-control" maxlength="35" placeholder="Ingrese Código de Barra"type="text">
+                        <span class="input-group-append">
+                            <button (click)="clickListarProductos();" class="btn btn-primary btn-flat" type="button"><i class="fa fa-list"></i></button>
+                        </span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-12">
+
+              <div class="form-group row">
+                <label class="col-sm-4 col-form-label">Producto:</label>
+                <div class="col-sm-8">
+                  <label [ngClass]="{'is-invalid': flagtext}" class="form-control form-control-sm">{{this.descripcion}}</label>
+                </div>
+              </div>
+
+              <div class="form-group row">
+                <label class="col-sm-4 col-form-label text-primary">Precio Venta -Imp.:</label>
+                <div class="col-sm-8">
+                  <label [ngClass]="{'is-invalid': flagtext}" class="form-control form-control-sm">{{this.precio_base}}</label>
+                </div>
+              </div>
+
+              <div class="form-group row">
+                <label class="col-sm-4 col-form-label text-danger">Precio Venta +Imp.:</label>
+                <div class="col-sm-8">
+                  <label [ngClass]="{'is-invalid': flagtext}" class="form-control form-control-sm">{{this.precio_venta}}</label>
+                </div>
+              </div>
+
+            </div>
+  
+  
+          </div>
+
+        <div style="text-align:center">
+          <div *ngIf="loadingalmacenar" class="spinner-border text-primary" style="width: 3rem; height: 3rem;"></div>
+        </div>
+
+        <div class="d-flex justify-content-end align-items-center">
+          <button (click)="verificarProductoProveedor();" class="btn btn-primary btn-sm" type="button"><i class="fas fa-save"></i> Guardar</button>&nbsp;
+          <button class="btn btn-secondary btn-sm" type="button" data-dismiss="modal"><i class="fas fa-times-circle"></i> Cerrar</button>
+        </div>
+
+      </div>
+
+      
+
+
+       
+    </div>
+
+  </div>
+</div>
+
+<div id="mymodallistarproductos" class="modal fade" role="dialog" data-backdrop="false">
+  <div class="modal-dialog modal-xl">
+    <!-- Modal content -->
+    <div class="modal-content">
+      <div class="modal-header">
+      <h5 class="modal-title">LISTADO DE PRODUCTOS</h5>
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">×</span>
+          </button>
+      </div>
+      <div class="modal-body">
+          <app-listado-producto-general (datosenviar)="recibirDatosProducto($event)"></app-listado-producto-general>
+
+          <div class="d-flex justify-content-end align-items-center">
+            <button (click)="actualizarListadoProducto();" type="button" class="btn btn-primary btn-sm" data-dismiss="modal"><i class="fas fa-sync-alt"></i> Actualizar</button>&nbsp;
+            <button class="btn btn-secondary btn-sm" type="button" data-dismiss="modal"><i class="fas fa-times-circle"></i> Cerrar</button>
+          </div>
+      </div>
+
+      
+
+    </div>
+
+  </div>
+</div>

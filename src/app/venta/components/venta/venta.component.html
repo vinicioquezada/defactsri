@@ -1,0 +1,322 @@
+<app-registro-abono-venta [importetotal] = "facturaventa.importetotal" (sendAceptar)="sendAceptar($event)"></app-registro-abono-venta>
+
+<app-cliente-form (datosenvio)="recibirDatosNuevoCliente($event)"></app-cliente-form>
+
+<app-listado-cliente-venta (datosenviar)="recibirDatosCliente($event)"></app-listado-cliente-venta>
+
+<div id="mymodallistarproductos" class="modal fade" role="dialog" style="overflow-y: scroll; scrollbar-width: none;" data-backdrop="false">
+  <div class="modal-dialog modal-xl">
+    <!-- Modal content mw-100 w-75-->
+    <div class="modal-content">
+      <div class="modal-header">
+      <h5 class="modal-title">LISTADO DE PRODUCTOS</h5>
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">×</span>
+          </button>
+      </div>
+      <div class="modal-body">
+          <app-listado-producto-ventas (datosenviar)="recibirDatosProducto($event)"></app-listado-producto-ventas>
+
+          <div class="d-flex justify-content-end align-items-center">
+            <button (click)="actualizarListadoProducto();" type="button" class="btn btn-primary btn-sm" data-dismiss="modal"><i class="fas fa-sync-alt"></i> Actualizar</button>&nbsp;
+            <button class="btn btn-secondary btn-sm" type="button" data-dismiss="modal"><i class="fas fa-times-circle"></i> Cerrar</button>
+          </div>
+      </div>
+
+    </div>
+
+  </div>
+</div>
+
+<section class="content-header" id="box">
+
+  <div class="container-fluid">
+
+    <div class="row mb-2">
+      <div class="col-sm-6">
+          <div class="btn-toolbar" role="toolbar">
+            <div class="btn-group">
+                <button *ngIf="tipo_formulario=='nuevoregistro'" (click)="clickNuevo();" [disabled]="disabledbtnnuevo" class="btn btn-secondary btn-flat btn-sm" type="button"><i class="fas fa-file"></i> Nuevo</button>
+                <button *ngIf="tipo_formulario=='actualizarregistro' && notacreditoexistente == '0'" (click)="clickModificar();" [disabled]="disabledbtnmodificar" class="btn btn-secondary btn-flat btn-sm" type="button"><i class="fas fa-edit"></i> Modificar</button>
+                <button *ngIf="tipo_formulario=='copiarregistro' || tipo_formulario=='finalizarpedidoreservado' || this.tipo_formulario == 'finalizarvariospedidosreservados' || this.tipo_formulario == 'finalizarpedidoconsalida' || this.tipo_formulario == 'finalizarvariospedidosconsalida' || this.tipo_formulario == 'finalizarpedidoacumulativo' || this.tipo_formulario == 'finalizarvariospedidosacumulativos' || this.tipo_formulario == 'finalizarpedidopanaderia'" (click)="clickHabilitar();" [disabled]="disabledbtnmodificar" class="btn btn-secondary btn-flat btn-sm" type="button"><i class="fas fa-check"></i> Habilitar</button>
+                <button (click)="visualizar(0, 0);" [disabled]="disabledbtnimprimir" class="btn btn-primary btn-flat btn-sm" type="button"><i class="fas fa-print"></i> Imprimir</button>
+                <button (click)="clickDeshacer();" class="btn btn-secondary btn-flat btn-sm" type="button"><i class="fas fa-redo-alt"></i> Deshacer</button>
+                <button (click)="goBack();" class="btn btn-secondary btn-flat btn-sm" type="button"><i class="fa fa-reply"></i> Atrás</button>
+            </div>
+
+          </div>
+
+
+      </div>
+
+      <div class="col-sm-6">
+
+          <div>
+            <div class="input-group input-group-sm">
+              <div *ngIf="multisucursal=='1'" class="input-group-prepend">
+                <span class="input-group-text"><i class="fas fa-home"></i></span>
+              </div>
+              <label *ngIf="multisucursal=='1'" class="form-control">{{sucursal_estable}}</label>
+
+              <div *ngIf="firmasruc=='1'" class="input-group-prepend">
+                <span class="input-group-text"><i class="fas fa-signature"></i></span>
+              </div>
+              <select *ngIf="tipo_formulario!='actualizarregistro' && firmasruc=='1'" (change)="changeEmpresa($event)" class="btn btn-primary btn-flat btn-sm flex-grow-1">
+                <option value="{{item.cod_ruc}}" *ngFor="let item of datosrucempresa" [selected]="this.rucempresa.cod_ruc == item.cod_ruc">
+                    {{item.empresa}}
+                </option>
+              </select>
+              <label *ngIf="tipo_formulario=='actualizarregistro' && firmasruc=='1'" class="form-control">{{this.rucempresa.empresa}}</label>
+              <div *ngIf="tipo_formulario!='actualizarregistro' && firmasruc=='1' && rucusuario =='1'" class="input-group-prepend">
+                <app-configurar-firma-venta (datosenvio)="recibirDatosFirmaVenta($event)"></app-configurar-firma-venta>
+              </div>
+
+              
+
+            </div>
+        </div>
+      </div>
+
+      
+
+      
+    </div>
+    
+  </div><!-- /.container-fluid -->
+
+  
+</section>
+
+<!-- Main content -->
+<section class="content">
+  <div class="container-fluid">
+    
+    <div *ngIf="loadingprincipal" class="row pb-2">
+      <div class="justify-content-center text-center m-auto">
+          <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;"></div>
+      </div>
+    </div>
+
+    <div class="row">
+
+      <div class="col-md-3">
+        <div class="form-group">
+          <div class="input-group input-group-sm">
+              <div class="input-group-prepend">
+                <span class="input-group-text"><i class="fas fa-paperclip"></i>&nbsp;Nº Factura:</span>
+              </div>
+              <label *ngIf="numeracion_automatica == '1'" class="form-control">{{this.facturaventa.numero_factura}}</label>
+              <label *ngIf="numeracion_automatica == '0' && facturaventa.tipo_venta != 'FACTURA'" class="form-control">{{this.facturaventa.numero_factura}}</label>
+              <input *ngIf="numeracion_automatica == '0' && facturaventa.tipo_venta == 'FACTURA'" [(ngModel)]="this.facturaventa.numero_factura" [disabled]="disabledtxtnfactura" class="form-control"/>
+          </div>
+        </div>
+      </div>
+
+
+      <div class="col-md-3">
+        <div class="form-group">
+          <div class="input-group input-group-sm">
+              <div class="input-group-prepend">
+              <span class="input-group-text"><i class="fas fa-calendar"></i>&nbsp;Fecha:</span>
+              </div>
+              <input (change)="changeFecha();" [(ngModel)]="facturaventa.fecha_registro" class="form-control" [disabled]="disabledtxtfecha" type="date">
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-6">
+
+        <div class="form-group">
+          <div class="input-group input-group-sm">
+              <div class="input-group-prepend">
+              <span class="input-group-text"><i class="fas fa-key"></i>&nbsp;Clave:</span>
+              </div>
+              <label class="form-control" style="height: auto;">{{this.facturaventa.claveacceso}}</label>
+              <span class="input-group-append">
+                  <button (click)="comprobarSri()" class="btn btn-primary btn-flat" type="button"><i class="fa fa-search"></i></button>
+              </span>
+          </div>
+        </div>
+
+      </div>
+      
+
+    </div>
+
+    <div *ngIf="notacreditoexistente == '1'" class="row">
+      <div class="col-md-12">
+        <div id="mensaje_informacion" class="alert alert-warning alert-dismissible">
+          <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+          <h4><i class="icon fas fa-exclamation-triangle"></i> Advertencia</h4>
+          Se ha generado una nota de credito para esta factura de venta, no se puede actualizar los datos.
+        </div>
+      </div>
+    </div>
+
+      <div class="row">
+
+        <div class="col-md-8">
+
+                <div class="card card-primary card-outline">
+                    <div class="card-header">
+
+                      <div style="text-align:center">
+                        <div *ngIf="loading" class="spinner-border text-primary" style="width: 3rem; height: 3rem;"></div>
+                      </div>
+
+                        <button (click)="clickListarCliente();" [disabled]="disabledbtnlistarcliente" type="button" class="btn btn-primary btn-flat btn-xs float-right"> <span class="fa fa-list"></span> </button>
+                        <button (click)="clickNuevoCliente();" [disabled]="disabledbtnagregarcliente" type="button" class="btn btn-primary btn-flat btn-xs float-right"> <span class="fa fa-plus"></span> </button>
+
+                        <h5 style="font-size: 14px">
+                                <i class="fa fa-user-circle" aria-hidden="true"></i>&nbsp;<label>{{ this.cliente.cliente }}</label>
+                                &nbsp;&nbsp;&nbsp;
+                                <i class="fa fa-id-card" aria-hidden="true"></i>&nbsp;<label>{{ this.cliente.numero_identificacion }}</label><label *ngIf="this.flagtextoafiliar">&nbsp;&nbsp;&nbsp;<span class="badge badge-primary">Cliente afiliado</span></label><br>
+                                <i class="fas fa-mobile" aria-hidden="true"></i>&nbsp;
+                                <label id="lblcelular">{{ this.cliente.celular }}</label>
+                                &nbsp;&nbsp;&nbsp;
+                                <i class="fa fa-envelope" aria-hidden="true"></i>&nbsp;<label>{{ this.cliente.correo }}</label>
+                        </h5>
+
+                    </div>
+                    <div *ngIf="this.flagbotonafiliar" class="modal-footer">
+                        <button *ngIf="this.cantidad_compras>=4" (click)="this.afiliarCliente();" type="button" class="btn btn-warning btn-flat btn-sm">
+                          <span class="badge badge-light">{{this.cantidad_compras}} compras</span> Afiliar cliente
+                        </button>
+
+                        <label *ngIf="this.cantidad_compras<4" class="badge badge-primary">{{this.cantidad_compras}} Compras</label>
+                    </div>
+                    
+                </div>
+
+                <div *ngIf="this.tipo_formulario != 'finalizarpedidoreservado' && this.tipo_formulario != 'finalizarvariospedidosreservados' && this.tipo_formulario != 'finalizarpedidoconsalida' && this.tipo_formulario != 'finalizarvariospedidosconsalida' && this.tipo_formulario != 'finalizarpedidoacumulativo' && this.tipo_formulario != 'finalizarvariospedidosacumulativos'" class="form-group">
+                  <!-- <label>Código Barra:</label>                     -->
+                  <div class="input-group input-group-sm">
+                      <div class="input-group-prepend">
+                          <span class="input-group-text"><i class="fas fa-barcode"></i></span>
+                          <!-- <span class="input-group-text"><input (change)="changeChkImpuesto();" [checked]="chkimpuesto" [disabled]="disabledchkimpuesto" type="checkbox">IMP.</span> -->
+                      </div>
+                      <input #txtcodigobarra [(ngModel)]="codigo_barra" oninput="javascript:this.value=this.value.toUpperCase();" (keyup.enter)="buscarCodigoProducto();" class="form-control" maxlength="35" [disabled]="disabledtxtcodigobarra" placeholder="Ingrese Código de Barra"type="text">
+                      <span class="input-group-append">
+                          <button (click)="clickListarProductos();" [disabled]="disabledbtnlistarproducto" class="btn btn-primary btn-flat" type="button"><i class="fa fa-list"></i></button>
+                      </span>
+                  </div>
+                </div>
+            
+                <app-detalle-venta [datosproducto] = "this.datosproducto" [datostarifasproducto] = "this.datostarifasproducto" (datosenviar)="recibirDatosDetalles($event)"></app-detalle-venta>
+        </div>
+
+        <div class="col-md-4">
+
+            <div class="card card-primary card-outline">
+                <div class="card-header">
+                    <h1><i class="fa fa-money-bill-alt"></i><label class="text-primary float-right">{{this.facturaventa.importetotal}}</label></h1>
+                    <div *ngIf="textomensaje != ''" style='text-align: center;'>
+                          <label style='font-size:30px;' [ngStyle]="{'color':colormensaje}">{{textomensaje}}</label>
+                    </div>
+                </div>
+                <div class="card-body">
+                        <div class="row">			 
+                            <div class="col-md-12" style="font-size: 14px">
+
+                                    <div class="form-group row">
+                                        <label class="col-sm-4 col-form-label">Documento:</label>
+                                        <div class="col-sm-8">
+                                            <div class="input-group input-group-sm">
+                                                <div class="input-group-prepend">
+                                                    <span class="input-group-text"><i class="fas fa-shopping-cart"></i></span>
+                                                </div>
+                                                <select [disabled]="disabledcmbtipoventa" (change)="changeTipoVenta($event)" class="form-control form-control-sm">
+                                                  <option value="{{item.cod_tipo_venta}}" *ngFor="let item of datostipoventa" [selected]="item.tipo_venta == this.facturaventa.tipo_venta">
+                                                      {{item.tipo_venta}}
+                                                  </option>
+                                              </select>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                <app-recargo-factura [loading] = "loading" [disabledcmbrecargo] = "disabledcmbrecargo" (sendChangeRecargo)="sendChangeRecargo($event)" (sendChangeTarjetaTarifa)="sendChangeTarjetaTarifa($event)"></app-recargo-factura>
+                                
+                                <app-forma-pago [disabledformapago] = "disabledformapago" [chkcontado] = "chkcontado" (sendChangeFormaPago)="sendChangeFormaPago()"></app-forma-pago>
+                               
+                                <div [ngClass]="{'d-none': ocultartransaccionesbanco}">
+                                  <app-transacciones-banco [disabledtransaccionbanco] = "disabledtransaccionbanco"></app-transacciones-banco>
+                                </div>
+
+                                <div *ngIf="this.comision_venta == '1'" class="form-group row">
+                                  <label for="inputEmail3" class="col-sm-4 col-form-label">Vendedor:</label>
+                                  <div class="col-sm-8">
+                                      
+                                          <select [disabled]="disabledcmbempleado"  [ngClass]="{'is-invalid': flagempleado}" (change)="changeEmpleado($event)" class="form-control form-control-sm">
+                                              <option value="0">SELECCIONE UN VENDEDOR</option>
+                                              <option value="{{item.cod_empleado}}" *ngFor="let item of datosempleados" [selected]="item.cod_empleado == this.facturaventa.cod_empleado">
+                                                  {{item.apellido + " " + item.nombre}}
+                                              </option>
+                                          </select>
+                                  </div>
+                                </div>
+
+
+                              <div class="form-group">
+                                <div class="custom-control custom-switch custom-switch-off-secondary custom-switch-on-success">
+                                    <input (change)="changeChkContado();" [checked]="chkcontado" [disabled]="disabledchkcontado" type="checkbox" class="custom-control-input" id="customSwitch3">
+                                    <label class="custom-control-label" for="customSwitch3">Venta al Contado</label>
+                                </div>
+                              </div>
+
+                              <app-compensacion [disabledformapago] = "disabledformapago" [chkcontado] = "chkcontado"></app-compensacion>
+
+                                <button *ngIf="facturaventa.deudor==1 && (tipo_formulario=='nuevoregistro' || this.tipo_formulario == 'copiarregistro' || this.tipo_formulario == 'finalizarpedidoreservado' || this.tipo_formulario == 'finalizarvariospedidosreservados')" (click)="clickAbonar()" class="btn btn-primary btn-block btn-sm" type="button"><i class="fas fa-hand-holding-usd"></i>
+                                  Abonar
+                                  <span class="badge badge-success">
+                                    {{ this.facturaventa.recibidoabono }}
+                                  </span>
+                                </button>
+
+                                <button *ngIf="notacreditoexistente == '0'" (click)="clickCambio();" [disabled]="disabledbtncalcular" class="btn btn-success btn-block btn-sm" type="button"><i class="fas fa-money-bill-alt"></i> Recibido</button>
+
+                                <button *ngIf="tipo_formulario=='nuevoregistro' || this.tipo_formulario == 'copiarregistro' || this.tipo_formulario == 'finalizarpedidoreservado' || this.tipo_formulario == 'finalizarvariospedidosreservados' || this.tipo_formulario == 'finalizarpedidoconsalida' || this.tipo_formulario == 'finalizarvariospedidosconsalida' || this.tipo_formulario == 'finalizarpedidoacumulativo' || this.tipo_formulario == 'finalizarvariospedidosacumulativos' || this.tipo_formulario == 'finalizarpedidopanaderia'" (click)="clickVerificar();" [disabled]="disabledbtnguardar" class="btn btn-primary btn-block btn-sm" type="button"><i class="fas fa-save"></i>
+                                  Guardar
+                                  <span *ngIf="facturaventa.deudor==1" class="badge badge-warning">
+                                    Por Cobrar
+                                  </span>
+                                </button>
+
+                                <div *ngIf="tipo_formulario=='actualizarregistro' && notacreditoexistente == '0'" class="pt-2">
+                                  <button (click)="clickVerificar();" [disabled]="disabledbtnactualizar" class="btn btn-warning btn-block btn-sm" type="button"><i class="fas fa-save"></i> Actualizar</button>
+                                </div>
+                                
+                                <!-- <div class="pt-2">
+                                  <button (click)="iniciarProcesoFacturacion()" *ngIf="electronico == '1'" [disabled]="disabledbtnsrienviar" class="btn btn-success btn-block btn-sm" type="button"><i class="fas fa-paper-plane"></i> Enviar SRI</button>
+                                </div> -->
+
+                            </div>
+                        </div>
+
+                </div>
+                
+            </div>
+
+
+            
+
+            
+
+            
+
+
+
+        </div>
+      </div>		
+
+
+     
+
+  
+      
+
+
+    
+
+
+  </div>
+</section>

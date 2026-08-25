@@ -1,0 +1,380 @@
+
+<div id="mymodallistartransportistas" class="modal fade" role="dialog" data-backdrop="false">
+  <div class="modal-dialog modal-xl">
+    <!-- Modal content -->
+    <div class="modal-content">
+      <div class="modal-header">
+      <h5 class="modal-title">LISTADO DE TRANSPORTISTA</h5>
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">×</span>
+          </button>
+      </div>
+      <div class="modal-body">
+
+        <app-listado-transportista (datosenviar)="recibirDatosTransportista($event)"></app-listado-transportista>
+
+        <div class="d-flex justify-content-end align-items-center">
+            <button (click)="actualizarListadoTransportista();" type="button" class="btn btn-primary btn-sm" data-dismiss="modal">Actualizar</button>&nbsp;
+            <button class="btn btn-secondary btn-sm" type="button" data-dismiss="modal"><i class="fas fa-times-circle"></i> Cerrar</button>
+        </div>
+
+      </div>
+      
+    </div>
+
+  </div>
+</div>
+
+<app-transportista-form (datosenvio)="recibirDatosNuevoTransportista($event)"></app-transportista-form>
+
+<app-nuevo-punto-transporte (datosenviar)="recibirDatosPuntoTransporte($event)"></app-nuevo-punto-transporte>
+
+<app-nueva-ruta (datosenviar)="recibirDatosRuta($event)"></app-nueva-ruta>
+
+<app-nuevo-vehiculo (datosenviar)="recibirDatosVehiculo($event)"></app-nuevo-vehiculo>
+
+
+  
+    <section class="content-header">
+        <div class="container-fluid">
+          
+  
+  
+          <div class="row mb-2">
+            <div class="col-sm-6">
+                <div class="btn-toolbar" role="toolbar">
+                  <div class="btn-group">
+                        <button (click)="visualizar();" [disabled]="disabledbtnimprimir" class="btn btn-primary btn-flat btn-sm" type="button"><i class="fas fa-print"></i> Imprimir</button>
+                      <button (click)="clickDeshacer();" class="btn btn-secondary btn-flat btn-sm" type="button"><i class="fas fa-redo-alt"></i> Deshacer</button>
+                      <button (click)="goBack();" class="btn btn-secondary btn-flat btn-sm" type="button"><i class="fa fa-reply"></i> Atrás</button>
+                  </div>
+                </div>
+            </div>
+
+            <div class="col-sm-6">
+                <div>
+                  <div class="input-group input-group-sm">
+                    <div *ngIf="multisucursal=='1'" class="input-group-prepend">
+                      <span class="input-group-text"><i class="fas fa-home"></i></span>
+                    </div>
+                    <label *ngIf="multisucursal=='1'" class="form-control">{{sucursal_estable}}</label>
+      
+                    <div *ngIf="firmasruc=='1'" class="input-group-prepend">
+                      <span class="input-group-text"><i class="fas fa-signature"></i></span>
+                    </div>
+                    
+                    <label *ngIf="firmasruc=='1'" class="form-control">{{this.rucempresa.empresa}}</label>
+      
+      
+                  </div>
+              </div>
+            </div>
+          </div>
+          
+        </div><!-- /.container-fluid -->
+  </section>
+  
+  <!-- Main content -->
+  <section class="content">
+        <div class="container-fluid">
+  
+  
+        
+                    
+            <div class="row">
+              <div class="col-md-12">
+  
+                  <div class="card card-cyan card-outline">
+                      <div class="card-header">
+  
+                      <div *ngIf="notacreditoexistente == '1'"  class="row">
+                          <div class="col-md-12">
+                              <div id="mensaje_informacion" class="alert alert-warning alert-dismissible">
+                                  <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                                  <h4><i class="icon fas fa-exclamation-triangle"></i> Advertencia</h4>
+                                  Ya se ha generado la Guía de Remisión para esta factura de venta, seleccione otra factura para generar Guía de Remisión. <button (click)="clickNuevo();" class="btn btn-primary btn-flat btn-sm" type="button"><i class="fas fa-file"></i> Registrar nuevamente</button>
+                              </div>
+                          </div>
+                      </div>
+
+                      <div style="text-align:center">
+                          <div *ngIf="loading" class="spinner-border text-primary" style="width: 3rem; height: 3rem;"></div>
+                      </div>
+  
+                          <div class="row">
+
+                              <div class="col-md-12">
+                                      <div *ngIf="textomensaje != ''" style='text-align: center;'>
+                                            <label style='font-size:30px;' [ngStyle]="{'color':colormensaje}">{{textomensaje}}</label>
+                                      </div>
+                              </div>
+  
+                              <div class="col-md-12">
+                                  <div class="form-group">
+                                      <label>N° Guia:</label>
+                                      <label class="form-control form-control-sm">{{guiaremision.n_guia_remision}}</label>
+                                  </div>
+                              </div>
+  
+                              <div class="col-md-3">
+                                  <div class="form-group">
+                                      <label>Fecha:</label>
+                                      <input (change)="changeFecha();" [(ngModel)]="guiaremision.fecha_hora" class="form-control form-control-sm" type="date">
+                                  </div>
+                              </div>
+  
+                              <div class="col-md-6">
+                                  <div class="form-group">
+                                      <label>Clave de Acceso:</label>
+                                      <div class="input-group input-group-sm">
+                                          <div class="input-group-prepend">
+                                          <span class="input-group-text"><i class="fas fa-barcode"></i></span>
+                                          </div>
+                                          <label class="form-control">{{guiaremision.claveacceso}}</label>
+                                      </div>
+                                  </div>
+                              </div>
+
+                          </div>
+                        
+                          <div class="row">
+  
+                              <div class="col-md-6">
+
+                                  <div class="form-group">
+                                      <label>Identificación: </label><label class="text-danger">&nbsp;*</label>
+                                      <div class="input-group input-group-sm">
+                                          <label class="form-control">{{transportista.identificacion}}</label>
+                                          <span class="input-group-append">
+                                              <button (click)="clickNuevoTransportista()" class="btn btn-primary btn-flat" type="button"><i class="fa fa-plus"></i></button>
+                                              <button (click)="clickListadoTransportista()" class="btn btn-primary btn-flat" type="button"><i class="fa fa-list"></i></button>
+                                          </span>
+                                      </div>
+                                    </div>
+  
+                                  <div class="form-group">
+                                      <label>Identificacion Transportista: </label><label class="text-danger">&nbsp;*</label>
+                                      <label class="form-control form-control-sm">{{transportista.numero_identificacion}}</label>
+                                  </div>
+  
+                                  <div class="form-group">
+                                      <label>Razon Social:</label><label class="text-danger">&nbsp;*</label>
+                                      <label class="form-control form-control-sm">{{transportista.razon_social_transportista}}</label>
+                                  </div>
+  
+
+                                  <div class="form-group">
+                                      <label>Placa</label><label class="text-danger">&nbsp;*</label>
+                                      <div class="input-group input-group-sm">
+                                          <ng-select [ngClass]="{'is-invalid': flagplaca}" class="form-control form-control-sm" [(ngModel)]="guiaremision.placa">
+                                              <ng-option *ngFor="let item of datosvehiculo" [value]="item.placa">{{item.placa}}</ng-option>
+                                          </ng-select>
+                                          <span class="input-group-append">
+                                              <button (click)="clickPlaca();" class="btn btn-primary btn-flat" type="button"><i class="fa fa-plus"></i></button>
+                                          </span>
+                                      </div>
+                                  </div>
+                              </div>
+  
+                              <div class="col-md-6">
+                                  <div class="form-group">
+                                      <label>Punto Partida: </label><label class="text-danger">&nbsp;*</label>
+                                      <div class="input-group input-group-sm">
+                                          <ng-select [ngClass]="{'is-invalid': flagpunto_partida}" class="form-control form-control-sm" [(ngModel)]="guiaremision.punto_partida">
+                                              <ng-option *ngFor="let item of datospuntopartida" [value]="item.punto_transporte">{{item.punto_transporte}}</ng-option>
+                                          </ng-select>
+                                          <span class="input-group-append">
+                                              <button (click)="clickPuntoPartida();" class="btn btn-primary btn-flat" type="button"><i class="fa fa-plus"></i></button>
+                                          </span>
+                                      </div>
+                                  </div>
+  
+                                  <div class="form-group">
+                                      <label>Fecha Inicio Trans.:</label><label class="text-danger">&nbsp;*</label>
+                                      <input [ngClass]="{'is-invalid': flagfecha_inicio_transporte}" [(ngModel)]="guiaremision.fecha_inicio_transporte" class="form-control form-control-sm" type="date">
+                                  </div>
+  
+                                  <div class="form-group">
+                                      <label>Fecha Fin Trans.:</label><label class="text-danger">&nbsp;*</label>
+                                      <input [ngClass]="{'is-invalid': flagfecha_fin_transporte}" [(ngModel)]="guiaremision.fecha_fin_transporte" class="form-control form-control-sm" type="date">
+                                  </div>
+  
+                                  <div class="form-group">
+                                      <label>Correo:</label><label class="text-danger">&nbsp;*</label>
+                                      <label class="form-control form-control-sm">{{transportista.correo}}</label>
+                                  </div>
+                              </div>
+  
+                          </div>	
+  
+                      </div>
+                      
+                  </div>
+  
+                  <div class="card card-cyan card-outline">
+                      <div class="card-header">
+                        
+                          <div class="row">
+                              <div class="col-md-6">
+                                  <div class="form-group">
+                                      <label>Comprobante: </label>
+                                      <label class="form-control form-control-sm">{{this.guiaremision.numero_factura}}</label>
+                                  </div>
+                              </div>
+  
+                              <div class="col-md-6">
+                                  <div class="form-group">
+                                      <label>Fecha Emision: </label>
+                                      <label class="form-control form-control-sm">{{this.guiaremision.fecha_registro}}</label>
+                                  </div>
+                              </div>
+  
+                              <div class="col-md-12">
+                                  <div class="form-group">
+                                      <label>Autorizacion:</label>
+                                      <label class="form-control form-control-sm">{{this.guiaremision.numero_autorizacion_factura}}</label>
+                                  </div>
+                              </div>
+  
+                          </div>	
+  
+                      </div>
+                      
+                  </div>
+  
+                  <div class="card card-cyan card-outline">
+                      <div class="card-header">
+                        
+                          <div class="row">
+                              <div class="col-md-6">
+                                  <div class="form-group">
+                                      <label>Motivo Translado: </label><label class="text-danger">&nbsp;*</label>
+                                      <input [ngClass]="{'is-invalid': flagmotivo_translado}" [(ngModel)]="guiaremision.motivo_translado" class="form-control form-control-sm" type="text" onKeyUp="javascript:this.value=this.value.toUpperCase();" style="text-transform:uppercase;">
+                                  </div>
+
+                                  <div class="form-group">
+                                      <label>Destino (Punto Llegada):</label><label class="text-danger">&nbsp;*</label>
+                                      <div class="input-group input-group-sm">
+                                          <ng-select [ngClass]="{'is-invalid': flagdestino}" class="form-control form-control-sm" [(ngModel)]="guiaremision.destino">
+                                              <ng-option *ngFor="let item of datospuntopartida" [value]="item.punto_transporte">{{item.punto_transporte}}</ng-option>
+                                          </ng-select>
+                                          <span class="input-group-append">
+                                              <button (click)="clickPuntoDestino();" class="btn btn-primary btn-flat" type="button"><i class="fa fa-plus"></i></button>
+                                          </span>
+                                      </div>
+                                  </div>
+  
+                                  <div class="form-group">
+                                      <label>Identificacion (Destinatario):</label><label class="text-danger">&nbsp;*</label>
+                                      <input [ngClass]="{'is-invalid': flagidentificacion_destinatario}" [(ngModel)]="guiaremision.identificacion_destinatario" class="form-control form-control-sm" type="text" onKeyUp="javascript:this.value=this.value.toUpperCase();" style="text-transform:uppercase;">
+                                  </div>
+                              </div>
+  
+                              <div class="col-md-6">
+                                  <div class="form-group">
+                                      <label>Razon Social: </label><label class="text-danger">&nbsp;*</label>
+                                      <input [ngClass]="{'is-invalid': flagrazon_social_destinatario}" [(ngModel)]="guiaremision.razon_social_destinatario" class="form-control form-control-sm" type="text" onKeyUp="javascript:this.value=this.value.toUpperCase();" style="text-transform:uppercase;">
+                                  </div>
+  
+                                  <div class="form-group">
+                                      <label>Documento Aduanero:</label><label class="text-danger">&nbsp;*</label>
+                                      <input [ngClass]="{'is-invalid': flagdocumento_aduanero}" [(ngModel)]="guiaremision.documento_aduanero" class="form-control form-control-sm" type="text" onKeyUp="javascript:this.value=this.value.toUpperCase();" style="text-transform:uppercase;">
+                                  </div>
+  
+                                  <div class="form-group">
+                                      <label>Codigo Establecimiento Destino:</label><label class="text-danger">&nbsp;*</label>
+                                      <input [ngClass]="{'is-invalid': flagcodigo_establecimiento_destino}" [(ngModel)]="guiaremision.codigo_establecimiento_destino" class="form-control form-control-sm" type="text" onKeyPress="return soloNumerosEnteros(event)" style="text-transform:uppercase;">
+                                  </div>
+
+                                  <div class="form-group">
+                                      <label>Ruta:</label><label class="text-danger">&nbsp;*</label>
+                                      <div class="input-group input-group-sm">
+                                          <ng-select [ngClass]="{'is-invalid': flagruta}" class="form-control form-control-sm" [(ngModel)]="guiaremision.ruta">
+                                              <ng-option *ngFor="let item of datosruta" [value]="item.ruta">{{item.ruta}}</ng-option>
+                                          </ng-select>
+                                          <span class="input-group-append">
+                                              <button (click)="clickPuntoRuta();" class="btn btn-primary btn-flat" type="button"><i class="fa fa-plus"></i></button>
+                                          </span>
+                                      </div>
+                                  </div>
+                              </div>
+
+                              <div class="col-md-12">
+                                  <div class="form-group">
+                                      <label>Observación</label>
+                                      <textarea [(ngModel)]="guiaremision.observacion" [disabled]="disabledtxtobservacion" class="form-control"></textarea>
+                                  </div>
+                              </div>
+  
+                          </div>
+  
+                         
+  
+  
+                      </div>
+                      
+                  </div>
+  
+                  <div class="card card-cyan card-outline">
+                      <div class="card-header">
+                        
+                          <div class="row">
+                              <!-- <div class="col-md-12">
+                                  <div class="form-group">
+                                      <label>Código Barra:</label>
+                                      
+                                      <div class="input-group input-group-sm">
+                                          <div class="input-group-prepend">
+                                              <span class="input-group-text"><i class="fas fa-barcode"></i></span>
+                                              <span class="input-group-text"><input (change)="changeChkImpuesto();" [checked]="chkimpuesto" [disabled]="disabledchkimpuesto" type="checkbox">IMP.</span>
+                                          </div>
+                                          <input id="txtcodigo" [(ngModel)]="codigo_barra" oninput="javascript:this.value=this.value.toUpperCase();" (keyup.enter)="buscarCodigoProducto();" class="form-control" maxlength="35" [disabled]="disabledtxtcodigobarra" placeholder="Ingrese Código de Barra"type="text">
+                                          <span class="input-group-append">
+                                              <button (click)="clickListarProductos();" [disabled]="disabledbtnlistarproducto" class="btn btn-primary btn-flat" type="button"><i class="fa fa-list"></i></button>
+                                          </span>
+                                      </div>
+                                  </div>
+                              </div> -->
+  
+                              <div class="col-md-12">
+                                  <app-detalle-venta-guia-remision></app-detalle-venta-guia-remision>
+
+                                  <div style="text-align:center">
+                                    <div *ngIf="loadingalmacenar" class="spinner-border text-primary" style="width: 3rem; height: 3rem;"></div>
+                                  </div>
+                                  
+                                  <div class="d-flex justify-content-end align-items-center">
+                                    <button *ngIf="tipo_formulario=='nuevoregistro'" (click)="clickVerificarDetalles();" [disabled]="disabledbtnguardar" class="btn btn-primary btn-sm" type="button"><i class="fas fa-save"></i> Guardar</button>&nbsp;
+                                    <button *ngIf="tipo_formulario=='actualizarregistro'" (click)="clickVerificarDetalles();" [disabled]="disabledbtnactualizar" class="btn btn-warning btn-flat btn-sm" type="button"><i class="fas fa-save"></i> Actualizar</button>
+                                    <button *ngIf="tipo_formulario=='nuevoregistro'" (click)="iniciarProcesoFacturacion();" [disabled]="disabledbtnsrienviar" class="btn btn-success btn-flat btn-sm" type="button"><i class="fas fa-paper-plane"></i> Enviar SRI</button>
+                                  </div>
+
+                              </div>
+  
+                              
+                              
+                      
+  
+                          </div>
+  
+  
+                          
+  
+  
+  
+                      </div>
+                      
+                  </div>
+  
+                  
+  
+                  
+  
+              </div>
+  
+              
+          </div>	
+  
+  
+        </div>
+  </section>

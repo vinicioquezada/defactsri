@@ -1,0 +1,47 @@
+<div id="mymodalopciones" class="modal fade" role="dialog" data-backdrop="false">
+  <div class="modal-dialog">
+    <!-- Modal content -->
+    <div class="modal-content">
+      <div class="modal-header">
+      <h5 class="modal-title">PEDIDO Nº  {{ numero_factura }} - {{ cliente }}</h5>
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">×</span>
+          </button>
+      </div>
+      <div class="modal-body">
+
+        <div class="row">
+          <div class="col-12 d-flex flex-wrap justify-content-center">
+            
+            <div class="col-md-4 pb-1">
+              <button (click)="visualizar();" class="btn btn-primary btn-flat btn-sm btn-block" type="button"><i class="fas fa-print"></i> VISUALIZAR</button>
+            </div>
+            <div class="col-md-4 pb-1">
+                <button (click)="editarPedido();" [disabled]="disabledbtneditar" class="btn btn-primary btn-flat btn-sm btn-block" type="button"><i class="fas fa-edit"></i> EDITAR</button>
+              </div>
+            <div class="col-md-4 pb-1">
+              <button (click)="copiar();" class="btn btn-success btn-flat btn-sm btn-block" [disabled]="disabledbtncopiar" type="button"><i class="fas fa-shopping-bag"></i> FACTURAR</button>
+            </div>
+            <div class="col-md-4 pb-1">
+              <button (click)="clickAnular();" [disabled]="disabledbtnanular" class="btn btn-danger btn-flat btn-sm btn-block" type="button"><i class="fas fa-trash-alt"></i> ANULAR</button>
+            </div>
+
+          </div>
+        </div>
+        
+        <div class="row justify-content-between">
+
+          <span *ngIf="loadingmodal" class="justify-content-center text-center m-auto">
+                <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;"></div>
+          </span>
+
+        </div>
+
+      </div>
+
+
+
+    </div>
+
+  </div>
+</div>

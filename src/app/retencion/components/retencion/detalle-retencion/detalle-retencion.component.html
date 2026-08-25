@@ -1,0 +1,95 @@
+<div class="row">			 
+  <div class="col-md-12">
+
+      <div class="card card-primary card-outline">
+        <div class="card-header">
+          <h3 class="card-title"><i class="fa fa-file-alt"></i> DATOS COMPROBANTES DE VENTAS</h3>
+        </div>
+        <div class="card-body">
+
+            <div style="text-align:center">
+                <div *ngIf="loading" class="spinner-border text-primary" style="width: 3rem; height: 3rem;"></div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label>Tipo Documento: </label><label class="text-danger">&nbsp;*</label>
+                        <select [disabled]="disabledbtn" [ngClass]="{'is-invalid': flagtipodocumento}" (change)="onChangeTipoDocumento($event)" class="form-control form-control-sm">
+                            <option value="0">SELECCIONE UN TIPO DOCUMENTO</option>
+                            <option value="{{item.codigo_tipo_documento}}" *ngFor="let item of datostipodocumento" [selected]="item.codigo_tipo_documento == codigo_tipo_documento">
+                                {{item.tipo_documento}}
+                        </option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label>N° Documento:</label>
+                        <div class="input-group input-group-sm">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text"><i class="fas fa-file-alt"></i></span>
+                        </div>
+                        <label class="form-control">{{numero_documento}}</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label>Fecha Compra:</label>
+                        <div class="input-group input-group-sm">
+                            <div class="input-group-prepend">
+                            <span class="input-group-text"><i class="fas fa-calendar"></i></span>
+                            </div>
+                            <label class="form-control">{{fecha_compra}}</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">					  
+                <div class="panel-body table-responsive" id="listadoregistros">
+                        <table border="1" style="font-size: 12px;" class="bordered">
+                        <thead>
+                            <th>Descripción</th>
+                            <th>Total 0</th>
+                            <th>Total IVA</th>
+                            <th>Renta</th>
+                            <th>IVA</th>
+                        </thead>
+                        <tbody>
+                          <tr *ngFor="let item of datosdetalles; let i = index; let u = last" [ngClass]="{'bg-danger': item.fila_error}">
+                            <td>{{item.detalle}}</td>
+                            <td>{{item.total}}</td>
+                            <td>{{item.total_iva}}</td>
+                            <td>
+                                <select (change)="onChangeSeleccionCodigoRetencion(item, $event, i, '1', 'RENTA')" [disabled]="disabledbtn" class="form-control form-control-sm">
+                                    <option value="0"></option>
+                                    <option value="{{item.cod_codigo_retencion}}" *ngFor="let item of datosrenta">
+                                        {{item.codigo_retencion + ' - ' + item.porcentaje + " %"}}
+                                    </option>
+                                </select>
+                            </td>
+                            <td>
+                                <select (change)="onChangeSeleccionCodigoRetencion(item, $event, i, '2', 'IVA')" [disabled]="disabledbtn" class="form-control form-control-sm">
+                                    <option value="0"></option>
+                                    <option value="{{item.cod_codigo_retencion}}" *ngFor="let item of datosiva">
+                                        {{item.codigo_retencion + ' - ' + item.porcentaje + " %"}}
+                                    </option>
+                                </select>
+                            </td>
+                          </tr>
+                        </tbody>
+                        </table>
+                </div>
+            </div>
+
+
+
+        </div>
+      </div>
+  
+  </div>
+</div>

@@ -1,0 +1,309 @@
+<div id="mymodalformservicioshotel" class="modal fade" role="dialog" data-backdrop="false">
+  <div class="modal-dialog modal-xl">
+    <!-- Modal content -->
+    <div class="modal-content">
+      <div class="modal-header">
+      <h5 class="modal-title">{{ nombreformulario }} SERVICIO HOTEL</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">×</span>
+        </button>
+      </div>
+
+        <div class="modal-body overlay-wrapper">
+
+                <div *ngIf="loadingform" class="overlay overlay-custom d-flex flex-column align-items-center">
+                  <div class="spinner-border text-primary" style="width: 5rem; height: 5rem; font-size: 30px;" role="status">
+                  </div>
+                  <div class="text-bold pt-2">Cargando...</div>
+                </div>
+
+                <div class="row">
+
+
+                    <div class="col-md-6">
+
+                        <div class="form-group">
+                          <label>Tipo: </label>
+                          <select class="form-control form-control-sm">
+                              <option value="{{item.cod_tipo_producto}}" (change)="changeTipoProducto($event)" *ngFor="let item of datostipoproducto" [selected]="item.cod_tipo_producto == cod_tipo_producto">
+                                  {{item.tipo_producto}}
+                          </option>
+                          </select>
+                        </div>
+
+                        <div class="form-group">
+                          <label>Codigo Servicio:</label><label class="text-danger">&nbsp;*</label>
+                          <div class="input-group input-group-sm">
+                            <input [ngClass]="{'is-invalid': flagcodigo}" [(ngModel)]="codigo" (keyup.enter)="buscarCodigoServicio();" autofocus class="form-control form-control-sm" oninput="javascript:this.value=this.value.toUpperCase();" placeholder="Codigo" type="text">
+                            <div class="input-group-prepend">
+                              <button (click)="buscarCodigoServicio();" class="btn btn-secondary btn-flat btn-sm"><i class="fas fa-search"></i></button>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div *ngIf="flagocultarentradas == 1" class="form-group">
+                            <label>Codigo Adicional 1:</label>
+                            <input  [(ngModel)]="codigo_adicional" class="form-control form-control-sm"  oninput="javascript:this.value=this.value.toUpperCase();" placeholder="Codigo Adicional" type="text">
+                        </div>
+
+                        <div *ngIf="flagocultarentradas == 1" class="form-group">
+                          <label>Codigo Adicional 2:</label>
+                          <input  [(ngModel)]="codigo_adicional1" class="form-control form-control-sm"  oninput="javascript:this.value=this.value.toUpperCase();" placeholder="Codigo Adicional" type="text">
+                        </div>
+
+                        <div class="form-group">
+                            <label>SubCategoria: </label><label class="text-danger">&nbsp;*</label>
+                            <ng-select [ngClass]="{'is-invalid': flagsubcategoria}" class="form-control form-control-sm" [(ngModel)]="cod_subcategoria">
+                              <ng-option *ngFor="let item of datossubcategoria" [value]="item.cod_subcategoria">{{item.subcategoria}}</ng-option>
+                            </ng-select>
+                        </div>
+
+                        <div *ngIf="flagocultarentradas == 1" class="form-group">
+                          <label>Marca: </label><label class="text-danger">&nbsp;*</label>
+                          <ng-select [ngClass]="{'is-invalid': flagmarca}" class="form-control form-control-sm" [(ngModel)]="cod_marca">
+                            <ng-option *ngFor="let item of datosmarca" [value]="item.cod_marca">{{item.marca}}</ng-option>
+                          </ng-select>
+                        </div>
+
+                        <div *ngIf="flagocultarentradas == 1" class="form-group">
+                          <label>Unidad Medida: </label><label class="text-danger">&nbsp;*</label>
+                          <ng-select [ngClass]="{'is-invalid': flagunidadmedida}" class="form-control form-control-sm" [(ngModel)]="cod_unidad_medida">
+                            <ng-option *ngFor="let item of datosunidadmedida" [value]="item.cod_unidad_medida">{{item.unidad_medida}}</ng-option>
+                          </ng-select>
+                        </div>
+
+                        <div class="form-group">
+                          <label>Descripcion: </label><label class="text-danger">&nbsp;*</label>
+                          <input [ngClass]="{'is-invalid': flagdescripcion}" [(ngModel)]="descripcion" class="form-control form-control-sm" oninput="javascript:this.value=this.value.toUpperCase();" placeholder="Descripcion" type="text">
+                        </div>
+
+                        <div *ngIf="flagocultarentradas == 1" class="form-group">
+                          <label>Stock Minimo: </label><label class="text-danger">&nbsp;*</label>
+                          <input [ngClass]="{'is-invalid': flagstockminimo}" [(ngModel)]="stock_minimo" class="form-control form-control-sm" onkeypress="return soloNumerosEnteros(event)" placeholder="Stock Minimo" type="text">
+                        </div>
+
+                        <div *ngIf="flagocultarentradas == 1" class="form-group">
+                          <label>Codigo Percha: </label>
+                          <input [(ngModel)]="codigo_percha" class="form-control form-control-sm" oninput="javascript:this.value=this.value.toUpperCase();" placeholder="Codigo Percha" type="text">
+                        </div>
+
+                        <div *ngIf="flagocultarentradas == 1" class="form-group">
+                          <label>Inventario: </label>
+                          <select (change)="changeInventario($event)" class="form-control form-control-sm">
+                            <option [value]="item.codigo_inventario" *ngFor="let item of datosinventario" [selected]="item.codigo_inventario == this.codigo_inventario">{{item.inventario}}</option>
+                          </select>
+                        </div>
+
+                        
+                          
+                      </div>
+
+                      <div class="col-md-6">
+
+
+                        <div class="card card-primary card-outline">
+                          <div class="card-header">
+                            <h3 class="card-title">Configurar Precios:</h3>
+                          </div>
+                            <div class="card-body">
+                              <div class="row">
+          
+                                <div class="col-md-6">
+                                  
+                                  <div class="form-group">
+                                    <label>IVA Compra: </label><label class="text-danger">&nbsp;*</label>
+                                    <select [ngClass]="{'is-invalid': flagivacompra}" (change)="changeIvaCompra($event)" class="form-control form-control-sm">
+                                        <option value="{{item.id_iva_compra}}" *ngFor="let item of datosivacompra" [selected]="item.id_iva_compra==id_iva_compra">
+                                            {{item.iva_compra}}
+                                    </option>
+                                    </select>
+                                  </div>
+                                
+                                  <div *ngIf="precios_completos == '1'" class="form-group">
+                                    <label>Costo Base: *</label>
+                                    <input [ngClass]="{'is-invalid': flagcostobase}" [(ngModel)]="costo_base" onKeyPress="return soloNumeros(event)" class="form-control form-control-sm" maxlength="15" placeholder="Costo Base"type="text" (keyup)="calcularCostoBase()">
+                                  </div>
+                                
+                                  <div class="form-group">
+                                    <label data-bs-toggle="tooltip" data-bs-placement="top" title="Costo Base + Iva">Costo Compra: *</label>
+                                    <input [ngClass]="{'is-invalid': flagcosto}" [(ngModel)]="costo" onKeyPress="return soloNumeros(event)" class="form-control form-control-sm" maxlength="15" placeholder="Costo Compra" type="text" data-bs-toggle="tooltip" data-bs-placement="top" title="Costo Base + Iva" (keyup)="calcularCostoCompra()">
+                                  </div>
+          
+                                </div>
+          
+                                <div class="col-md-6">
+                                      <div class="form-group">
+                                        <label>IVA Venta: </label><label class="text-danger">&nbsp;*</label>
+                                        <select [ngClass]="{'is-invalid': flagiva}" (change)="changeIva($event)" class="form-control form-control-sm">
+                                            <option value="{{item.id_iva}}" *ngFor="let item of datosiva" [selected]="item.id_iva==id_iva">
+                                                {{item.iva}}
+                                        </option>
+                                        </select>
+                                      </div>
+          
+                                      <div *ngIf="precios_completos == '1'" class="form-group">
+                                        <label class="text-danger">Precio Base: *</label>
+                                        <input [ngClass]="{'is-invalid': flagpreciobase}" [(ngModel)]="precio_base" onKeyPress="return soloNumeros(event)" class="form-control form-control-sm" maxlength="15" placeholder="Precio Base" type="text" (keyup)="calcularPrecioBase()">
+                                      </div>
+          
+                                      <div class="form-group">
+                                        <label class="text-primary" data-bs-toggle="tooltip" data-bs-placement="top" title="Precio Base + Iva">Precio Venta: *</label>
+                                        <div class="input-group input-group-sm">
+                                          <div *ngIf="precios_completos == '1'" class="input-group-prepend">
+                                            <span class="input-group-text"><i class="fas fa-percent"></i></span>
+                                          </div>
+                                          <input *ngIf="precios_completos == '1'" [(ngModel)]="utilidad" data-bs-toggle="tooltip" data-bs-placement="top" title="Costo Base * porcentaje Utilidad" onKeyPress="return soloNumeros(event)" class="form-control" maxlength="10" placeholder="Uti. %" type="text" (keyup)="calcularUtilidad()">
+                                          <div class="input-group-prepend">
+                                            <span class="input-group-text"><i class="fas fa-dollar-sign"></i></span>
+                                          </div>
+                                          <input [ngClass]="{'is-invalid': flagprecioventa}" [(ngModel)]="precio_venta" onKeyPress="return soloNumeros(event)" class="form-control" maxlength="15" placeholder="Precio V." type="text" data-bs-toggle="tooltip" data-bs-placement="top" title="Precio Base + Iva" (keyup)="calcularPrecioVenta()">
+                                        </div>
+                                      </div>
+          
+                                      <div *ngIf="precios_completos == '1'" class="form-group">
+                                        <label class="text-danger">Precio Base Min: *</label>
+                                        <input [ngClass]="{'is-invalid': flagpreciobaseminimo}" [(ngModel)]="precio_base_minimo" onKeyPress="return soloNumeros(event)" class="form-control form-control-sm" maxlength="15" placeholder="P. Base Min." type="text" (keyup)="calcularPrecioBaseMinimo()">
+                                      </div>
+          
+                                      <div class="form-group">
+                                        <label class="text-primary">Precio Venta Min: *</label>
+                                        <input [ngClass]="{'is-invalid': flagprecioventaminimo}" [(ngModel)]="precio_venta_minimo" onKeyPress="return soloNumeros(event)" class="form-control form-control-sm" maxlength="15" placeholder="Precio Venta Minimo" type="text" (keyup)="calcularPrecioVentaMinimo()">
+                                      </div>
+          
+          
+          
+          
+                                </div>
+          
+          
+          
+          
+                              </div>
+                            </div>
+                        </div>
+
+                        <div class="card card-primary card-outline">
+                          <div class="card-header">
+                            <h3 class="card-title">Configurar Existencias: {{descripcion}}</h3>
+                          </div>
+                            <div class="card-body">
+                              <div class="row">
+          
+                                <div class="col-md-12">
+
+                                  <div class="form-group">
+                                    <label>Fraccionado:</label>
+                                    <select (change)="changeFraccionado($event)" class="form-control form-control-sm">
+                                      <option [value]="item" *ngFor="let item of datosfraccionado" [selected]="fraccionado == item">{{item}}</option>
+                                    </select>
+                                  </div>
+                                  
+                                  <div class="form-group" *ngIf="this.fraccionado=='SI'">
+                                    <label>Denominacion:</label>
+                                    <select (change)="changeDenominacion($event)" class="form-control form-control-sm">
+                                        <option value="{{item.cod_denominacion}}" *ngFor="let item of datosdenominacion" [selected]="denominacion == item.denominacion">
+                                            {{item.denominacion}}
+                                    </option>
+                                    </select>
+                                  </div>
+                                
+                                  <div class="form-group" *ngIf="this.fraccionado=='SI'">
+                                    <label>Unidades Denominacion:</label>
+                                    <input [(ngModel)]="unidades_denominacion" onKeyPress="return soloNumeros(event)" class="form-control form-control-sm" maxlength="9" placeholder="Unidades Denominacion" type="text">
+                                  </div>
+
+                                  
+
+          
+                                </div>
+
+                                
+                                <div class="col-md-12">
+
+                                  <div id="accordion" role="tablist" aria-multiselectable="true" *ngFor="let item of datosexistencias; let i = index">
+                                    <div class="card card-outline">
+          
+                                        <a class="d-block w-100 collapsed" data-toggle="collapse" href="#collapseExample{{i}}" aria-expanded="false">
+                                          <div class="card-header">
+                                              <h4 class="card-title w-100">
+                                                <i class="fa fa-dolly-flatbed"></i> {{item.sucursal}}
+                                              </h4>
+                                          </div>
+                                        </a>
+          
+                                        <div id="collapseExample{{i}}" class="collapse" role="tabpanel" aria-labelledby="headinginteriorcontenedor">
+                                            <div class="card-body">
+                                                <div class="row">			 
+
+                                                  <div class="col-md-12">
+
+                                                    <div *ngIf="ban == 0" class="form-group">
+                                                      <label>Habilitar Almacenamiento:</label>
+                                                      <input type="checkbox" [checked]="item.habilitar" (change)="changeHabilitar(i)">
+                                                    </div>
+      
+                                                    <div *ngIf="item.habilitar == true && ban == 1" class="form-group">
+                                                      <label>Habilitar Almacenamiento:</label>
+                                                      <input type="checkbox" [checked]="item.habilitar" disabled>
+                                                    </div>
+      
+                                                    <div *ngIf="ban == 1 && item.habilitar == false" class="form-group">
+                                                      <label>Habilitar Almacenamiento:</label>
+                                                      <input type="checkbox" [checked]="item.habilitar" (change)="changeHabilitar(i)">
+                                                    </div>
+      
+                                                  </div>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                  </div>
+
+
+
+                                </div>
+
+                               
+                                
+                               
+
+                             
+
+         
+                                
+          
+          
+          
+          
+                              </div>
+                            </div>
+                        </div>
+
+                      
+                        <div class="d-flex justify-content-end align-items-center">
+                          <button [ngClass]="{'d-none': flagocultarboton}" (click)="clickGuardar();" class="btn btn-primary btn-sm mr-1" type="button"><i class="fas fa-save"></i> Guardar</button>
+                          <button [ngClass]="{'d-none': !flagocultarboton}" (click)="clickActualizar();" class="btn btn-warning btn-sm mr-1" type="button"><i class="fas fa-save"></i> Actualizar</button>
+                          <button class="btn btn-secondary btn-sm" type="button" data-dismiss="modal"><i class="fas fa-times-circle"></i> Cerrar</button>
+                        </div>
+
+                      
+                      
+                      </div>
+
+
+
+                </div>
+  
+                   
+                  
+  
+  
+  
+
+        </div>
+
+    </div>
+
+  </div>
+</div>

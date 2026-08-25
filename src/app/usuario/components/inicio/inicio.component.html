@@ -1,0 +1,913 @@
+<div id="mymodalcomprobantespendientes" class="modal fade" role="dialog" data-backdrop="false">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+          <h5 class="modal-title">COMPROBANTES PENDIENTES POR AUTORIZAR</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">×</span>
+          </button>
+      </div>
+      <div class="modal-body">
+            
+            <div class="row justify-content-between">
+
+              <div class="row">
+                <div (click)="listarFacturas(1);" class="col-lg-12 cursor-pointer">
+                  <div class="info-box bg-primary">
+                      <span class="info-box-icon"><i class="fas fas fa-shopping-cart"></i></span>
+                      <div class="info-box-content">
+                          <span class="info-box-text">Facturas</span>
+                          <span class="info-box-number">{{fact_sin_enviar_sri}}</span>
+                      </div>
+                  </div>
+                </div>
+
+                <div (click)="listarNotasCredito(1);" class="col-lg-12 cursor-pointer">
+                  <div class="info-box bg-primary">
+                      <span class="info-box-icon"><i class="fas fas fa-cart-arrow-down"></i></span>
+                      <div class="info-box-content">
+                          <span class="info-box-text">Notas de Créditos</span>
+                          <span class="info-box-number">{{notas_creditos_sin_enviar_sri}}</span>
+                      </div>
+                  </div>
+                </div>
+
+                <div (click)="listarGuiaRemision(1);" class="col-lg-12 cursor-pointer">
+                  <div class="info-box bg-primary">
+                      <span class="info-box-icon"><i class="fas fas fa-shipping-fast"></i></span>
+                      <div class="info-box-content">
+                          <span class="info-box-text">Guías de Remisión</span>
+                          <span class="info-box-number">{{guia_remision_sin_enviar_sri}}</span>
+                      </div>
+                  </div>
+                </div>
+
+                <div *ngIf="menuretencion" (click)="listarRetenciones(1);" class="col-lg-12 cursor-pointer">
+                  <div class="info-box bg-primary">
+                      <span class="info-box-icon"><i class="fas fas fa-file-invoice-dollar"></i></span>
+                      <div class="info-box-content">
+                          <span class="info-box-text">Retenciones</span>
+                          <span class="info-box-number">{{retencion_sin_enviar_sri}}</span>
+                      </div>
+                  </div>
+                </div>
+
+              </div>
+
+
+            </div>
+
+            <div class="d-flex justify-content-end align-items-center">
+              <button class="btn btn-secondary btn-sm" type="button" data-dismiss="modal"><i class="fas fa-times-circle"></i> Cerrar</button>
+            </div>
+
+      </div>
+
+    </div>
+
+  </div>
+</div>
+
+<div id="mymodalcorreospendientes" class="modal fade" role="dialog" data-backdrop="false">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+          <h5 class="modal-title">CORREOS PENDIENTES POR ENVIAR</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">×</span>
+          </button>
+      </div>
+      <div class="modal-body">
+ 
+            <div class="row justify-content-between">
+
+              
+              <div class="row">
+                <div (click)="listarFacturas(2);" class="col-lg-12 cursor-pointer">
+                  <div class="info-box bg-primary">
+                      <span class="info-box-icon"><i class="fas fas fa-shopping-cart"></i></span>
+                      <div class="info-box-content">
+                          <span class="info-box-text">Facturas</span>
+                          <span class="info-box-number">{{correos_no_enviados}}</span>
+                      </div>
+                  </div>
+                </div>
+
+                <div (click)="listarNotasCredito(2);" class="col-lg-12 cursor-pointer">
+                  <div class="info-box bg-primary">
+                      <span class="info-box-icon"><i class="fas fas fa-cart-arrow-down"></i></span>
+                      <div class="info-box-content">
+                          <span class="info-box-text">Notas de Créditos</span>
+                          <span class="info-box-number">{{correos_no_enviados_notas_creditos}}</span>
+                      </div>
+                  </div>
+                </div>
+
+                <div (click)="listarGuiaRemision(2);" class="col-lg-12 cursor-pointer">
+                  <div class="info-box bg-primary">
+                      <span class="info-box-icon"><i class="fas fas fa-shipping-fast"></i></span>
+                      <div class="info-box-content">
+                          <span class="info-box-text">Guías de Remisión</span>
+                          <span class="info-box-number">{{correos_no_enviados_guia_remision}}</span>
+                      </div>
+                  </div>
+                </div>
+
+                <div *ngIf="menuretencion" (click)="listarRetenciones(2);" class="col-lg-12 cursor-pointer">
+                  <div class="info-box bg-primary">
+                      <span class="info-box-icon"><i class="fas fas fa-file-invoice-dollar"></i></span>
+                      <div class="info-box-content">
+                          <span class="info-box-text">Retenciones</span>
+                          <span class="info-box-number">{{correos_no_enviados_retencion}}</span>
+                      </div>
+                  </div>
+                </div>
+
+              </div>
+
+
+            </div>
+
+            <div class="d-flex justify-content-end align-items-center">
+              <button class="btn btn-secondary btn-sm" type="button" data-dismiss="modal"><i class="fas fa-times-circle"></i> Cerrar</button>
+            </div>
+
+      </div>
+
+    </div>
+
+  </div>
+</div>
+
+
+<div id="mymodallistarproductos" class="modal fade" role="dialog" data-backdrop="false">
+  <div class="modal-dialog modal-xl">
+    <div class="modal-content">
+      <div class="modal-header">
+          <h5 class="modal-title">LISTADO DE PRODUCTOS BAJOS DE STOCK</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">×</span>
+          </button>
+      </div>
+      <div class="modal-body">
+            
+            <div class="row justify-content-between align-items-center">
+              <span>Total: {{this.cantidad_productos_minimos}} Registros</span>
+              <div class="input-group input-group-sm float-right" style="width: 150px;">
+                <input (keyup)="keyFiltradoProductosMinimos();" type="text" class="form-control float-right" oninput="javascript:this.value=this.value.toUpperCase();" placeholder="Buscar" [(ngModel)]="filterpostproductos" name="filterpostproductos" autocomplete="off" />
+              </div>
+            </div>
+    
+            <br>
+            
+            <div class="row justify-content-between">
+
+              <span *ngIf="loadinglistado" class="justify-content-center text-center m-auto">
+                  <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;"></div>
+              </span>
+
+              <div class="table-responsive p-0">
+                  <table class="design-table resp">
+                      <thead>
+                        <tr>
+                          <th>Nº</th>
+                          <th>CODIGO</th>
+                          <th>CATEGORÍA</th>
+                          <th>SUBCATEGORÍA</th>
+                          <th>MARCA</th>
+                          <th>DESCRIPCION</th>
+                          <th>PRECIO COSTO</th>
+                          <th>PRECIO VENTA</th>
+                          <th>EXISTENCIA</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr *ngFor="let item of (datosproductosminimo | filterGenerico:filterpostproductos:['subcategoria', 'marca', 'descripcion', 'codigo']) | paginate : {
+                          id : 'pagproducto',
+                          itemsPerPage: pagesizeproductosminimo,
+                          currentPage: pageproductosminimo,
+                          totalItems: countproductosminimo
+                        }; let i = index">
+                          <td class="prod">{{i + 1}}</td>
+                          <td class="prod">{{item.codigo}}</td>
+                          <td class="prod">{{item.categoria}}</td>
+                          <td class="prod">{{item.subcategoria}}</td>
+                          <td class="prod">{{item.marca}}</td>
+                          <td class="prod">{{item.descripcion}}</td>
+                          <td class="prod">{{item.costo}}</td>
+                          <td class="prod">{{item.precio_venta}}</td>
+                          <td class="prod">
+                            <small *ngIf="item.existencia<=0" class="badge badge-danger">{{item.existencia}}</small>
+                            <label *ngIf="item.existencia>0">{{item.existencia}}</label>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                    <div class="float-right">
+                      <pagination-controls class="pagination-controls" id="pagproducto"
+                      previousLabel="Anterior"
+                      nextLabel="Siguiente"
+                      [responsive]="true"
+                      (pageChange)="handlePageChangeproductosminimo($event)">
+                      </pagination-controls>
+                    </div>
+              </div>
+            </div>
+            <div class="d-flex justify-content-end align-items-center">
+              <button class="btn btn-secondary btn-sm" type="button" data-dismiss="modal"><i class="fas fa-times-circle"></i> Cerrar</button>
+            </div>
+
+      </div>
+
+    </div>
+
+  </div>
+</div>
+
+<div id="mymodallistarventas" class="modal fade" role="dialog" data-backdrop="false">
+  <div class="modal-dialog modal-xl">
+    <div class="modal-content">
+      <div class="modal-header">
+          <h5 class="modal-title">LISTADO DE VENTAS</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">×</span>
+          </button>
+      </div>
+      <div class="modal-body">
+            
+            <div class="row justify-content-between align-items-center">
+              <span>Total: {{this.cantidad_ventas}} Registros</span>
+              <div class="input-group input-group-sm float-right" style="width: 150px;">
+                <input (keyup)="keyFiltradoVentas();" type="text" class="form-control float-right" oninput="javascript:this.value=this.value.toUpperCase();" placeholder="Buscar" [(ngModel)]="filterpost" name="filterpost" autocomplete="off" />
+              </div>
+            </div>
+    
+            <br>
+            
+            <div class="row mb-2">
+                <div class="col-sm-12">
+                  <div class="btn-toolbar d-flex justify-content-end" role="toolbar">
+                    <div class="btn-group">
+                      <button (click)="clickComprobarEstados()" class="btn btn-primary btn-flat btn-sm" type="button">
+                        <i class="fas fa-file-signature"></i> Comprobar Estados
+                      </button>
+                      <button (click)="clickEnviarSri()" class="btn btn-primary btn-flat btn-sm" type="button">
+                        <i class="fas fa-paper-plane"></i> Enviar Sri
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+            <div class="row justify-content-between">
+
+              <span *ngIf="loadinglistado" class="justify-content-center text-center m-auto">
+                <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;"></div>
+              </span>
+
+              
+
+              <div class="table-responsive p-0">
+                  <table class="design-table resp">
+                    <thead>
+                      <tr>
+                        <th width="50px"><input [(ngModel)]="checktodos" type="checkbox" (change)="changeCheckedTodos($event);"></th>
+                        <th width="50px">Nº</th>
+                        <th width="50px">ESTADO</th>
+                        <th width="100px">USUARIO</th>
+                        <th width="300px">CLIENTE</th>
+                        <th width="100px">FECHA</th>
+                        <th width="50px">TOTAL</th>
+                        <th width="100px">TIPO VENTA</th>
+                        <th width="100px"></th>
+                      </tr>
+                    </thead>
+                    <tbody *ngFor="let item of (datos | filterGenerico:filterpost:['numero_factura', 'estado', 'cedula', 'cliente', 'fecha_hora', 'importetotal']) | paginate : {
+                      id : 'pagventas',
+                      itemsPerPage: pagesizeventas,
+                      currentPage: pageventas,
+                      totalItems: countventas
+                    }" [ngClass]="{'bg-danger': item.fila_error}">
+                      <tr>
+                        <td><input type="checkbox" [checked]="item.seleccion" (change)="changeChecked(item);" [disabled]="verificarProceso(item)"></td>
+                        <td>{{item.numero_factura}}</td>
+                        <td>
+                          <small *ngIf="item.estado=='CREADA'" class="badge badge-success">{{item.estado}}</small>
+                          <small *ngIf="item.estado=='AUTORIZADO'" class="badge badge-info">{{item.estado}}</small>
+                          <small *ngIf="item.estado=='DEVUELTA'" class="badge badge-danger">{{item.estado}}</small>
+                          <small *ngIf="item.estado=='NO AUTORIZADO'" class="badge badge-danger">{{item.estado}}</small>
+                          <small *ngIf="item.estado=='EN PROCESO'" class="badge badge-warning">{{item.estado}}</small>
+                          <small *ngIf="item.estado=='ANULADA'" class="badge badge-warning">{{item.estado}}</small>
+                          <div *ngIf="item.error_sri==1">
+                            <small class="badge badge-danger">Recepción SRI Fallido</small>
+                          </div>
+                          <div *ngIf="recaudador=='1'">
+                            <small *ngIf="item.estado_recaudado==0" class="badge badge-warning">NO RECAUDADO</small>
+                          </div>
+                          <span class="badge badge-danger">{{item.mensajesri}}</span>
+                        </td>
+                        <td><small class="badge badge-primary">{{item.usuario}}</small></td>
+                        <td>
+                          <div class="text-mobile-right">
+                              <div><small class="badge badge-primary">{{item.cedula}}</small></div>
+                              {{item.cliente}}<br>
+                              <small *ngIf="item.envio!='ENVIADO'" class="badge badge-warning">@ CORREO NO ENVIADO</small>
+                          </div>
+                          
+                        </td>
+                        <td>{{item.fecha_hora}}</td>
+                        <td>{{item.importetotal}}</td>
+                        <td>
+                          <small *ngIf="item.tipo_venta=='ELECTRONICA'" class="badge badge-primary">{{item.tipo_venta}}</small>
+                          <small *ngIf="item.tipo_venta=='FACTURA'" class="badge badge-primary">{{item.tipo_venta}}</small>
+                          <small *ngIf="item.tipo_venta=='PENDIENTE'" class="badge badge-warning">{{item.tipo_venta}}</small>
+                          <small *ngIf="item.tipo_venta=='RECIBO'" class="badge badge-warning">{{item.tipo_venta}}</small>
+                          <small *ngIf="item.tipo_venta=='PROFORMA'" class="badge badge-secondary">{{item.tipo_venta}}</small>
+                          <small *ngIf="item.excluir_general==1" class="badge badge-success">CON DESCUENTO</small>
+                          <small *ngIf="firmasruc=='1'" class="badge badge-primary">{{item.empresa}}</small>
+                        </td>
+                        <td>
+                          <button (click)="opciones(item);" data-bs-toggle="tooltip" data-bs-placement="top" title="OPCIONES" class="btn btn-outline-primary btn-sm" type="button"><i class="fa fa-cogs"></i></button>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                  <div class="float-right">
+                    <pagination-controls class="pagination-controls" id="pagventas"
+                    previousLabel="Anterior"
+                    nextLabel="Siguiente"
+                    [responsive]="true"
+                    (pageChange)="handlePageChangeventas($event)">
+                    </pagination-controls>
+                  </div>
+              </div>
+            </div>
+
+            <div class="d-flex justify-content-end align-items-center">
+              <button class="btn btn-secondary btn-sm" type="button" data-dismiss="modal"><i class="fas fa-times-circle"></i> Cerrar</button>
+            </div>
+
+      </div>
+
+    </div>
+
+  </div>
+</div>
+
+<div id="mymodallistarnotascredito" class="modal fade" role="dialog" data-backdrop="false">
+  <div class="modal-dialog modal-xl">
+    <div class="modal-content">
+      <div class="modal-header">
+          <h5 class="modal-title">LISTADO DE NOTA DE CRÉDITO</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">×</span>
+          </button>
+      </div>
+      <div class="modal-body">
+            
+            <div class="row justify-content-between align-items-center">
+              <span>Total: {{this.cantidad_notas}} Registros</span>
+              <div class="input-group input-group-sm float-right" style="width: 150px;">
+                <input (keyup)="keyFiltradoNotasCredito();" type="text" class="form-control float-right" oninput="javascript:this.value=this.value.toUpperCase();" placeholder="Buscar" [(ngModel)]="filterpost" name="filterpost" autocomplete="off" />
+              </div>
+            </div>
+    
+            <br>
+            
+            <div class="row justify-content-between">
+
+              <span *ngIf="loadinglistado" class="justify-content-center text-center m-auto">
+                <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;"></div>
+              </span>
+
+              <div class="table-responsive p-0">
+                <table class="design-table resp">
+                  <thead>
+                    <tr>
+                      <th width="50px">Nº</th>
+                      <th width="50px">ESTADO</th>
+                      <th width="100px">DOCUMENTO</th>
+                      <th width="300px">CLIENTE</th>
+                      <th width="100px">FECHA</th>
+                      <th width="50px">DEVOLUCIÓN</th>
+                      <th width="100px">TIPO VENTA</th>
+                      <th width="100px"></th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let item of (datos | filterGenerico:filterpost:['numero_nota_credito', 'estado', 'cedula', 'cliente', 'fecha_hora', 'importetotal']) | paginate : {
+                      id : 'pagnotascredito',
+                      itemsPerPage: pagesizenotascredito,
+                      currentPage: pagenotascredito,
+                      totalItems: countnotascredito
+                    }">
+                      <td>{{item.numero_nota_credito}}</td>
+                      <td>
+                        <small *ngIf="item.estado=='CREADA'" class="badge badge-success">{{item.estado}}</small>
+                        <small *ngIf="item.estado=='AUTORIZADO'" class="badge badge-info">{{item.estado}}</small>
+                        <small *ngIf="item.estado=='DEVUELTA'" class="badge badge-danger">{{item.estado}}</small>
+                        <small *ngIf="item.estado=='NO AUTORIZADO'" class="badge badge-danger">{{item.estado}}</small>
+                        <small *ngIf="item.estado=='EN PROCESO'" class="badge badge-warning">{{item.estado}}</small>
+                        <small *ngIf="item.estado=='ANULADA'" class="badge badge-warning">{{item.estado}}</small>
+                        <div *ngIf="item.error_sri==1">
+                          <small class="badge badge-danger">Recepción SRI Fallido</small>
+                        </div>
+                      </td>
+                      <td>{{item.cedula}}</td>
+                      <td>
+                        {{item.cliente}}<br>
+                        <small *ngIf="item.envio!='ENVIADO'" class="badge badge-warning">@ CORREO NO ENVIADO</small>
+                      </td>
+                      <td>{{item.fecha_hora}}</td>
+                      <td>{{item.importetotal}}</td>
+                      <td>
+                        <small *ngIf="item.tipo_venta=='ELECTRONICA'" class="badge badge-primary">{{item.tipo_venta}}</small>
+                        <small *ngIf="item.tipo_venta=='FACTURA'" class="badge badge-primary">{{item.tipo_venta}}</small>
+                        <small *ngIf="item.tipo_venta=='RECIBO'" class="badge badge-info">{{item.tipo_venta}}</small>
+                      </td>
+                      <td>
+                        <div class="d-flex justify-content-end">
+                          <button (click)="opcionesNotaCredito(item);" data-bs-toggle="tooltip" data-bs-placement="top" title="OPCIONES" class="btn btn-outline-primary btn-sm" type="button"><i class="fa fa-cogs"></i></button>
+                        </div>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+                <div class="float-right">
+                  <pagination-controls class="pagination-controls" id="pagnotascredito"
+                  previousLabel="Anterior"
+                  nextLabel="Siguiente"
+                  [responsive]="true"
+                  (pageChange)="handlePageChangeNotasCredito($event)">
+                  </pagination-controls>
+                </div>
+              </div>
+            </div>
+
+            <div class="d-flex justify-content-end align-items-center">
+              <button class="btn btn-secondary btn-sm" type="button" data-dismiss="modal"><i class="fas fa-times-circle"></i> Cerrar</button>
+            </div>
+
+      </div>
+
+    </div>
+
+  </div>
+</div>
+
+<div id="mymodallistarguiasremision" class="modal fade" role="dialog" data-backdrop="false">
+  <div class="modal-dialog modal-xl">
+    <div class="modal-content">
+      <div class="modal-header">
+          <h5 class="modal-title">LISTADO DE GUIA DE REMISIÓN</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">×</span>
+          </button>
+      </div>
+      <div class="modal-body">
+            
+            <div class="row justify-content-between align-items-center">
+              <span>Total: {{this.cantidad_guias}} Registros</span>
+              <div class="input-group input-group-sm float-right" style="width: 150px;">
+                <input (keyup)="keyFiltradoGuiaRemision();" type="text" class="form-control float-right" oninput="javascript:this.value=this.value.toUpperCase();" placeholder="Buscar" [(ngModel)]="filterpost" name="filterpost" autocomplete="off" />
+              </div>
+            </div>
+    
+            <br>
+            
+            <div class="row justify-content-between">
+
+              <span *ngIf="loadinglistado" class="justify-content-center text-center m-auto">
+                <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;"></div>
+              </span>
+
+              <div class="table-responsive p-0">
+
+                <table class="design-table resp">
+                  <thead>
+                    <tr>
+                      <th width="50px">Nº</th>
+                      <th width="50px">ESTADO</th>
+                      <th width="100px">DOCUMENTO</th>
+                      <th width="300px">TRANSPORTISTA</th>
+                      <th width="100px">FECHA</th>
+                      <th width="100px"></th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let item of (datos | filterGenerico:filterpost:['numero_guia', 'estado', 'identificacion_transportista', 'razon_social_transportista', 'fecha_hora']) | paginate : {
+                      id : 'pagguiasremision',
+                      itemsPerPage: pagesizeguiaremision,
+                      currentPage: pageguiaremision,
+                      totalItems: countguiaremision
+                    }">
+                      <td>{{item.numero_guia}}</td>
+                      <td>
+                        <small *ngIf="item.estado=='CREADA'" class="badge badge-success">{{item.estado}}</small>
+                        <small *ngIf="item.estado=='AUTORIZADO'" class="badge badge-info">{{item.estado}}</small>
+                        <small *ngIf="item.estado=='DEVUELTA'" class="badge badge-danger">{{item.estado}}</small>
+                        <small *ngIf="item.estado=='NO AUTORIZADO'" class="badge badge-danger">{{item.estado}}</small>
+                        <small *ngIf="item.estado=='EN PROCESO'" class="badge badge-warning">{{item.estado}}</small>
+                        <small *ngIf="item.estado=='ANULADA'" class="badge badge-warning">{{item.estado}}</small>
+                        <div *ngIf="item.error_sri==1">
+                          <small class="badge badge-danger">Recepción SRI Fallido</small>
+                        </div>
+                      </td>
+                      <td>{{item.identificacion_transportista}}</td>
+                      <td>
+                        {{item.razon_social_transportista}}<br>
+                        <small *ngIf="item.envio!='ENVIADO'" class="badge badge-warning">@ CORREO NO ENVIADO</small>
+                      </td>
+                      <td>{{item.fecha_hora}}</td>
+                      <td>
+                        <div class="d-flex justify-content-end">
+                          <button (click)="opcionesGuiaRemision(item);" data-bs-toggle="tooltip" data-bs-placement="top" title="OPCIONES" class="btn btn-outline-primary btn-sm" type="button"><i class="fa fa-cogs"></i></button>
+                        </div>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+                <div class="float-right">
+                  <pagination-controls class="pagination-controls" id="pagguiasremision"
+                  previousLabel="Anterior"
+                  nextLabel="Siguiente"
+                  [responsive]="true"
+                  (pageChange)="handlePageChangeGuiaRemision($event)">
+                  </pagination-controls>
+                </div>
+
+
+              </div>
+            </div>
+
+            <div class="d-flex justify-content-end align-items-center">
+              <button class="btn btn-secondary btn-sm" type="button" data-dismiss="modal"><i class="fas fa-times-circle"></i> Cerrar</button>
+            </div>
+
+      </div>
+
+    </div>
+
+  </div>
+</div>
+
+<div id="mymodallistarretenciones" class="modal fade" role="dialog" data-backdrop="false">
+  <div class="modal-dialog modal-xl">
+    <div class="modal-content">
+      <div class="modal-header">
+          <h5 class="modal-title">LISTADO DE RETENCIONES</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">×</span>
+          </button>
+      </div>
+      <div class="modal-body">
+            
+            <div class="row justify-content-between align-items-center">
+              <span>Total: {{this.cantidad_retenciones}} Registros</span>
+              <div class="input-group input-group-sm float-right" style="width: 150px;">
+                <input (keyup)="keyFiltradoRetenciones();" type="text" class="form-control float-right" oninput="javascript:this.value=this.value.toUpperCase();" placeholder="Buscar" [(ngModel)]="filterpost" name="filterpost" autocomplete="off" />
+              </div>
+            </div>
+    
+            <br>
+            
+            <div class="row justify-content-between">
+
+              <span *ngIf="loadinglistado" class="justify-content-center text-center m-auto">
+                <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;"></div>
+              </span>
+
+              <div class="table-responsive p-0">
+
+                <table class="design-table resp">
+                  <thead>
+                    <tr>
+                      <th width="50px">Nº</th>
+                      <th width="50px">ESTADO</th>
+                      <th width="100px">DOCUMENTO</th>
+                      <th width="300px">PROVEEDOR</th>
+                      <th width="100px">FECHA</th>
+                      <th width="50px">TOTAL RETENIDO</th>
+                      <th width="100px"></th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let item of (datos | filterGenerico:filterpost:['numero_retencion', 'fecha_hora', 'ruc', 'proveedor', 'estado']) | paginate : {
+                      id : 'pagretencion',
+                      itemsPerPage: pagesizeretencion,
+                      currentPage: pageretencion,
+                      totalItems: countretencion
+                    }">
+                      <td>{{item.numero_retencion}}</td>
+                      <td>
+                        <small *ngIf="item.estado=='CREADA'" class="badge badge-success">{{item.estado}}</small>
+                        <small *ngIf="item.estado=='AUTORIZADO'" class="badge badge-info">{{item.estado}}</small>
+                        <small *ngIf="item.estado=='DEVUELTA'" class="badge badge-danger">{{item.estado}}</small>
+                        <small *ngIf="item.estado=='NO AUTORIZADO'" class="badge badge-danger">{{item.estado}}</small>
+                        <small *ngIf="item.estado=='EN PROCESO'" class="badge badge-warning">{{item.estado}}</small>
+                        <small *ngIf="item.estado=='ANULADA'" class="badge badge-warning">{{item.estado}}</small>
+                      </td>
+                      <td>{{item.ruc}}</td>
+                      <td>
+                        {{item.proveedor}}<br>
+                        <small *ngIf="item.envio!='ENVIADO'" class="badge badge-warning">@ CORREO NO ENVIADO</small>
+                      </td>
+                      <td>{{item.fecha_hora}}</td>
+                      <td>{{item.total_retenido}}</td>
+                      <td>
+                        <div class="d-flex justify-content-end">
+                          <button (click)="opcionesRetencion(item.cod_retencion, item.numero_retencion, item.estado, item.proveedor, item.claveacceso, item.ptoemi, item.correo, item.cod_factura_compra);" data-bs-toggle="tooltip" data-bs-placement="top" title="OPCIONES" class="btn btn-outline-primary btn-sm" type="button"><i class="fa fa-cogs"></i></button>
+                        </div>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+                <div class="float-right">
+                  <pagination-controls class="pagination-controls" id="pagretencion"
+                  previousLabel="Anterior"
+                  nextLabel="Siguiente"
+                  [responsive]="true"
+                  (pageChange)="handlePageChangeRetencion($event)">
+                  </pagination-controls>
+                </div>
+
+
+              </div>
+            </div>
+
+            <div class="d-flex justify-content-end align-items-center">
+              <button class="btn btn-secondary btn-sm" type="button" data-dismiss="modal"><i class="fas fa-times-circle"></i> Cerrar</button>
+            </div>
+
+      </div>
+
+    </div>
+
+  </div>
+</div>
+
+<app-opciones-explorador-venta [tipoformulario] = "tipoformularioventa" (datosenvioestado)="recibirDatosEstado($event)" (datosenviocorreo)="recibirDatosCorreo($event)"></app-opciones-explorador-venta>
+
+<app-opciones-explorador-nota-credito [tipoformulario] = "tipoformularionotacredito" (datosenvioestado)="recibirDatosEstadoNotaCredito($event)" (datosenviocorreo)="recibirDatosCorreoNotaCredito($event)"></app-opciones-explorador-nota-credito>
+
+<app-opciones-explorador-guia-remision [tipoformulario] = "tipoformularioguiaremision" (datosenvioestado)="recibirDatosEstadoGuiaRemision($event)" (datosenviocorreo)="recibirDatosCorreoGuiaRemision($event)"></app-opciones-explorador-guia-remision>
+
+<app-opciones-explorador-retencion [tipoformulario] = "tipoformularioretencion" (datosenvioestado)="recibirDatosEstadoRetencion($event)" (datosenviocorreo)="recibirDatosCorreoRetencion($event)"></app-opciones-explorador-retencion>
+
+<section class="content">
+<br>
+  <div class="container-fluid">
+      
+      <div [innerHTML]="this.mensaje"></div>
+
+      <div [innerHTML]="this.mensajefirma"></div>
+
+      <div style="text-align:center">
+        <div *ngIf="loading" class="spinner-border text-primary" style="width: 3rem; height: 3rem;"></div>
+      </div>
+
+      <div class="row">			 
+        <div class="col-md-4">
+          <div class="form-group row">
+
+            <div *ngIf="multisucursal=='1' && panel_administrador==1 && opcionesprivilegios['bloqueogestionlocales']!=1" class="col-sm-12">
+                <div class="input-group input-group-sm">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text"><i class="fas fa-home"></i></span>
+                    </div>
+                    <select (change)="changeSucursal($event)" class="btn btn-default btn-flat btn-sm">
+                      <option value="{{item.cod_sucursal}}" *ngFor="let item of datossucursal" [selected]="item.cod_sucursal == this.cod_sucursal">
+                          {{item.sucursal}}
+                      </option>
+                    </select>
+                    <button (click) = "cargarescritorio();" id="btnbuscar" class="btn btn-primary btn-flat btn-sm" type="submit"><i class="fa fa-search"></i></button>
+                </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+
+      
+
+   
+
+      <div *ngIf="panel_comprobantes==1" class="row">
+
+        <div *ngIf="electronico == '1'" id="btnfacturasautorizadas" class="col-12 col-sm-6 col-md-3">
+          <div class="info-box mb-3">
+              <span class="info-box-icon bg-success elevation-1"><i class="far fas fa-check-square"></i></span>
+              <div class="info-box-content">
+              <span class="info-box-text">Autorizadas</span>
+              <span class="info-box-number">{{total_autorizados}}</span>
+              </div>
+          </div>
+        </div>
+
+        <div *ngIf="electronico == '0'" class="col-12 col-sm-6 col-md-3">
+            <div class="info-box mb-3">
+                <span class="info-box-icon bg-cyan elevation-1"><i class="far fas fa-keyboard"></i></span>
+                <div class="info-box-content">
+                <span class="info-box-text">Registrados</span>
+                <span class="info-box-number">{{cantidad_facturas}}</span>
+                </div>
+            </div>
+        </div>
+
+        <div id="btnfacturasanuladas" class="col-12 col-sm-6 col-md-3">
+            <div class="info-box mb-3">
+                <span class="info-box-icon bg-danger elevation-1"><i class="far fas fa-ban"></i></span>
+                <div class="info-box-content">
+                <span class="info-box-text">Anuladas</span>
+                <span class="info-box-number">{{total_anulados}}</span>
+                </div>
+            </div>
+        </div>
+
+        
+
+        <div *ngIf="electronico == '1'" (click)="listarComprobantesPendientes();" class="col-12 col-sm-6 col-md-3 cursor-pointer">
+          <div class="info-box mb-3">
+          <span class="info-box-icon bg-warning elevation-1"><i class="far fas fa-spinner"></i></span>
+          <div class="info-box-content">
+              <span class="info-box-text">Pendientes</span>
+              <span class="info-box-number">{{total_comprobantes_pendientes}}</span>
+          </div>
+          </div>
+        </div>
+
+        <div *ngIf="electronico == '1'" (click)="listarCorreosPendientes();" class="col-12 col-sm-6 col-md-3 cursor-pointer">
+                <div class="info-box mb-3">
+                  <span class="info-box-icon bg-warning elevation-1"><i class="far fas fa-at"></i></span>
+                  <div class="info-box-content">
+                    <span class="info-box-text">Correos No Enviados</span>
+                    <span class="info-box-number">{{total_correos_pendientes}}</span>
+                  </div>
+                </div> 
+        </div>
+
+
+
+
+      </div>
+
+      <div class="row">
+
+          <div class="col-md-8">
+            <div class="row">
+              <div class="col-md-12" *ngIf="panel_administrador==1">
+                <ngx-charts-bar-vertical class="chart-container"
+                [view]="view"
+                [scheme]="colorScheme"
+                [results]="single"
+                [gradient]="gradient"
+                [xAxis]="showXAxis"
+                [yAxis]="showYAxis"
+                [legend]="showLegend"
+                [showXAxisLabel]="showXAxisLabel"
+                [showYAxisLabel]="showYAxisLabel"
+                [xAxisLabel]="xAxisLabel"
+                [yAxisLabel]="yAxisLabel"
+                (select)="onSelect($event)">
+                </ngx-charts-bar-vertical>
+              </div>
+            </div> 
+          </div>
+
+
+
+
+          <div class="col-md-4">
+
+                  <div class="card card-primary card-outline">
+                      <div class="card-header">
+                        <h3 class="card-title">Ventas <span *ngIf="panel_administrador==1">y Productos</span></h3>
+                      </div>
+                      <!-- /.card-header -->
+                      <div class="card-body">
+                        
+    
+                          <div class="row">
+                              <div class="col-lg-12">
+                              <div class="info-box bg-primary">
+                                  <span class="info-box-icon"><i class="fas fas fa-cube"></i></span>
+                                  <div class="info-box-content">
+                                      <span class="info-box-text">Productos</span>
+                                      <span class="info-box-number">{{cantidad_productos}}</span>
+                                  </div>
+                              </div>
+                              </div>
+                          </div>
+    
+                          <div (click)="listarproductosminimostock();" class="row cursor-pointer">
+                              <div class="col-lg-12">
+                                  <div class="info-box bg-danger">
+                                      <span class="info-box-icon"><i class="fas fas fa-cube"></i></span>
+                                      <div class="info-box-content">
+                                          <span class="info-box-text">Min. Productos</span>
+                                          <span class="info-box-number">{{cantidad_stock}}</span>
+                                      </div>
+                                  </div>
+                              </div>
+                          </div>   
+                                  
+                          <div class="row" *ngIf="panel_administrador==1"><!--administrador-->
+                              <div class="col-lg-12">
+                                <div class="info-box bg-green">
+                                <span class="info-box-icon" style="font-size:15px"><i class="fas fa-dollar-sign"></i>&nbsp;{{total_general_ventas_mes}}</span>
+                            
+                                  <div class="info-box-content">
+                                      <span class="info-box-text">Venta del Mes (Contado)</span>
+                                      <span class="info-box-number">{{venta_mes}}</span>
+                                      <span class="info-box-text">Abono Credito</span>
+                                      <span class="info-box-number">{{abono_mes}}</span>
+                                      <span class="info-box-text">Devoluciones</span>
+                                      <span class="info-box-number">{{nota_credito_mes}}</span>
+                              
+                                      <div class="progress">
+                                          <div class="progress-bar" style="width: 100%"></div>
+                                      </div>
+                                      <span class="progress-description">
+                                      </span>
+                                  </div>
+                                
+                                </div>
+                              </div>
+                          </div>                 
+                        
+                          <div class="row" *ngIf="panel_administrador==1">
+                          
+                                  <div class="col-lg-12">
+                                  <div class="info-box bg-green">
+                                  <span class="info-box-icon" style="font-size:15px"><i class="fas fa-cash-register"></i>&nbsp;{{total_general_ventas_diaria}}</span>
+                              
+                                  <div class="info-box-content">
+                                      <span class="info-box-text">Venta Diaria (Contado)</span>
+                                      <span class="info-box-number">{{venta_dia}}</span>
+                                      <span class="info-box-text">Abono Credito</span>
+                                      <span class="info-box-number">{{abono_dia}}</span>
+                                      <span class="info-box-text">Devoluciones</span>
+                                      <span class="info-box-number">{{nota_credito_diaria}}</span>
+                              
+                                      <div class="progress">
+                                          <div class="progress-bar" style="width: 100%"></div>
+                                      </div>
+                                      <span class="progress-description">
+                                      
+                                      </span>
+                                  </div>
+                                  
+                                  </div>
+                                  
+                                  </div>  
+                          </div>
+    
+                          <div class="row" *ngIf="panel_vendedor==1">
+                          
+                                  <div class="col-lg-12">
+                                  <div class="info-box bg-green">
+                                  <span class="info-box-icon" style="font-size:15px"><i class="fa fa-cash-register"></i>&nbsp;{{total_general_ventas_diaria_usuario}}</span>
+                              
+                                  <div class="info-box-content">
+                                      <span class="info-box-text">Su Venta Diaria (Contado)</span>
+                                      <span class="info-box-number">{{venta_dia_usuario}}</span>
+                                      <span class="info-box-text">Abono Credito</span>
+                                      <span class="info-box-number">{{abono_dia_usuario}}</span>
+                                      <span class="info-box-text">Devoluciones</span>
+                                      <span class="info-box-number">{{nota_credito_diaria_usuario}}</span>
+                              
+                                      <div class="progress">
+                                          <div class="progress-bar" style="width: 100%"></div>
+                                      </div>
+                                      <span class="progress-description">
+                                      
+                                      </span>
+                                  </div>
+                                  
+                                  </div>
+                                  
+                                  </div>
+                          </div>
+
+                      </div>
+                  </div>
+
+          </div>
+
+
+
+
+
+      </div>
+
+
+
+      
+
+
+
+
+  </div>
+
+</section>

@@ -1,0 +1,139 @@
+<app-cupon-form (datosenvio)="recibirDatosCupon()"></app-cupon-form>
+
+<section class="content-header">
+  <div class="container-fluid">
+    <div class="row mb-2">
+      <div class="col-sm-6">
+          <div class="btn-toolbar" role="toolbar">
+            <div class="btn-group">
+              <button (click)="clickNuevaCupon();" class="btn btn-primary btn-flat btn-sm" type="button"><i class="fa fa-plus"></i> Nuevo</button>
+              <button (click)="clickDeshacer();" class="btn btn-secondary btn-flat btn-sm float-right" type="button"><i class="fas fa-redo-alt"></i> Deshacer</button>
+              <button routerLink="/menugym" class="btn btn-secondary btn-flat btn-sm" type="button"><i class="fas fa-undo"></i> Atrás</button>
+            </div>
+          </div>
+      </div>
+
+      <div class="col-sm-6">
+        <div class="d-flex justify-content-end align-items-center">
+            
+            <div class="form-group">
+              <div class="custom-control custom-switch">
+                <input [checked]="chkcupon" (change)="changeChkActiviarCupon()" type="checkbox" class="custom-control-input" id="customSwitch1">
+                <label class="custom-control-label" for="customSwitch1">Cupon</label>
+              </div>
+            </div>
+
+            <!-- <button (click)="clickSuspenderCliente(item.cod_cliente, item.apellido + ' ' + item.nombre, item.estado_suspendido, 0);" *ngIf="item.estado_suspendido==1" class="btn btn-outline-danger btn-sm"><i class="fa fa-toggle-on"></i></button>
+            <button (click)="clickSuspenderCliente(item.cod_cliente, item.apellido + ' ' + item.nombre, item.estado_suspendido, 1)" *ngIf="item.estado_suspendido==0 || item.estado_suspendido==2" class="btn btn-outline-info btn-sm"><i class="fa fa-toggle-on"></i></button> -->
+
+        </div> 
+      </div>
+
+      
+    </div>
+    
+  </div><!-- /.container-fluid -->
+</section>
+
+<!-- Main content -->
+<section class="content">
+    <div class="container-fluid">
+
+
+
+
+       
+
+
+
+      <div class="row">
+
+        <div class="col-md-12">
+
+
+          <div class="card card-primary card-outline">
+            <div class="card-header">
+              <h3 class="card-title"><i class="fa fa-file-alt"></i> Explorador</h3>
+
+              <div class="card-tools">
+                <div class="input-group input-group-sm" style="width: 150px;">
+                
+
+                  <input (keyup)="keyFiltrado();" type="text" class="form-control float-right" oninput="javascript:this.value=this.value.toUpperCase();" placeholder="Buscar" [(ngModel)]="filterpost" name="filterpost" autocomplete="off" />
+
+
+                </div>
+
+              </div>
+
+              
+
+
+            </div>
+          
+            
+            <div class="table-responsive card-body p-0 overlay-wrapper">
+
+              <div *ngIf="loadinglistado" class="overlay overlay-custom d-flex flex-column align-items-center">
+                <div class="spinner-border text-primary" style="width: 5rem; height: 5rem; font-size: 30px;" role="status"></div>
+                <div class="text-bold pt-2">Cargando...</div>
+              </div>
+              
+              <table class="design-table">
+                <thead>
+                  <tr>
+                    <th>CUPONES</th>
+                    <th>FECHA SORTEO</th>
+                    <th></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr  *ngFor="let item of (datos | filterGenerico:filterpost:['cupon']) | paginate : {
+                    itemsPerPage: pagesize,
+                    currentPage: page,
+                    totalItems: count
+                  }">
+                    <td>
+                      {{item.cupon}}
+                      <small *ngIf="item.activo==1" class="badge badge-primary">Activo</small>
+                    </td>
+                    <td>
+                      {{item.fecha_sorteo}}
+                    </td>
+                    <td>
+                      <div class="d-flex justify-content-end">
+                        <button (click)="fijarCupon(item.cod_cupon);" class="btn btn-outline-primary btn-sm" type="button"><i class="fas fa-thumbtack"></i></button>
+                        <button (click)="editar(item);" class="btn btn-outline-warning btn-sm ml-1" type="button"><i class="fas fa-pencil-alt"></i></button>
+                        <button (click)="clickEliminar(item.cod_cupon, item.cupon);" class="btn btn-outline-danger btn-sm ml-1"><i class="fa fa-trash"></i></button>
+                      </div>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+              <div class="float-right">
+                <pagination-controls class="pagination-controls"
+                previousLabel="Anterior"
+                nextLabel="Siguiente"
+                [responsive]="true"
+                (pageChange)="handlePageChange($event)">
+                </pagination-controls>
+              </div>
+            </div>
+            
+          </div>
+
+        
+        </div>
+
+
+     
+
+        
+
+
+      
+
+      </div>
+
+    </div>
+</section>

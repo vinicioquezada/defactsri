@@ -1,0 +1,147 @@
+<aside class="main-sidebar sidebar-dark-primary elevation-4">
+  <!-- Brand Logo -->
+  <!-- navbar-lightblue -->
+  <a routerLink="/inicio" class="brand-link">
+    <img 
+    src="./assets/image_ico.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3"
+         style="opacity: .8">
+    <span class="brand-text font-weight-light">DEVFACT</span>
+  </a>
+
+  <!-- Sidebar -->
+  <div class="sidebar">
+    <!-- Sidebar user (optional) -->
+    <div class="user-panel mt-3 pb-3 mb-3 d-flex align-items-center">
+      <div class="image">
+        <img class="imgRedonda" [src]="this.urlfoto" alt="User Image">
+      </div>
+
+      <div class="info">
+        <a routerLink="/perfil" class="d-block">{{rol}}</a>
+        <small class="d-block text-light">{{sucursal}}</small>
+      </div>
+    </div>
+
+    <!-- Sidebar Menu -->
+    <nav class="mt-2">
+      <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+        <!-- Add icons to the links using the .nav-icon class
+             with font-awesome or any other icon font library -->
+
+
+        <li class="nav-item">
+          <a routerLink="/inicio" routerLinkActive="active dropdown" class="nav-link" (click)="clickMenu()">
+            <i class="nav-icon fas fa-home"></i>
+            <p>
+              INICIO
+            </p>
+          </a>
+        </li>
+
+        <li class="nav-item" *ngIf="menuadministrar">
+          <a routerLink="/menuadministrar" routerLinkActive="active dropdown" class="nav-link" (click)="clickMenu()">
+            <i class="nav-icon fas fa-users"></i>
+            <p>
+            ADMINISTRAR
+            </p>
+          </a>
+        </li>
+
+        <li class="nav-item" *ngIf="menualmacen">
+          <a routerLink="/menualmacen" routerLinkActive="active dropdown" class="nav-link" (click)="clickMenu()">
+            <i class="nav-icon fas fa-dolly-flatbed"></i>
+            <p>
+            ALMACEN
+            </p>
+          </a>
+        </li>
+
+        <li class="nav-item" *ngIf="menugym">
+          <a routerLink="/menugym" routerLinkActive="active dropdown" class="nav-link" (click)="clickMenu()">
+            <i class="nav-icon fas fa-dumbbell"></i>
+            <p>
+            GYM
+            </p>
+          </a>
+        </li>
+
+        <li class="nav-item" *ngIf="menuventas">
+          <a routerLink="/menuventa" routerLinkActive="active dropdown" class="nav-link" (click)="clickMenu()">
+            <i class="nav-icon fas fa-shopping-cart"></i>
+            <p>
+            VENTAS
+            </p>
+          </a>
+        </li>
+
+        <li class="nav-item" *ngIf="menuhotel">
+          <a routerLink="/menuhotel" routerLinkActive="active dropdown" class="nav-link" (click)="clickMenu()">
+            <i class="nav-icon fas fa-hotel"></i>
+            <p>
+            HOTEL
+            </p>
+          </a>
+        </li>
+
+        <li class="nav-item" *ngIf="menucompras">
+          <a routerLink="/menucompra" routerLinkActive="active dropdown" class="nav-link" (click)="clickMenu()">
+            <i class="nav-icon fas fa-shopping-cart"></i>
+            <p>
+            COMPRAS
+            </p>
+          </a>
+        </li>
+
+        <li class="nav-item" *ngIf="menuretencion">
+          <a routerLink="/menuretencion" routerLinkActive="active dropdown" class="nav-link" (click)="clickMenu()">
+            <i class="nav-icon fas fa-file-invoice-dollar"></i>
+            <p>
+            RETENCION
+            </p>
+          </a>
+        </li>
+
+        <li class="nav-item" *ngIf="menucuentaspc">
+          <a routerLink="/menucuentapc" routerLinkActive="active dropdown" class="nav-link" (click)="clickMenu()">
+            <i class="nav-icon fas fa-hand-holding-usd"></i>
+            <p>
+            CUENTAS PC
+            </p>
+          </a>
+        </li>
+
+        <li class="nav-item" *ngIf="menugastosingresos">
+          <a routerLink="/menugastosingresos" routerLinkActive="active dropdown" class="nav-link" (click)="clickMenu()">
+            <i class="nav-icon fas fa-wallet"></i>
+            <p>
+            GASTOS-INGRESOS
+            </p>
+          </a>
+        </li>
+
+        <li class="nav-item">
+          <a routerLink="/perfil" routerLinkActive="active dropdown" class="nav-link" (click)="clickMenu()">
+            <i class="nav-icon fas fa-user-cog"></i>
+            <p>
+              PERFIL
+            </p>
+          </a>
+        </li>
+
+        <li class="nav-item">
+          <a style="cursor: pointer;" (click)="cerrarsesion();" class="nav-link">
+            <i class="nav-icon fas fa-power-off"></i>
+            <p>
+              CERRAR SESIÓN
+            </p>
+          </a>
+        </li>
+
+
+
+      </ul>
+    </nav>
+    <!-- /.sidebar-menu -->
+  </div>
+  <!-- /.sidebar -->
+</aside>

@@ -1,0 +1,6 @@
+.badge {
+  white-space: normal !important;
+  word-wrap: break-word;
+  word-break: break-word;
+  max-width: 100%;
+}

@@ -1,0 +1,135 @@
+<app-loader [loading]="loading"></app-loader>
+
+
+
+
+<div class="dark-mode contenedor-monitor">
+    
+    <div class="row">
+        <div class="col-md-12">
+            <div *ngIf="!socketActivo" class="alert alert-danger">
+              Servidor de tiempo real no disponible
+            </div>
+
+            <div *ngIf="socketActivo" class="alert alert-success">
+              Conectado al servidor en tiempo real
+            </div>
+        </div>
+    </div>
+
+    <div class="card card-primary card-outline">
+        <div class="card-header">
+            <h3 class="card-title"><i class="fas fa-desktop"></i> Datos de Membresía</h3>
+
+            <button (click)="cambiarModoMonitor()" 
+                        class="btn btn-flat" 
+                        [ngClass]="onnline ? 'btn-success' : 'btn-secondary'" type="button" class="btn btn-flat btn-xs float-right float-right"> <i class="fas fa-wifi"></i> {{ onnline ? 'Modo Online Activo' : 'Modo Offline Activo' }}</button>
+
+            
+        </div>
+        <!-- /.card-header -->
+        <div class="card-body">
+        
+
+                        <div>
+                        
+                            <i class="fas fa-barcode icono-dato mr-3"></i>
+                            <label class="size-fuente">
+                                {{ monitordata.numero_usuario }}
+                            </label>
+
+                            <i class="fas fa-user-tag icono-dato ml-5 mr-3"></i>
+                            <label class="size-fuente">
+                                {{ monitordata.tipo_usuario }}
+                            </label>
+                                
+                        </div>
+    
+            
+                        <div>
+                            <i class="fas fa-credit-card icono-dato mr-3"></i>
+                            <label class="size-fuente">
+                                {{ monitordata.identificacion }}
+                            </label>
+                        </div>
+                
+    
+
+        
+            
+                        <div>
+                            <i class="fas fa-user icono-dato mr-3"></i>
+                            <label class="size-fuente">
+                                {{ monitordata.cliente }}
+                            </label>
+                        </div>
+                
+                        <div>
+                            <i class="fas fa-tag icono-dato mr-3"></i>
+                            <label class="size-fuente">
+                                {{ monitordata.membresia }}
+                            </label>
+                        </div>
+            
+
+                        <div>
+                            <i class="fas fa-calendar icono-dato mr-3"></i>
+                            <label class="size-fuente">
+                                <small class="badge badge-primary mr-1">Horario</small>
+                                {{ monitordata.horario }}
+                            </label>
+                        </div>
+
+                        <div>
+                            <i class="fas fa-calendar icono-dato mr-3"></i>
+                            <label class="size-fuente">
+                                <small class="badge badge-primary mr-1">Vigencia</small>
+                                {{ monitordata.vigencia }}
+                            </label>
+                        </div>
+
+                        <div>
+                            <i class="fas fa-calendar icono-dato mr-3"></i>
+                            <label class="size-fuente">
+                                <small class="badge badge-warning mr-1">Días Restantes</small>
+                                {{ monitordata.dias_restantes }}
+                            </label>
+                                
+                        </div>
+
+
+        
+                    
+
+            <div *ngIf="monitordata.estado_valor" class="row">
+                <div class="col-md-12">
+                    <div class="alert alert-success size-fuente text-center">
+                        {{ monitordata.estado_plan }}
+                    </div>
+                </div>
+            </div>
+
+            <div *ngIf="monitordata.estado_valor==false && monitordata.cod_cliente!=0" class="row">
+                <div class="col-md-12">
+                    <div class="alert alert-danger size-fuente text-center">
+                        {{ monitordata.estado_plan }}
+                    </div>
+                </div>
+            </div>
+            
+                    
+
+
+            
+        
+                
+
+        
+    
+                
+
+        </div>
+        <!-- /.card-body -->
+    </div>
+
+</div>

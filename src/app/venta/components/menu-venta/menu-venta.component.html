@@ -1,0 +1,396 @@
+<div id="mymodalopcionesreporteventas" class="modal fade" role="dialog" data-backdrop="false">
+  <div class="modal-dialog">
+    <!-- Modal content -->
+    <div class="modal-content">
+      <div class="modal-header">
+      <h5 class="modal-title">REPORTES DE VENTAS</h5>
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">×</span>
+          </button>
+      </div>
+      <div class="modal-body">
+
+        <div class="row">
+          <div class="col-12 d-flex flex-wrap justify-content-center">
+
+            <div *ngIf="this.opcionesmenu['reporteventas']" class="col-md-4 pb-1">
+              <a routerLink="/menuventa/reporteventa" class="btn btn-primary btn-flat btn-sm btn-block">
+                  <i class="fas fa-chart-bar"></i> Generales
+              </a>
+            </div>
+
+            <div *ngIf="this.opcionesmenu['reporteventaformapago']" class="col-md-4 pb-1">
+              <a routerLink="/menuventa/reporteventaformapago" class="btn btn-primary btn-flat btn-sm btn-block">
+                  <i class="fas fa-chart-bar"></i> Formas de Pago
+              </a>
+            </div>
+
+            <div *ngIf="this.opcionesmenu['resumenventas']" class="col-md-4 pb-1">
+              <a routerLink="/menuventa/resumenventas" class="btn btn-primary btn-flat btn-sm btn-block">
+                  <i class="fas fa-coins"></i> Resumen
+              </a>
+            </div>
+
+            <div *ngIf="this.opcionesmenu['reportecontrolventas']" class="col-md-4 pb-1">
+              <a routerLink="/menuventa/reportecontrolventa" class="btn btn-primary btn-flat btn-sm btn-block">
+                  <i class="fas fa-chart-bar"></i> Control
+              </a>
+            </div>
+
+            <div *ngIf="this.opcionesmenu['reporteventasdetalles']" class="col-md-4 pb-1">
+              <a routerLink="/menuventa/reporteventadetalles" class="btn btn-primary btn-flat btn-sm btn-block">
+                  <i class="fas fa-chart-bar"></i> Detalles Prod.
+              </a>
+            </div>
+
+            <div *ngIf="this.opcionesmenu['reporteventascredito']" class="col-md-4 pb-1">
+              <a routerLink="/menuventa/reporteventascredito" class="btn btn-primary btn-flat btn-sm btn-block">
+                  <i class="fas fa-chart-bar"></i> Crédito Deudor
+              </a>
+            </div>
+
+            <div *ngIf="this.opcionesmenu['reporteventaconsolidadovendedor']" class="col-md-4 pb-1">
+              <a routerLink="/menuventa/reporteventaconsolidadovendedor" class="btn btn-primary btn-flat btn-sm btn-block">
+                  <i class="fas fa-users"></i> Cons. Vendedor
+              </a>
+            </div>
+            
+
+          </div>
+        </div>
+
+        <div class="d-flex justify-content-end align-items-center">
+          <button class="btn btn-secondary btn-sm mt-2" type="button" data-dismiss="modal"><i class="fas fa-times-circle"></i> Cerrar</button>
+        </div>
+
+      </div>
+
+
+    </div>
+
+  </div>
+</div>
+
+<div id="mymodalopcionesreporteventasproductos" class="modal fade" role="dialog" data-backdrop="false">
+  <div class="modal-dialog">
+    <!-- Modal content -->
+    <div class="modal-content">
+      <div class="modal-header">
+      <h5 class="modal-title">REPORTES DE PRODUCTOS VENDIDOS</h5>
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">×</span>
+          </button>
+      </div>
+      <div class="modal-body">
+
+        <div class="row">
+          <div class="col-12 d-flex flex-wrap justify-content-center">
+
+            <div *ngIf="this.opcionesmenu['reporteventascategorias']" class="col-md-4 pb-1">
+              <a routerLink="/menuventa/reporteventaporcategoria" class="btn btn-primary btn-flat btn-sm btn-block">
+                  <i class="fas fa-chart-bar"></i> Categorías
+              </a>
+            </div>
+
+            <div *ngIf="this.opcionesmenu['reporteventasproductos']" class="col-md-4 pb-1">
+              <a routerLink="/menuventa/reporteventaporproducto" class="btn btn-primary btn-flat btn-sm btn-block">
+                  <i class="fas fa-chart-bar"></i> Consolidados
+              </a>
+            </div>
+
+            <div *ngIf="this.opcionesmenu['reporterotacionproductos']" class="col-md-4 pb-1">
+              <a routerLink="/menuventa/reporterotacionproducto" class="btn btn-primary btn-flat btn-sm btn-block">
+                  <i class="fas fa-coins"></i> Rotación
+              </a>
+            </div>
+
+          </div>
+        </div>
+
+        <div class="d-flex justify-content-end align-items-center">
+          <button class="btn btn-secondary btn-sm mt-2" type="button" data-dismiss="modal"><i class="fas fa-times-circle"></i> Cerrar</button>
+        </div>
+
+      </div>
+
+
+    </div>
+
+  </div>
+</div>
+
+<div id="mymodalopcionesreportenotascreditos" class="modal fade" role="dialog" data-backdrop="false">
+  <div class="modal-dialog">
+    <!-- Modal content -->
+    <div class="modal-content">
+      <div class="modal-header">
+      <h5 class="modal-title">REPORTES DE NOTAS DE CRÉDITOS</h5>
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">×</span>
+          </button>
+      </div>
+      <div class="modal-body">
+
+        <div class="row">
+          <div class="col-12 d-flex flex-wrap justify-content-center">
+
+            <div *ngIf="this.opcionesmenu['reportenotacredito']" class="col-md-4 pb-1">
+              <a routerLink="/menuventa/reportenotacredito" class="btn btn-primary btn-flat btn-sm btn-block">
+                  <i class="fas fa-chart-bar"></i> Generales
+              </a>
+            </div>
+
+            <div *ngIf="this.opcionesmenu['reportenotacreditodetalles']" class="col-md-4 pb-1">
+              <a routerLink="/menuventa/reportenotacreditodetalles" class="btn btn-primary btn-flat btn-sm btn-block">
+                  <i class="fas fa-chart-bar"></i> Detalles
+              </a>
+            </div>
+
+            <div *ngIf="this.opcionesmenu['reportesaldonotacredito']" class="col-md-4 pb-1">
+              <a routerLink="/menuventa/reportesaldonotacredito" class="btn btn-primary btn-flat btn-sm btn-block">
+                  <i class="fas fa-cart-arrow-down"></i> Saldos
+              </a>
+            </div>
+
+            <div *ngIf="this.opcionesmenu['reportepagonotacredito']" class="col-md-4 pb-1">
+              <a routerLink="/menuventa/reportepagonotacredito" class="btn btn-primary btn-flat btn-sm btn-block">
+                  <i class="fas fa-cart-arrow-down"></i> Pagos
+              </a>
+            </div>
+
+            <div *ngIf="this.opcionesmenu['reporteconsolidadosaldopendientenotacredito']" class="col-md-4 pb-1">
+              <a routerLink="/menuventa/reporteconsolidadosaldopendientenotacredito" class="btn btn-primary btn-flat btn-sm btn-block">
+                  <i class="fas fa-hand-holding-usd"></i> Cons. Clientes
+              </a>
+            </div>
+
+          </div>
+        </div>
+
+        <div class="d-flex justify-content-end align-items-center">
+          <button class="btn btn-secondary btn-sm mt-2" type="button" data-dismiss="modal"><i class="fas fa-times-circle"></i> Cerrar</button>
+        </div>
+
+      </div>
+
+
+    </div>
+
+  </div>
+</div>
+
+<section class="content-header">
+
+  <div class="container-fluid">
+
+      <div *ngIf="permisosProcesosOperativos()" class="card card-outline card-primary">
+        <div class="card-header">
+          <h3 class="card-title"><i class="fas fa-cash-register mr-2"></i> Procesos Operativos</h3>
+        </div>
+        <div class="card-body">
+          
+          <div class="row">
+
+            <div class="col-md-6 col-lg-2 col-xlg-3" *ngIf="this.opcionesmenu['cajero']">
+              <a routerLink="/menuventa/cajero" class="small-box-footer">
+                <div class="card bg-cyan card-menu">
+                  <h1>
+                    <i class="fas fa-cash-register"></i>
+                  </h1>
+                  <span class="text-white h6">Cajero</span>
+                </div>
+              </a>
+            </div>
+
+            <div class="col-md-6 col-lg-2 col-xlg-3" *ngIf="this.opcionesmenu['facturaventa']">
+              <a routerLink="/menuventa/venta/nuevoregistro" class="small-box-footer">
+                <div class="card bg-cyan card-menu">
+                  <h1>
+                    <i class="fas fa-shopping-cart"></i>
+                  </h1>
+                  <span class="text-white h6">Venta</span>
+                </div>
+              </a>
+            </div>
+
+            <div class="col-md-6 col-lg-2 col-xlg-3" *ngIf="this.opcionesmenu['preventa']">
+              <a routerLink="/menuventa/preventa/nuevoregistrorecaudar" class="small-box-footer">
+                <div class="card bg-cyan card-menu">
+                  <h1>
+                    <i class="fas fa-shopping-cart"></i>
+                  </h1>
+                  <span class="text-white h6">Pre Venta</span>
+                </div>
+              </a>
+            </div>
+
+            <div class="col-md-6 col-lg-2 col-xlg-3" *ngIf="this.opcionesmenu['recaudacion']">
+              <a routerLink="/menuventa/exploradorventarecaudacion" class="small-box-footer">
+                <div class="card bg-cyan card-menu">
+                  <h1>
+                    <i class="fas fa-hand-holding-usd"></i>
+                  </h1>
+                  <span class="text-white h6">Recaudación</span>
+                </div>
+              </a>
+            </div>
+
+            <div class="col-md-6 col-lg-2 col-xlg-3" *ngIf="this.opcionesmenu['pedidos']">
+              <a routerLink="/menuventa/pedido/nuevoregistro" class="small-box-footer">
+                <div class="card bg-cyan card-menu">
+                  <h1>
+                    <i class="fas fa-shopping-basket"></i>
+                  </h1>
+                  <span class="text-white h6">Pedidos</span>
+                </div>
+              </a>
+            </div>
+
+            <div class="col-md-6 col-lg-2 col-xlg-3" *ngIf="this.opcionesmenu['pagonotacredito']">
+              <a routerLink="/menuventa/pagonotacredito" class="small-box-footer">
+                <div class="card bg-cyan card-menu">
+                  <h1>
+                    <i class="fas fa-cart-arrow-down"></i>
+                  </h1>
+                  <span class="text-white h6">Pago. N. Credito</span>
+                </div>
+              </a>
+            </div>
+
+          </div>  
+
+        </div>
+      </div>
+
+      <div *ngIf="permisosGestionDocumentos()" class="card card-outline card-info mt-4">
+        <div class="card-header">
+          <h3 class="card-title"><i class="fas fa-list-alt mr-2"></i> Gestión de Documentos</h3>
+        </div>
+        <div class="card-body">
+          <div class="row">
+
+            <div *ngIf="this.opcionesmenu['exploradorcajero']" class="col-lg-2 col-md-3 col-12 mb-2 d-flex">
+              <a routerLink="/menuventa/exploradorcajero" class="btn btn-block btn-outline-info btn-sm h-100 d-flex align-items-center justify-content-center">
+          <span>
+                <i class="fas fa-cash-register"></i> Explorador Cajero
+              </span></a>
+            </div>
+
+            <div *ngIf="this.opcionesmenu['exploradorventa']" class="col-lg-2 col-md-3 col-12 mb-2 d-flex">
+              <a routerLink="/menuventa/exploradorventa" class="btn btn-block btn-outline-info btn-sm h-100 d-flex align-items-center justify-content-center">
+          <span>
+                <i class="fas fa-shopping-cart"></i> Explorador Ventas
+              </span></a>
+            </div>
+
+            <div *ngIf="this.opcionesmenu['exploradorpedidos']" class="col-lg-2 col-md-3 col-12 mb-2 d-flex">
+              <a routerLink="/menuventa/exploradorpedidos" class="btn btn-block btn-outline-info btn-sm h-100 d-flex align-items-center justify-content-center">
+          <span>
+                <i class="fas fa-shopping-basket"></i> Explorador Pedidos
+              </span></a>
+            </div>
+
+            <div *ngIf="this.opcionesmenu['exploradorfactura']" class="col-lg-2 col-md-3 col-12 mb-2 d-flex">
+              <a routerLink="/menuventa/exploradorfactura" class="btn btn-block btn-outline-info btn-sm h-100 d-flex align-items-center justify-content-center">
+          <span>
+                <i class="fas fa-shopping-cart"></i> Explorador Facturas
+              </span></a>
+            </div>
+
+            <div *ngIf="this.opcionesmenu['exploradornotacredito']" class="col-lg-2 col-md-3 col-12 mb-2 d-flex">
+              <a routerLink="/menuventa/exploradornotacredito" class="btn btn-block btn-outline-info btn-sm h-100 d-flex align-items-center justify-content-center">
+          <span>
+                <i class="fas fa-cart-arrow-down"></i> Explorador Notas Credito
+              </span></a>
+            </div>
+
+            <div *ngIf="this.opcionesmenu['exploradorguiaremision']" class="col-lg-2 col-md-3 col-12 mb-2 d-flex">
+              <a routerLink="/menuventa/exploradorguiaremision" class="btn btn-block btn-outline-info btn-sm h-100 d-flex align-items-center justify-content-center">
+          <span>
+                <i class="fas fa-shipping-fast"></i> Explorador Guía Remisión
+              </span></a>
+            </div>
+            
+          </div>
+        </div>
+      </div>
+
+      <div *ngIf="permisosInformesReportes()" class="card card-outline card-success mt-4">
+        <div class="card-header">
+          <h3 class="card-title"><i class="fas fa-chart-line mr-2"></i> Informes y Reportes</h3>
+        </div>
+        <div class="card-body">
+          <div class="row">
+
+            <div *ngIf="this.opcionesmenu['reporteclientes']" class="col-lg-2 col-md-3 col-12 mb-2 d-flex">
+              <a routerLink="/menuventa/reportecliente" class="btn btn-block btn-outline-success btn-sm h-100 d-flex align-items-center justify-content-center">
+          <span>
+                <i class="fas fa-users"></i> Reporte de Clientes
+              </span></a>
+            </div>
+
+            <div *ngIf="permisosBotonReporteVentas()" class="col-lg-2 col-md-3 col-12 mb-2 d-flex">
+              <button (click)="clickReporteVentas()" class="btn btn-block btn-outline-success btn-sm h-100 d-flex align-items-center justify-content-center">
+                <span><i class="fas fa-chart-bar"></i> Reportes de Ventas</span>
+              </button>
+            </div>
+
+            <div *ngIf="permisosBotonReporteVentaProducto()" class="col-lg-2 col-md-3 col-12 mb-2 d-flex">
+              <button (click)="clickReporteVentasProductos()" class="btn btn-block btn-outline-success btn-sm h-100 d-flex align-items-center justify-content-center">
+                <span><i class="fas fa-cube"></i> Rpt. Vta. Productos</span>
+              </button>
+            </div>
+
+            <div *ngIf="permisosBotonReporteNotaCredito()" class="col-lg-2 col-md-3 col-12 mb-2 d-flex">
+              <button (click)="clickReporteNotasCreditos()" class="btn btn-block btn-outline-success btn-sm h-100 d-flex align-items-center justify-content-center">
+                <span><i class="fas fa-cart-arrow-down"></i> Rpt. Nota Crédito</span>
+              </button>
+            </div>
+
+            <div *ngIf="this.opcionesmenu['reporteguiaremision']" class="col-lg-2 col-md-3 col-12 mb-2 d-flex">
+              <a routerLink="/menuventa/reporteguiaremision" class="btn btn-block btn-outline-success btn-sm h-100 d-flex align-items-center justify-content-center">
+          <span>
+                <i class="fas fa-shipping-fast"></i> Rpt. Guia Remisión
+              </span></a>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+      <div *ngIf="permisosConfiguracionAuxiliares()" class="card card-outline card-secondary mt-3">
+        <div class="card-header">
+          <h3 class="card-title"><i class="fas fa-tools mr-2"></i> Configuración y Auxiliares</h3>
+        </div>
+        <div class="card-body">
+
+          <div class="row">
+
+            <div *ngIf="this.opcionesmenu['tipocliente']" class="col-lg-2 col-md-3 col-12 mb-2 d-flex">
+              <a routerLink="/menuventa/tipocliente" class="btn btn-block btn-outline-secondary btn-sm h-100 d-flex align-items-center justify-content-center">
+          <span>
+                <i class="fas fa-tag"></i> Tipo Cliente
+              </span></a>
+            </div>
+
+            <div *ngIf="this.opcionesmenu['cliente']" class="col-lg-2 col-md-3 col-12 mb-2 d-flex">
+              <a routerLink="/menuventa/cliente" class="btn btn-block btn-outline-secondary btn-sm h-100 d-flex align-items-center justify-content-center">
+          <span>
+                <i class="fas fa-users"></i> Clientes
+              </span></a>
+            </div>
+
+            <div *ngIf="this.opcionesmenu['transportista']" class="col-lg-2 col-md-3 col-12 mb-2 d-flex">
+              <a routerLink="/menuventa/transportista" class="btn btn-block btn-outline-secondary btn-sm h-100 d-flex align-items-center justify-content-center">
+          <span>
+                <i class="fas fa-truck"></i> Transportista
+              </span></a>
+            </div>
+
+          </div>
+          
+        </div>
+      </div>
+
+  </div>
+</section>

@@ -1,0 +1,264 @@
+<section class="content-header" id="box">
+    <div class="container-fluid">
+      <div class="row mb-2">
+        <div class="col-sm-6">
+            <div class="btn-toolbar" role="toolbar">
+              <div class="btn-group">
+                  <button (click)="clickDeshacer();" class="btn btn-secondary btn-flat btn-sm" type="button"><i class="fas fa-redo-alt"></i> Deshacer</button>
+                  <button *ngIf="notacreditoexistente == '0'" (click)="visualizar();" [disabled]="disabledbtnimprimir" class="btn btn-primary btn-flat btn-sm" type="button"><i class="fas fa-print"></i> Imprimir</button>
+                  <button (click)="goBack();" class="btn btn-secondary btn-flat btn-sm" type="button"><i class="fa fa-reply"></i> Atrás</button>
+              </div>
+              
+            </div>
+
+
+        </div>
+
+        <div class="col-sm-6">
+
+            <div>
+              <div class="input-group input-group-sm">
+                <div *ngIf="multisucursal=='1'" class="input-group-prepend">
+                  <span class="input-group-text"><i class="fas fa-home"></i></span>
+                </div>
+                <label *ngIf="multisucursal=='1'" class="form-control">{{sucursal_estable}}</label>
+  
+                <div *ngIf="firmasruc=='1'" class="input-group-prepend">
+                  <span class="input-group-text"><i class="fas fa-signature"></i></span>
+                </div>
+                
+                <label *ngIf="firmasruc=='1'" class="form-control">{{this.rucempresa.empresa}}</label>
+  
+  
+              </div>
+          </div>
+        </div>
+
+        
+      </div>
+      
+    </div><!-- /.container-fluid -->
+
+    
+</section>
+
+<!-- Main content -->
+<section class="content">
+    <div class="container-fluid">
+
+        <div class="row">
+			<div class="col-md-12">
+
+				<div class="card card-cyan card-outline">
+                    <div class="card-header">
+
+						<div *ngIf="notacreditoexistente == '1'" class="row">
+							<div class="col-md-12">
+								<div id="mensaje_informacion" class="alert alert-warning alert-dismissible">
+									<button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+									<h4><i class="icon fas fa-exclamation-triangle"></i> Advertencia</h4>
+									Ya se ha generado la nota de credito para esta factura de venta, seleccione otra factura para generar la nota de credito.
+								</div>
+							</div>
+						</div>
+
+                        <div style="text-align:center">
+                            <div *ngIf="loading" class="spinner-border text-primary" style="width: 3rem; height: 3rem;"></div>
+                        </div>
+
+						<div class="row">
+
+							<div class="col-md-12">
+								<div class="form-group">
+									<label>N° Nota Crédito:</label>
+									<label class="form-control form-control-sm">{{notacredito.n_nota_credito}}</label>
+								</div>
+							</div>
+
+							<div class="col-md-3">
+								<div class="form-group">
+									<label>Fecha:</label>
+                                    <input (change)="changeFecha();" [(ngModel)]="notacredito.fecha_hora" class="form-control form-control-sm" type="date">
+								</div>
+							</div>
+
+							<div class="col-md-3">
+								<div class="form-group">
+									<label>Razón Modificación:</label>
+									<input [disabled]="disabledtxtfecha" [(ngModel)]="notacredito.razon_modificacion" class="form-control form-control-sm" type="text">
+								</div>
+							</div>
+
+							<div class="col-md-6">
+								<div class="form-group">
+									<label>Clave de Acceso:</label>
+									<div class="input-group input-group-sm">
+										<div class="input-group-prepend">
+										<span class="input-group-text"><i class="fas fa-barcode"></i></span>
+										</div>
+										<label class="form-control">{{notacredito.claveacceso}}</label>
+									</div>
+								</div>
+							</div>
+
+                            <div class="col-md-3">
+								<div class="form-group">
+									<label>Reembolsar:</label>
+                                    <select [disabled]="disabledcmbformapago"  [ngClass]="{'is-invalid': flagformapago}" (change)="changeReembolsar($event)" class="form-control form-control-sm">
+                                        <option value="{{item.cod_reembolso}}" *ngFor="let item of datosreembolso" [selected]="item.cod_reembolso == this.notacredito.cod_reembolso">
+                                            {{item.reembolso}}
+                                        </option>
+                                    </select>
+								</div>
+							</div>
+
+                            <div class="col-md-3">
+								<div class="form-group">
+									<label>Forma Cobro Devolución:</label>
+                                    <select [disabled]="disabledcmbformapago"  [ngClass]="{'is-invalid': flagformapago}" (change)="changeFormaPago($event)" class="form-control form-control-sm">
+                                        <option value="{{item.id_forma_pago}}" *ngFor="let item of datosformapago" [selected]="item.id_forma_pago == this.notacredito.id_forma_pago">
+                                            {{item.forma_pago}}
+                                        </option>
+                                    </select>
+								</div>
+							</div>
+
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label>Observación</label>
+                                    <textarea [(ngModel)]="notacredito.observacion" [disabled]="disabledtxtobservacion" class="form-control"></textarea>
+                                </div>
+                            </div>
+
+						</div>
+
+
+
+
+					</div>
+				</div>
+			</div>
+		</div>
+
+
+        <div class="row">
+            <div class="col-md-12">
+
+                <div class="card card-cyan card-outline">
+                    <div class="card-body">
+                            <div class="row">			 
+                                <div class="col-md-6" style="font-size: 14px">
+
+                                        <div class="form-group row">
+                                            <label class="col-sm-4 col-form-label">Documento:</label>
+                                            <div class="col-sm-8">
+                                                <div class="input-group input-group-sm">
+                                                    <div class="input-group-prepend">
+                                                        <span class="input-group-text"><i class="fas fa-shopping-cart"></i></span>
+                                                    </div>
+                                                    <label class="form-control">{{this.notacredito.tipo_venta}}</label>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group row">
+                                            <label class="col-sm-4 col-form-label">Nº Factura:</label>
+                                            <div class="col-sm-8">
+                                                <div class="input-group input-group-sm">
+                                                    <div class="input-group-prepend">
+                                                    <span class="input-group-text"><i class="fas fa-paperclip"></i></span>
+                                                    </div>
+                                                    <label class="form-control">{{this.notacredito.numero_factura}}</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                </div>
+
+                                <div class="col-md-6" style="font-size: 14px">
+
+                                        <div class="form-group row">
+                                            <label class="col-sm-4 col-form-label">Fecha:</label>
+                                            <div class="col-sm-8">
+                                                <div class="input-group input-group-sm">
+                                                    <div class="input-group-prepend">
+                                                    <span class="input-group-text"><i class="fas fa-calendar"></i></span>
+                                                    </div>
+                                                    <label class="form-control">{{notacredito.fecha_emision_factura}}</label>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group row">
+                                            <div *ngIf="textomensaje != ''" style='text-align: center;'>
+                                                <label style='font-size:30px;' [ngStyle]="{'color':colormensaje}">{{textomensaje}}</label>
+                                            </div>
+                                        </div>
+                                        
+                                </div>
+                            </div>
+
+                    </div>
+                    
+                </div>
+
+            </div>
+        </div>
+
+        <div class="row">
+          <div class="col-md-12">
+
+                  <div class="card card-cyan card-outline">
+                      <div class="card-header">
+
+                          <h5 style="font-size: 14px">
+                                  <i class="fa fa-user-circle" aria-hidden="true"></i>&nbsp;<label>{{ this.cliente.cliente }}</label>
+                                  &nbsp;&nbsp;&nbsp;
+                                  <i class="fa fa-id-card" aria-hidden="true"></i>&nbsp;<label>{{ this.cliente.numero_identificacion }}</label><br>
+                                  <i class="fas fa-mobile" aria-hidden="true"></i>&nbsp;
+                                  <label id="lblcelular">{{ this.cliente.celular }}</label>
+                                  &nbsp;&nbsp;&nbsp;
+                                  <i class="fa fa-envelope" aria-hidden="true"></i>&nbsp;<label>{{ this.cliente.correo }}</label>
+                          </h5>
+
+                      </div>
+                      
+                  </div>
+
+                  <div class="row">
+                    <div class="col-md-12">
+                        <div class="alert alert-info alert-dismissible">
+                            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                            <h4><i class="icon fas fa-exclamation-triangle"></i> Información</h4>
+                            Deje los productos que va a devolver de la Factura.
+                        </div>
+                    </div>
+                 </div>
+
+                  
+
+                  <app-detalle-nota-credito (datosenviar)="recibirDatosDetalles($event)"></app-detalle-nota-credito>
+
+                  <div style="text-align:center">
+                    <div *ngIf="loadingalmacenar" class="spinner-border text-primary" style="width: 3rem; height: 3rem;"></div>
+                  </div>
+
+                  <div class="d-flex justify-content-end align-items-center">
+
+                    <button *ngIf="tipo_formulario=='nuevoregistro' && notacreditoexistente == '0'" [disabled]="disabledbtnguardar" (click)="clickVerificarDetalles();" class="btn btn-primary btn-sm" type="button"><i class="fas fa-save"></i> Guardar</button>&nbsp;
+
+                    <button *ngIf="tipo_formulario=='actualizarregistro'" (click)="clickVerificarDetalles();" [disabled]="disabledbtnactualizar" class="btn btn-warning btn-sm" type="button"><i class="fas fa-save"></i> Actualizar</button>
+
+                    <button *ngIf="tipo_formulario=='nuevoregistro' && notacredito.tipo_venta=='ELECTRONICA' && notacreditoexistente == '0'" (click)="iniciarProcesoFacturacion();" [disabled]="disabledbtnsrienviar" class="btn btn-success btn-sm" type="button"><i class="fas fa-paper-plane"></i> Enviar SRI</button>
+
+
+                  </div>
+
+
+                                                  
+          </div>
+        </div>		
+
+
+
+    </div>
+</section>

@@ -1,0 +1,170 @@
+<section class="content-header">
+    <div class="container-fluid">
+      <div class="row mb-2">
+        <div class="col-sm-12">
+            <div class="btn-toolbar" role="toolbar">
+              <div class="btn-group">
+                <button (click)="clickDeshacer();" class="btn btn-secondary btn-flat btn-sm float-right" type="button"><i class="fas fa-redo-alt"></i> Deshacer</button>
+                <button routerLink="/menualmacen" class="btn btn-secondary btn-flat btn-sm" type="button"><i class="fas fa-undo"></i> Atrás</button>
+              </div>
+            </div>
+        </div>
+        
+      </div>
+      
+    </div><!-- /.container-fluid -->
+  </section>
+  
+  <!-- Main content -->
+<section class="content">
+    <div class="container-fluid">
+      <div class="row">
+  
+        <div class="col-md-12">
+
+          <div class="row">
+
+            <div *ngIf="multisucursal=='1' && opcionesprivilegios['bloqueogestionlocales']!=1" class="col-md-6">
+             
+
+              <div class="form-group">
+                  <label>Sucursal:</label>
+                  
+                  <select (change)="changeSucursal($event)" class="form-control form-control-sm">
+                      <option value="{{item.cod_sucursal}}" *ngFor="let item of datossucursal" [selected]="this.cod_sucursal == item.cod_sucursal">
+                          {{item.sucursal}}
+                      </option>
+                  </select>
+
+              </div>	
+
+
+            </div>
+
+              <div class="col-md-3">
+                  <div class="form-group">
+                      <label>Fecha Desde:</label>
+                      <div class="input-group input-group-sm">
+                      <div class="input-group-prepend">
+                          <span class="input-group-text"><i class="fas fa-calendar"></i></span>
+                      </div>
+                      <input [(ngModel)]="fechadesde" type="date" class="form-control">
+                      </div>
+                  </div>		 
+              </div>
+
+              <div class="col-md-3">
+                  <div class="form-group">
+                      <label>Fecha Hasta:</label>
+                      
+                      <div class="input-group input-group-sm">
+                          <div class="input-group-prepend">
+                              <span class="input-group-text"><i class="fas fa-calendar"></i></span>
+                          </div>
+                          <input [(ngModel)]="fechahasta" type="date" class="form-control">
+                          <span class="input-group-append">
+                              <button (click)="clickBuscar();" class="btn btn-primary btn-flat" type="button"><i class="fa fa-search"></i></button>
+                          </span>
+                      </div>
+                  </div>	 
+              </div>
+
+          </div>
+          
+        <!-- /.Inicia form1 -->
+        <!-- /.Inicia form1 -->
+        <!-- /.Inicia form1 -->
+          <div class="card card-primary card-outline">
+            <div class="card-header">
+              <h3 class="card-title"><i class="fa fa-file-alt"></i> Explorador</h3>
+  
+  
+              <div class="card-tools">
+                <div class="input-group input-group-sm">
+  
+                    <input (keyup)="keyFiltrado();" type="text" class="form-control float-right" oninput="javascript:this.value=this.value.toUpperCase();" placeholder="Buscar" [(ngModel)]="filterpost" name="filterpost" autocomplete="off" />
+  
+                    
+  
+                </div>
+              </div>
+  
+  
+            </div>
+            <div class="card-body overlay-wrapper">
+
+                <div *ngIf="loadinglistado" class="overlay overlay-custom d-flex flex-column align-items-center">
+                  <div class="spinner-border text-primary" style="width: 5rem; height: 5rem; font-size: 30px;" role="status"></div>
+                  <div class="text-bold pt-2">Cargando...</div>
+                </div>
+
+                <div class="row justify-content-between">
+
+                        <div class="table-responsive p-0">
+                        <table class="design-table resp">
+                          <thead>
+                            <tr>
+                              <th>PRODUCTO</th>
+                              <th>USUARIO</th>
+                              <th>PROCESO</th>
+                              <th>FECHA</th>
+                              <th>CODIGO</th>
+                              <th>ESTADO</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <tr *ngFor="let item of (datos | filterGenerico:filterpost:['numero_ingreso', 'fecha_hora', 'tipo_ingreso_mercaderia']) | paginate : {
+                              itemsPerPage: pagesize,
+                              currentPage: page,
+                              totalItems: count
+                            }">
+                              <td>{{item.descripcion}}</td>
+                              <td><small class="badge badge-primary">{{item.usuario}}</small></td>
+                              <td>
+                                <small *ngIf="item.proceso=='eliminar'" class="badge badge-danger">ELIMINAR GENERAL</small>
+                                <small *ngIf="item.proceso=='eliminarlocal'" class="badge badge-warning">ELIMINAR LOCAL</small>
+                              </td>
+                              <td><small class="badge badge-info">{{item.fecha_registro}}</small></td>
+                              <td>{{item.codigo}}</td>
+                              <td>
+                                <small *ngIf="item.estado_peticion==0" class="badge badge-warning">PENDIENTE</small>
+                                <small *ngIf="item.estado_peticion==1" class="badge badge-success">REALIZADO</small>
+                              </td>
+                            </tr>
+                            
+                          </tbody>
+                        </table>
+                        <div class="float-right">
+                          <pagination-controls class="pagination-controls"
+                          previousLabel="Anterior"
+                          nextLabel="Siguiente"
+                          [responsive]="true"
+                          (pageChange)="handlePageChange($event)">
+                          </pagination-controls>
+                        </div>
+                    </div>
+                </div>
+  
+  
+  
+  
+  
+  
+            </div>
+            <!-- /.card-body -->
+          </div>
+        <!-- /.Termina form1 -->
+        <!-- /.Termina form1 -->
+        <!-- /.Termina form1 -->
+        </div>
+  
+      </div>
+  
+  
+  
+      
+  
+  
+  
+    </div>
+  </section>

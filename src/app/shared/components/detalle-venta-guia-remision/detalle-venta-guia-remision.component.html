@@ -1,0 +1,56 @@
+<div class="scroll-container" #scrolly>
+  <table border="1" style="font-size: 12px;" class="bordered">
+      <thead>
+        <tr>
+        <th width="5%">Cant.</th>
+        <th width="13%">Tarifa</th>
+        <th width="33%">Detalles</th>
+        <th width="3%">U</th>
+        <th width="10%">Descto</th>
+        <th width="5%">P.V</th>
+        <th width="6%">Total</th>
+        <th width="6%"></th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr *ngFor="let item of datosdetalles; let i = index; let u = last" [ngClass]="{'bg-danger': item.fila_error}">
+              <td>
+                  <span>{{item.cantidad_comprar}}</span>
+              </td>
+              <td>
+                <span class="fa fa-cog"></span> <span style="font-size:10px;">{{item.tarifa}}</span>
+              </td>
+              <td>
+                <span>{{item.descripcion}}</span>
+              </td>
+              <td>{{item.cantidad_unidad}}</td>
+              <td>
+                  <label>%</label>
+                  <span>{{item.descuento}}</span>
+              </td>
+              <td>
+                  <label>{{item.precio_venta}}</label>
+              </td>
+              <td>
+                  <label>{{item.total_final}}</label>
+              </td>
+              <td>
+                  <button [disabled]="disabledtabladetalles" (click)="borrar(i);" class="btn btn-danger btn-sm"><i class="fa fa-trash"></i></button>
+                  <label *ngIf="u==true">{{ultimaFila(i)}}</label>
+              </td>
+          </tr>
+      </tbody>
+  </table>
+</div>
+
+<br>
+
+<div class="row">
+  <div class="col-md-12">
+      <div class="form-group">
+          <div class="input-group input-group-sm">
+            <textarea [disabled]="disabledtxtobservacion" class="form-control" [(ngModel)]="this.observacion"></textarea>
+          </div>
+      </div>
+  </div>
+</div>

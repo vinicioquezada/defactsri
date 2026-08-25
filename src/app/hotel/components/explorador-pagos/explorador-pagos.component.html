@@ -1,0 +1,295 @@
+<div id="mymodalrevisardetalles" class="modal fade" role="dialog" data-backdrop="false">
+  <div class="modal-dialog">
+    <!-- Modal content -->
+    <div class="modal-content">
+      <div class="modal-header">
+      <h5 class="modal-title">DETALLES</h5>
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">×</span>
+          </button>
+      </div>
+      <div class="modal-body">
+  
+        <div [innerHTML]="this.detalle"></div>
+  
+      </div>
+
+    </div>
+  
+  </div>
+  </div>
+  
+  <app-registro-abono (sendGuardar)="sendGuardar()"></app-registro-abono>
+  
+  <app-opciones-explorador-venta [tipoformulario] = "tipoformulario" (datosenvioestado)="recibirDatosEstado($event)" (datosenviocorreo)="recibirDatosCorreo($event)"></app-opciones-explorador-venta>
+    
+    <section class="content-header">
+        <div class="container-fluid">
+          <div class="row mb-2">
+            <div class="col-sm-12">
+                <div class="btn-toolbar" role="toolbar">
+                  <div class="btn-group">
+                    <button (click)="clickpagarhabitacion();" [disabled]="disabledbtnpagarhabitacion" class="btn btn-success btn-flat btn-sm float-right" type="button"><i class="fa fa-money-bill-alt"></i> Pagar Habitación</button>
+                    <button (click)="clicknuevafactura();" class="btn btn-success btn-flat btn-sm float-right" type="button"><i class="fa fa-money-bill-alt"></i> Nueva Factura</button>
+                    <button (click)="clickDeshacer();" class="btn btn-secondary btn-flat btn-sm float-right" type="button"><i class="fas fa-redo-alt"></i> Deshacer</button>
+                    <button (click)="goBack();" class="btn btn-secondary btn-flat btn-sm" type="button"><i class="fas fa-undo"></i> Atrás</button>
+                  </div>
+                </div>
+            </div>
+            
+          </div>
+          
+        </div><!-- /.container-fluid -->
+      </section>
+      
+      <!-- Main content -->
+    <section class="content">
+        <div class="container-fluid">
+          <div class="row">
+      
+            <div class="col-md-12">
+    
+              <div class="row">
+  
+                <div class="col-md-12">
+  
+                  <div class="form-group">
+                      <label>Habitación:</label>
+                      <label class="form-control form-control-sm">{{descripcion}}</label>
+                  </div>	
+  
+                </div>
+  
+                
+                  
+    
+              </div>
+              
+            <!-- /.Inicia form1 -->
+            <!-- /.Inicia form1 -->
+            <!-- /.Inicia form1 -->
+              <div *ngIf="secciondeudas==0" class="card card-primary card-outline">
+                <div class="card-header">
+                  <h3 class="card-title"><i class="fa fa-file-alt"></i> Explorador</h3>
+      
+      
+                  <div class="card-tools">
+                    <div class="input-group input-group-sm">
+      
+                        <input (keyup)="keyFiltrado();" type="text" class="form-control float-right" oninput="javascript:this.value=this.value.toUpperCase();" placeholder="Buscar" [(ngModel)]="filterpost" name="filterpost" autocomplete="off" />
+      
+
+      
+                    </div>
+                  </div>
+      
+      
+                </div>
+                <div class="card-body overlay-wrapper">
+
+                      <div *ngIf="loadinglistado" class="overlay overlay-custom d-flex flex-column align-items-center">
+                        <div class="spinner-border text-primary" style="width: 5rem; height: 5rem; font-size: 30px;" role="status"></div>
+                        <div class="text-bold pt-2">Cargando...</div>
+                      </div>
+
+                    <div class="row justify-content-between">
+
+                        <div class="table-responsive p-0">
+                            <table class="design-table resp">
+                              <thead>
+                                <tr>
+                                  <th width="50px">Nº</th>
+                                  <th width="50px">ESTADO</th>
+                                  <th width="300px">CLIENTE</th>
+                                  <th width="100px">FECHA</th>
+                                  <th width="50px">TIPO VENTA</th>
+                                  <th width="50px">TOTAL</th>
+                                  <th width="50px">DEUDA</th>
+                                  <th width="100px"></th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                <tr *ngFor="let item of (datos | filterGenerico:filterpost:['numero_factura', 'fecha_hora', 'cedula', 'cliente', 'tipo_venta', 'estado', 'importetotal']) | paginate : {
+                                  itemsPerPage: pagesize,
+                                  currentPage: page,
+                                  totalItems: count
+                                }; let i = index">
+                                  <td>{{item.numero_factura}}</td>
+                                  <td>
+                                    <small *ngIf="item.estado=='CREADA'" class="badge badge-success">{{item.estado}}</small>
+                                    <small *ngIf="item.estado=='AUTORIZADO'" class="badge badge-info">{{item.estado}}</small>
+                                    <small *ngIf="item.estado=='DEVUELTA'" class="badge badge-danger">{{item.estado}}</small>
+                                    <small *ngIf="item.estado=='NO AUTORIZADO'" class="badge badge-danger">{{item.estado}}</small>
+                                    <small *ngIf="item.estado=='EN PROCESO'" class="badge badge-warning">{{item.estado}}</small>
+                                    <small *ngIf="item.estado=='ANULADA'" class="badge badge-warning">{{item.estado}}</small>
+                                  </td>
+                                  <td>
+                                    <div>{{item.cliente}}</div>
+                                    <div><small class="badge badge-primary">{{item.cedula}}</small></div>
+                                    <div><small *ngIf="item.tipo_venta=='ELECTRONICA' && item.envio!='ENVIADO'" class="badge badge-warning">@ CORREO NO ENVIADO</small></div>
+                                  </td>
+                                  <td>
+                                    <div>
+                                      <small class="badge badge-primary"><i class="fas fa-cash-register mr-1"></i> {{item.fecha_registro}}</small>
+                                    </div>
+                                    <div *ngIf="item.tipo_venta=='ELECTRONICA'" class="mt-1">
+                                      <small class="badge badge-success"><i class="fas fa-file-invoice mr-1"></i> {{item.fecha_hora}}</small>
+                                    </div>
+                                  </td>
+                                  <td>
+                                    <small *ngIf="item.tipo_venta=='ELECTRONICA'" class="badge badge-primary">{{item.tipo_venta}}</small>
+                                    <small *ngIf="item.tipo_venta=='FACTURA'" class="badge badge-primary">{{item.tipo_venta}}</small>
+                                    <small *ngIf="item.tipo_venta=='PENDIENTE'" class="badge badge-warning">{{item.tipo_venta}}</small>
+                                    <small *ngIf="item.tipo_venta=='RECIBO'" class="badge badge-warning">{{item.tipo_venta}}</small>
+                                    <small *ngIf="item.tipo_venta=='PROFORMA'" class="badge badge-secondary">{{item.tipo_venta}}</small>
+                                  </td>
+                                  <td>{{item.importetotal}}</td>
+                                  <td>
+                                    <small *ngIf="item.deuda_valor<=0" class="badge badge-primary">CANCELADO</small>
+                                    <label *ngIf="item.deuda_valor>0">{{item.deuda_valor}}</label>
+                                  </td>
+                                  <td>
+                                    <button (click)="opciones(item);" data-bs-toggle="tooltip" data-bs-placement="top" title="OPCIONES" class="btn btn-outline-primary btn-sm" type="button"><i class="fa fa-cogs"></i></button>
+                                    <button *ngIf="item.deudor==1" (click)="buscarAbono(i);" data-bs-toggle="tooltip" data-bs-placement="top" title="REVISAR ABONOS" class="btn btn-outline-primary btn-sm"><i class="fa fa-search"></i></button>
+                                  </td>
+                                </tr>
+                              </tbody>
+                            </table>
+                            <div class="float-right">
+                              <pagination-controls class="pagination-controls"
+                              previousLabel="Anterior"
+                              nextLabel="Siguiente"
+                              [responsive]="true"
+                              (pageChange)="handlePageChange($event)">
+                              </pagination-controls>
+                            </div>
+                            
+                        </div>
+                    </div>
+                </div>
+                <!-- /.card-body -->
+  
+              </div>
+            <!-- /.Termina form1 -->
+            <!-- /.Termina form1 -->
+            <!-- /.Termina form1 -->
+  
+  
+  
+  
+  
+            <div *ngIf="secciondeudas==1" id="seccionabonos" class="col-md-12">
+  
+                    
+              <div class="col-12 col-sm-12">
+                  <div class="card card-primary card-outline card-tabs">
+                      <div class="card-header p-0 pt-1 border-bottom-0">
+                        <ul class="nav nav-tabs" id="custom-tabs-three-tab" role="tablist">
+                          <li class="nav-item">
+                            <a class="nav-link active" id="tab_producto-tab" data-toggle="pill" href="#tab_producto" role="tab" aria-controls="tab_producto" aria-selected="true"><i class="purple ace-icon fa fa-file-alt bigger-125"></i> Abonos</a>
+                          </li>
+                          <li *ngIf="tipo_credito==2" class="nav-item">
+                            <a class="nav-link" id="tab_tarifa-tab" data-toggle="pill" href="#tab_tarifa" role="tab" aria-controls="tab_tarifa" aria-selected="false"><i class="fas fa-dollar-sign"></i> Cuotas</a>
+                          </li>
+                        </ul>
+                        <button (click)="clickCerrarAbonos();" type="button" class="btn btn-warning btn-flat btn-xs float-right"> <span class="fa fa-ban"></span> Cerrar</button>
+                        <button (click)="clickNuevoAbono();" [disabled]="disabledbtnnuevoabono" type="button" class="btn btn-primary btn-flat btn-xs float-right"> <span class="fa fa-plus"></span> Nuevo Abono</button>
+                      </div>
+        
+                      <div class="card-body">
+                        <div class="tab-content" id="custom-tabs-three-tabContent">
+                          
+                          <div class="tab-pane fade active show" id="tab_producto" role="tabpanel" aria-labelledby="tab_producto-tab">
+                                   
+                                <label>N° Documento: </label><small class="badge badge-primary">{{this.numero_factura}}</small>
+                                <label>Deuda $:</label> <small class="badge badge-danger">{{this.deuda_valor}}</small>
+                                      
+                                <div class="row"> 
+                                  <div class="table-responsive p-0">
+                                    <table class="design-table resp">
+                                        <thead style="background-color:#A9D0F5;">
+                                          <tr>
+                                          <th width="23%">Nº Abono</th>
+                                          <th width="10%">Tipo Abono</th>
+                                          <th width="10%">Fecha</th>
+                                          <th width="10%">Valor Cuota</th>
+                                          <th width="10%">Valor Mora</th>
+                                          <th width="10%">Estado</th>
+                                          <th width="20%">Acción</th>
+                                          </tr>
+                                        </thead>
+                                        <tbody>
+                                          <tr *ngFor="let item of datosabono">
+                                            <td>{{item.numero_abono_venta}}</td>
+                                            <td>
+                                              <small *ngIf="item.tipo_abono==0" class="badge badge-warning">ENTRADA</small>
+                                              <small *ngIf="item.tipo_abono!=0" class="badge badge-primary">CUOTA</small>
+                                            </td>
+                                            <td>{{item.fecha_registro}}</td>
+                                            <td>{{item.valor}}</td>
+                                            <td>{{item.valor_mora}}</td>
+                                            <td>
+                                              <small class="badge badge-primary">CANCELADO</small>
+                                            </td>
+                                            <td>
+                                              <div class="d-flex justify-content-end">
+                                                <button (click)="editarAbono(item.cod_abono_venta);" *ngIf="!this.opcionesprivilegios['bloqueoedicionabonoventa']" data-bs-toggle="tooltip" data-bs-placement="top" title="EDITAR ABONO" class="btn btn-outline-primary btn-sm" type="button"><i class="fas fa-edit"></i></button>
+                                                <button (click)="exportarPdf(item.cod_abono_venta);" data-bs-toggle="tooltip" data-bs-placement="top" title="EXPORTAR PDF ABONO" class="btn btn-outline-danger btn-sm" type="button"><i class="fa fa-file-pdf"></i></button>
+                                              </div>
+                                            </td>
+                                          </tr>
+                                        </tbody>
+                                      </table>
+                                  </div>
+                                </div>
+                          </div>
+        
+        
+                          <div *ngIf="tipo_credito==2" class="tab-pane fade" id="tab_tarifa" role="tabpanel" aria-labelledby="tab_tarifa-tab">
+                                      
+                                <div class="row"> 
+                                  <div class="table-responsive p-0">
+                                    <table class="design-table resp">
+                                        <thead style="background-color:#A9D0F5;">
+                                          <tr>
+                                              <th width="23%">Nº Cuota</th>
+                                              <th width="26%">Fecha Maximo Pago</th>
+                                              <th width="26%">Valor Cuota</th>
+                                              <th width="26%">Valor Cancelado</th>
+                                              <th width="26%">Valor Pendiente</th>
+                                              <th width="40%">Estado</th>
+                                          </tr>
+                                        </thead>
+                                          <tbody>
+                                        </tbody>
+                                      </table>
+                                  </div>
+                                </div>
+                          </div>
+        
+        
+                        </div>
+                      </div>
+                      
+                    </div>
+              </div>
+                  
+        
+            </div>
+  
+  
+  
+  
+  
+            </div>
+      
+          </div>
+      
+      
+      
+          
+      
+      
+      
+        </div>
+      </section>

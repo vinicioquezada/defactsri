@@ -1,0 +1,63 @@
+<div class="hold-transition login-page">
+
+  <div class="login-box">
+      <div class="login-logo">
+          <img id="profile-img" class="profile-img-card" [src]="this.urllogo" width="25%" height="25%"><br>
+          <b>Acceso al Sistema</b>
+      </div>
+      <div [innerHTML]="this.mensaje"></div>
+      <!-- /.login-logo -->
+      <div *ngIf="activo==true" class="card">
+          <div class="card-body login-card-body">
+              <p class="login-box-msg">Inicia la sesión</p>
+      
+              <div class="input-group mb-3">           
+                  <input [(ngModel)]="usuario" class="form-control" type="text" placeholder="Usuario"/>
+
+                  <div class="input-group-append">
+                  <div class="input-group-text">
+                      <span class="fas fa-envelope"></span>
+                  </div>
+                  </div>
+              </div>
+      
+              <div class="input-group mb-3">
+                  <input (keyup.enter)="verificarIngreso();" [(ngModel)]="password" class="form-control" type="password" placeholder="Contraseña"/>
+                  <div class="input-group-append">
+                  <div class="input-group-text">
+                      <span class="fas fa-lock"></span>
+                  </div>
+                  </div>
+              </div>
+      
+              <div [ngClass]="{'d-none': flagocultarsucursal}" class="form-group">
+                  <select (change)="changeSucursal($event)" class="form-control">
+                      <option value="0">Seleccione una Empresa para Iniciar</option>
+                      <option value="{{item.cod_sucursal}}" *ngFor="let item of datossucursal" [selected]="item.cod_sucursal==this.cod_sucursal">
+                          {{item.sucursal}}
+                      </option>
+                  </select>
+              </div>
+
+              <div style="text-align:center">
+                  <div *ngIf="loading" class="spinner-border text-primary" style="width: 3rem; height: 3rem;"></div>
+              </div>
+      
+      
+              <div class="row">
+
+                  <!-- /.col -->
+                  <div class="col-12">
+                      <button (click)="clickIngresar();" type="button" class="btn btn-primary mb-2"><i class="fas fa-key"></i> Ingresar</button>
+                  <!-- /.col -->
+                  </div>
+
+              </div>
+
+          </div>
+
+          <p style="text-align:center; font-size: 12px;">Version {{ version }}</p>
+      </div>
+
+</div>
+

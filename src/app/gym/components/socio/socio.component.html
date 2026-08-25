@@ -1,0 +1,165 @@
+<app-socio-form (datosenvio)="recibirDatosSocio()"></app-socio-form>
+
+<app-foto-form (datosenvio)="recibirDatosFotoForm($event)"></app-foto-form>
+
+<div id="mymodalFoto" class="modal fade" role="dialog" data-backdrop="false">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+      <h5 class="modal-title">SOCIO: {{ cliente }}</h5>
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">×</span>
+          </button>
+      </div>
+      <div class="modal-body">
+
+        <div class="text-center">
+          <img class="profile-user-img img-fluid" [src]="this.urlfoto" alt="Foto no asignada">
+        </div>
+
+      </div>
+      
+
+       <div class="modal-footer">
+          
+       </div>
+
+
+    </div>
+
+  </div>
+</div>
+
+<section class="content-header">
+  <div class="container-fluid">
+    <div class="row mb-2">
+      <div class="col-sm-12">
+          <div class="btn-toolbar" role="toolbar">
+            <div class="btn-group">
+              <button (click)="clickNuevoSocio();" class="btn btn-primary btn-flat btn-sm float-right" type="button"><i class="fa fa-plus"></i> Nuevo</button>
+              <button (click)="clickRefrescar();" class="btn btn-primary btn-flat btn-sm float-right" type="button"><i class="fa fa-redo-alt"></i> Refrescar</button>
+              <button routerLink="/menugym" class="btn btn-secondary btn-flat btn-sm" type="button"><i class="fas fa-undo"></i> Atrás</button>
+            </div>
+          </div>
+      </div>
+      
+    </div>
+    
+  </div><!-- /.container-fluid -->
+</section>
+
+<!-- Main content -->
+<section class="content">
+  <div class="container-fluid">
+    <div class="row">
+
+      <div class="col-md-12">
+
+       
+      <!-- /.Inicia form1 -->
+      <!-- /.Inicia form1 -->
+      <!-- /.Inicia form1 -->
+        <div class="card card-primary card-outline">
+          <div class="card-header">
+            <h3 class="card-title"><i class="fa fa-file-alt"></i><span class="labeloculto">&nbsp;Explorador</span></h3>
+                &nbsp;<span class="text-right">(Total: {{this.cantidad_registros}} Registros)</span>
+
+
+            <div class="card-tools">
+              <div class="input-group input-group-sm">
+
+                  <input (keyup)="keyFiltrado();" type="text" class="form-control float-right" oninput="javascript:this.value=this.value.toUpperCase();" placeholder="Buscar" [(ngModel)]="filterpost" name="filterpost" autocomplete="off" />
+
+
+
+              </div>
+            </div>
+
+
+          </div>
+          <div class="card-body overlay-wrapper">
+
+            <div *ngIf="loadinglistado" class="overlay overlay-custom d-flex flex-column align-items-center">
+              <div class="spinner-border text-primary" style="width: 5rem; height: 5rem; font-size: 30px;" role="status"></div>
+              <div class="text-bold pt-2">Cargando...</div>
+            </div>
+
+            <div class="row mb-3"> 
+              <div class="col-12">
+                <button (click)="listarUsuariosGymRegistrados()" class="btn btn-primary btn-sm mr-1" type="button">
+                  <i class="fas fa-mobile"></i> Socios
+                </button>
+                <button (click)="listarUsuariosGym()" class="btn btn-primary btn-sm mr-2" type="button">
+                  <i class="fas fa-users"></i> Socios y Clientes
+                </button>
+              </div>
+            </div>
+                
+
+              <div class="row justify-content-between">
+
+                    <div class="table-responsive p-0">
+                            <table class="design-table resp">
+                                <thead>
+                                <tr>
+                                    <th>Nº IDENTIFICACIÓN</th>
+                                    <th>SOCIO</th>
+                                    <th></th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr *ngFor="let item of (datos | filterGenerico:filterpost:['cedula', 'apellido', 'nombre', 'identificacion']) | paginate : {
+                                    itemsPerPage: pagesize,
+                                    currentPage: page,
+                                    totalItems: count
+                                }" [ngClass]="{
+                                    'fila-rojo': item.estado_emparejamiento == 0,
+                                    'fila-verde': item.estado_emparejamiento == 1
+                                    }">
+                                    <td>{{item.cedula}}</td>
+                                    <td>{{item.apellido + ' ' + item.nombre}} <button *ngIf="item.estado_emparejamiento == 1" (click)="verFoto(item.cod_cliente, item.apellido + ' ' + item.nombre);" class="btn btn-info btn-sm" type="button"><i class="fas fa-file-image"></i></button></td>
+                                    <td>
+                                    <div class="d-flex justify-content-end">
+                                        <button *ngIf="item.estado_emparejamiento == 0" (click)="clickEmparejar(item);" class="btn btn-primary btn-sm mr-1"><i class="fas fa-sync"></i></button>
+                                        <button *ngIf="item.estado_emparejamiento == 1" (click)="clickEditardatosfoto(item);" class="btn btn-warning btn-sm mr-1"><i class="fas fa-sync"></i></button>
+                                        <button (click)="editar(item);" class="btn btn-warning btn-sm mr-1" type="button"><i class="fas fa-pencil-alt"></i></button>
+                                        <button *ngIf="multisucursal == '0'" (click)="clickEliminar(item);" class="btn btn-danger btn-sm"><i class="fa fa-trash"></i></button>
+                                    </div>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                            <div class="float-right"> 
+                                <pagination-controls class="pagination-controls"
+                                  previousLabel="Anterior"
+                                  nextLabel="Siguiente"
+                                  [responsive]="true"
+                                  (pageChange)="handlePageChange($event)">
+                                </pagination-controls>
+                            </div>
+                    </div>
+              </div>
+
+
+
+
+
+
+          </div>
+          <!-- /.card-body -->
+        </div>
+      <!-- /.Termina form1 -->
+      <!-- /.Termina form1 -->
+      <!-- /.Termina form1 -->
+      </div>
+
+    </div>
+
+
+
+    
+
+
+
+  </div>
+</section>

@@ -1,0 +1,126 @@
+<div id="mymodalopcionesguiaremision" class="modal fade" role="dialog" data-backdrop="false">
+  <div class="modal-dialog">
+    <!-- Modal content -->
+    <div class="modal-content">
+      <div class="modal-header">
+      <h5 class="modal-title">GUIA REMISIÓN Nº {{ numero_guia }} - {{ razon_social_transportista }}</h5>
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">×</span>
+          </button>
+      </div>
+      <div class="modal-body">
+
+        <div *ngIf="tipoformulario=='exploradorguiaremision'">
+
+          <div class="row">
+            <div class="col-12 d-flex flex-wrap justify-content-center">
+
+              <div class="col-md-4 pb-1">
+                <button (click)="editar();" [disabled]="disabledbtneditar" class="btn btn-primary btn-flat btn-sm btn-block" type="button"><i class="fas fa-edit"></i> EDITAR</button>
+              </div>
+
+              <div class="col-md-4 pb-1">
+                <button (click)="visualizar();" class="btn btn-primary btn-flat btn-sm btn-block" type="button"><i class="fas fa-print"></i> VISUALIZAR</button>
+              </div>
+
+              <div class="col-md-4 pb-1">
+                <button (click)="enviarCorreo();" [disabled]="disabledbtnenviarcorreo" class="btn btn-primary btn-flat btn-sm btn-block" type="button"><i class="fas fa-at"></i> ENVIAR CORREO</button>
+              </div>
+
+              <div class="col-md-4 pb-1">
+                <button *ngIf="!this.opcionesprivilegios['bloqueoenviosri']" (click)="iniciarProcesoFacturacion();" [disabled]="disabledbtnenviarsri" class="btn btn-primary btn-flat btn-sm btn-block" type="button"><i class="fas fa-paper-plane"></i> ENVIAR SRI</button>
+                <button *ngIf="this.opcionesprivilegios['bloqueoenviosri']" disabled="disabled" class="btn btn-secondary btn-flat btn-sm btn-block" type="button"><i class="fas fa-paper-plane"></i> ENVIAR SRI</button>
+              </div>
+
+              <div class="col-md-4 pb-1">
+                <button (click)="clickAnular();" [disabled]="disabledbtnanular" class="btn btn-danger btn-flat btn-sm btn-block" type="button"><i class="fas fa-trash-alt"></i> ANULAR</button>
+              </div>
+
+              <div class="col-md-4 pb-1">
+                <button (click)="descargarRide();" [disabled]="disabledbtndescargarride" class="btn btn-primary btn-flat btn-sm btn-block" type="button"><i class="fas fa-file-pdf"></i> RIDE</button>
+              </div>
+
+              <div class="col-md-4 pb-1">
+                <button (click)="descargarXml();" [disabled]="disabledbtndescargarxml" class="btn btn-primary btn-flat btn-sm btn-block" type="button"><i class="fas fa-file-excel"></i> XML</button>
+              </div>
+
+              <div class="col-md-4 pb-1">
+                <button (click)="descargarXmlAutorizado();" [disabled]="disabledbtndescargarxml" class="btn btn-primary btn-flat btn-sm btn-block" type="button"><i class="fas fa-file-download"></i> XML</button>
+              </div>
+
+              <div class="col-md-4 pb-1">
+                <button (click)="descargarDocumentos();" [disabled]="disabledbtndescargardocumentos" class="btn btn-primary btn-flat btn-sm btn-block" type="button"><i class="fas fa-file-archive"></i> RIDE/XML</button>
+              </div>
+
+              <div class="col-md-4 pb-1">
+                <button (click)="comprobarSri();" [disabled]="disabledbtncomprobarsri" class="btn btn-primary btn-flat btn-sm btn-block" type="button"><i class="fas fa-search"></i> COMPROBAR</button>
+              </div>
+
+              <div class="col-md-4 pb-1">
+                <button (click)="clickCrearRide();" [disabled]="disabledbtncrearride" class="btn btn-primary btn-flat btn-sm btn-block" type="button"><i class="fas fa-file-pdf"></i> CREAR RIDE</button>
+              </div>
+    
+              <div class="col-md-4 pb-1">
+                <button (click)="revisarDocumentoError();" *ngIf="estado_comprobante == 'DEVUELTA' || estado_comprobante=='NO AUTORIZADO'" class="btn btn-danger btn-flat btn-sm btn-block" type="button"><i class="fa fa-info-circle"></i> XML</button>
+              </div>
+    
+              <div class="col-md-4 pb-1">
+                <button (click)="revisarDocumentoXml();" *ngIf="estado_comprobante == 'DEVUELTA' || estado_comprobante=='NO AUTORIZADO'" class="btn btn-danger btn-flat btn-sm btn-block" type="button"><i class="fas fa-file-excel"></i> XML</button>
+              </div>
+
+            </div>
+          </div>
+  
+        </div>
+
+        <div *ngIf="tipoformulario=='exploradorguiaremisioninicio'">
+
+          <div class="row">
+            <div class="col-12 d-flex flex-wrap justify-content-center">
+
+              <div class="col-md-4 pb-1">
+                <button (click)="visualizar();" class="btn btn-primary btn-flat btn-sm btn-block" type="button"><i class="fas fa-print"></i> VISUALIZAR</button>
+              </div>
+              <div class="col-md-4 pb-1">
+                <button (click)="enviarCorreo();" *ngIf="electronico == '1'" [disabled]="disabledbtnenviarcorreo" class="btn btn-primary btn-flat btn-sm btn-block" type="button"><i class="fas fa-at"></i> ENVIAR CORREO</button>
+              </div>
+
+              <div class="col-md-4 pb-1">
+                <button (click)="comprobarSri();" [disabled]="disabledbtncomprobarsri" class="btn btn-primary btn-flat btn-sm btn-block" type="button"><i class="fas fa-search"></i> COMPROBAR</button>
+              </div>
+              
+              <div class="col-md-4 pb-1">
+                <button (click)="iniciarProcesoFacturacion();" *ngIf="electronico == '1'" [disabled]="disabledbtnenviarsri" class="btn btn-primary btn-flat btn-sm btn-block" type="button"><i class="fas fa-paper-plane"></i> ENVIAR SRI</button>
+              </div>
+              <div class="col-md-4 pb-1">
+                <button (click)="revisarDocumentoError();" *ngIf="estado_comprobante == 'DEVUELTA' || estado_comprobante=='NO AUTORIZADO'" class="btn btn-danger btn-flat btn-sm btn-block" type="button"><i class="fa fa-info-circle"></i> XML</button>
+              </div>
+  
+              <div class="col-md-4 pb-1">
+                <button (click)="revisarDocumentoXml();" *ngIf="estado_comprobante == 'DEVUELTA' || estado_comprobante=='NO AUTORIZADO'" class="btn btn-danger btn-flat btn-sm btn-block" type="button"><i class="fas fa-file-excel"></i> XML</button>
+              </div>
+
+            </div>
+          </div>
+
+        </div>
+        
+        <div class="row justify-content-between">
+          <span *ngIf="loadingmodal" class="justify-content-center text-center m-auto">
+                <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;"></div>
+          </span>
+        </div>
+
+        <div class="d-flex justify-content-end align-items-center pt-3">
+          <button class="btn btn-secondary btn-sm" type="button" data-dismiss="modal"><i class="fas fa-times-circle"></i> Cerrar</button>
+        </div>
+
+
+      </div>
+
+
+
+    </div>
+
+  </div>
+</div>

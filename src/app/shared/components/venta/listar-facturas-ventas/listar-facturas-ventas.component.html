@@ -1,0 +1,118 @@
+<div id="mymodallistarfacturasventas" class="modal fade" role="dialog" data-backdrop="false">
+  <div class="modal-dialog modal-xl">
+    <!-- Modal content -->
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">PRODUCTO  {{ detalle }}</h5>
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">×</span>
+          </button>
+      </div>
+      <div class="modal-body">
+
+        <div class="row justify-content-end align-items-center">
+              <div class="input-group input-group-sm float-right" style="width: 150px;">
+
+                <input (keyup)="keyFiltrado();" type="text" class="form-control float-right" oninput="javascript:this.value=this.value.toUpperCase();" placeholder="Buscar" [(ngModel)]="filterpost" name="filterpost" autocomplete="off" />
+
+              </div>
+        </div>
+        
+        
+        <br>
+        
+        <div class="row justify-content-between">
+
+          <span *ngIf="loadinglistado" class="justify-content-center text-center m-auto">
+            <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;"></div>
+          </span>
+          
+          <div class="table-responsive p-0">
+            <table class="design-table resp">
+              <thead>
+                <tr>
+                  <th width="50px">Nº</th>
+                  <th width="50px">ESTADO</th>
+                  <th width="200px">VENDEDOR</th>
+                  <th width="300px">CLIENTE</th>
+                  <th width="100px">FECHA</th>
+                  <th width="50px">TOTAL</th>
+                  <th width="100px">TIPO VENTA</th>
+                  <th width="50px"></th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let item of (datos | filterGenerico:filterpost:['numero_nota_credito', 'estado', 'fecha_hora', 'fecha_hora', 'importetotal']) | paginate : {
+                  id : 'paglistafacturasventas',
+                  itemsPerPage: pagesizelistafacturasventas,
+                  currentPage: pagelistafacturasventas,
+                  totalItems: countlistafacturasventas
+                }">
+                  <td>{{item.numero_factura}}</td>
+                  <td>
+                    <small *ngIf="item.estado=='CREADA'" class="badge badge-success">{{item.estado}}</small>
+                    <small *ngIf="item.estado=='AUTORIZADO'" class="badge badge-info">{{item.estado}}</small>
+                    <small *ngIf="item.estado=='DEVUELTA'" class="badge badge-danger">{{item.estado}}</small>
+                    <small *ngIf="item.estado=='NO AUTORIZADO'" class="badge badge-danger">{{item.estado}}</small>
+                    <small *ngIf="item.estado=='EN PROCESO'" class="badge badge-warning">{{item.estado}}</small>
+                    <small *ngIf="item.estado=='ANULADA'" class="badge badge-warning">{{item.estado}}</small>
+                    <div *ngIf="recaudador=='1'">
+                      <small *ngIf="item.estado_recaudado==0" class="badge badge-warning">NO RECAUDADO</small>
+                    </div>
+                    
+                  </td>
+                  <td>{{item.empleado}}</td>
+                  <td>
+                    {{item.cliente}}<br>
+                    <div><small class="badge badge-primary"><i class="fa fa-id-card"></i> {{item.cedula}}</small></div>
+                    <div><small *ngIf="item.tipo_venta=='ELECTRONICA' && item.envio!='ENVIADO'" class="badge badge-warning">@ CORREO NO ENVIADO</small></div>
+                  </td>
+                  <td>
+                    <div><small class="badge badge-primary">
+                      <i class="fas fa-cash-register mr-1"></i> {{item.fecha_registro}}</small>
+                    </div>
+                    <div *ngIf="item.tipo_venta=='ELECTRONICA'" class="mt-1">
+                      <small class="badge badge-success"><i class="fas fa-file-invoice mr-1"></i> {{item.fecha_hora}}</small>
+                    </div>
+                  </td>
+                  <td><label class="text-success">{{item.importetotal}}</label></td>
+                  <td>
+                    <small *ngIf="item.tipo_venta=='ELECTRONICA'" class="badge badge-primary">{{item.tipo_venta}}</small>
+                    <small *ngIf="item.tipo_venta=='FACTURA'" class="badge badge-primary">{{item.tipo_venta}}</small>
+                    <!-- <small *ngIf="item.tipo_venta=='PEDIDO RESERVADO'" class="badge badge-warning">{{item.tipo_venta}}</small> -->
+                    <small *ngIf="item.tipo_venta=='RECIBO'" class="badge badge-info">{{item.tipo_venta}}</small>
+                    <small *ngIf="item.tipo_venta=='PROFORMA'" class="badge badge-secondary">{{item.tipo_venta}}</small>
+                    <!--<small *ngIf="item.tipo_venta=='PEDIDO PANADERIA'" class="badge badge-warning">{{item.tipo_venta}}</small> -->
+                    <small *ngIf="item.deudor==1 && item.termino_deudor==0" class="badge badge-warning">POR COBRAR</small>
+                    <small *ngIf="item.excluir_general==1" class="badge badge-success">CON DESCUENTO</small>
+                    <small *ngIf="firmasruc=='1'" class="badge badge-primary">{{item.empresa}}</small>
+                  </td>
+                  <td>
+                    <div class="d-flex justify-content-end">
+                      <button (click)="imprimirVenta(item);" data-bs-toggle="tooltip" data-bs-placement="top" title="IMPRIMIR" class="btn btn-outline-primary btn-sm" type="button"><i class="fa fa-print"></i></button>
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+            <div class="float-right">
+              <pagination-controls class="pagination-controls" id="paglistafacturasventas"
+              previousLabel="Anterior"
+              nextLabel="Siguiente"
+              [responsive]="true"
+              (pageChange)="handlePageChangelistaFacturasVentas($event)">
+              </pagination-controls>
+            </div>
+          </div>
+        </div>
+
+        <div class="d-flex justify-content-end align-items-center">
+          <button class="btn btn-secondary btn-sm" type="button" data-dismiss="modal"><i class="fas fa-times-circle"></i> Cerrar</button>
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+</div>

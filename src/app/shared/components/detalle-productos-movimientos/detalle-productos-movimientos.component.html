@@ -1,0 +1,39 @@
+<div class="scroll-container" #scrolly>
+  <table border="1" style="font-size: 12px;" class="bordered">
+          <thead>
+              <tr>
+              <th width="5%">C/U.</th>
+              <th width="5%">C/P.</th>
+              <th width="5%">C/Aj.</th>
+              <th width="33%">Detalles</th>
+              <th width="3%">U</th>
+              <th *ngIf="tipo_formulario!='visualizarregistro'" width="10%"></th>
+              </tr>
+          </thead>
+          <tbody>
+              <tr *ngFor="let item of datosdetalles; let i = index; let u = last" [ngClass]="{'bg-danger': item.fila_error}">
+                  <td>
+                      <span *ngIf="item.estado_movimiento=='REVISADO'">{{item.cantidad_comprar}}</span>
+                      <input *ngIf="item.estado_movimiento!='REVISADO'" class="micajatable" type="text" maxlength="15" (keydown)="keyPendiente(i)" (keyup.enter)="keySumar(i)" [(ngModel)]="item.cantidad_comprar" onKeyPress="return soloNumeros(event)">
+                  </td>
+                  <td>
+                      <span *ngIf="item.estado_movimiento=='REVISADO'">{{item.cantidad_paquete}}</span>
+                      <input *ngIf="item.estado_movimiento!='REVISADO'" class="micajatable" type="text" maxlength="15" (keydown)="keyPendiente(i)" (keyup.enter)="keySumar(i)" [(ngModel)]="item.cantidad_paquete" onKeyPress="return soloNumeros(event)">
+                  </td>
+                  <td>
+                      <span *ngIf="item.estado_movimiento=='REVISADO'">{{item.cantidad_ajuste}}</span>
+                      <input *ngIf="item.estado_movimiento!='REVISADO'" class="micajatable" type="text" maxlength="15" (keydown)="keyPendiente(i)" (keyup.enter)="keySumar(i)" [(ngModel)]="item.cantidad_ajuste" onKeyPress="return soloNumeros(event)">
+                  </td>
+                  <td>{{item.descripcion}}</td>
+                  <td>{{item.cantidad_unidad}}</td>
+                  <td *ngIf="tipo_formulario!='visualizarregistro'">
+                      <span *ngIf="item.estado_movimiento=='REVISADO'" class="btn btn-secondary btn-sm"><i class="fa fa-trash"></i></span>
+                      <button *ngIf="item.estado_movimiento!='REVISADO'" (click)="borrar(i);" class="btn btn-danger btn-sm"><i class="fa fa-trash"></i></button>
+                      <label *ngIf="u==true">{{ultimaFila(i)}}</label>
+                  </td>
+              </tr>
+              
+          </tbody>
+
+  </table>
+</div>

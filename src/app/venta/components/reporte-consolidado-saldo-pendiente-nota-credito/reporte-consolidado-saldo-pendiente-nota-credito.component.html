@@ -1,0 +1,267 @@
+<app-listado-empleado (datosenviar)="recibirDatosEmpleados($event)"></app-listado-empleado>
+
+<app-listado-cliente (datosenviar)="recibirDatosCliente($event)"></app-listado-cliente>
+  
+  <section class="content-header">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-12">
+              <div class="btn-toolbar" role="toolbar">
+                <div class="btn-group">
+                    <button (click)="clickDeshacer();" class="btn btn-secondary btn-flat btn-sm float-right" type="button"><i class="fas fa-redo-alt"></i> Deshacer</button>
+                    <button routerLink="/menuventa" class="btn btn-secondary btn-flat btn-sm" type="button"><i class="fas fa-undo"></i> Atrás</button>
+                </div>
+              </div>
+          </div>
+          
+        </div>
+        
+      </div><!-- /.container-fluid -->
+    </section>
+    
+    <!-- Main content -->
+  <section class="content">
+      <div class="container-fluid">
+
+        <div style="text-align:center">
+          <div *ngIf="loading" class="spinner-border text-primary" style="width: 3rem; height: 3rem;"></div>
+        </div>
+        
+        <div class="row">
+    
+          <div class="col-md-12">
+  
+            <div class="row">
+  
+              <div class="col-md-6 d-flex align-items-center">
+                <a class="btn btn-primary btn-flat btn-sm" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample"><i class="fa fa-cogs"></i>
+                  Más Formas de búsqueda
+                </a>
+              </div>
+
+              <div class="col-md-6 d-flex align-items-center justify-content-end pb-2">
+                <button (click)="buscar();" class="btn btn-primary btn-flat" type="button"><i class="fa fa-search"></i> Buscar</button>
+              </div>
+  
+            </div>
+
+            <div class="collapse" id="collapseExample">
+              <div class="card card-body">
+                  <div class="col-md-12">
+   
+                    <div class="row">
+
+                      <div *ngIf="multisucursal=='1' && opcionesprivilegios['bloqueogestionlocales']!=1" class="col-md-6">
+                          <div class="form-group">
+                              <label>Sucursal:</label>
+                              <select (change)="changeSucursal($event)" class="form-control form-control-sm">
+                                  <option value="{{item.cod_sucursal}}" *ngFor="let item of datossucursal" [selected]="this.cod_sucursal == item.cod_sucursal">
+                                      {{item.sucursal}}
+                                  </option>
+                              </select>
+                          </div>	
+                      </div>
+
+                      <div *ngIf="firmasruc=='1'" class="col-md-6">
+                        <div class="form-group">
+                            <label>Ruc Empresa:</label>
+                            <select (change)="changeEmpresa($event)" class="form-control form-control-sm">
+                                <option value="{{item.cod_ruc}}" *ngFor="let item of datosrucempresa" [selected]="this.cod_ruc == item.cod_ruc">
+                                    {{item.empresa}}
+                                </option>
+                            </select>
+                        </div>	
+                      </div>
+                              
+                      <div class="col-md-6">
+                        <div class="form-group">
+                          <label>Personal:</label>
+                          
+                          <div class="input-group input-group-sm">
+                              <div class="input-group-prepend">
+                                <span class="input-group-text"><input (change)="changeChkEmpleado();" [checked]="chkempleado" type="checkbox"> TODOS</span>
+                              </div>
+                              <label class="form-control">{{this.empleado}}</label>
+                              <span class="input-group-append">
+                                <button (click) = "listarEmpleados();" class="btn btn-primary btn-flat" type="button"><i class="fa fa-list"></i></button>
+                              </span>
+                          </div>
+                        </div>
+                      </div>
+      
+                      <div class="col-md-6">
+                        <div class="form-group">
+                          <label>Cliente:</label>
+                          <div class="input-group input-group-sm">
+                              <div class="input-group-prepend">
+                                <span class="input-group-text"><input (change)="changechkcliente();" [checked]="chkcliente" type="checkbox"> TODOS</span>
+                              </div>
+                              <label class="form-control">{{this.cliente}}</label>
+                              <span class="input-group-append">
+                                <button (click) = "listarClientes();" class="btn btn-primary btn-flat" type="button"><i class="fa fa-list"></i></button>
+                              </span>
+                          </div>
+                        </div>
+                      </div>
+      
+                      <div class="col-md-6">
+                        <div class="form-group">
+                            <label>Tipo Documento:</label>
+                            <select (change)="changeTipoDocumento($event)" class="form-control form-control-sm">
+                                <option [value]="item.cod_tipo_documento" *ngFor="let item of datostipodocumento" [selected]="item.cod_tipo_documento == cod_tipo_documento">
+                                    {{item.tipo_documento}}
+                                </option>
+                            </select>
+                        </div>	
+                      </div>
+
+                    </div>
+
+                  </div>
+              </div>
+            </div>
+
+            <div class="row">
+
+              <div class="col-lg-4 col-6">
+                <div class="small-box bg-success">
+                  <div class="inner">
+                    <h3>$ {{ totalnotacredito | number:'1.2-2' }}</h3>
+                    <p>Total General</p>
+                  </div>
+                  <div class="icon">
+                    <i class="fas fa-dollar-sign"></i>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-lg-4 col-6">
+                <div class="small-box bg-warning">
+                  <div class="inner">
+                    <h3>$ {{ totalsaldofavor | number:'1.2-2' }}</h3>
+                    <p>Saldo Favor Cliente</p>
+                  </div>
+                  <div class="icon">
+                    <i class="fas fa-clock"></i>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-lg-4 col-6 mx-auto">
+                <div class="small-box bg-info">
+                  <div class="inner">
+                    <h3>{{ cantidad_registros }}</h3>
+                    <p>N° Clientes</p>
+                  </div>
+                  <div class="icon">
+                    <i class="fas fa-users"></i>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+            
+          <!-- /.Inicia form1 -->
+          <!-- /.Inicia form1 -->
+          <!-- /.Inicia form1 -->
+            <div class="card card-primary card-outline">
+              <div class="card-header">
+                <h3 class="card-title"><i class="fa fa-file-alt"></i><span class="labeloculto">&nbsp;Reporte</span></h3>
+    
+                <div class="card-tools">
+                  <div class="input-group input-group-sm">
+    
+                      <button (click)="exportarExcel();" class="btn btn-success btn-flat btn-sm float-right" type="button"><i class="fa fa-file-excel"></i> Excel</button>
+                      <button (click)="exportarPdf();" class="btn btn-danger btn-flat btn-sm float-right" type="button"><i class="fa fa-file-pdf"></i> PDF</button>
+
+                      <input (keyup)="keyFiltrado();" type="text" class="form-control float-right" oninput="javascript:this.value=this.value.toUpperCase();" placeholder="Buscar" [(ngModel)]="filterpost" name="filterpost" autocomplete="off" />
+
+                  </div>
+                </div>
+    
+    
+              </div>
+              <div class="card-body">
+           
+                
+                <div *ngIf="loadinglistado" class="d-flex justify-content-center align-items-center">
+                  <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;"></div>
+                </div>
+    
+                      <div class="table-responsive p-0">
+                        <table class="design-table">
+                            <thead>
+                              <tr>
+                                <th width="100px">DOCUMENTO</th>
+                                <th width="300px">CLIENTE</th>
+                                <th width="120px">NOTAS CREDITOS</th>
+                                <th width="120px">SALDO FAVOR</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              <tr *ngFor="let item of (datos | filterGenerico:filterpost:['cedula', 'cliente']) | paginate : {
+                                itemsPerPage: pagesize,
+                                currentPage: page,
+                                totalItems: count
+                              }">
+                                <td>{{item.cedula}}</td>
+                                <td>{{item.cliente}}</td>
+                                <td><label class="text-success">{{item.importetotal | number}}</label></td>
+                                <td><label class="text-primary">{{item.total_saldo_favor | number}}</label></td>
+                              </tr>
+                            </tbody>
+                          </table>
+                      </div>
+                      <div class="row">
+                        <div class="col-md-12">
+                          <div class="float-right text-right">
+                            <table class="design-table">
+                              <tr>
+                                <td><label>TOTAL N. CREDITO</label></td>
+                                <td><label class="text-success">{{totalnotacredito}}</label></td>
+                              </tr>
+                              <tr>
+                                <td><label>TOTAL SALDO FAVOR</label></td>
+                                <td><label class="text-success">{{totalsaldofavor}}</label></td>
+                              </tr>
+                            </table>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="row">
+                        <div class="col-md-12">
+                          <div class="float-right">
+                            <pagination-controls class="pagination-controls"
+                            previousLabel="Anterior"
+                            nextLabel="Siguiente"
+                            [responsive]="true"
+                            (pageChange)="handlePageChange($event)">
+                            </pagination-controls>
+                          </div>
+                        </div>
+                      </div>
+    
+    
+    
+    
+    
+    
+              </div>
+              <!-- /.card-body -->
+            </div>
+          <!-- /.Termina form1 -->
+          <!-- /.Termina form1 -->
+          <!-- /.Termina form1 -->
+          </div>
+    
+        </div>
+    
+    
+    
+        
+    
+    
+    
+      </div>
+    </section>

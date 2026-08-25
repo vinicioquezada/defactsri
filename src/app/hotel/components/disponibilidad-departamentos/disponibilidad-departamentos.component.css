@@ -1,0 +1,25 @@
+@media only screen and (max-width: 768px) {
+  td:nth-of-type(1):before {
+    content: "";
+  }
+  
+  td:nth-of-type(2):before {
+    content: "HABITACIÓN";
+  }
+  
+  td:nth-of-type(3):before {
+    content: "PRECIO";
+  }
+  
+  td:nth-of-type(4):before {
+    content: "ESTADO";
+  }
+
+  td:nth-of-type(5):before {
+    content: "PERSONA";
+  }
+
+  td:nth-of-type(6):before {
+    content: "";
+  }
+}

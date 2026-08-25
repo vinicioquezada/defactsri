@@ -1,0 +1,206 @@
+ 
+  <app-producto-form (datosenvio)="recibirDatosProducto();"></app-producto-form>
+
+  <app-existencias></app-existencias>
+
+  <app-tarifas></app-tarifas>
+
+  <app-factura-proveedor></app-factura-proveedor>
+
+  <app-precios-proveedor></app-precios-proveedor>
+
+  
+  <section class="content-header">
+    <div class="container-fluid">
+      <div class="row mb-2">
+        <div class="col-sm-12">
+            <div class="btn-toolbar" role="toolbar">
+              <div class="btn-group">
+                <button (click)="clickNuevoProducto();" class="btn btn-primary btn-flat btn-sm" type="button"><i class="fa fa-plus"></i> Nuevo</button>
+                <button (click)="clickDeshacer();" class="btn btn-secondary btn-flat btn-sm" type="button"><i class="fas fa-redo-alt"></i> Deshacer</button>
+                <button routerLink="/menualmacen" class="btn btn-secondary btn-flat btn-sm" type="button"><i class="fas fa-undo"></i> Atrás</button>
+              </div>
+
+
+              <div class="input-group">  
+                <select *ngIf="!this.opcionesprivilegios['bloqueogestionproductolocales']" (change)="changeSucursal($event)" class="btn btn-primary btn-flat btn-sm">
+                    <option value="{{item.cod_sucursal}}" *ngFor="let item of datossucursal" [selected]="item.cod_sucursal == this.cod_sucursal">
+                        {{item.sucursal}}
+                    </option>
+                </select>
+              </div>
+
+
+            </div>
+        </div>
+        
+      </div>
+      
+    </div><!-- /.container-fluid -->
+  </section>
+  
+  <!-- Main content -->
+  <section class="content">
+      <div class="container-fluid">
+        <div class="row">
+  
+          <div class="col-md-12">
+            
+          <!-- /.Inicia form1 -->
+          <!-- /.Inicia form1 -->
+          <!-- /.Inicia form1 -->
+            <div class="card card-primary card-outline">
+              
+             
+  
+              <div class="card-header">
+              <h3 class="card-title"><i class="fa fa-file-alt"></i><span class="labeloculto">&nbsp;Explorador</span></h3>
+                &nbsp;<span class="text-right">(Total: {{this.cantidad_registros}} Registros)</span>
+  
+  
+              <div class="card-tools">
+                <div class="input-group input-group-sm">
+  
+                    <input (keyup)="keyFiltrado();" type="text" class="form-control float-right" oninput="javascript:this.value=this.value.toUpperCase();" placeholder="Buscar" [(ngModel)]="filterpost" name="filterpost" autocomplete="off" />
+  
+                    
+  
+                </div>
+              </div>
+  
+  
+            </div>
+              <!-- /.card-header -->
+              <div class="card-body overlay-wrapper">
+  
+                <div *ngIf="loadinglistado" class="overlay overlay-custom d-flex flex-column align-items-center">
+                  <div class="spinner-border text-primary" style="width: 5rem; height: 5rem; font-size: 30px;" role="status"></div>
+                  <div class="text-bold pt-2">Cargando...</div>
+                </div>
+
+                <div class="row justify-content-between">
+
+                  <div class="table-responsive p-0">
+                    <table class="design-table resp">
+                      <thead>
+                        <tr>
+                          <th>SUBCATEGORIA</th>
+                          <th>DESCRIPCIÓN</th>
+                          <th>PRECIO VENTA</th>
+                          <th>EXISTENCIAS</th>
+                          <th><i class="fa fa-fw fa-barcode"></i></th>
+                          <th><i class="fa fa-fw fa-barcode"></i></th>
+                          <th></th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr *ngFor="let item of (datos | filterGenerico:filterpost:['subcategoria', 'marca', 'descripcion', 'codigo', 'codigo_adicional']) | paginate : {
+                          itemsPerPage: pagesize,
+                          currentPage: page,
+                          totalItems: count
+                        }">
+                          <td>
+                            {{item.subcategoria}}
+                            <div><small class="badge badge-primary">{{item.marca}}</small></div>
+                          </td>
+                          <td>{{item.descripcion}}</td>
+                          <td><label class="text-success">{{item.precio_venta}}</label></td>
+                          <td>
+                            <label [ngClass]="{'text-primary': item.existencia>0, 'text-danger': item.existencia<=0}">{{item.existencia}}</label>
+                            <label class="text-info float-right" *ngIf="item.fraccionado=='SI'">({{item.cantidad_denominacion + " " + item.denominacion}})</label>
+                            <div *ngIf="item.pedidos>0">
+                              <span class="badge badge-warning">Pedidos {{item.pedidos}}</span>
+                            </div>
+                          </td>
+                          <td>{{item.codigo}}</td>
+                          <td>{{item.codigo_adicional}}</td>
+                          <td>
+                            <div class="d-flex justify-content-end">
+                              <button *ngIf="!this.opcionesprivilegios['bloqueoedicionproductos']" (click)="editar(item);" class="btn btn-outline-warning btn-sm mr-1" type="button"><i class="fas fa-pencil-alt"></i></button>
+
+                              <button *ngIf="!this.opcionesprivilegios['bloqueoanulacionproductos'] && this.cod_sucursal!='0'" (click)="clickEliminarProductoSucursal(item.cod_producto, item.descripcion);" class="btn btn-outline-warning btn-sm mr-1"><i class="fa fa-trash"></i></button>
+
+                              <button *ngIf="!this.opcionesprivilegios['bloqueoeliminacionproductos']" (click)="clickEliminar(item.cod_producto, item.descripcion);" class="btn btn-outline-danger btn-sm mr-1"><i class="fa fa-trash"></i></button>
+
+                              <button type="button"
+                                  class="btn btn-primary btn-sm dropdown-toggle mr-1"
+                                  data-toggle="dropdown"
+                                  aria-haspopup="true"
+                                  aria-expanded="false">
+                                  <i class="fas fa-ellipsis-v"></i>
+                              </button>
+
+                            <div class="dropdown-menu dropdown-menu-right">
+
+                                  <h6 class="dropdown-header text-left">Configuraciones</h6>
+
+                                  <a *ngIf="!this.opcionesprivilegios['bloqueoedicionproductos']"(click)="agregarexistencias(item.cod_producto);" class="dropdown-item cursor-pointer">
+                                      <i class="fa fa-database text-primary"></i>
+                                      Existencias
+                                  </a>
+
+                                  <a *ngIf="this.opcionesmenu['gestiontarifas'] && tarifas=='0'" (click)="agregartarifas(item.cod_producto);" class="dropdown-item cursor-pointer">
+                                      <i class="fa fa-dollar-sign text-success"></i>
+                                      Tarifas
+                                  </a>
+
+                                  <div class="dropdown-divider"></div>
+
+                                  <h6 class="dropdown-header text-left">Proveedores</h6>
+
+                                  <a (click)="revisarpreciosproductoproveedores(item.cod_producto, item.descripcion);" class="dropdown-item cursor-pointer">
+                                      <i class="fa fa-user-tie text-success"></i>
+                                      Precios de proveedor
+                                  </a>
+
+                                  <a (click)="revisarfacturasproveedores(item.cod_producto, item.descripcion);" class="dropdown-item cursor-pointer">
+                                      <i class="fa fa-shopping-cart text-primary"></i>
+                                      Facturas proveedor
+                                  </a>
+                              </div>
+
+                            </div>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                    <div class="float-right">
+                      <pagination-controls class="pagination-controls"
+                      previousLabel="Anterior"
+                      nextLabel="Siguiente"
+                      [responsive]="true"
+                      (pageChange)="handlePageChange($event)">
+                      </pagination-controls>
+                    </div>
+                  </div>
+                </div>
+  
+              </div>
+              <!-- /.card-body -->
+            </div>
+          <!-- /.Termina form1 -->
+          <!-- /.Termina form1 -->
+          <!-- /.Termina form1 -->
+          </div>
+  
+
+
+
+        
+  
+  
+         
+  
+  
+        
+  
+        </div>
+  
+  
+  
+        
+  
+  
+  
+      </div>
+  </section>

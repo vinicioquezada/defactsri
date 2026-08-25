@@ -1,0 +1,266 @@
+<div id="mymodalregistrocompensacion" class="modal fade" role="dialog" data-backdrop="false">
+    <div class="modal-dialog">
+      <!-- Modal content -->
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">REGISTRO DE COMPENSACIÓN</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">×</span>
+          </button>
+        </div>
+
+        <div class="modal-body">
+
+          <div class="row">
+              <div class="col-md-12">
+                <div class="row">
+
+                    <div class="col-md-6">
+                      <div class="form-group">
+                        <label>N° Nota Crédito:</label>
+                        <div class="input-group input-group-sm">
+                          <label class="form-control" style="color:#0000FF;">{{this.numero_nota_credito}}</label>
+                            <span class="input-group-append">
+                                <button (click)="listarNotaCreditosPorCliente();" class="btn btn-primary btn-flat" type="button"><i class="fa fa-list"></i></button>
+                            </span>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="col-md-6">
+                      <div class="form-group">
+                        <label>Total de Crédito:</label>
+                        <label class="form-control form-control-sm text-success">{{this.importetotalnotacredito}}</label>
+                      </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="form-group">
+                          <label>Saldo Pendiente $:</label>
+                            <div class="input-group input-group-sm">
+                              <label class="form-control" style="color:#FF0000;">{{this.saldo_favor}}</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="form-group">
+                          <label>Forma Pago Compensar:</label>
+                            <div class="input-group input-group-sm">
+                              <select [(ngModel)]="id_forma_pago" (change)="changeFormaPago($event)" class="form-control form-control-sm">
+                                <option value="{{item.id_forma_pago}}" *ngFor="let item of datosformapago">
+                                    {{item.forma_pago}}
+                                </option>
+                              </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                      <div class="form-group">
+                        <label>Ingrese Compensación:</label>
+                          <div class="input-group input-group-sm">
+                            <input [(ngModel)]="valor_compensacion" (keyup.enter)="calcularCompensacion();" type="text" class="form-control" maxlength="10" placeholder="Ingrese Compensación" onKeyPress="return soloNumeros(event)">
+                            <span class="input-group-append">
+                              <button (click)="calcularCompensacion();" class="btn btn-primary" type="button"><i class="fa fa-calculator"></i></button>
+                            </span>
+                          </div>
+                      </div>
+                    </div>
+
+
+                </div>
+              </div>
+          </div>
+
+          <div class="row">
+              <div class="col-md-12">
+                      <div class="form-group">
+                        <label>Observación:</label>
+                          <div class="input-group input-group-sm">
+                            <textarea [(ngModel)]="observacion" class="form-control"></textarea>
+                          </div>
+                      </div>
+
+                      <div class="form-group">
+                        <div *ngIf="textomensaje != ''" style='text-align: center;'>
+                            <label style='font-size:30px;' [ngStyle]="{'color':colormensaje}">{{textomensaje}}</label>
+                        </div>
+                      </div>
+              </div>
+          </div>
+
+
+          <div style="text-align:center">
+            <div *ngIf="loading" class="spinner-border text-primary" style="width: 3rem; height: 3rem;"></div>
+          </div>
+
+          <div class="d-flex justify-content-end align-items-center">
+            <button (click) = "agregarCompensacion();" class="btn btn-primary btn-sm" type="button"><i class="fa fa-plus"></i> Agregar Compensación</button>&nbsp;
+            <button class="btn btn-secondary btn-sm" type="button" data-dismiss="modal"><i class="fas fa-times-circle"></i> Cerrar</button>
+          </div>
+
+
+        </div>
+      </div>
+    </div>
+</div>
+
+<div id="mymodallistarnotascredito" class="modal fade" role="dialog" data-backdrop="false">
+  <div class="modal-dialog modal-xl">
+    <!-- Modal content -->
+    <div class="modal-content">
+      <div class="modal-header">
+      <h5 class="modal-title">LISTADO DE NOTAS DE CRÉDITOS</h5>
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">×</span>
+          </button>
+      </div>
+      <div class="modal-body">
+
+        <div class="row justify-content-between align-items-center">
+          <span></span>
+          <div class="input-group input-group-sm float-right" style="width: 150px;">
+            <input (keyup)="keyFiltrado();" type="text" class="form-control float-right" oninput="javascript:this.value=this.value.toUpperCase();" placeholder="Buscar" [(ngModel)]="filterpost" name="filterpost" autocomplete="off" />
+          </div>
+        </div>
+
+        <br>
+
+        <div class="row justify-content-between">
+
+          <span *ngIf="loadinglistado" class="justify-content-center text-center m-auto">
+            <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;"></div>
+          </span>
+
+          <div class="table-responsive p-0">
+                                  <table class="design-table resp">
+                                    <thead>
+                                      <tr>
+                                        <th width="15%">N° Doc.</th>
+                                        <th width="20%">Detalles</th>
+                                        <th width="20%">Fecha</th>
+                                        <th width="15%">Total</th>
+                                        <th width="15%">Saldo a Favor</th>
+                                        <th width="15%"></th>
+                                      </tr>
+                                    </thead>
+                                    <tbody>
+                                      <tr *ngFor="let item of datosnotascredito | paginate : {
+                                        id : 'pagenotacredito',
+                                        itemsPerPage: pagesizenotacredito,
+                                        currentPage: pagenotacredito,
+                                        totalItems: countnotacredito
+                                      }">
+                                        <td>{{item.numero_nota_credito}}</td>
+                                        <td>
+                                          <div class="d-flex justify-content-end">
+                                            <button (click)="revisarDetalles(item.detalle);" data-bs-toggle="tooltip" data-bs-placement="top" title="LISTAR DETALLES" class="btn btn-outline-primary btn-sm" type="button"><i class="fas fa-clipboard-list"></i></button>
+                                            <button (click)="visualizar(item.cod_nota_credito, item.tipo_venta);" data-bs-toggle="tooltip" data-bs-placement="top" title="IMPRIMIR NOTA DE CRÉDITO" class="btn btn-outline-primary btn-sm" type="button"><i class="fas fa-print"></i></button>
+                                          </div>
+                                        </td>
+                                        <td>{{item.fecha_hora}}</td>
+                                        <td>
+                                          <label class="text-primary">{{item.importetotal}}</label>
+                                        </td>
+                                        <td>
+                                          <label class="text-success">{{item.saldo_favor}}</label>
+                                        </td>
+                                        <td>
+                                          <button (click)="agregarNotaCredito(item);" data-bs-toggle="tooltip" data-bs-placement="top" title="AGREGAR NOTA DE CRÉDITO" class="btn btn-outline-primary btn-sm" type="button"><i class="fa fa-plus"></i></button>
+                                        </td>
+                                      </tr>
+                                    </tbody>
+                                  </table>
+                                  <div class="float-right">
+                                    <pagination-controls class="pagination-controls" id="pagenotacredito"
+                                    previousLabel="Anterior"
+                                    nextLabel="Siguiente"
+                                    [responsive]="true"
+                                    (pageChange)="handlePageChange($event)">
+                                    </pagination-controls>
+                                  </div>
+                                </div>
+        </div>
+
+        <div class="d-flex justify-content-end align-items-center">
+          <button class="btn btn-secondary btn-sm" type="button" data-dismiss="modal"><i class="fas fa-times-circle"></i> Cerrar</button>
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+</div>
+
+<div id="mymodalrevisardetalles" class="modal fade" role="dialog" data-backdrop="false">
+  <div class="modal-dialog">
+    <!-- Modal content -->
+    <div class="modal-content">
+      <div class="modal-header">
+      <h5 class="modal-title">DETALLES</h5>
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">×</span>
+          </button>
+      </div>
+      <div class="modal-body">
+
+        <div [innerHTML]="this.detalle"></div>
+
+      </div>
+
+    </div>
+
+  </div>
+</div>
+
+<div *ngIf="chkcontado">
+        <div class="form-group">
+            <div class="input-group input-group-sm">
+                <div class="custom-control custom-switch custom-switch-off-secondary custom-switch-on-success">
+                            <input [disabled]="disabledformapago" (change)="changeChkPagarConNotasCredito();" [checked]="chkpagarnotacredito" type="checkbox" class="custom-control-input" id="customSwitch4">
+                            <label class="custom-control-label" for="customSwitch4">Pagar con Notas de Créditos</label>
+                </div>
+            </div>
+        </div>
+
+        <div *ngIf="chkpagarnotacredito">
+            <div class="row justify-content-end">
+                <button (click)="nuevaCompensacion();" type="button" class="btn btn-primary btn-xs mb-2">
+                <span class="fa fa-plus"></span> Agregar Nota
+                </button>
+            </div>
+
+            <div class="row">
+                <div class="col-12">
+                    <ul class="todo-list ui-sortable" data-widget="todo-list">
+                        <li *ngFor="let item of datospagarnotacredito">
+                           
+                          
+                            <label class="badge badge-warning"><i class="fas fa-cart-arrow-down"></i> Nº: {{item.numero_nota_credito}}</label> 
+                            
+                            
+                            <!-- <span class="badge badge-primary"><i class="far fa-money-bill-alt"></i> Saldo Favor: {{item.saldo_favor}}</span> -->
+                            
+                            <span class="badge badge-success"><i class="far fa-money-bill-alt"></i> Saldo Ocupado: {{item.saldo_ocupado}}</span>
+
+                            <span class="badge badge-primary"><i class="fas fa-hand-holding-usd"></i> {{item.forma_pago}}</span>
+                            
+                            
+                            <div class="tools">
+                                <button (click)="borrarNotaCreditoCalculada(item);" data-bs-toggle="tooltip" data-bs-placement="top" title="BORRAR NOTA DE CRÉDITO CALCULADA" class="btn btn-outline-danger btn-sm" type="button"><i class="fa fa-trash"></i></button>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+
+               
+
+
+            </div>
+        </div>
+</div>
+
+
+

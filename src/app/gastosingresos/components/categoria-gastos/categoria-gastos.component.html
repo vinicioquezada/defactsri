@@ -1,0 +1,114 @@
+<app-categoria-gastos-form (datosenvio)="recibirDatosCategoriaGastos()"></app-categoria-gastos-form>
+
+<section class="content-header">
+  <div class="container-fluid">
+    <div class="row mb-2">
+      <div class="col-sm-12">
+          <div class="btn-toolbar" role="toolbar">
+            <div class="btn-group">
+              <button (click)="clickNuevaCategoriaGastos();" class="btn btn-primary btn-flat btn-sm" type="button"><i class="fa fa-plus"></i> Nuevo</button>
+              <button (click)="clickDeshacer();" class="btn btn-secondary btn-flat btn-sm float-right" type="button"><i class="fas fa-redo-alt"></i> Deshacer</button>
+              <button routerLink="/menugastosingresos" class="btn btn-secondary btn-flat btn-sm" type="button"><i class="fas fa-undo"></i> Atrás</button>
+            </div>
+          </div>
+      </div>
+      
+    </div>
+    
+  </div><!-- /.container-fluid -->
+</section>
+
+<!-- Main content -->
+<section class="content">
+    <div class="container-fluid">
+
+
+
+
+       
+
+
+
+      <div class="row">
+
+        <div class="col-md-12">
+
+
+          <div class="card card-primary card-outline">
+            <div class="card-header">
+              <h3 class="card-title"><i class="fa fa-file-alt"></i> Explorador</h3>
+
+              <div class="card-tools">
+                <div class="input-group input-group-sm" style="width: 150px;">
+                
+
+                  <input (keyup)="keyFiltrado();" type="text" class="form-control float-right" oninput="javascript:this.value=this.value.toUpperCase();" placeholder="Buscar" [(ngModel)]="filterpost" name="filterpost" autocomplete="off" />
+
+
+                </div>
+
+              </div>
+
+              
+
+
+            </div>
+          
+            
+            <div class="table-responsive card-body p-0 overlay-wrapper">
+              
+              <div *ngIf="loadinglistado" class="overlay overlay-custom d-flex flex-column align-items-center">
+                <div class="spinner-border text-primary" style="width: 5rem; height: 5rem; font-size: 30px;" role="status"></div>
+                <div class="text-bold pt-2">Cargando...</div>
+              </div>
+
+              <table class="design-table">
+                <thead>
+                  <tr>
+                    <th>CATEGORIA GASTOS</th>
+                    <th></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr  *ngFor="let item of (datos | filterGenerico:filterpost:['categoria_gastos']) | paginate : {
+                    itemsPerPage: pagesize,
+                    currentPage: page,
+                    totalItems: count
+                  }">
+                    <td>{{item.categoria_gastos}}</td>
+                    <td>
+                      <div class="d-flex justify-content-end">
+                        <button (click)="editar(item);" class="btn btn-outline-warning btn-sm ml-1" type="button"><i class="fas fa-pencil-alt"></i></button>
+                        <button (click)="clickEliminar(item.cod_categoria_gastos, item.categoria_gastos);" class="btn btn-outline-danger btn-sm ml-1"><i class="fa fa-trash"></i></button>
+                      </div>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+              <div class="float-right">
+                <pagination-controls class="pagination-controls"
+                previousLabel="Anterior"
+                nextLabel="Siguiente"
+                [responsive]="true"
+                (pageChange)="handlePageChange($event)">
+                </pagination-controls>
+              </div>
+            </div>
+            
+          </div>
+
+        
+        </div>
+
+
+     
+
+        
+
+
+      
+
+      </div>
+
+    </div>
+</section>

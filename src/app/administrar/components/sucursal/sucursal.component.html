@@ -1,0 +1,111 @@
+<app-logo-sucursal (datosenvio)="recibirDatosLogoSucursal($event)"></app-logo-sucursal>
+<app-asignacion-ruc></app-asignacion-ruc>
+<app-configuracion-servicio></app-configuracion-servicio>
+<app-sucursal-form (datosenvio)="recibirDatosSucursal()"></app-sucursal-form>
+
+<section class="content-header">
+  <div class="container-fluid">
+    <div class="row mb-2">
+      <div class="col-sm-12">
+          <div class="btn-toolbar" role="toolbar">
+            <div class="btn-group">
+              <button (click)="clickNuevoSucursal()" class="btn btn-primary btn-flat btn-sm" type="button"><i class="fas fa-plus"></i> Nuevo</button>
+              <button (click)="clickConfiguracionServicio()" class="btn btn-primary btn-flat btn-sm" type="button"><i class="fas fa-cog"></i> Configuracion</button>
+              <button routerLink="/menuadministrar" class="btn btn-secondary btn-flat btn-sm" type="button"><i class="fas fa-undo"></i> Atrás</button>
+            </div>
+          </div>
+      </div>
+      
+    </div>
+    
+  </div><!-- /.container-fluid -->
+</section>
+
+<!-- Main content -->
+<section class="content">
+  <div class="container-fluid">
+    <div class="row">
+
+      <div class="col-md-12">
+        <div class="row justify-content-center pb-2">
+          <img 
+            [src]="urllogo + 'logo' + '.png?v=' + versionlogo"
+            class="img-fluid"
+            style="max-width: 120px; max-height: 120px;"
+            onerror="this.src='assets/fotosubir.png'"
+          />
+        </div>
+       
+      <!-- /.Inicia form1 -->
+      <!-- /.Inicia form1 -->
+      <!-- /.Inicia form1 -->
+        <div class="card card-primary card-outline">
+          
+          <div class="card-body">
+              <div class="row justify-content-between">
+
+                    <div class="table-responsive p-0">
+                            <table class="design-table resp">
+                                <thead>
+                                <tr>
+                                    <th width="50px"></th>
+                                    <th width="300px">SUCURSAL</th>
+                                    <th width="100px">ESTADO</th>
+                                    <th></th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr *ngFor="let item of datossucursal">
+                                    <td>
+                                      <img 
+                                          [src]="urllogo + 'logo_reporte' + item.cod_sucursal + '.png?v=' + (item.versionlogo || versionlogo)"
+                                          class="img-fluid"
+                                          style="max-width: 80px; max-height: 80px;"
+                                          onerror="this.src='assets/fotosubir.png'"
+                                        />
+                                    </td>
+                                    <td>{{item.sucursal}}</td>
+                                    <td>
+                                      <small *ngIf="item.estado==0" class="badge badge-danger">DESHABILITADO</small>
+                                      <small *ngIf="item.estado==1" class="badge badge-info">HABILITADO</small>
+                                    </td>
+                                    <td>
+                                        <div class="d-flex justify-content-end">
+                                          <button (click)="clickLogo(item.cod_sucursal, item.sucursal);" data-bs-toggle="tooltip" data-bs-placement="top" title="LOGO DOCUMENTO ELECTRÓNICO" class="btn btn-outline-primary btn-sm mr-1" type="button"><i class="fas fa-image"></i></button>
+                                          <button (click)="copiar(item.cod_sucursal);" data-bs-toggle="tooltip" data-bs-placement="top" title="COPIAR" class="btn btn-outline-primary btn-sm mr-1" type="button"><i class="fas fa-copy"></i></button>
+                                          <button (click)="editar(item.cod_sucursal);" data-bs-toggle="tooltip" data-bs-placement="top" title="EDITAR" class="btn btn-outline-primary btn-sm mr-1" type="button"><i class="fa fa-edit"></i></button>
+                                          <button (click)="asignarRuc(item.cod_sucursal, item.sucursal);" data-bs-toggle="tooltip" data-bs-placement="top" title="ASIGNAR RUC" class="btn btn-outline-primary btn-sm mr-1" type="button"><i class="fas fa-signature"></i></button>
+                                          <button (click)="activar(item.cod_sucursal, 0);" *ngIf="item.estado==1" class="btn btn-outline-danger btn-sm"><i class="fa fa-toggle-on"></i></button>
+                                          <button (click)="activar(item.cod_sucursal, 1)" *ngIf="item.estado==0" class="btn btn-outline-info btn-sm"><i class="fa fa-toggle-on"></i></button>
+                                        </div>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                            
+                    </div>
+              </div>
+
+
+
+
+
+
+          </div>
+          <!-- /.card-body -->
+        </div>
+      <!-- /.Termina form1 -->
+      <!-- /.Termina form1 -->
+      <!-- /.Termina form1 -->
+      </div>
+
+    </div>
+
+
+
+    
+
+
+
+  </div>
+</section>

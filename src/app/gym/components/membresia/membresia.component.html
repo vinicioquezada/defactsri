@@ -1,0 +1,470 @@
+<app-socio-form (datosenvio)="recibirDatosSocioForm($event)"></app-socio-form>
+
+<app-foto-form (datosenvio)="recibirDatosFotoForm($event)"></app-foto-form>
+<!-- Modal -->
+<div id="mymodalcambiarfechas" class="modal fade" role="dialog" data-backdrop="false">
+  <div class="modal-dialog">
+    <!-- Modal content -->
+    <div class="modal-content">
+  <div class="modal-header">
+      <h5 class="modal-title">CAMBIAR FECHAS</h5>
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">×</span>
+          </button>
+      </div>
+      <div class="modal-body">
+                  
+        <div class="row">
+          <div class="col-md-12">
+
+                    <div class="form-group">
+                        <label>Membresía:</label>
+                        <div class="input-group input-group-sm">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text"><i class="fas fa-bookmark"></i></span>
+                        </div>
+                        <label class="form-control">{{ membresia }}</label>
+                        </div>
+                    </div>
+      
+                    <div class="form-group">
+                        <label>Fechas Anterior:</label>
+                        <div class="input-group input-group-sm">
+                          <div class="input-group-prepend">
+                              <span class="input-group-text"><i class="fas fa-calendar"></i></span>
+                          </div>
+                          <label class="form-control">{{ vigencia }}</label>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Fecha Inicio:</label>
+                        <div class="input-group input-group-sm">
+                            <div class="input-group-prepend">
+                            <span class="input-group-text"><i class="fas fa-calendar"></i></span>
+                            </div>
+                            <input [(ngModel)]="fecha_inicio_plan" (change)="changeFechaInicioPlan($event)" type="date" class="form-control">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Fecha Fin:</label>
+                        <div class="input-group input-group-sm">
+                            <div class="input-group-prepend">
+                            <span class="input-group-text"><i class="fas fa-calendar"></i></span>
+                            </div>
+                            <label class="form-control">{{ fecha_fin_plan }}</label>
+                        </div>
+                    </div>
+
+            </div>
+        </div>
+
+        <div class="d-flex justify-content-end align-items-center">
+          <button (click)="clickActualizarFechas();" type="button" class="btn btn-primary btn-sm"><i class="fas fa-save"></i> Actualizar</button>&nbsp;
+          <button class="btn btn-secondary btn-sm" type="button" data-dismiss="modal"><i class="fas fa-times-circle"></i> Cerrar</button>
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+</div>
+<!-- TERMINA Trigger the modal with a button -->
+
+<!-- Modal -->
+<div id="mymodalregalar" class="modal fade" role="dialog" data-backdrop="false">
+  <div class="modal-dialog">
+    <!-- Modal content -->
+    <div class="modal-content">
+  <div class="modal-header">
+      <h5 class="modal-title">REGALAR MEMBRESÍA</h5>
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">×</span>
+          </button>
+      </div>
+      <div class="modal-body">
+        
+        <div class="row">
+          <div class="col-md-12">
+
+              <div class="form-group">
+                  <label>Membresía:</label>
+                  <div class="input-group input-group-sm">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text"><i class="fas fa-bookmark"></i></span>
+                    </div>
+                  <label class="form-control">{{ membresia }}</label>
+                  </div>
+              </div>
+
+              <div class="form-group">
+                <label>Regalar Membresía a Usuario:</label>
+                <div class="input-group input-group-sm">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text"><i class="fas fa-align-justify"></i></span>
+                      </div>
+                      <label class="form-control">{{cliente_select}}</label>
+                      <span class="input-group-append">
+                        <button (click)="clickListarSocios(false);" class="btn btn-primary btn-flat" type="button"><i class="fa fa-list"></i></button>
+                      </span>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label>Identificacion:</label>
+                <div class="input-group input-group-sm">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text"><i class="fas fa-id-card-alt"></i></span>
+                      </div>
+                      <label class="form-control">{{cedula_select}}</label>
+                </div>
+              </div>
+
+
+                    </div>
+        </div>
+
+        <div class="row">
+              <div *ngIf="infomembresia">
+                <div class="alert alert-warning alert-dismissible">
+                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                <h5><i class="icon fas fa-exclamation-triangle"></i> Informacion de membresia!</h5>
+                El usuario cliente ya consta de una membresia <label>{{ this.infoestadoplan }}</label>, este usuario no puede ser merecedor del plan regalado, debe ser un usuario con membresia caducada.
+                <br>
+                PLAN ACTIVO: <label>{{ this.infoplan }}</label><br>
+                FECHA INICIO: <label>{{ this.infofechainicio }}</label><br>
+                FECHA FIN: <label>{{ infofechafin }}</label>
+                </div>
+            </div>
+        </div>
+
+        <div class="d-flex justify-content-end align-items-center">
+          <button (click)="regalarMembresiaUsuario();" [disabled]="disabledbtnregalar" type="button" class="btn btn-primary btn-sm"><i class="fas fa-save"></i> Guardar</button>&nbsp;
+          <button class="btn btn-secondary btn-sm" type="button" data-dismiss="modal"><i class="fas fa-times-circle"></i> Cerrar</button>
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+</div>
+<!-- TERMINA Trigger the modal with a button -->
+
+<app-actividad-membresia></app-actividad-membresia>
+
+<app-listado-socios (datosenviar)="recibirDatosSocio($event)"></app-listado-socios>
+
+<!-- Modal -->
+<div id="mymodalcongelarmembresia" class="modal fade" role="dialog" data-backdrop="false">
+    <div class="modal-dialog">
+      <!-- Modal content -->
+      <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">CONGELAR MEMBRESÍA</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">×</span>
+            </button>
+          </div>
+        <div class="modal-body">
+
+          <div class="row">
+            <div class="col-md-12">
+
+                <div class="form-group">
+                    <label>Membresia a Congelar:</label>
+                    <div class="input-group input-group-sm">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text"><i class="fas fa-bookmark"></i></span>
+                    </div>
+                    <label class="form-control">{{ membresia }}</label>
+                    </div>
+                </div>
+
+            </div>
+          </div>
+
+          <div class="row">
+            <div>
+              <div class="alert alert-info alert-dismissible">
+              <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                <h5><i class="icon fas fa-exclamation-triangle"></i> Informacion de membresía!</h5>
+                Una vez que se congela la membresía el usuario no podra acceder mientras no se descongele su membresía, tanpoco podra tener una nueva membresía.             
+              </div>
+            </div>
+          </div>
+
+          <div class="d-flex justify-content-end align-items-center">
+            <button (click)="congelarMembresiaUsuario();" type="button" class="btn btn-primary btn-sm"><i class="fas fa-stopwatch"></i> Congelar</button>&nbsp;
+            <button class="btn btn-secondary btn-sm" type="button" data-dismiss="modal"><i class="fas fa-times-circle"></i> Cerrar</button>
+          </div>
+
+
+        </div>
+        
+      </div>
+
+    </div>
+</div>
+<!-- TERMINA Trigger the modal with a button -->
+
+<!-- Modal -->
+<div id="mymodaldescongelarmembresia" class="modal fade" role="dialog" data-backdrop="false">
+    <div class="modal-dialog">
+      <!-- Modal content -->
+      <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">DESCONGELAR MEMBRESÍA</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">×</span>
+            </button>
+          </div>
+        <div class="modal-body">
+
+          <div class="row">
+            <div class="col-md-12">
+
+                <div class="form-group">
+                    <label>Membresia a descongelar:</label>
+                    <div class="input-group input-group-sm">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text"><i class="fas fa-bookmark"></i></span>
+                    </div>
+                    <label class="form-control">{{ membresia }}</label>
+                    </div>
+                </div>
+
+            </div>
+          </div>
+
+          <div class="row" style="font-size: 14px;">
+            <div>
+              <div class="alert alert-info alert-dismissible">
+              <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+              <h5><i class="icon fas fa-exclamation-triangle"></i> Informacion de membresía!</h5>
+                Al descongelar la membresía, el usuario comenzara la membresía desde la fecha de descongelamiento y se tomará en cuenta los días utilizados antes del congelamiento para el cálculo respectivo.
+                <br>
+                FECHA INICIO: <label>{{ fecha_inicio_plan }}</label><br>
+                FECHA FIN: <label>{{ fecha_fin_plan }}</label>
+              </div>
+            </div>
+          </div>
+
+          <div class="d-flex justify-content-end align-items-center">
+            <button (click)="descongelarMembresiaUsuario();" type="button" class="btn btn-primary btn-sm"><i class="fas fa-stopwatch"></i> Descongelar</button>&nbsp;
+            <button class="btn btn-secondary btn-sm" type="button" data-dismiss="modal"><i class="fas fa-times-circle"></i> Cerrar</button>
+          </div>
+
+        </div>
+        
+      </div>
+
+    </div>
+  </div>
+<!-- TERMINA Trigger the modal with a button -->
+
+<section class="content-header">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-12">
+              <div class="btn-toolbar" role="toolbar">
+                <div class="btn-group">
+                  <button (click)="formularionormal();" class="btn btn-secondary btn-flat btn-sm" type="button"><i class="fas fa-redo-alt"></i> Deshacer</button>
+                  <button routerLink="/menugym" class="btn btn-secondary btn-flat btn-sm" type="button"><i class="fas fa-undo"></i> Atrás</button>
+                </div>
+              </div>
+          </div>
+          
+        </div>
+        
+      </div><!-- /.container-fluid -->
+</section>
+
+<section class="content">
+      <div class="container-fluid">
+
+
+
+          <div class="row">
+            <div class="col-md-4">
+              <div class="row">
+
+
+
+                <div class="col-md-12">
+
+                    <div class="card card-primary card-outline">
+                      <div class="card-header">
+                        <h3 class="card-title"><i class="fas fa-user"></i> Usuario</h3>
+
+                        <button (click)="clickEmparejar()" [disabled]="estado_emparejamiento == '1'" class="btn btn-primary btn-sm float-right"><i class="fas fa-sync"></i></button>
+
+                        <button (click)="clickNuevoSocio()" class="btn btn-primary btn-sm mr-1 float-right" type="button"><i class="fa fa-plus"></i></button>
+                        
+
+                      </div>
+                      <div class="card-body overlay-wrapper">
+                        
+                          <div *ngIf="loading" class="overlay overlay-custom d-flex flex-column align-items-center">
+                            <div class="spinner-border text-primary" style="width: 5rem; height: 5rem; font-size: 30px;" role="status"></div>
+                            <div class="text-bold pt-2">Cargando...</div>
+                          </div>
+                      
+                            <div class="row">
+                                
+                                <div class="col-md-12">
+                                  <div class="form-group">
+                                    <label>Identificacion:</label>
+                                    <div class="input-group input-group-sm">
+                                          <div class="input-group-prepend">
+                                            <span class="input-group-text"><i class="fas fa-id-card-alt"></i></span>
+                                          </div>
+                                          <input [(ngModel)]="cedula" type="text" class="form-control" maxlength="13" placeholder="Número" (keyup.enter)="buscarUsuarioGym();">
+                                          <span class="input-group-append">
+                                            <button (click)="buscarUsuarioGym();" class="btn btn-primary btn-flat" type="button"><i class="fa fa-search"></i></button>
+                                          </span>
+                                    </div>
+                                  </div>
+                                </div>
+
+                                <div class="col-md-12">
+                                  <div class="form-group">
+                                      <label>Usuario:</label>
+                                      <div class="input-group input-group-sm">
+                                            <div class="input-group-prepend">
+                                              <span class="input-group-text"><i class="fas fa-user"></i></span>
+                                            </div>
+                                            <label class="form-control" style="height: auto;">{{cliente}}</label>
+                                            <span class="input-group-append">
+                                              <button (click)="clickListarSocios(true);" class="btn btn-primary btn-flat" type="button"><i class="fa fa-list"></i></button>
+                                            </span>
+                                      </div>
+                                    </div>
+                                </div>
+
+                                
+
+                                <div class="col-md-12">
+
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                                <button (click)="facturar();" [disabled]="btnfacturar" class="btn btn-success btn-sm float-right" type="button"><i class="fa fa-money-bill-alt"></i> Facturar</button>
+                                        </div>
+                                    </div>
+        
+                                </div>
+
+                                    
+
+
+                            </div>
+
+
+
+
+
+                      </div>
+                    </div>
+                
+                </div>
+
+               
+
+
+
+
+              </div>
+            </div>
+          
+            <div class="col-md-8">
+
+                <div class="card card-primary card-outline">
+                  <div class="card-header">
+                    <h3 class="card-title"><i class="fa fa-file-alt"></i><span class="labeloculto">&nbsp;Historial Membresias</span></h3>
+              &nbsp;<span class="text-right">(Total: {{this.cantidad_registros_membresia}} Registros)</span>
+                    <div class="card-tools">
+                      <div class="input-group input-group-sm" style="width: 150px;">
+                      
+      
+                        <input (keyup)="keyFiltradoMembresia();" type="text" class="form-control float-right" oninput="javascript:this.value=this.value.toUpperCase();" placeholder="Buscar" [(ngModel)]="filterpostmembresia" name="filterpostmembresia" autocomplete="off" />
+      
+
+                      </div>
+      
+                    </div>
+                  </div>
+                  <div class="card-body overlay-wrapper">
+                    
+                          <div *ngIf="loadinglistado" class="overlay overlay-custom d-flex flex-column align-items-center">
+                            <div class="spinner-border text-primary" style="width: 5rem; height: 5rem; font-size: 30px;" role="status"></div>
+                            <div class="text-bold pt-2">Cargando...</div>
+                          </div>
+
+                          <div class="table-responsive p-0">
+                              <table class="design-table">
+                                <thead>
+                                  <tr>
+                                    <th width="25%">Plan</th>
+                                    <th width="35%">Horario</th>
+                                    <th width="15%">Estado</th>
+                                    <th width="25%">Acción</th>
+                                  </tr>
+                                </thead>
+                                <tbody>
+                                <tr *ngFor="let item of (datosmembresia | filterGenerico:filterpostmembresia:['plan', 'vigencia', 'estado']) | paginate : {
+                                  id : 'pagmembresia',
+                                  itemsPerPage: pagesizemembresia,
+                                  currentPage: pagemembresia,
+                                  totalItems: countmembresia
+                                }">
+                                  <td>{{item.plan}}</td>
+                                  <td>
+                                    <label class="badge badge-primary">{{item.vigencia}}</label><br>
+                                    <label class="badge badge-info">{{item.horario}}</label>
+                                  </td>
+                                  <td>
+                                    <div *ngIf="item.estado_congelamiento==0">
+                                      <label *ngIf="item.estado=='ACTIVO'"><small class="badge badge-success">ACTIVO</small></label>
+                                      <label *ngIf="item.estado=='POR CADUCAR'"><small class="badge badge-warning">POR CADUCAR</small></label>
+                                      <label *ngIf="item.estado=='POR INICIAR'"><small class="badge badge-primary">POR INICIAR</small></label>
+                                      <label *ngIf="item.estado=='CADUCADO'"><small class="badge badge-danger">CADUCADO</small></label>
+                                    </div>
+
+                                    <div *ngIf="item.estado_congelamiento!=0">
+                                      <label><small class="badge badge-info">CONGELADO</small></label>
+                                    </div>
+                                  </td>
+                                  <td>
+                                    <button *ngIf="!this.opcionesprivilegios['bloqueoreservasactividades'] && monitor_actividades=='1' && item.actividad==1 && (item.estado=='ACTIVO' || item.estado=='POR CADUCAR')" (click)="clickMostrarActividades(item)" class="btn btn-primary btn-sm btn-block"><i class="fas fa-calendar"></i> Reservar</button>
+                                    <button *ngIf="!this.opcionesprivilegios['bloqueoajustesfechas']" (click)="clickCambiarFechas(item.id_membresia, item.plan, item.vigencia, item.fecha_inicio, item.cod_subcategoria, item.cantidad_unidad);" class="btn btn-secondary btn-sm btn-block"><i class="fas fa-cogs"></i> Ajustar</button>
+                                    <button *ngIf="!this.opcionesprivilegios['bloqueoregalarmembresia'] && ((item.estado=='ACTIVO' && item.estado_congelamiento==0) || (item.estado=='POR INICIAR'))" class="btn btn-success btn-sm btn-block" (click)="clickRegalar(item.id_membresia, item.plan);"><i class="fas fa-gift"></i> Regalar</button>
+                                    <button *ngIf="!this.opcionesprivilegios['bloqueocongelarmembresia'] && (item.estado=='ACTIVO' && item.estado_congelamiento==0)" class="btn btn-primary btn-sm btn-block" (click)="clickCongelar(item.id_membresia, item.plan);"><i class="fas fa-stopwatch"></i> Congelar</button>
+                                    <button *ngIf="!this.opcionesprivilegios['bloqueocongelarmembresia'] && ((item.estado_congelamiento==1) || (item.estado=='CADUCADO' && item.estado_congelamiento!=0))" class="btn btn-warning btn-sm btn-block" (click)="clickDescongelar(item.id_membresia, item.plan, item.fecha_inicio, item.fecha_fin, item.fecha_congelamiento);"><i class="fas fa-stopwatch"></i> Descongelar</button>
+                                    <button *ngIf="!this.opcionesprivilegios['bloqueoanularmembresia'] && (item.estado=='ACTIVO' || item.estado=='POR INICIAR')" class="btn btn-danger btn-sm btn-block" (click)="clickAnularMembresia(item.id_membresia, item.plan);"><i class="fas fa-trash"></i> Anular Membresia</button>
+                                    <!-- <button *ngIf="item.estado_congelamiento==1" class="btn btn-danger btn-sm btn-block" (click)="anularCongelamiento();"><i class="fas fa-stopwatch"></i> Anular Congelamiento</button> -->
+                                  </td>
+                                </tr>
+                                </tbody>
+                              </table>
+                          </div>
+                              <div class="float-right">
+                                  <pagination-controls class="pagination-controls"
+                                  id="pagmembresia"
+                                  previousLabel="Anterior"
+                                  nextLabel="Siguiente"
+                                  [responsive]="true"
+                                  (pageChange)="handlePageChangeMembresia($event)">
+                                  </pagination-controls>
+                              </div>
+                  </div>
+                </div>
+            
+            </div>
+              
+          </div>
+
+
+      </div>
+</section>

@@ -1,0 +1,5 @@
+.chart-container {
+    display: block;
+    width: 100%;
+    height: 300px; /* O el valor que desees */
+  }

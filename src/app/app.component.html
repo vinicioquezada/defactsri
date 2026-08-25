@@ -1,0 +1,37 @@
+  <div *ngIf="estadologin==true">
+    <app-login></app-login>
+  </div>
+  
+  <div *ngIf="estadomenu==true">
+    <div class="wrapper">
+      <!-- Navbar -->
+      <app-encabezado></app-encabezado>
+      <!-- /.navbar -->
+  
+      <!-- Main Sidebar Container -->
+      <app-menu></app-menu>
+      <!-- /Main Sidebar Container -->
+  
+      <!-- Content Wrapper. Contains page content -->
+      <div class="content-wrapper">
+  
+        <router-outlet></router-outlet>
+        
+      </div>
+      <!-- /.content-wrapper -->
+  
+      <!-- Control Sidebar -->
+      <aside class="control-sidebar control-sidebar-dark">
+        <!-- Control sidebar content goes here -->
+      </aside>
+      <!-- /.control-sidebar -->
+  
+      <!-- Main Footer -->
+      <app-pie></app-pie>
+    </div>
+  </div>
+
+
+  <div *ngIf="estadomonitor==true && estadologin==false">
+    <router-outlet></router-outlet>
+  </div>

@@ -1,0 +1,566 @@
+<div id="mymodallistarfuncionalidades" class="modal fade" role="dialog" data-backdrop="false">
+  <div class="modal-dialog  modal-lg">
+    <!-- Modal content -->
+    <div class="modal-content">
+     
+      <div class="modal-header">
+      <h5 class="modal-title">LISTADO DE FUNCIONALIDADES PARA ROL: <label>{{roles_funcionalidad}}</label></h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">×</span>
+        </button>
+        
+      </div>
+      
+
+      <div class="modal-body overlay-wrapper">
+
+            <div *ngIf="loadinglistado" class="overlay overlay-custom d-flex flex-column align-items-center">
+              <div class="spinner-border text-primary" style="width: 5rem; height: 5rem; font-size: 30px;" role="status"></div>
+              <div class="text-bold pt-2">Cargando...</div>
+            </div>
+
+              <div class="row">
+
+                  <div class="col-md-12">
+
+
+                          <div id="accordion" role="tablist" aria-multiselectable="true">
+
+                            
+                            <div *ngIf="datosadministrar.length > 0" class="card card-cyan card-outline">
+
+                                <a class="d-block w-100 collapsed" data-toggle="collapse" href="#collapseAdministrar" aria-expanded="false">
+                                  <div class="card-header">
+                                      <h4 class="card-title w-100">
+                                        <i class="fa fa-users"></i> Administrar
+                                      </h4>
+                                  </div>
+                                </a>
+
+                                <div id="collapseAdministrar" class="collapse" role="tabpanel" aria-labelledby="headingAdministrar">
+                                    <div class="card-body">
+                                        <div class="row">			 
+                                            <div class="col-md-12" style="font-size: 14px">
+                                                        
+                                              <table border="1" style="font-size: 14px;" class="design-table table-bordered">
+                                                <tbody>
+                                                  <tr  *ngFor="let item of datosadministrar; let i = index">
+                                                    <td><input type="checkbox" [checked]="item.verificar=='1'" (change)="changeCheckedAdministrar(i)"></td>
+                                                    <td>{{item.cod_sub_menu}}</td>
+                                                  </tr>                  
+                                                </tbody>
+                                              </table>
+                                                        
+                                                        
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div *ngIf="datosprivilegiosconfiguracion.length > 0" class="card card-warning card-outline">
+
+                              <a class="d-block w-100 collapsed" data-toggle="collapse" href="#collapseprivilegiosconfiguracion" aria-expanded="false">
+                                  <div class="card-header">
+                                      <h4 class="card-title w-100">
+                                        <i class="fa fa-cogs"></i> Privilegios Configuracion
+                                      </h4>
+                                  </div>
+                              </a>
+
+                              <div id="collapseprivilegiosconfiguracion" class="collapse" role="tabpanel" aria-labelledby="headingprivilegiosconfiguracion">
+                                  <div class="card-body">
+                                      <div class="row">			 
+                                          <div class="col-md-12" style="font-size: 14px">
+                                                      
+                                            <table border="1" style="font-size: 14px;" class="design-table table-bordered">
+                                              <tbody>
+                                                <tr  *ngFor="let item of this.datosprivilegiosconfiguracion; let i = index">
+                                                  <td><input type="checkbox" [checked]="item.verificar=='1'" (change)="changeCheckedPrivilegiosPaneles(i)"></td>
+                                                  <td>
+                                                    <div>{{item.cod_sub_menu}}</div>
+                                                    <div><small class="badge badge-primary">{{item.descripcion}}</small></div>
+                                                  </td>
+                                                </tr>                  
+                                              </tbody>
+                                            </table>
+                                                      
+                                                      
+                                          </div>
+                                      </div>
+                                  </div>
+                              </div>
+                            </div>
+
+                            <div *ngIf="datosalmacen.length > 0" class="card card-cyan card-outline">
+                              
+                              <a class="d-block w-100 collapsed" data-toggle="collapse" href="#collapseAlmacen" aria-expanded="false">
+                                  <div class="card-header">
+                                      <h4 class="card-title w-100">
+                                        <i class="fa fa-dolly-flatbed"></i> Almacen
+                                      </h4>
+                                  </div>
+                              </a>
+
+                              <div id="collapseAlmacen" class="collapse" role="tabpanel" aria-labelledby="headingAlmacen">
+                                  <div class="card-body">
+                                      <div class="row">			 
+                                          <div class="col-md-12" style="font-size: 14px">
+                                                      
+                                            <table border="1" style="font-size: 14px;" class="design-table table-bordered">
+                                              <tbody>
+                                                <tr  *ngFor="let item of datosalmacen; let i = index">
+                                                  <td><input type="checkbox" [checked]="item.verificar=='1'" (change)="changeCheckedAlmacen(i)"></td>
+                                                  <td>{{item.cod_sub_menu}}</td>
+                                                </tr>                  
+                                              </tbody>
+                                            </table>
+                                                      
+                                                      
+                                          </div>
+                                      </div>
+                                  </div>
+                              </div>
+                            </div>
+
+                            <div *ngIf="datosprivilegiosproducto.length > 0" class="card card-warning card-outline">
+
+                              <a class="d-block w-100 collapsed" data-toggle="collapse" href="#collapseprivilegiosproducto" aria-expanded="false">
+                                  <div class="card-header">
+                                      <h4 class="card-title w-100">
+                                        <i class="fa fa-cogs"></i> Privilegios Productos
+                                      </h4>
+                                  </div>
+                              </a>
+
+                              <div id="collapseprivilegiosproducto" class="collapse" role="tabpanel" aria-labelledby="headingprivilegiosproducto">
+                                  <div class="card-body">
+                                      <div class="row">			 
+                                          <div class="col-md-12" style="font-size: 14px">
+                                                      
+                                            <table border="1" style="font-size: 14px;" class="design-table table-bordered">
+                                              <tbody>
+                                                <tr  *ngFor="let item of this.datosprivilegiosproducto; let i = index">
+                                                  <td><input type="checkbox" [checked]="item.verificar=='1'" (change)="changeCheckedPrivilegiosProducto(i)"></td>
+                                                  <td>
+                                                    <div>{{item.cod_sub_menu}}</div>
+                                                    <div><small class="badge badge-primary">{{item.descripcion}}</small></div>
+                                                  </td>
+                                                </tr>                  
+                                              </tbody>
+                                            </table>
+                                                      
+                                                      
+                                          </div>
+                                      </div>
+                                  </div>
+                              </div>
+                            </div>
+
+                            <div *ngIf="datosventas.length > 0" class="card card-cyan card-outline">
+                              
+                              <a class="d-block w-100 collapsed" data-toggle="collapse" href="#collapseVentas" aria-expanded="false">
+                                  <div class="card-header">
+                                      <h4 class="card-title w-100">
+                                        <i class="fa fa-shopping-cart"></i> Ventas
+                                      </h4>
+                                  </div>
+                              </a>
+
+                              <div id="collapseVentas" class="collapse" role="tabpanel" aria-labelledby="headingVentas">
+                                  <div class="card-body">
+                                      <div class="row">			 
+                                          <div class="col-md-12" style="font-size: 14px">
+                                                      
+                                            <table border="1" style="font-size: 14px;" class="design-table table-bordered">
+                                              <tbody>
+                                                <tr  *ngFor="let item of datosventas; let i = index">
+                                                  <td><input type="checkbox" [checked]="item.verificar=='1'" (change)="changeCheckedVentas(i)"></td>
+                                                  <td>{{item.cod_sub_menu}}</td>
+                                                </tr>                  
+                                              </tbody>
+                                            </table>
+                                                      
+                                                      
+                                          </div>
+                                      </div>
+                                  </div>
+                              </div>
+                            </div>
+
+
+                            <div *ngIf="datosprivilegiosventa.length > 0" class="card card-warning card-outline">
+
+                              <a class="d-block w-100 collapsed" data-toggle="collapse" href="#collapseprivilegiosventa" aria-expanded="false">
+                                  <div class="card-header">
+                                      <h4 class="card-title w-100">
+                                        <i class="fa fa-cogs"></i> Privilegios Ventas
+                                      </h4>
+                                  </div>
+                              </a>
+
+                              <div id="collapseprivilegiosventa" class="collapse" role="tabpanel" aria-labelledby="headingprivilegiosventa">
+                                  <div class="card-body">
+                                      <div class="row">			 
+                                          <div class="col-md-12" style="font-size: 14px">
+                                                      
+                                            <table border="1" style="font-size: 14px;" class="design-table table-bordered">
+                                              <tbody>
+                                                <tr  *ngFor="let item of this.datosprivilegiosventa; let i = index">
+                                                  <td><input type="checkbox" [checked]="item.verificar=='1'" (change)="changeCheckedPrivilegiosVenta(i)"></td>
+                                                  <td>
+                                                    <div>{{item.cod_sub_menu}}</div>
+                                                    <div><small class="badge badge-primary">{{item.descripcion}}</small></div>
+                                                  </td>
+                                                </tr>                  
+                                              </tbody>
+                                            </table>
+                                                      
+                                                      
+                                          </div>
+                                      </div>
+                                  </div>
+                              </div>
+                            </div>
+
+                            <div *ngIf="datoscompras.length > 0" class="card card-cyan card-outline">
+
+                              <a class="d-block w-100 collapsed" data-toggle="collapse" href="#collapseCompras" aria-expanded="false">
+                                  <div class="card-header">
+                                      <h4 class="card-title w-100">
+                                        <i class="fa fa-shopping-cart"></i> Compras
+                                      </h4>
+                                  </div>
+                              </a>
+
+                              <div id="collapseCompras" class="collapse" role="tabpanel" aria-labelledby="headingCompras">
+                                  <div class="card-body">
+                                      <div class="row">			 
+                                          <div class="col-md-12" style="font-size: 14px">
+                                                      
+                                            <table border="1" style="font-size: 14px;" class="design-table table-bordered">
+                                              <tbody>
+                                                <tr  *ngFor="let item of datoscompras; let i = index">
+                                                  <td><input type="checkbox" [checked]="item.verificar=='1'" (change)="changeCheckedCompras(i)"></td>
+                                                  <td>{{item.cod_sub_menu}}</td>
+                                                </tr>                  
+                                              </tbody>
+                                            </table>
+                                                      
+                                                      
+                                          </div>
+                                      </div>
+                                  </div>
+                              </div>
+                            </div>
+
+                            <div *ngIf="datoscuentaspagarcobrar.length > 0" class="card card-cyan card-outline">
+
+                              <a class="d-block w-100 collapsed" data-toggle="collapse" href="#collapseCuentasPagarCobrar" aria-expanded="false">
+                                  <div class="card-header">
+                                      <h4 class="card-title w-100">
+                                        <i class="fa fa-hand-holding-usd"></i> Cuentas por pagar y cobrar
+                                      </h4>
+                                  </div>
+                              </a>
+
+                              <div id="collapseCuentasPagarCobrar" class="collapse" role="tabpanel" aria-labelledby="headingCuentasPagarCobrar">
+                                  <div class="card-body">
+                                      <div class="row">			 
+                                          <div class="col-md-12" style="font-size: 14px">
+                                                      
+                                            <table border="1" style="font-size: 14px;" class="design-table table-bordered">
+                                              <tbody>
+                                                <tr  *ngFor="let item of datoscuentaspagarcobrar; let i = index">
+                                                  <td><input type="checkbox" [checked]="item.verificar=='1'" (change)="changeCheckedCuentasPagarCobrar(i)"></td>
+                                                  <td>{{item.cod_sub_menu}}</td>
+                                                </tr>                  
+                                              </tbody>
+                                            </table>
+                                                      
+                                                      
+                                          </div>
+                                      </div>
+                                  </div>
+                              </div>
+                            </div>
+
+                            <div *ngIf="datosprivilegioscuentasporpc.length > 0" class="card card-warning card-outline">
+
+                              <a class="d-block w-100 collapsed" data-toggle="collapse" href="#collapseprivilegioscuentasporpc" aria-expanded="false">
+                                  <div class="card-header">
+                                      <h4 class="card-title w-100">
+                                        <i class="fa fa-cogs"></i> Privilegios Cuentas Pagar y Cobrar
+                                      </h4>
+                                  </div>
+                              </a>
+
+                              <div id="collapseprivilegioscuentasporpc" class="collapse" role="tabpanel" aria-labelledby="headingprivilegioscuentasporpc">
+                                  <div class="card-body">
+                                      <div class="row">			 
+                                          <div class="col-md-12" style="font-size: 14px">
+                                                      
+                                            <table border="1" style="font-size: 14px;" class="design-table table-bordered">
+                                              <tbody>
+                                                <tr  *ngFor="let item of this.datosprivilegioscuentasporpc; let i = index">
+                                                  <td><input type="checkbox" [checked]="item.verificar=='1'" (change)="changeCheckedPrivilegiosCuentasPC(i)"></td>
+                                                  <td>
+                                                    <div>{{item.cod_sub_menu}}</div>
+                                                    <div><small class="badge badge-primary">{{item.descripcion}}</small></div>
+                                                  </td>
+                                                </tr>                  
+                                              </tbody>
+                                            </table>
+                                                      
+                                                      
+                                          </div>
+                                      </div>
+                                  </div>
+                              </div>
+                            </div>
+
+                            <div *ngIf="datosgastosingresos.length > 0" class="card card-cyan card-outline">
+
+                              <a class="d-block w-100 collapsed" data-toggle="collapse" href="#collapseGastosIngresos" aria-expanded="false">
+                                  <div class="card-header">
+                                      <h4 class="card-title w-100">
+                                        <i class="fa fa-wallet"></i> Gastos e Ingresos
+                                      </h4>
+                                  </div>
+                              </a>
+
+                              <div id="collapseGastosIngresos" class="collapse" role="tabpanel" aria-labelledby="headingGastosIngresos">
+                                  <div class="card-body">
+                                      <div class="row">			 
+                                          <div class="col-md-12" style="font-size: 14px">
+                                                      
+                                            <table border="1" style="font-size: 14px;" class="design-table table-bordered">
+                                              <tbody>
+                                                <tr  *ngFor="let item of datosgastosingresos; let i = index">
+                                                  <td><input type="checkbox" [checked]="item.verificar=='1'" (change)="changeCheckedGastosIngresos(i)"></td>
+                                                  <td>{{item.cod_sub_menu}}</td>
+                                                </tr>                  
+                                              </tbody>
+                                            </table>
+                                                      
+                                                      
+                                          </div>
+                                      </div>
+                                  </div>
+                              </div>
+                            </div>
+
+                            <div *ngIf="datosprivilegiosgi.length > 0" class="card card-warning card-outline">
+
+                              <a class="d-block w-100 collapsed" data-toggle="collapse" href="#collapseprivilegiosgi" aria-expanded="false">
+                                  <div class="card-header">
+                                      <h4 class="card-title w-100">
+                                        <i class="fa fa-cogs"></i> Privilegios Gastos e Ingresos
+                                      </h4>
+                                  </div>
+                              </a>
+
+                              <div id="collapseprivilegiosgi" class="collapse" role="tabpanel" aria-labelledby="headingprivilegiosgi">
+                                  <div class="card-body">
+                                      <div class="row">			 
+                                          <div class="col-md-12" style="font-size: 14px">
+                                                      
+                                            <table border="1" style="font-size: 14px;" class="design-table table-bordered">
+                                              <tbody>
+                                                <tr  *ngFor="let item of this.datosprivilegiosgi; let i = index">
+                                                  <td><input type="checkbox" [checked]="item.verificar=='1'" (change)="changeCheckedPrivilegiosGI(i)"></td>
+                                                  <td>
+                                                    <div>{{item.cod_sub_menu}}</div>
+                                                    <div><small class="badge badge-primary">{{item.descripcion}}</small></div>
+                                                  </td>
+                                                </tr>                  
+                                              </tbody>
+                                            </table>
+                                                      
+                                                      
+                                          </div>
+                                      </div>
+                                  </div>
+                              </div>
+                            </div>
+
+                            <div *ngIf="datoshotel.length > 0" class="card card-cyan card-outline">
+
+                              <a class="d-block w-100 collapsed" data-toggle="collapse" href="#collapseHotel" aria-expanded="false">
+                                  <div class="card-header">
+                                      <h4 class="card-title w-100">
+                                        <i class="fa fa-hotel"></i> Hotel
+                                      </h4>
+                                  </div>
+                              </a>
+
+                              <div id="collapseHotel" class="collapse" role="tabpanel" aria-labelledby="headingHotel">
+                                  <div class="card-body">
+                                      <div class="row">			 
+                                          <div class="col-md-12" style="font-size: 14px">
+                                                      
+                                            <table border="1" style="font-size: 14px;" class="design-table table-bordered">
+                                              <tbody>
+                                                <tr  *ngFor="let item of datoshotel; let i = index">
+                                                  <td><input type="checkbox" [checked]="item.verificar=='1'" (change)="changeCheckedHotel(i)"></td>
+                                                  <td>{{item.cod_sub_menu}}</td>
+                                                </tr>                  
+                                              </tbody>
+                                            </table>
+                                                      
+                                                      
+                                          </div>
+                                      </div>
+                                  </div>
+                              </div>
+                            </div>
+
+
+                            <div *ngIf="datoskardex.length > 0" class="card card-cyan card-outline">
+
+                              <a class="d-block w-100 collapsed" data-toggle="collapse" href="#collapseKardex" aria-expanded="false">
+                                  <div class="card-header">
+                                      <h4 class="card-title w-100">
+                                        <i class="fa fa-dolly-flatbed"></i> Kardex
+                                      </h4>
+                                  </div>
+                              </a>
+
+                              <div id="collapseKardex" class="collapse" role="tabpanel" aria-labelledby="headingKardex">
+                                  <div class="card-body">
+                                      <div class="row">			 
+                                          <div class="col-md-12" style="font-size: 14px">
+                                                      
+                                            <table border="1" style="font-size: 14px;" class="design-table table-bordered">
+                                              <tbody>
+                                                <tr  *ngFor="let item of datoskardex; let i = index">
+                                                  <td><input type="checkbox" [checked]="item.verificar=='1'" (change)="changeCheckedKardex(i)"></td>
+                                                  <td>{{item.cod_sub_menu}}</td>
+                                                </tr>                  
+                                              </tbody>
+                                            </table>
+                                                      
+                                                      
+                                          </div>
+                                      </div>
+                                  </div>
+                              </div>
+                            </div>
+
+
+                            <div *ngIf="datosgym.length > 0" class="card card-cyan card-outline">
+
+                              <a class="d-block w-100 collapsed" data-toggle="collapse" href="#collapseGym" aria-expanded="false">
+                                  <div class="card-header">
+                                      <h4 class="card-title w-100">
+                                        <i class="fa fa-dumbbell"></i> Gym
+                                      </h4>
+                                  </div>
+                              </a>
+
+                              <div id="collapseGym" class="collapse" role="tabpanel" aria-labelledby="headingGym">
+                                  <div class="card-body">
+                                      <div class="row">			 
+                                          <div class="col-md-12" style="font-size: 14px">
+                                                      
+                                            <table border="1" style="font-size: 14px;" class="design-table table-bordered">
+                                              <tbody>
+                                                <tr  *ngFor="let item of datosgym; let i = index">
+                                                  <td><input type="checkbox" [checked]="item.verificar=='1'" (change)="changeCheckedGym(i)"></td>
+                                                  <td>{{item.cod_sub_menu}}</td>
+                                                </tr>                  
+                                              </tbody>
+                                            </table>
+                                                      
+                                                      
+                                          </div>
+                                      </div>
+                                  </div>
+                              </div>
+                            </div>
+
+                            <div *ngIf="datosprivilegiosventamembresia.length > 0" class="card card-warning card-outline">
+
+                              <a class="d-block w-100 collapsed" data-toggle="collapse" href="#collapseprivilegiosventamembresia" aria-expanded="false">
+                                  <div class="card-header">
+                                      <h4 class="card-title w-100">
+                                        <i class="fa fa-cogs"></i> Privilegios Gym
+                                      </h4>
+                                  </div>
+                              </a>
+
+                              <div id="collapseprivilegiosventamembresia" class="collapse" role="tabpanel" aria-labelledby="headingprivilegiosventamembresia">
+                                  <div class="card-body">
+                                      <div class="row">			 
+                                          <div class="col-md-12" style="font-size: 14px">
+                                                      
+                                            <table border="1" style="font-size: 14px;" class="design-table table-bordered">
+                                              <tbody>
+                                                <tr  *ngFor="let item of this.datosprivilegiosventamembresia; let i = index">
+                                                  <td><input type="checkbox" [checked]="item.verificar=='1'" (change)="changeCheckedPrivilegiosVentaMembresia(i)"></td>
+                                                  <td>
+                                                    <div>{{item.cod_sub_menu}}</div>
+                                                    <div><small class="badge badge-primary">{{item.descripcion}}</small></div>
+                                                  </td>
+                                                </tr>                  
+                                              </tbody>
+                                            </table>
+                                                      
+                                                      
+                                          </div>
+                                      </div>
+                                  </div>
+                              </div>
+                            </div>
+
+                            <div *ngIf="datosretencion.length > 0" class="card card-cyan card-outline">
+
+                              <a class="d-block w-100 collapsed" data-toggle="collapse" href="#collapseRetencion" aria-expanded="false">
+                                  <div class="card-header">
+                                      <h4 class="card-title w-100">
+                                        <i class="fa fa-file-invoice-dollar"></i> Retencion
+                                      </h4>
+                                  </div>
+                              </a>
+
+                              <div id="collapseRetencion" class="collapse" role="tabpanel" aria-labelledby="headingRetencion">
+                                  <div class="card-body">
+                                      <div class="row">			 
+                                          <div class="col-md-12" style="font-size: 14px">
+                                                      
+                                            <table border="1" style="font-size: 14px;" class="design-table table-bordered">
+                                              <tbody>
+                                                <tr  *ngFor="let item of datosretencion; let i = index">
+                                                  <td><input type="checkbox" [checked]="item.verificar=='1'" (change)="changeCheckedRetencion(i)"></td>
+                                                  <td>{{item.cod_sub_menu}}</td>
+                                                </tr>                  
+                                              </tbody>
+                                            </table>
+                                                      
+                                                      
+                                          </div>
+                                      </div>
+                                  </div>
+                              </div>
+                            </div>
+
+
+
+
+                          </div>
+
+                          <div class="d-flex justify-content-end align-items-center">
+                            <button (click)="guardarFuncionalidades();" class="btn btn-primary btn-sm" type="button"><i class="fas fa-save"></i> Guardar</button>&nbsp;
+                            <button class="btn btn-secondary btn-sm" type="button" data-dismiss="modal"><i class="fas fa-times-circle"></i> Cerrar</button>
+                          </div>
+      
+                          
+
+                  </div>
+            </div>
+
+      </div>
+    </div>
+
+  </div>
+</div>

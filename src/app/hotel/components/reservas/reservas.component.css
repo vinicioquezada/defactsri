@@ -1,0 +1,20 @@
+::ng-deep .fc .fc-day-today {
+  background-color: #ffeaa7 !important;
+}
+
+::ng-deep .fc .fc-day-today .fc-daygrid-day-frame {
+  border: 2px solid #0063f7 !important;
+  border-radius: 6px;
+}
+
+::ng-deep .fc-day-selected {
+  background-color: #ffeaa7 !important;
+  border: 2px solid #f39c12 !important;
+  border-radius: 6px;
+}
+
+::ng-deep .fc-day-reserva {
+  background-color: rgba(255, 193, 7, 0.3) !important; /* Amarillo translúcido */
+  border: 2px solid #ffc107 !important;
+  border-radius: 6px;
+}

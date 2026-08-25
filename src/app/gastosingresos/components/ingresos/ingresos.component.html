@@ -1,0 +1,256 @@
+<div id="mymodalanio" class="modal fade" role="dialog" data-backdrop="false">
+  <div class="modal-dialog">
+    <!-- Modal content -->
+    <div class="modal-content">
+      <div class="modal-header">
+      <h5 class="modal-title">AÑO</h5>
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">×</span>
+          </button>
+      </div>
+      <div class="modal-body">
+    
+        <div class="form-group">
+          <label>Año:</label>
+          <div class="input-group input-group-sm">
+            <input [(ngModel)]="anio"  class="form-control form-control-sm" onKeyPress="return soloNumerosEnteros(event)" maxlength="4" placeholder="Ingrese Año" type="text">
+            <span class="input-group-append">
+              <button data-dismiss="modal" class="btn btn-info btn-flat"><i class="fas fa-check"></i></button>
+            </span>
+          </div>
+        </div>
+
+
+      </div>
+       <div class="modal-footer">
+          <button class="btn btn-secondary btn-sm" type="button" data-dismiss="modal"><i class="fas fa-times-circle"></i> Cerrar</button>
+       </div>
+    </div>
+
+  </div>
+</div>
+
+<section class="content-header">
+  <div class="container-fluid">
+    <div class="row mb-2">
+      <div class="col-sm-6">
+          <div class="btn-toolbar" role="toolbar">
+            <div class="btn-group">
+              <button (click)="clickDeshacer();" class="btn btn-secondary btn-flat btn-sm float-right" type="button"><i class="fas fa-redo-alt"></i> Deshacer</button>
+              <button routerLink="/menugastosingresos" class="btn btn-secondary btn-flat btn-sm" type="button"><i class="fas fa-undo"></i> Atrás</button>
+            </div>
+          </div>
+      </div>
+
+      <div *ngIf="multisucursal=='1'" class="col-sm-6">
+        <div class="input-group input-group-sm">
+          <div class="input-group-prepend">
+            <span class="input-group-text"><i class="fas fa-home"></i></span>
+          </div>
+          <label class="form-control">{{sucursal}}</label>
+        </div>
+      </div>
+
+
+      
+    </div>
+    
+  </div><!-- /.container-fluid -->
+</section>
+
+<!-- Main content -->
+<section class="content">
+    <div class="container-fluid">
+      <div class="row">
+
+        <div class="col-md-4">
+          
+        <!-- /.Inicia form1 -->
+        <!-- /.Inicia form1 -->
+        <!-- /.Inicia form1 -->
+          <div class="card card-primary card-outline">
+            
+           
+
+            <div class="card-header">
+              <h3 class="card-title"><i class="fa fa-file-alt"></i> Ingresos</h3>
+            </div>
+            <!-- /.card-header -->
+            <div class="card-body">
+
+                 <div class="row">
+              
+                      <div class="col-md-12">
+
+                            <div class="form-group">
+                                <label>Fecha:</label><label class="text-danger">&nbsp;*</label>
+                                <label class="form-control form-control-sm">{{ fecha_registro }}</label>
+                            </div>
+
+                            <div class="form-group">
+                                <label>Categoría: </label><label class="text-danger">&nbsp;*</label>
+                                    <select [ngClass]="{'is-invalid': flagcategoria_ingresos}" (change)="changeCategoriaIngresos($event)" class="form-control form-control-sm">
+                                    <option value="0">SELECCIONE UNA CATEGORIA</option>
+                                    <option value="{{item.cod_categoria_ingresos}}" *ngFor="let item of datoscategoria_ingresos" [selected]="item.categoria_ingresos == categoria_ingresos">
+                                        {{item.categoria_ingresos}}
+                                    </option>
+                                    </select>
+                            </div>
+
+                          <div class="form-group">
+                            <label>Descripcion:</label><label class="text-danger">&nbsp;*</label>
+                            <input [ngClass]="{'is-invalid': flagingresos}" [(ngModel)]="ingresos" autofocus class="form-control form-control-sm"  oninput="javascript:this.value=this.value.toUpperCase();" placeholder="Descripcion" type="text">
+                          </div>
+
+                          
+
+                          <div class="form-group">
+                            <label>Valor:</label><label class="text-danger">&nbsp;*</label>
+                            <input [ngClass]="{'is-invalid': flagvalor}" [(ngModel)]="valor"  class="form-control form-control-sm" onKeyPress="return soloNumeros(event)" maxlength="50" placeholder="Valor" type="text">
+                          </div>
+
+                          <div class="form-group">
+                              <label>Forma Ingreso: </label><label class="text-danger">&nbsp;*</label>
+                              <select [ngClass]="{'is-invalid': flagformapago}" (change)="changeFormaPago($event)" class="form-control form-control-sm">
+                                  <option value="{{item.id_forma_pago}}" *ngFor="let item of datosformapago" [selected]="item.id_forma_pago == this.id_forma_pago">
+                                      {{item.forma_pago}}
+                                  </option>
+                              </select>
+                          </div>
+
+                          <div class="form-group">
+                            <label>Observacion:</label>
+                              <textarea [(ngModel)]="observacion" class="form-control form-control-sm"></textarea>
+                          </div>   
+                      </div>
+
+
+                  </div>
+
+                  <div class="d-flex justify-content-end align-items-center">
+                    <button [ngClass]="{'d-none': flagocultarboton}" (click)="clickGuardar();" class="btn btn-primary btn-sm" type="button"><i class="fas fa-save"></i> Guardar</button>
+                    <button [ngClass]="{'d-none': !flagocultarboton}" (click)="clickActualizar();" class="btn btn-warning btn-sm" type="button"><i class="fas fa-save"></i> Actualizar</button>
+                  </div>
+                  
+                  
+                  
+                  <div style="text-align:center">
+                    <div *ngIf="loading" class="spinner-border text-primary" style="width: 3rem; height: 3rem;"></div>
+                  </div>
+                
+
+                  
+
+
+            </div>
+            <!-- /.card-body -->
+            
+          </div>
+        <!-- /.Termina form1 -->
+        <!-- /.Termina form1 -->
+        <!-- /.Termina form1 -->
+        </div>
+
+        <div class="col-md-8">
+
+
+          <div class="card card-primary card-outline">
+            <div class="card-header">
+              <h3 class="card-title"><i class="fa fa-search"></i> Listado</h3>
+
+              <div class="card-tools">
+                <div class="input-group input-group-sm" style="width: 150px;">
+                
+
+                  <input (keyup)="keyFiltrado();" type="text" class="form-control float-right" oninput="javascript:this.value=this.value.toUpperCase();" placeholder="Buscar" [(ngModel)]="filterpost" name="filterpost" autocomplete="off" />
+
+
+                </div>
+
+              </div>
+
+              
+
+
+            </div>
+           
+              <span *ngIf="loadinglistado" class="justify-content-center text-center m-auto">
+                <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;"></div>
+              </span>
+
+              <div class="col-12 col-sm-6 col-md-6">  
+                <br>
+                <div class="form-group">
+                  <div class="input-group input-group-sm">
+                    <div class="input-group-prepend">
+                      <span (click)="clickConfigurarAnio();" class="input-group-text"><i class="far fas fa-calendar-alt"></i></span>
+                    </div>
+                    <select (change)="onChangeMeses($event)" class="form-control">
+                      <option value="{{item.cod_mes}}" *ngFor="let item of meses" [selected]="item.cod_mes == cod_mes">{{item.mes}}</option>
+                    </select>
+                    <span class="input-group-append">
+                      <button (click)="clickBuscar();" class="btn btn-info btn-flat" type="submit"><i class="fa fa-search"></i></button>
+                    </span>
+                  </div>
+                </div>
+              </div>
+            
+            <div class="table-responsive mailbox-messages resp">
+              <table class="design-table">
+                <thead>
+                  <tr>
+                    <th>CATEGORIA</th>
+                    <th>DESCRIPCION</th>
+                    <th>VALOR</th>
+                    <th>FECHA</th>  
+                    <th></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let item of (datosingresos | filterGenerico:filterpost:['categoria_ingresos', 'ingresos', 'valor', fecha_registro]) | paginate : {
+                    id : 'pagingresos',
+                    itemsPerPage: pagesize,
+                    currentPage: page,
+                    totalItems: count
+                  }">
+                    <td>{{item.categoria_ingresos}}</td>
+                    <td>{{item.ingresos}}</td>
+                    <td><label class="text-success">{{item.valor}}</label></td>
+                    <td>{{item.fecha_registro}}</td>
+                    <td>
+                      <div class="d-flex justify-content-end">
+                        <button *ngIf="!this.opcionesprivilegios['bloqueoedicioningresos']" (click)="agregar(item.cod_ingresos);" class="btn btn-outline-primary btn-sm" type="button"><i class="fas fa-plus"></i></button>
+                        <button (click)="exportarPdf(item.cod_ingresos);" class="btn btn-outline-danger btn-sm" type="button"><i class="fa fa-file-pdf"></i></button>
+                        <button *ngIf="!this.opcionesprivilegios['bloqueoanulacioningresos']" (click)="clickEliminar(item.cod_ingresos, item.ingresos);" class="btn btn-outline-danger btn-sm"><i class="fa fa-trash"></i></button>
+                      </div>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+              <div class="float-right">
+                <pagination-controls class="pagination-controls" id="pagingresos"
+                previousLabel="Anterior"
+                nextLabel="Siguiente"
+                [responsive]="true"
+                (pageChange)="handlePageChange($event)">
+                </pagination-controls>
+              </div>
+            </div>
+            <!-- /.card-body -->
+          </div>
+
+        
+        </div>
+
+
+       
+
+
+      
+
+      </div>
+
+
+
+    </div>
+</section>

@@ -1,0 +1,160 @@
+<app-listado-tarifas></app-listado-tarifas>
+
+<app-listado-existencias-sucursal></app-listado-existencias-sucursal>
+
+<div id="mymodallistadotarifanormal" class="modal fade" role="dialog" data-backdrop="false">
+  <div class="modal-dialog">
+    <!-- Modal content -->
+    <div class="modal-content">
+      <div class="modal-header">
+      <h5 class="modal-title">{{descripcion}}</h5>
+        <button type="button" class="close" aria-label="Close" (click)="cerrarModal()">
+          <span aria-hidden="true">×</span>
+        </button>
+      </div>
+      <div class="modal-body">
+
+        <div *ngIf="loadinglistado" style="text-align:center">
+          <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;"></div>
+        </div>
+
+        <div class="col-md-12">
+
+          <div class="row pb-1">
+            <div class="col-md-4">
+              <div class="form-group">
+                <label class="text-primary small">Mayor: >= {{rpv4}}</label>
+                <button class="btn btn-outline-success btn-sm btn-block" type="button"> {{pv4}}</button>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="form-group">
+                <label class="text-primary small">Docena: >= {{rpv5}}</label>
+                <button class="btn btn-outline-success btn-sm btn-block" type="button"> {{pv5}}</button>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="form-group">
+                <label class="text-primary small">Bulto: => {{rpv6}}</label>
+                <button class="btn btn-outline-success btn-sm btn-block" type="button"> {{pv6}}</button>
+              </div>
+            </div>
+          </div>
+
+
+          <div class="row pb-1">
+            <div class="col-md-4">
+              <div class="form-group">
+                <label class="text-primary small">Mayor AF: >= {{rpv1}}</label>
+                <button class="btn btn-outline-success btn-sm btn-block" type="button"> {{pv1}}</button>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="form-group">
+                <label class="text-primary small">Docena AF: >= {{rpv2}}</label>
+                <button class="btn btn-outline-success btn-sm btn-block" type="button"> {{pv2}}</button>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="form-group">
+                <label class="text-primary small">Bulto AF: => {{rpv3}}</label>
+                <button class="btn btn-outline-success btn-sm btn-block" type="button"> {{pv3}}</button>
+              </div>
+            </div>
+          </div>
+
+          
+
+
+          
+        </div>
+      </div>
+      
+
+       <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" (click)="cerrarModal()">Cerrar</button>
+       </div>
+
+
+    </div>
+
+  </div>
+</div>
+
+<div class="row justify-content-between align-items-center">
+  <span>Total: {{this.cantidad_registros}} Registros</span>
+  <div class="input-group input-group-sm float-right" style="width: 150px;">
+    <input #txtfilterpost (keyup)="keyFiltrado();" type="text" class="form-control float-right" oninput="javascript:this.value=this.value.toUpperCase();" placeholder="Buscar" [(ngModel)]="filterpost" name="filterpost" />
+  </div>
+</div>
+
+<br>
+
+<div class="row justify-content-between">
+
+  <span *ngIf="loadinglistado" class="justify-content-center text-center m-auto">
+    <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;"></div>
+  </span>
+
+  <div class="table-responsive p-0">
+    <table class="design-table resp">
+      <thead>
+        <tr>
+          <th>SUBCATEGORIA</th>
+          <th>MARCA</th>
+          <th>DESCRIPCIÓN</th>
+          <th>P.V.P</th>
+          <th>EXISTENCIAS</th>
+          <th><i class="fa fa-fw fa-barcode"></i></th>
+          <th><i class="fa fa-fw fa-barcode"></i></th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let item of (datosproducto | filterGenerico:filterpost:['subcategoria', 'marca', 'descripcion', 'codigo', 'codigo_adicional']) | paginate : {
+          id : 'pagproducto',
+          itemsPerPage: pagesize,
+          currentPage: page,
+          totalItems: count
+        }">
+          <td>{{item.subcategoria}}</td>
+          <td>{{item.marca}}</td>
+          <td>{{item.descripcion}}</td>
+          <td>
+            <span *ngIf="this.tarifas=='1'" class="text-success font-weight-bold precio-venta" (click)="verTarifasNormal(item)">{{item.precio_venta}}</span>
+            <span *ngIf="this.tarifas=='0'" class="text-success font-weight-bold precio-venta" (click)="verTarifas(item.cod_producto, item.descripcion)">{{item.precio_venta}}</span>
+          </td>
+          <td>
+            <div class="d-flex justify-content-between">
+              <span *ngIf="multisucursal=='1' || multisucursal=='0'" (click)="verExistenciasSucursales(item.cod_producto, item.descripcion)" class="font-weight-bold color-existencia" [ngClass]="{'text-primary': item.existencia>0, 'text-danger': item.existencia<=0}">{{item.existencia}}</span>
+              <div>
+                <span class="badge badge-info" *ngIf="item.fraccionado=='SI'">({{item.cantidad_denominacion + " " + item.denominacion}})</span>
+              </div>
+            </div>
+            <div class="d-flex justify-content-between">
+              <span *ngIf="item.pedidos>0" class="badge badge-warning">Pedidos {{item.pedidos}}</span>
+            </div>
+          </td>
+          <td>{{item.codigo}}</td>
+          <td>{{item.codigo_adicional}}</td>
+          <td>
+            <div class="d-flex justify-content-end">
+              <button *ngIf="item.existencia>0 || item.inventario==0" (click)="agregarventas(item.cod_producto);" class="btn btn-outline-primary btn-sm" type="button"><i class="fas fa-plus"></i></button>
+              <div *ngIf="item.existencia<=0 && item.inventario==1">
+                <span class='badge badge-danger'>No hay existencias</span>
+              </div>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="float-right">
+      <pagination-controls class="pagination-controls" id="pagproducto"
+      previousLabel="Anterior"
+      nextLabel="Siguiente"
+      [responsive]="true"
+      (pageChange)="handlePageChange($event)">
+      </pagination-controls>
+    </div>
+  </div>
+</div>

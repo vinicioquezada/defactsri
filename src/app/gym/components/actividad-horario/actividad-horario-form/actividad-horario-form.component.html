@@ -1,0 +1,57 @@
+<div id="mymodalformactividadhorario" class="modal fade" role="dialog" data-backdrop="false">
+  <div class="modal-dialog">
+    <!-- Modal content -->
+    <div class="modal-content">
+      <div class="modal-header">
+      <h5 class="modal-title">{{tipoformulario}} SESIÓN</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">×</span>
+        </button>
+      </div>
+
+      <div class="modal-body">
+       
+          <div class="row">
+                
+            <div class="col-md-12">
+
+                <div class="form-group">
+                  <label>Dia:</label><label class="text-danger">&nbsp;*</label>
+                  <select [ngClass]="{'is-invalid': flagdia}" (change)="changeDia($event)" class="form-control form-control-sm">
+                      <option [value]="item.cod_dia" *ngFor="let item of datosdia" [selected]="item.cod_dia == cod_dia">
+                          {{item.dia}}
+                      </option>
+                  </select>
+                </div>
+
+                <div class="form-group">
+                  <label>Hora Inicio:</label><label class="text-danger">&nbsp;*</label>
+                  <input [ngClass]="{'is-invalid': flaghorainicio}" [(ngModel)]="hora_inicio" autofocus class="form-control form-control-sm" type="time">
+                </div>
+
+                <div class="form-group">
+                  <label>Hora Fin:</label><label class="text-danger">&nbsp;*</label>
+                  <input [ngClass]="{'is-invalid': flaghorafin}" [(ngModel)]="hora_fin" autofocus class="form-control form-control-sm" type="time">
+                </div>
+
+                <div class="form-group">
+                  <label>Cupo Máximo:</label><label class="text-danger">&nbsp;*</label>
+                  <input [ngClass]="{'is-invalid': flagcupomaximo}" [(ngModel)]="cupo_maximo" autofocus class="form-control form-control-sm" type="text" onKeyPress="return soloNumeros(event)">
+                </div>   
+            </div>
+
+
+          </div>
+
+          <div class="d-flex justify-content-end align-items-center">
+            <button [ngClass]="{'d-none': flagocultarboton}" (click)="clickGuardar();" class="btn btn-primary btn-sm" type="button"><i class="fas fa-save"></i> Guardar</button>
+            <button [ngClass]="{'d-none': !flagocultarboton}" (click)="clickActualizar();" class="btn btn-warning btn-sm" type="button"><i class="fas fa-save"></i> Actualizar</button>&nbsp;
+            <button *ngIf="tipoformulario=='agregar'" class="btn btn-secondary btn-sm" type="button" data-dismiss="modal"><i class="fas fa-times-circle"></i> Cerrar</button>
+          </div>
+
+      </div>
+
+    </div>
+
+  </div>
+</div>

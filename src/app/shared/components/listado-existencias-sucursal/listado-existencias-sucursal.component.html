@@ -1,0 +1,57 @@
+<div id="mymodallistadoexistenciassucursales" class="modal fade" role="dialog" data-backdrop="false">
+  <div class="modal-dialog">
+    <!-- Modal content -->
+    <div class="modal-content">
+      <div class="modal-header">
+      <h5 class="modal-title">{{descripcion}}</h5>
+        <button type="button" class="close" aria-label="Close" (click)="cerrarModal()">
+          <span aria-hidden="true">×</span>
+        </button>
+      </div>
+      <div class="modal-body">
+
+        <div *ngIf="loadinglistado" style="text-align:center">
+          <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;"></div>
+        </div>
+
+        <div class="col-md-12">
+
+          <div class="panel-body table-responsive"> 
+            <table style='font-size: 14px;' class="design-table">
+              <thead>
+                <tr>
+                  <th>SUCURSAL</th>
+                  <th>CANTIDAD</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let item of datosexistencias">
+                  <td>{{item.sucursal}}</td>
+                  <td>
+                    <div class="d-flex justify-content-between">
+                      <span class="font-weight-bold" [ngClass]="{'text-primary': item.existencia>0, 'text-danger': item.existencia<=0}">{{item.existencia}}</span>
+                      <div>
+                        <span class="badge badge-info" *ngIf="item.fraccionado=='SI'">({{item.cantidad_denominacion + " " + item.denominacion}})</span>
+                      </div>
+                    </div>
+                    <div class="d-flex justify-content-between">
+                      <span *ngIf="item.pedidos>0" class="badge badge-warning">Pedidos {{item.pedidos}}</span>
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+      
+
+       <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" (click)="cerrarModal()">Cerrar</button>
+       </div>
+
+
+    </div>
+
+  </div>
+</div>

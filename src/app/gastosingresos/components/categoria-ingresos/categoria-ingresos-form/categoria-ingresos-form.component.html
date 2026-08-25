@@ -1,0 +1,43 @@
+<div id="mymodalformcategoriaingresos" class="modal fade" role="dialog" data-backdrop="false">
+  <div class="modal-dialog">
+    <!-- Modal content -->
+    <div class="modal-content">
+      <div class="modal-header">
+      <h5 class="modal-title">{{nombreformulario}} CATEGORIA INGRESOS</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">×</span>
+        </button>
+      </div>
+
+      <div class="modal-body">
+       
+          <div class="row">
+                
+            <div class="col-md-12">
+
+                <div class="form-group">
+                  <label>Categoria Ingresos:</label><label class="text-danger">&nbsp;*</label>
+                  <input [ngClass]="{'is-invalid': flagcategoriaingresos}" [(ngModel)]="categoria_ingresos" autofocus class="form-control form-control-sm"  oninput="javascript:this.value=this.value.toUpperCase();" placeholder="Categoria Ingresos" type="text">
+                </div>
+
+                <div class="form-group">
+                  <label>Observacion:</label>
+                  <textarea [(ngModel)]="observacion" class="form-control"></textarea>
+                </div>   
+            </div>
+
+
+          </div>
+
+          <div class="d-flex justify-content-end align-items-center">
+            <button [ngClass]="{'d-none': flagocultarboton}" (click)="clickGuardar();" class="btn btn-primary btn-sm" type="button"><i class="fas fa-save"></i> Guardar</button>
+            <button [ngClass]="{'d-none': !flagocultarboton}" (click)="clickActualizar();" class="btn btn-warning btn-sm" type="button"><i class="fas fa-save"></i> Actualizar</button>&nbsp;
+            <button class="btn btn-secondary btn-sm" type="button" data-dismiss="modal"><i class="fas fa-times-circle"></i> Cerrar</button>
+          </div>
+
+      </div>
+
+    </div>
+
+  </div>
+</div>

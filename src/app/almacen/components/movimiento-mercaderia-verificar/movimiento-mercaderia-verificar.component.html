@@ -1,0 +1,131 @@
+<section class="content-header" id="box">
+    <div class="container-fluid">
+      <div class="row mb-2">
+        <div class="col-sm-9">
+            <div class="btn-toolbar" role="toolbar">
+              <div class="btn-group">
+                  <button (click)="clickDeshacer();" class="btn btn-secondary btn-flat btn-sm" type="button"><i class="fas fa-redo-alt"></i> Deshacer</button>
+                  <button routerLink="/menualmacen/verificacionmovimientomercaderia" class="btn btn-secondary btn-flat btn-sm" type="button"><i class="fa fa-reply"></i> Atrás</button>
+              </div>
+              
+
+             
+
+            </div>
+
+
+            
+                
+          
+
+
+        </div>
+
+        <div class="col-sm-3">
+          
+            <div>
+                <div class="input-group input-group-sm">
+                    <div class="input-group-prepend">
+                    <span class="input-group-text"><i class="fas fa-paperclip"></i>&nbsp;Nº Movimiento:</span>
+                    </div>
+                    <label class="form-control">{{this.numero_movimiento}}</label>
+                </div>
+            </div>
+     
+        </div>
+
+
+
+        
+      </div>
+      
+    </div><!-- /.container-fluid -->
+
+    
+</section>
+
+<!-- Main content -->
+<section class="content">
+    <div class="container-fluid">
+
+
+        <div class="row">
+            <div class="col-md-4">
+              <div class="form-group">
+                <div class="input-group input-group-sm">
+                    <div class="input-group-prepend">
+                    <span class="input-group-text"><i class="fas fa-calendar"></i>&nbsp;Fecha:</span>
+                    </div>
+                    <input class="form-control" [(ngModel)]="fecha_registro" type="date">
+                </div>
+              </div>
+            </div>
+
+            <div class="col-md-4">
+      
+              <div class="form-group">
+                <div class="input-group input-group-sm">
+                    <div class="input-group-prepend">
+                    <span class="input-group-text"><i class="fas fa-home"></i>&nbsp;Desde:</span>
+                    </div>
+                    <label class="form-control">{{ sucursal }}</label>
+                </div>
+              </div>
+      
+            </div>
+      
+            <div class="col-md-4">
+      
+              <div class="form-group">
+                <div class="input-group input-group-sm">
+                    <div class="input-group-prepend">
+                    <span class="input-group-text"><i class="fas fa-home"></i>&nbsp;Transfirió a:</span>
+                    </div>
+                    <label class="form-control">{{ sucursal_receptar }}</label>
+                </div>
+              </div>
+      
+            </div>
+            
+      
+        </div>
+
+
+        <div class="row">
+          <div class="col-md-12">
+
+                  <div class="card card-cyan card-outline">
+                      <div class="card-header">
+                        
+                        <app-detalle-productos-revision [datosproducto] = "this.datosproducto"></app-detalle-productos-revision>
+
+                      </div>
+                      
+                  </div>
+
+          </div>
+
+          <!-- <div class="col-md-4">
+
+             
+
+          </div> -->
+      </div>		
+
+
+       
+
+      <div class="row">
+          
+          
+
+
+      </div>
+
+  
+
+      
+
+
+    </div>
+</section>

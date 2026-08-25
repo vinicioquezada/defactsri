@@ -1,0 +1,34 @@
+<div>
+  <table border="1" style="font-size: 12px;" class="bordered">
+        <thead style="font-size: 11px;">
+          <tr>
+          <th width="30%">Detalles</th>
+          <th width="8%">C. Real (-IMP)</th>
+          <th width="8%">C. Real (+IMP)</th>
+          <th width="5%">%</th>
+          <th width="8%"><span class="text-primary">Precio (-IMP)</span></th>
+          <th width="8%"><span class="text-primary">Precio (+IMP)</span></th>
+          <th width="8%"><span class="text-danger">Precio (-IMP)</span></th>
+          <th width="8%"><span class="text-danger">Precio (+IMP)</span></th>
+          <th width="3%"></th>
+          </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let item of datosdetalles; let i = index; let u = last" [ngClass]="{'bg-danger': item.fila_error}">
+                <td>{{item.descripcion}}</td>
+                <td>{{item.costo_base_real}}</td>
+                <td>{{item.costo_real | number}}</td>
+                <td><input class="micajatable" type="text" maxlength="15" (keydown)="keyPendiente(i)" (keyup.enter)="keySumarporcentaje(i)" [(ngModel)]="item.utilidad"></td>
+                <td><input class="micajatable" type="text" maxlength="15" (keydown)="keyPendiente(i)" (keyup.enter)="keySumar(i)" [(ngModel)]="item.precio_base_actual"></td>
+                <td>
+                  <input class="micajatable" type="text" maxlength="15" (keydown)="keyPendiente(i)" (keyup.enter)="keySumarSi(i)" [(ngModel)]="item.precio_actual">
+                </td>
+                <td>{{item.precio_base}}</td>
+                <td>{{item.precio_venta | number}}</td>
+                <td>
+                    <button (click)="borrar(i);" class="btn btn-danger btn-sm"><i class="fa fa-trash"></i></button>
+                </td>
+            </tr>
+        </tbody>
+  </table>
+</div>

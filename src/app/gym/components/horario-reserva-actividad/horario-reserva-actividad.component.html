@@ -1,0 +1,46 @@
+<app-listado-actividad-reserva></app-listado-actividad-reserva>
+
+<section class="content-header">
+  <div class="container-fluid">
+    <div class="row mb-2">
+      <div class="col-sm-12">
+          <div class="btn-toolbar" role="toolbar">
+            <div class="btn-group">
+              <button (click)="clickDeshacer();" class="btn btn-secondary btn-flat btn-sm float-right" type="button"><i class="fas fa-redo-alt"></i> Deshacer</button>
+              <button routerLink="/menugym/actividad" class="btn btn-secondary btn-flat btn-sm" type="button"><i class="fas fa-undo"></i> Atrás</button>
+            </div>
+          </div>
+      </div>
+      
+    </div>
+    
+  </div><!-- /.container-fluid -->
+</section>
+
+<!-- Main content -->
+<section class="content">
+    <div class="container-fluid">
+
+      <div class="row">
+        <div class="col-md-12 overlay-wrapper">
+
+          <div *ngIf="loadinglistado" class="overlay overlay-custom d-flex flex-column align-items-center">
+              <div class="spinner-border text-primary" style="width: 5rem; height: 5rem; font-size: 30px;" role="status"></div>
+              <!-- <div class="text-bold pt-2">Cargando...</div> -->
+          </div>
+
+          <label class="form-control form-control-sm d-flex align-items-center">
+            <i class="fas fa-dumbbell mr-2"></i>
+            <span class="flex-grow-1 text-center">{{actividad}}</span>
+          </label>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-12">
+            <full-calendar [options]='calendarOptions'></full-calendar>
+        </div>
+      </div>
+
+    </div>
+</section>

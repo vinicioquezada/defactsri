@@ -1,0 +1,85 @@
+<div id="mymodallistarclientes" class="modal fade" role="dialog" data-backdrop="false">
+  <div class="modal-dialog modal-lg">
+    <!-- Modal content -->
+    <div class="modal-content">
+      <div class="modal-header">
+      <h5 class="modal-title">LISTADO DE CLIENTES</h5>
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">×</span>
+          </button>
+      </div>
+      <div class="modal-body overlay-wrapper">
+
+        <div *ngIf="loadinglistado" class="overlay overlay-custom d-flex flex-column align-items-center">
+          <div class="spinner-border text-primary" style="width: 5rem; height: 5rem; font-size: 30px;" role="status"></div>
+          <div class="text-bold pt-2">Cargando...</div>
+        </div>
+
+        <div class="row justify-content-between align-items-center">
+          <span>Total: {{this.cantidad_registros}} Registros</span>
+          <div class="input-group input-group-sm float-right" style="width: 150px;">
+            <input (keyup)="keyFiltrado();" type="text" class="form-control float-right" oninput="javascript:this.value=this.value.toUpperCase();" placeholder="Buscar" [(ngModel)]="filterpost" name="filterpost" autocomplete="off" />
+          </div>
+        </div>
+
+        <br>
+          
+          <div class="row justify-content-between">
+            
+            <div class="table-responsive p-0">
+              <table class="design-table resp">
+                <thead>
+                  <tr>
+                    <th>IDENTIFICACIÓN</th>
+                    <th>APELLIDO/RAZÓN SOCIAL</th>
+                    <th>NOMBRE/NOMBRE COMERCIAL</th>
+                    <th></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let item of (datos | filterGenerico:filterpost:['cedula', 'apellido', 'nombre']) | paginate : {
+                    id : 'pagcliente',
+                    itemsPerPage: pagesize,
+                    currentPage: page,
+                    totalItems: count
+                  }">
+                    <td>
+                      <div>
+                        <small class="badge badge-secondary">{{item.identificacion}}</small>
+                      </div>
+                      <div>
+                        <small class="badge badge-primary">{{item.cedula}}</small>
+                      </div>
+                    </td>
+                    <td>{{item.apellido}}</td>
+                    <td>{{item.nombre}}</td>
+                    <td>
+                      <div class="d-flex justify-content-end">
+                        <button (click)="agregar(item.cod_cliente);" class="btn btn-outline-primary btn-sm" type="button"><i class="fas fa-plus"></i></button>
+                      </div>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+              <div class="float-right">
+                <pagination-controls class="pagination-controls" id="pagcliente"
+                previousLabel="Anterior"
+                nextLabel="Siguiente"
+                [responsive]="true"
+                (pageChange)="handlePageChange($event)">
+                </pagination-controls>
+              </div>
+            </div>
+          </div>
+
+          <div class="d-flex justify-content-end align-items-center">
+            <button (click)="actualizarListadoCliente();" type="button" class="btn btn-primary btn-sm" data-dismiss="modal"><i class="fas fa-sync-alt"></i> Actualizar</button>&nbsp;
+            <button class="btn btn-secondary btn-sm" type="button" data-dismiss="modal"><i class="fas fa-times-circle"></i> Cerrar</button>
+          </div>
+
+      </div>
+      
+    </div>
+
+  </div>
+</div>

@@ -1,0 +1,805 @@
+
+
+
+
+   
+<div id="mymodalformproducto" class="modal fade" role="dialog" data-backdrop="false">
+  <div class="modal-dialog modal-xl">
+    <!-- Modal content -->
+    <div class="modal-content">
+      <div class="modal-header">
+      <h5 class="modal-title">{{ nombreformulario }} PRODUCTO</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">×</span>
+        </button>
+      </div>
+
+      <div class="modal-body overlay-wrapper">
+
+                <div *ngIf="loadingform" class="overlay overlay-custom d-flex flex-column align-items-center">
+                  <div class="spinner-border text-primary" style="width: 5rem; height: 5rem; font-size: 30px;" role="status">
+                  </div>
+                  <div class="text-bold pt-2">Cargando...</div>
+                </div>
+
+                <div class="row">
+            
+                    
+                        
+                    <div class="col-md-6">
+
+                      <div class="form-group">
+                        <label>Tipo: </label>
+                        <select class="form-control form-control-sm" (change)="changeTipoProducto($event)">
+                            <option value="{{item.cod_tipo_producto}}" *ngFor="let item of datostipoproducto" [selected]="item.cod_tipo_producto == cod_tipo_producto">
+                                {{item.tipo_producto}}
+                        </option>
+                        </select>
+                      </div>
+
+                      <div class="form-group">
+                        <label>Codigo Producto:</label><label class="text-danger">&nbsp;*</label>
+                        <div class="input-group input-group-sm">
+                          <div *ngIf="codigo_automatico_producto=='1'" class="input-group-prepend">
+                            <button (click)="borrarCodigoAutomatico();" class="btn btn-secondary btn-flat btn-sm"><i class="fas fa-eraser"></i></button>
+                          </div>
+                          <div class="input-group-prepend">
+                            <button (click)="originarCodigo();" class="btn btn-secondary btn-flat btn-sm"><i class="far fa-file"></i></button>
+                            </div>
+                          <input [ngClass]="{'is-invalid': flagcodigo}" [(ngModel)]="codigo" (keyup.enter)="buscarCodigoBarra();" autofocus class="form-control form-control-sm" oninput="javascript:this.value=this.value.toUpperCase();" placeholder="Codigo" type="text">
+                          <div class="input-group-prepend">
+                            <button (click)="buscarCodigoBarra();" class="btn btn-secondary btn-flat btn-sm"><i class="fas fa-search"></i></button>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div *ngIf="flagocultarentradas == 1" class="form-group">
+                          <label>Codigo Adicional:</label>
+                          <input  [(ngModel)]="codigo_adicional" class="form-control form-control-sm"  oninput="javascript:this.value=this.value.toUpperCase();" placeholder="Codigo Adicional" type="text">
+                      </div>
+
+                      
+                        
+
+                        <div [ngClass]="{'d-none': codigosproducto == '0'}" id="accordion" role="tablist" aria-multiselectable="true">
+                          <div class="card card-outline">
+
+                              <a class="d-block w-100 collapsed" data-toggle="collapse" href="#collapsecodigobarra" aria-expanded="false">
+                                <div class="card-header">
+                                    <h4 class="card-title w-100">
+                                      <i class="fa fa-barcode"></i> Codigo Barra Adicionales
+                                    </h4>
+                                </div>
+                              </a>
+
+                              <div id="collapsecodigobarra" class="collapse" role="tabpanel" aria-labelledby="headinginteriorcontenedor">
+                                  <div class="card-body">
+
+                                    <app-codigo-producto></app-codigo-producto>
+
+                                  </div>
+                              </div>
+                          </div>
+                        </div>
+
+
+                    
+
+                      <div class="form-group">
+                          <label>SubCategoria: </label><label class="text-danger">&nbsp;*</label>
+                          <div class="input-group input-group-sm">
+                              <ng-select [ngClass]="{'is-invalid': flagsubcategoria}" class="form-control form-control-sm" [(ngModel)]="cod_subcategoria">
+                                <ng-option *ngFor="let item of datossubcategoria" [value]="item.cod_subcategoria.toString()">{{item.subcategoria}}</ng-option>
+                              </ng-select>
+                              <span class="input-group-append">
+                                  <button (click)="clickSubCategoria();" class="btn btn-secondary btn-flat" type="button"><i class="fa fa-plus"></i></button>
+                              </span>
+                          </div>
+                      </div>
+                      
+                      <div *ngIf="flagocultarentradas == 1" class="form-group">
+                        <label>Marca: </label><label class="text-danger">&nbsp;*</label>
+                        <div class="input-group input-group-sm">
+                          <ng-select [ngClass]="{'is-invalid': flagmarca}" class="form-control form-control-sm" [(ngModel)]="cod_marca">
+                            <ng-option *ngFor="let item of datosmarca" [value]="item.cod_marca.toString()">{{item.marca}}</ng-option>
+                          </ng-select>
+                            <span class="input-group-append">
+                                <button (click)="clickMarca();" class="btn btn-secondary btn-flat" type="button"><i class="fa fa-plus"></i></button>
+                            </span>
+                        </div>
+                      </div>
+
+                      <div *ngIf="flagocultarentradas == 1" class="form-group">
+                        <label>Unidad Medida: </label><label class="text-danger">&nbsp;*</label>
+                        <div class="input-group input-group-sm">
+                          <ng-select [ngClass]="{'is-invalid': flagunidadmedida}" class="form-control form-control-sm" [(ngModel)]="cod_unidad_medida">
+                            <ng-option *ngFor="let item of datosunidadmedida" [value]="item.cod_unidad_medida.toString()">{{item.unidad_medida}}</ng-option>
+                          </ng-select>
+                            <span class="input-group-append">
+                                <button (click)="clickUnidadMedida();" class="btn btn-secondary btn-flat" type="button"><i class="fa fa-plus"></i></button>
+                            </span>
+                        </div>
+                      </div>
+
+                      <div class="form-group">
+                        <label>Descripcion: </label><label class="text-danger">&nbsp;*</label>
+                        <input [ngClass]="{'is-invalid': flagdescripcion}" [(ngModel)]="descripcion" class="form-control form-control-sm" oninput="javascript:this.value=this.value.toUpperCase();" placeholder="Descripcion" type="text">
+                      </div>
+
+                    
+
+
+
+                      <div class="row">
+                        <div class="col-md-6">
+                          <div *ngIf="flagocultarentradas == 1" class="form-group">
+                            <label>Stock Minimo: </label><label class="text-danger">&nbsp;*</label>
+                            <input [ngClass]="{'is-invalid': flagstockminimo}" [(ngModel)]="stock_minimo" class="form-control form-control-sm" onkeypress="return soloNumerosEnteros(event)" placeholder="Stock Minimo" type="text">
+                          </div>
+                        </div>
+
+                        <div class="col-md-6">
+                          <div *ngIf="flagocultarentradas == 1" class="form-group">
+                            <label>Codigo Percha: </label>
+                            <input [(ngModel)]="codigo_percha" class="form-control form-control-sm" oninput="javascript:this.value=this.value.toUpperCase();" placeholder="Codigo Percha" type="text">
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="row">
+                          <div class="col-md-6">
+                            <div *ngIf="flagocultarentradas == 1" class="form-group">
+                              <label>Inventario: </label>
+                              <select (change)="changeInventario($event)" class="form-control form-control-sm">
+                                <option [value]="item.codigo_inventario" *ngFor="let item of datosinventario" [selected]="item.codigo_inventario == this.codigo_inventario">{{item.inventario}}</option>
+                              </select>
+                            </div>
+                          </div>
+
+                          <div class="col-md-6">
+                            <div *ngIf="flagocultarentradas == 1 && this.codigo_inventario == '1'" class="form-group">
+                              <label>Caducidad: </label>
+                              <select (change)="changeCaducidad($event)" class="form-control form-control-sm">
+                                <option [value]="item.codigo_caducidad" *ngFor="let item of datoscaducidad" [selected]="item.codigo_caducidad == this.codigo_caducidad">{{item.caducidad}}</option>
+                              </select>
+                            </div>
+                          </div>
+                      </div>
+
+                    </div>
+                      
+                      
+                        
+                    
+
+                    <div class="col-md-6">
+
+
+                      <div class="card card-primary card-outline">
+                        <div class="card-header">
+                          <h3 class="card-title">Configurar Precios: {{descripcion}}</h3>
+                        </div>
+                          <div class="card-body">
+                            <div class="row">
+        
+                              <div class="col-md-6">
+                                
+                                <div class="form-group">
+                                  <label>IVA Compra: </label><label class="text-danger">&nbsp;*</label>
+                                  <select [ngClass]="{'is-invalid': flagivacompra}" (change)="changeIvaCompra($event)" class="form-control form-control-sm">
+                                      <option value="{{item.id_iva_compra}}" *ngFor="let item of datosivacompra" [selected]="item.id_iva_compra==id_iva_compra">
+                                          {{item.iva_compra}}
+                                  </option>
+                                  </select>
+                                </div>
+                              
+                                <div *ngIf="precios_completos == '1'" class="form-group">
+                                  <label class="text-danger">Costo Compra (-IMP): *</label>
+                                  <input [ngClass]="{'is-invalid': flagcostobase}" [(ngModel)]="costo_base" onKeyPress="return soloNumeros(event)" class="form-control form-control-sm" maxlength="15" placeholder="Costo Compra (-IMP)"type="text" (keyup)="calcularCostoBase()">
+                                </div>
+                              
+                                <div class="form-group">
+                                  <label data-bs-toggle="tooltip" data-bs-placement="top" title="Costo Compra (+IMP)">Costo Compra (+IMP): *</label>
+                                  <input [ngClass]="{'is-invalid': flagcosto}" [(ngModel)]="costo" onKeyPress="return soloNumeros(event)" class="form-control form-control-sm" maxlength="15" placeholder="Costo Compra" type="text" data-bs-toggle="tooltip" data-bs-placement="top" title="Costo Base + Iva" (keyup)="calcularCostoCompra()">
+                                </div>
+        
+                              </div>
+        
+                              <div class="col-md-6">
+                                    <div class="form-group">
+                                      <label>IVA Venta: </label><label class="text-danger">&nbsp;*</label>
+                                      <select [ngClass]="{'is-invalid': flagiva}" (change)="changeIva($event)" class="form-control form-control-sm">
+                                          <option value="{{item.id_iva}}" *ngFor="let item of datosiva" [selected]="item.id_iva==id_iva">
+                                              {{item.iva}}
+                                      </option>
+                                      </select>
+                                    </div>
+        
+                                    <div *ngIf="precios_completos == '1'" class="form-group">
+                                      <label class="text-danger">Precio Venta (-IMP): *</label>
+                                      <input [ngClass]="{'is-invalid': flagpreciobase}" [(ngModel)]="precio_base" onKeyPress="return soloNumeros(event)" class="form-control form-control-sm" maxlength="15" placeholder="Precio Venta (-IMP)" type="text" (keyup)="calcularPrecioBase()">
+                                    </div>
+        
+                                    <div class="form-group">
+                                      <label class="text-primary" data-bs-toggle="tooltip" data-bs-placement="top" title="Precio Venta (+IMP)">Precio Venta (+IMP): *</label>
+                                      <div class="input-group input-group-sm">
+                                        <div *ngIf="precios_completos == '1'" class="input-group-prepend">
+                                          <span class="input-group-text"><i class="fas fa-percent"></i></span>
+                                        </div>
+                                        <input *ngIf="precios_completos == '1'" [(ngModel)]="utilidad" data-bs-toggle="tooltip" data-bs-placement="top" title="Costo Base * porcentaje Utilidad" onKeyPress="return soloNumeros(event)" class="form-control" maxlength="10" placeholder="Uti. %" type="text" (keyup)="calcularUtilidad()">
+                                        <div *ngIf="precios_completos == '1'" class="input-group-prepend">
+                                          <span class="input-group-text"><i class="fas fa-dollar-sign"></i></span>
+                                        </div>
+                                        <input [ngClass]="{'is-invalid': flagprecioventa}" [(ngModel)]="precio_venta" onKeyPress="return soloNumeros(event)" class="form-control" maxlength="15" placeholder="Precio V." type="text" data-bs-toggle="tooltip" data-bs-placement="top" title="Precio sin Iva + Iva" (keyup)="calcularPrecioVenta()">
+                                      </div>
+                                    </div>
+        
+                                    <div *ngIf="precios_completos == '1'" class="form-group">
+                                      <label class="text-danger">Precio Base Min (-IMP): *</label>
+                                      <input [ngClass]="{'is-invalid': flagpreciobaseminimo}" [(ngModel)]="precio_base_minimo" onKeyPress="return soloNumeros(event)" class="form-control form-control-sm" maxlength="15" placeholder="Precio sin Iva Min (-IMP)" type="text" (keyup)="calcularPrecioBaseMinimo()">
+                                    </div>
+        
+                                    <div class="form-group">
+                                      <label class="text-primary">Precio Venta Min (+IMP): *</label>
+                                      <input [ngClass]="{'is-invalid': flagprecioventaminimo}" [(ngModel)]="precio_venta_minimo" onKeyPress="return soloNumeros(event)" class="form-control form-control-sm" maxlength="15" placeholder="Precio Venta Min (+IMP)" type="text" (keyup)="calcularPrecioVentaMinimo()">
+                                    </div>
+        
+        
+        
+        
+                              </div>
+        
+        
+        
+        
+                            </div>
+                          </div>
+                      </div>
+
+                      <div *ngIf="tarifas == '1'" id="accordion" role="tablist" aria-multiselectable="true">
+                        <div class="card card-outline">
+
+                            <a class="d-block w-100 collapsed" data-toggle="collapse" href="#collapsepreciosventas" aria-expanded="false">
+                              <div class="card-header">
+                                  <h4 class="card-title w-100">
+                                    <i class="fa fa-dolly-flatbed"></i>Configurar Precios Venta: {{descripcion}}
+                                  </h4>
+                              </div>
+                            </a>
+
+                            <div id="collapsepreciosventas" class="collapse" role="tabpanel" aria-labelledby="headinginteriorcontenedor">
+                                <div class="card-body">
+
+                                  <div class="row">
+
+                                    <div class="col-12">
+                                      <div class="d-flex align-items-center">
+                                        <hr class="flex-grow-1 mt-4">
+                                        <h5 class="text-primary mx-3">Precio Mayor</h5>
+                                        <hr class="flex-grow-1 mt-4">
+                                      </div>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                      <div class="form-group">
+                                        <label class="text-primary">Regla >= a:</label>
+                                        <input [(ngModel)]="rpv4" onKeyPress="return soloNumeros(event)" class="form-control form-control-sm" maxlength="15" placeholder="Regla >= a:" type="text">
+                                      </div>
+                                    </div>
+  
+                                      <div *ngIf="precios_completos == '1'" class="col-md-6">
+                                            <div class="form-group">
+                                              <label class="text-danger">Precio Mayor (-IMP):</label>
+                                              <input [(ngModel)]="bpv4" onKeyPress="return soloNumeros(event)" class="form-control form-control-sm" maxlength="15" placeholder="Precio sin Iva" type="text" (keyup)="calcularPrecioBase4()">
+                                            </div>
+                                      </div>
+  
+                                      <div class="col-md-6">
+                                        <div class="form-group">
+                                          <label class="text-primary" data-bs-toggle="tooltip" data-bs-placement="top" title="Precio sin Iva + Iva">Precio Mayor (+IMP):</label>
+                                          <div class="input-group input-group-sm">
+                                            <div *ngIf="precios_completos == '1'" class="input-group-prepend">
+                                              <span class="input-group-text"><i class="fas fa-percent"></i></span>
+                                            </div>
+  
+                                            <input *ngIf="precios_completos == '1'" [(ngModel)]="upv4" data-bs-toggle="tooltip" data-bs-placement="top" title="Costo Base * porcentaje Utilidad" onKeyPress="return soloNumeros(event)" class="form-control" maxlength="10" placeholder="Uti. %" type="text" (keyup)="calcularUtilidad4()">
+                                            <div *ngIf="precios_completos == '1'" class="input-group-prepend">
+                                              <span class="input-group-text"><i class="fas fa-dollar-sign"></i></span>
+                                            </div>
+                                            <input [(ngModel)]="pv4" onKeyPress="return soloNumeros(event)" class="form-control" maxlength="15" placeholder="Precio V." type="text" data-bs-toggle="tooltip" data-bs-placement="top" title="Precio sin Iva + Iva" (keyup)="calcularPrecioVenta4()">
+                                          </div>
+                                        </div>
+                                      </div>
+
+                                      <div class="col-md-6">
+                                        <div class="form-group">
+                                          <div class="custom-control custom-switch custom-switch-off-secondary custom-switch-on-success">
+                                          <input (change)="changeChkAutomatico4();" [checked]="apv4" type="checkbox" class="custom-control-input" id="customSwitchPv4">
+                                          <label class="custom-control-label" for="customSwitchPv4">Automático</label>
+                                          </div>
+                                        </div>
+                                      </div>
+                                      
+
+                                  </div>
+
+                                  <div class="row">
+        
+                                    <div class="col-12">
+                                      <div class="d-flex align-items-center">
+                                        <hr class="flex-grow-1 mt-4">
+                                        <h5 class="text-primary mx-3">Precio + 3</h5>
+                                        <hr class="flex-grow-1 mt-4">
+                                      </div>
+                                    </div>
+
+                                      <div class="col-md-6">
+                                        <div class="form-group">
+                                          <label class="text-primary">Regla >= a:</label>
+                                          <input [(ngModel)]="rpv5" onKeyPress="return soloNumeros(event)" class="form-control form-control-sm" maxlength="15" placeholder="Regla >= a:" type="text">
+                                        </div>
+                                      </div>
+  
+                                      <div *ngIf="precios_completos == '1'" class="col-md-6">
+                                            <div class="form-group">
+                                              <label class="text-danger">Precio + 3 (-IMP):</label>
+                                              <input [(ngModel)]="bpv5" onKeyPress="return soloNumeros(event)" class="form-control form-control-sm" maxlength="15" placeholder="Precio sin Iva" type="text" (keyup)="calcularPrecioBase5()">
+                                            </div>
+                                      </div>
+  
+                                      <div class="col-md-6">
+                                        <div class="form-group">
+                                          <label class="text-primary" data-bs-toggle="tooltip" data-bs-placement="top" title="Precio sin Iva + Iva">Precio + 3 (+IMP):</label>
+                                          <div class="input-group input-group-sm">
+                                            <div *ngIf="precios_completos == '1'" class="input-group-prepend">
+                                              <span class="input-group-text"><i class="fas fa-percent"></i></span>
+                                            </div>
+  
+                                            <input *ngIf="precios_completos == '1'" [(ngModel)]="upv5" data-bs-toggle="tooltip" data-bs-placement="top" title="Costo Base * porcentaje Utilidad" onKeyPress="return soloNumeros(event)" class="form-control" maxlength="10" placeholder="Uti. %" type="text" (keyup)="calcularUtilidad5()">
+                                            <div *ngIf="precios_completos == '1'" class="input-group-prepend">
+                                              <span class="input-group-text"><i class="fas fa-dollar-sign"></i></span>
+                                            </div>
+                                            <input [(ngModel)]="pv5" onKeyPress="return soloNumeros(event)" class="form-control" maxlength="15" placeholder="Precio V." type="text" data-bs-toggle="tooltip" data-bs-placement="top" title="Precio sin Iva + Iva" (keyup)="calcularPrecioVenta5()">
+                                          </div>
+                                        </div>
+                                      </div>
+
+                                      <div class="col-md-6">
+                                        <div class="form-group">
+                                          <div class="custom-control custom-switch custom-switch-off-secondary custom-switch-on-success">
+                                          <input (change)="changeChkAutomatico5();" [checked]="apv5" type="checkbox" class="custom-control-input" id="customSwitchPv5">
+                                          <label class="custom-control-label" for="customSwitchPv5">Automático</label>
+                                          </div>
+                                        </div>
+                                      </div>
+
+  
+                                  </div>
+                            
+                                  <div class="row">
+        
+                                    <div class="col-12">
+                                      <div class="d-flex align-items-center">
+                                        <hr class="flex-grow-1 mt-4">
+                                        <h5 class="text-primary mx-3">Precio bulto</h5>
+                                        <hr class="flex-grow-1 mt-4">
+                                      </div>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                      <div class="form-group">
+                                        <label class="text-primary">Regla >= a:</label>
+                                        <input [(ngModel)]="rpv6" onKeyPress="return soloNumeros(event)" class="form-control form-control-sm" maxlength="15" placeholder="Regla >= a:" type="text">
+                                      </div>
+                                    </div>
+  
+                                      <div *ngIf="precios_completos == '1'" class="col-md-6">
+                                            <div class="form-group">
+                                              <label class="text-danger">Precio Bulto (-IMP):</label>
+                                              <input [(ngModel)]="bpv6" onKeyPress="return soloNumeros(event)" class="form-control form-control-sm" maxlength="15" placeholder="Precio sin Iva" type="text" (keyup)="calcularPrecioBase6()">
+                                            </div>
+                                      </div>
+  
+                                      <div class="col-md-6">
+                                        <div class="form-group">
+                                          <label class="text-primary" data-bs-toggle="tooltip" data-bs-placement="top" title="Precio sin Iva + Iva">Precio Bulto (+IMP):</label>
+                                          <div class="input-group input-group-sm">
+                                            <div *ngIf="precios_completos == '1'" class="input-group-prepend">
+                                              <span class="input-group-text"><i class="fas fa-percent"></i></span>
+                                            </div>
+  
+                                            <input *ngIf="precios_completos == '1'" [(ngModel)]="upv6" data-bs-toggle="tooltip" data-bs-placement="top" title="Costo Base * porcentaje Utilidad" onKeyPress="return soloNumeros(event)" class="form-control" maxlength="10" placeholder="Uti. %" type="text" (keyup)="calcularUtilidad6()">
+                                            <div *ngIf="precios_completos == '1'" class="input-group-prepend">
+                                              <span class="input-group-text"><i class="fas fa-dollar-sign"></i></span>
+                                            </div>
+                                            <input [(ngModel)]="pv6" onKeyPress="return soloNumeros(event)" class="form-control" maxlength="15" placeholder="Precio V." type="text" data-bs-toggle="tooltip" data-bs-placement="top" title="Precio sin Iva + Iva" (keyup)="calcularPrecioVenta6()">
+                                          </div>
+                                        </div>
+                                      </div>
+
+                                      <div class="col-md-6">
+                                        <div class="form-group">
+                                          <div class="custom-control custom-switch custom-switch-off-secondary custom-switch-on-success">
+                                          <input (change)="changeChkAutomatico6();" [checked]="apv6" type="checkbox" class="custom-control-input" id="customSwitchPv6">
+                                          <label class="custom-control-label" for="customSwitchPv6">Automático</label>
+                                          </div>
+                                        </div>
+                                      </div>
+
+
+                                  </div>
+
+
+
+
+                                </div>
+                            </div>
+                        </div>
+                      </div>
+
+                      <div *ngIf="tarifas == '1'" id="accordion" role="tablist" aria-multiselectable="true">
+                        <div class="card card-outline">
+
+                            <a class="d-block w-100 collapsed" data-toggle="collapse" href="#collapsepreciosventasaf" aria-expanded="false">
+                              <div class="card-header">
+                                  <h4 class="card-title w-100">
+                                    <i class="fa fa-dolly-flatbed"></i>Configurar Precios Venta AF: {{descripcion}}
+                                  </h4>
+                              </div>
+                            </a>
+
+                            <div id="collapsepreciosventasaf" class="collapse" role="tabpanel" aria-labelledby="headinginteriorcontenedor">
+                                <div class="card-body">
+
+                                  <div class="row">
+
+                                    <div class="col-12">
+                                      <div class="d-flex align-items-center">
+                                        <hr class="flex-grow-1 mt-4">
+                                        <h5 class="text-primary mx-3">Precio Mayor AF</h5>
+                                        <hr class="flex-grow-1 mt-4">
+                                      </div>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                      <div class="form-group">
+                                        <label class="text-primary">Regla >= a:</label>
+                                        <input [(ngModel)]="rpv1" onKeyPress="return soloNumeros(event)" class="form-control form-control-sm" maxlength="15" placeholder="Regla >= a:" type="text">
+                                      </div>
+                                    </div>
+  
+                                      <div *ngIf="precios_completos == '1'" class="col-md-6">
+                                            <div class="form-group">
+                                              <label class="text-danger">Precio Mayor AF (-IMP):</label>
+                                              <input [(ngModel)]="bpv1" onKeyPress="return soloNumeros(event)" class="form-control form-control-sm" maxlength="15" placeholder="Precio sin Iva" type="text" (keyup)="calcularPrecioBase1()">
+                                            </div>
+                                      </div>
+  
+                                      <div class="col-md-6">
+                                        <div class="form-group">
+                                          <label class="text-primary" data-bs-toggle="tooltip" data-bs-placement="top" title="Precio sin Iva + Iva">Precio Mayor AF (+IMP):</label>
+                                          <div class="input-group input-group-sm">
+                                            <div *ngIf="precios_completos == '1'" class="input-group-prepend">
+                                              <span class="input-group-text"><i class="fas fa-percent"></i></span>
+                                            </div>
+  
+                                            <input *ngIf="precios_completos == '1'" [(ngModel)]="upv1" data-bs-toggle="tooltip" data-bs-placement="top" title="Costo Base * porcentaje Utilidad" onKeyPress="return soloNumeros(event)" class="form-control" maxlength="10" placeholder="Uti. %" type="text" (keyup)="calcularUtilidad1()">
+                                            <div *ngIf="precios_completos == '1'" class="input-group-prepend">
+                                              <span class="input-group-text"><i class="fas fa-dollar-sign"></i></span>
+                                            </div>
+                                            <input [(ngModel)]="pv1" onKeyPress="return soloNumeros(event)" class="form-control" maxlength="15" placeholder="Precio V." type="text" data-bs-toggle="tooltip" data-bs-placement="top" title="Precio sin Iva + Iva" (keyup)="calcularPrecioVenta1()">
+                                          </div>
+                                        </div>
+                                      </div>
+
+                                      <div class="col-md-6">
+                                        <div class="form-group">
+                                          <div class="custom-control custom-switch custom-switch-off-secondary custom-switch-on-success">
+                                          <input (change)="changeChkAutomatico1();" [checked]="apv1" type="checkbox" class="custom-control-input" id="customSwitchPv1">
+                                          <label class="custom-control-label" for="customSwitchPv1">Automático</label>
+                                          </div>
+                                        </div>
+                                      </div>
+                                      
+
+                                  </div>
+
+                                  <div class="row">
+        
+                                    <div class="col-12">
+                                      <div class="d-flex align-items-center">
+                                        <hr class="flex-grow-1 mt-4">
+                                        <h5 class="text-primary mx-3">Precio AF + 3</h5>
+                                        <hr class="flex-grow-1 mt-4">
+                                      </div>
+                                    </div>
+
+                                      <div class="col-md-6">
+                                        <div class="form-group">
+                                          <label class="text-primary">Regla >= a:</label>
+                                          <input [(ngModel)]="rpv2" onKeyPress="return soloNumeros(event)" class="form-control form-control-sm" maxlength="15" placeholder="Regla >= a:" type="text">
+                                        </div>
+                                      </div>
+  
+                                      <div *ngIf="precios_completos == '1'" class="col-md-6">
+                                            <div class="form-group">
+                                              <label class="text-danger">Precio AF + 3 (-IMP):</label>
+                                              <input [(ngModel)]="bpv2" onKeyPress="return soloNumeros(event)" class="form-control form-control-sm" maxlength="15" placeholder="Precio sin Iva" type="text" (keyup)="calcularPrecioBase2()">
+                                            </div>
+                                      </div>
+  
+                                      <div class="col-md-6">
+                                        <div class="form-group">
+                                          <label class="text-primary" data-bs-toggle="tooltip" data-bs-placement="top" title="Precio sin Iva + Iva">Precio AF + 3 (+IMP):</label>
+                                          <div class="input-group input-group-sm">
+                                            <div *ngIf="precios_completos == '1'" class="input-group-prepend">
+                                              <span class="input-group-text"><i class="fas fa-percent"></i></span>
+                                            </div>
+  
+                                            <input *ngIf="precios_completos == '1'" [(ngModel)]="upv2" data-bs-toggle="tooltip" data-bs-placement="top" title="Costo Base * porcentaje Utilidad" onKeyPress="return soloNumeros(event)" class="form-control" maxlength="10" placeholder="Uti. %" type="text" (keyup)="calcularUtilidad2()">
+                                            <div *ngIf="precios_completos == '1'" class="input-group-prepend">
+                                              <span class="input-group-text"><i class="fas fa-dollar-sign"></i></span>
+                                            </div>
+                                            <input [(ngModel)]="pv2" onKeyPress="return soloNumeros(event)" class="form-control" maxlength="15" placeholder="Precio V." type="text" data-bs-toggle="tooltip" data-bs-placement="top" title="Precio sin Iva + Iva" (keyup)="calcularPrecioVenta2()">
+                                          </div>
+                                        </div>
+                                      </div>
+
+                                      <div class="col-md-6">
+                                        <div class="form-group">
+                                          <div class="custom-control custom-switch custom-switch-off-secondary custom-switch-on-success">
+                                          <input (change)="changeChkAutomatico2();" [checked]="apv2" type="checkbox" class="custom-control-input" id="customSwitchPv2">
+                                          <label class="custom-control-label" for="customSwitchPv2">Automático</label>
+                                          </div>
+                                        </div>
+                                      </div>
+
+  
+                                  </div>
+                            
+                                  <div class="row">
+        
+                                    <div class="col-12">
+                                      <div class="d-flex align-items-center">
+                                        <hr class="flex-grow-1 mt-4">
+                                        <h5 class="text-primary mx-3">Precio bulto AF</h5>
+                                        <hr class="flex-grow-1 mt-4">
+                                      </div>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                      <div class="form-group">
+                                        <label class="text-primary">Regla >= a:</label>
+                                        <input [(ngModel)]="rpv3" onKeyPress="return soloNumeros(event)" class="form-control form-control-sm" maxlength="15" placeholder="Regla >= a:" type="text">
+                                      </div>
+                                    </div>
+  
+                                      <div *ngIf="precios_completos == '1'" class="col-md-6">
+                                            <div class="form-group">
+                                              <label class="text-danger">Precio Bulto AF (-IMP):</label>
+                                              <input [(ngModel)]="bpv3" onKeyPress="return soloNumeros(event)" class="form-control form-control-sm" maxlength="15" placeholder="Precio sin Iva" type="text" (keyup)="calcularPrecioBase3()">
+                                            </div>
+                                      </div>
+  
+                                      <div class="col-md-6">
+                                        <div class="form-group">
+                                          <label class="text-primary" data-bs-toggle="tooltip" data-bs-placement="top" title="Precio sin Iva + Iva">Precio Bulto AF (+IMP):</label>
+                                          <div class="input-group input-group-sm">
+                                            <div *ngIf="precios_completos == '1'" class="input-group-prepend">
+                                              <span class="input-group-text"><i class="fas fa-percent"></i></span>
+                                            </div>
+  
+                                            <input *ngIf="precios_completos == '1'" [(ngModel)]="upv3" data-bs-toggle="tooltip" data-bs-placement="top" title="Costo Base * porcentaje Utilidad" onKeyPress="return soloNumeros(event)" class="form-control" maxlength="10" placeholder="Uti. %" type="text" (keyup)="calcularUtilidad3()">
+                                            <div *ngIf="precios_completos == '1'" class="input-group-prepend">
+                                              <span class="input-group-text"><i class="fas fa-dollar-sign"></i></span>
+                                            </div>
+                                            <input [(ngModel)]="pv3" onKeyPress="return soloNumeros(event)" class="form-control" maxlength="15" placeholder="Precio V." type="text" data-bs-toggle="tooltip" data-bs-placement="top" title="Precio sin Iva + Iva" (keyup)="calcularPrecioVenta3()">
+                                          </div>
+                                        </div>
+                                      </div>
+
+                                      <div class="col-md-6">
+                                        <div class="form-group">
+                                          <div class="custom-control custom-switch custom-switch-off-secondary custom-switch-on-success">
+                                          <input (change)="changeChkAutomatico3();" [checked]="apv3" type="checkbox" class="custom-control-input" id="customSwitchPv3">
+                                          <label class="custom-control-label" for="customSwitchPv3">Automático</label>
+                                          </div>
+                                        </div>
+                                      </div>
+
+
+                                  </div>
+
+
+
+
+                                </div>
+                            </div>
+                        </div>
+                      </div>
+
+                      <div class="card card-primary card-outline">
+                        <div class="card-header">
+
+                          <h3 class="card-title">
+                            <div class="custom-control custom-switch custom-switch-off-secondary custom-switch-on-success">
+                              <input (change)="changeChkConfiguracionExistencias();" [checked]="configuracion_existencias" type="checkbox" class="custom-control-input" id="customSwitchExistencias">
+                              <label class="custom-control-label" for="customSwitchExistencias">Configurar Existencias: {{descripcion}}</label>
+                            </div>
+                          </h3>
+                          
+                        </div>
+                          <div class="card-body">
+                            <div *ngIf="configuracion_existencias == 1" class="row">
+        
+                              <div class="col-md-12">
+
+                                <div class="form-group">
+                                  <label>Fraccionado:</label>
+                                  <select (change)="changeFraccionado($event)" class="form-control form-control-sm">
+                                    <option [value]="item" *ngFor="let item of datosfraccionado" [selected]="fraccionado == item">{{item}}</option>
+                                  </select>
+                                </div>
+                                
+                                <div class="form-group" *ngIf="this.fraccionado=='SI'">
+                                  <label>Denominacion:</label>
+                                  <select (change)="changeDenominacion($event)" class="form-control form-control-sm">
+                                      <option value="{{item.cod_denominacion}}" *ngFor="let item of datosdenominacion" [selected]="denominacion == item.denominacion">
+                                          {{item.denominacion}}
+                                  </option>
+                                  </select>
+                                </div>
+                              
+                                <div class="form-group" *ngIf="this.fraccionado=='SI'">
+                                  <label>Unidades Denominacion:</label>
+                                  <input [(ngModel)]="unidades_denominacion" onKeyPress="return soloNumeros(event)" class="form-control form-control-sm" maxlength="9" placeholder="Unidades Denominacion" type="text">
+                                </div>
+
+                                
+
+        
+                              </div>
+                              <div class="col-md-12">
+
+                                <div id="accordion" role="tablist" aria-multiselectable="true" *ngFor="let item of datosexistencias; let i = index">
+                                  <div class="card card-outline">
+        
+                                      <a class="d-block w-100 collapsed" data-toggle="collapse" href="#collapseExample{{i}}" aria-expanded="false">
+                                        <div class="card-header">
+                                            <h4 class="card-title w-100">
+                                              <i class="fa fa-dolly-flatbed"></i> {{item.sucursal}}
+                                            </h4>
+                                        </div>
+                                      </a>
+        
+                                      <div id="collapseExample{{i}}" class="collapse" role="tabpanel" aria-labelledby="headinginteriorcontenedor">
+                                          <div class="card-body">
+                                              <div class="row">			 
+
+                                                <div *ngIf="this.kardex == '1' || this.control_estricto_inventario == '1'" class="col-md-12">
+
+                                                  <div *ngIf="ban == 0" class="form-group">
+                                                    <label>Habilitar Almacenamiento:</label>
+                                                    <input type="checkbox" [checked]="item.habilitar" (change)="changeHabilitar(i)">
+                                                  </div>
+    
+                                                  <div *ngIf="item.habilitar == true && ban == 1" class="form-group">
+                                                    <label>Habilitar Almacenamiento:</label>
+                                                    <input type="checkbox" [checked]="item.habilitar" disabled>
+                                                  </div>
+    
+                                                  <div *ngIf="ban == 1 && item.habilitar == false" class="form-group">
+                                                    <label>Habilitar Almacenamiento:</label>
+                                                    <input type="checkbox" [checked]="item.habilitar" (change)="changeHabilitar(i)">
+                                                  </div>
+    
+                                                </div>
+
+                                                <div *ngIf="this.kardex == '0' && this.control_estricto_inventario == '0'" class="col-md-12">
+
+                                                  <div class="form-group">
+                                                    <label>Habilitar Almacenamiento:</label>
+                                                    <input type="checkbox" [checked]="item.habilitar" (change)="changeHabilitar(i)">
+                                                  </div>
+
+                                                  <div>
+                                                    <div class="form-group" *ngIf="this.fraccionado=='SI'">
+                                                      <label>Cantidad Existentes:</label>
+                                                      <input [disabled]="!item.habilitar" [(ngModel)]="item.cantidad_denominacion" onKeyPress="return soloNumeros(event)" class="form-control form-control-sm" maxlength="9" placeholder="Cantidad Existentes" type="text" (keyup)="keyUpCalcularExistencias(i)">
+                                                    </div>
+                                        
+                                                    <div class="form-group" *ngIf="this.fraccionado=='SI'">
+                                                      <label class="text-primary">Total Unidades:</label>
+                                                      <label class="form-control form-control-sm">{{item.total_unidades}}</label>
+                                                    </div>
+                                        
+                                                    <div class="form-group">
+                                                      <label>Ajustar Existencias:</label>
+                                                      <input [disabled]="!item.habilitar" [(ngModel)]="item.ajustar_existencia" onKeyPress="return soloNumeros(event)" class="form-control form-control-sm" maxlength="9" placeholder="Ajustar Existencias" type="text" (keyup)="keyUpAjustarExistencias(i)">
+                                                    </div>
+                                        
+                                                    <div class="form-group">
+                                                      <label class="text-danger">Existencias:</label>
+                                                      <label class="form-control form-control-sm">{{item.existencia}}</label>
+                                                    </div>
+                                                  </div>
+    
+                                                </div>
+
+
+
+
+
+                                              </div>
+                                          </div>
+                                      </div>
+                                  </div>
+                                </div>
+
+
+
+                              </div>
+
+        
+                            </div>
+                          </div>
+                      </div>
+
+                      <div class="d-flex justify-content-end align-items-center">
+                        <button [ngClass]="{'d-none': flagocultarboton}" (click)="clickGuardar();" class="btn btn-primary btn-sm mr-1" type="button"><i class="fas fa-save"></i> Guardar</button>
+                        <button [ngClass]="{'d-none': !flagocultarboton}" (click)="clickActualizar();" class="btn btn-warning btn-sm mr-1" type="button"><i class="fas fa-save"></i> Actualizar</button>
+                        <button class="btn btn-secondary btn-sm" type="button" data-dismiss="modal"><i class="fas fa-times-circle"></i> Cerrar</button>
+                      </div>
+                      
+                      
+                      
+                    
+                    
+                    </div>
+
+
+                        
+
+                  
+
+
+                </div>
+  
+                   
+                  
+  
+  
+  
+
+</div>
+
+    </div>
+
+  </div>
+</div>
+
+
+<app-subcategoria-form (datosenvio)="recibirDatosSubCategoria($event)"></app-subcategoria-form>
+<app-marca-form (datosenvio)="recibirDatosMarca($event)"></app-marca-form>
+       
+<div id="mymodalunidadmedida" class="modal fade" role="dialog" data-backdrop="false">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">NUEVA UNIDAD MEDIDA</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <span aria-hidden="true">×</span>
+        </button>
+      </div>
+
+      <div class="modal-body">
+
+       
+        <app-unidad-medida-form [tipoformulario] = "tipoformulario" (datosenvio)="recibirDatosUnidadMedida($event)"></app-unidad-medida-form>
+        
+
+      </div>
+
+   </div>
+ </div>
+</div>

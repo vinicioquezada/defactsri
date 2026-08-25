@@ -1,0 +1,390 @@
+<div id="mymodalformplan" class="modal fade" role="dialog" data-backdrop="false">
+  <div class="modal-dialog modal-xl">
+    <!-- Modal content -->
+    <div class="modal-content">
+      <div class="modal-header">
+      <h5 class="modal-title">{{ nombreformulario }} PRODUCTO</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">×</span>
+        </button>
+      </div>
+
+      <div class="modal-body overlay-wrapper">
+
+                <div *ngIf="loadingform" class="overlay overlay-custom d-flex flex-column align-items-center">
+                  <div class="spinner-border text-primary" style="width: 5rem; height: 5rem; font-size: 30px;" role="status">
+                  </div>
+                  <div class="text-bold pt-2">Cargando...</div>
+                </div>
+
+
+                 <div class="row">
+              
+                      
+                          
+                      <div class="col-md-6">
+
+                        <div class="form-group">
+                          <label>SubCategoria: </label><label class="text-danger">&nbsp;*</label>
+                          <select [ngClass]="{'is-invalid': flagsubcategoria}" (change)="changeSubCategoria($event)" class="form-control form-control-sm">
+                              <option value="{{item.cod_subcategoria}}" *ngFor="let item of datossubcategoria" [selected]="item.cod_subcategoria==cod_subcategoria">
+                                  {{item.subcategoria}}
+                          </option>
+                          </select>
+                        </div>
+
+                        <div class="form-group">
+                          <label>Codigo Plan:</label><label class="text-danger">&nbsp;*</label>
+                          <div class="input-group input-group-sm">
+                            <input [ngClass]="{'is-invalid': flagcodigo}" [(ngModel)]="codigo" (keyup.enter)="buscarCodigoBarra();" autofocus class="form-control form-control-sm" oninput="javascript:this.value=this.value.toUpperCase();" placeholder="Codigo" type="text">
+                            <div class="input-group-prepend">
+                              <button (click)="buscarCodigoBarra();" class="btn btn-secondary btn-flat btn-sm"><i class="fas fa-search"></i></button>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="form-group">
+                          <label>Cantidad (Meses/Días):</label><label class="text-danger">&nbsp;*</label>
+                          <input [ngClass]="{'is-invalid': flagdeterminacionmensual}" [(ngModel)]="determinacion_mensual" autofocus class="form-control form-control-sm" oninput="javascript:this.value=this.value.toUpperCase();" placeholder="Cantidad Meses" type="text">
+                        </div>
+
+                        <div class="form-group">
+                          <label>Descripcion: </label><label class="text-danger">&nbsp;*</label>
+                          <input [ngClass]="{'is-invalid': flagdescripcion}" [(ngModel)]="descripcion" class="form-control form-control-sm" oninput="javascript:this.value=this.value.toUpperCase();" placeholder="Descripcion" type="text">
+                        </div>
+
+                        <div class="form-group">
+                          <label>IVA Venta: </label><label class="text-danger">&nbsp;*</label>
+                          <select [ngClass]="{'is-invalid': flagiva}" (change)="changeIva($event)" class="form-control form-control-sm">
+                              <option value="{{item.id_iva}}" *ngFor="let item of datosiva" [selected]="item.id_iva==id_iva">
+                                  {{item.iva}}
+                          </option>
+                          </select>
+                        </div>
+
+                        <div *ngIf="precios_completos == '1'" class="form-group">
+                          <label class="text-danger">Precio Base: *</label>
+                          <input [ngClass]="{'is-invalid': flagpreciobase}" [(ngModel)]="precio_base" onKeyPress="return soloNumeros(event)" class="form-control form-control-sm" maxlength="15" placeholder="Precio Base" type="text" (keyup)="calcularPrecioBase()">
+                        </div>
+
+                        <div class="form-group">
+                          <label data-bs-toggle="tooltip" data-bs-placement="top" title="Precio Base + Iva">Precio Venta:</label><label class="text-danger">&nbsp;*</label>
+                          <div class="input-group input-group-sm">
+                            <div *ngIf="precios_completos == '1'" class="input-group-prepend">
+                              <span class="input-group-text"><i class="fas fa-percent"></i></span>
+                            </div>
+                            <input *ngIf="precios_completos == '1'" [(ngModel)]="utilidad" data-bs-toggle="tooltip" data-bs-placement="top" title="Costo Base * porcentaje Utilidad" onKeyPress="return soloNumeros(event)" class="form-control" maxlength="10" placeholder="Uti. %" type="text" (keyup)="calcularUtilidad()">  
+                            <input [ngClass]="{'is-invalid': flagprecioventa}" [(ngModel)]="precio_venta" onKeyPress="return soloNumeros(event)" class="form-control" maxlength="15" placeholder="Precio V." type="text" data-bs-toggle="tooltip" data-bs-placement="top" title="Precio Base + Iva" (keyup)="calcularPrecioVenta()">
+                          </div>
+                        </div>
+
+                        <div *ngIf="precios_completos == '1'" class="form-group">
+                          <label class="text-danger">Precio Base Min: *</label>
+                          <input [ngClass]="{'is-invalid': flagpreciobaseminimo}" [(ngModel)]="precio_base_minimo" onKeyPress="return soloNumeros(event)" class="form-control form-control-sm" maxlength="15" placeholder="P. Base Min." type="text" (keyup)="calcularPrecioBaseMinimo()">
+                        </div>
+
+                        <div class="form-group">
+                          <label>Precio Venta Min:</label><label class="text-danger">&nbsp;*</label>
+                          <input [ngClass]="{'is-invalid': flagprecioventaminimo}" [(ngModel)]="precio_venta_minimo" onKeyPress="return soloNumeros(event)" class="form-control form-control-sm" maxlength="15" placeholder="Precio Venta Minimo" type="text" (keyup)="calcularPrecioVentaMinimo()">
+                        </div>
+
+                        <div *ngIf="monitor_actividades=='1'" class="form-group">
+                          <div class="custom-control custom-switch custom-switch-off-secondary custom-switch-on-success">
+                            <input (change)="changeChkActividad()" [checked]="chkactividad" type="checkbox" class="custom-control-input" id="customSwitch3">
+                            <label class="custom-control-label" for="customSwitch3">Asociar</label>
+                          </div>
+                        </div>
+
+                        <div *ngIf="chkactividad" class="card card-secondary">
+                          <div class="card-header">
+                            <h3 class="card-title">Asociar actividades: {{descripcion}}</h3>
+                          </div>
+                            <div class="card-body">
+                              <div class="row">
+
+                                <div class="col-md-12">
+                                  <div class="form-group">
+                                      <label>Actividad:</label>
+                                      <ng-select class="ng-select-bootstrap"
+                                                  [items]="datosactividad" 
+                                                  bindLabel="actividad" 
+                                                  bindValue="cod_actividad"
+                                                  [(ngModel)]="datosactividades" 
+                                                  [multiple]="true" 
+                                                  placeholder="">
+                                        </ng-select>
+                                  </div>
+                                </div>
+
+                                
+
+                              </div>
+                            </div>
+                        </div>
+                          
+                      </div>
+
+                      <div class="col-md-6">
+
+
+                        <div class="card card-secondary">
+                          <div class="card-header">
+                            <h3 class="card-title">Configurar Horarios:</h3>
+                          </div>
+                            <div class="card-body">
+
+                              <div class="row">
+                                  <div class="col-md-6">
+                                      <div class="form-group">
+                                          <label>Horario: *</label>
+                                          <div class="form-group">
+                                              <div class="form-check">
+                                                  <input [checked]="chklunes" (change)="changechklunes();" class="form-check-input" type="checkbox">
+                                                  <label class="form-check-label">Lunes</label>
+                                              </div>
+                                              <div class="form-check">
+                                                  <input [checked]="chkmartes" (change)="changechkmartes();" class="form-check-input" type="checkbox">
+                                                  <label class="form-check-label">Martes</label>
+                                              </div>
+                                              <div class="form-check">
+                                                  <input [checked]="chkmiercoles" (change)="changechkmiercoles();" class="form-check-input" type="checkbox">
+                                                  <label class="form-check-label">Miercoles</label>
+                                              </div>
+                                              <div class="form-check">
+                                                  <input [checked]="chkjueves" (change)="changechkjueves();" class="form-check-input" type="checkbox">
+                                                  <label class="form-check-label">Jueves</label>
+                                              </div>
+                                          </div>
+                                      </div>
+                                  </div>
+                                  <div class="col-md-6">
+                                      <div class="form-group">
+                                          <label>&nbsp;</label>
+                                          <div class="form-group">
+                                              <div class="form-check">
+                                                  <input [checked]="chkviernes" (change)="changechkviernes();" class="form-check-input" type="checkbox">
+                                                  <label class="form-check-label">Viernes</label>
+                                              </div>
+                                              <div class="form-check">
+                                                  <input [checked]="chksabado" (change)="changechksabado();" class="form-check-input" type="checkbox">
+                                                  <label class="form-check-label">Sabado</label>
+                                              </div>
+                                              <div class="form-check">
+                                                  <input [checked]="chkdomingo" (change)="changechkdomingo();" class="form-check-input" type="checkbox">
+                                                  <label class="form-check-label">Domingo</label>
+                                              </div>
+                                          </div>
+                                      </div>
+                                  </div>
+                              </div>
+      
+                              <div class="row">
+                                  <div class="col-md-6">
+                                      <div class="form-group">
+                                          <label>Hora Inicio: *</label>
+                                          <div class="input-group input-group-sm">
+                                              <div class="input-group-prepend">
+                                                  <span class="input-group-text"><i class="fas fa-clock"></i></span>
+                                              </div>
+                                              <input [(ngModel)]="hora_inicio" class="form-control" type="time">
+                                          </div>
+                                      </div>
+                                  </div>
+                                  <div class="col-md-6">
+                                      <div class="form-group">
+                                          <label>Hora Fin: *</label>
+                                          <div class="input-group input-group-sm">
+                                              <div class="input-group-prepend">
+                                                  <span class="input-group-text"><i class="fas fa-clock"></i></span>
+                                              </div>
+                                              <input [(ngModel)]="hora_fin" class="form-control" type="time">
+                                          </div>
+                                      </div>
+                                  </div>
+                              </div>
+
+                              <div class="row">
+                                <div class="col-md-12">
+          
+                                  <div class="form-group">
+                                      <label>Obervación: </label>
+                                      <textarea [(ngModel)]="observacion" class="form-control form-control-sm"></textarea>
+                                  </div>
+                                  
+                                  <div class="form-group">
+                                    <div class="custom-control custom-switch custom-switch-off-secondary custom-switch-on-success">
+                                      <input (change)="changeChkCompartido();" [checked]="chkcompartido" type="checkbox" class="custom-control-input" id="customSwitch3">
+                                      <label class="custom-control-label" for="customSwitch3">Plan Compartido</label>
+                                    </div>
+                                  </div>
+
+                                  <div class="form-group">
+                                    <div class="custom-control custom-switch custom-switch-off-secondary custom-switch-on-success">
+                                      <input (change)="changeChkGrupal();" [checked]="chkgrupal" type="checkbox" class="custom-control-input" id="customSwitch4">
+                                      <label class="custom-control-label" for="customSwitch4">Plan Grupal</label>
+                                    </div>
+                                  </div>
+
+                                  <div class="form-group">
+                                      <input [ngClass]="chkgrupal ? '' : 'd-none'" [(ngModel)]="cantidad_grupo" class="form-control form-control-sm" onKeyPress="return soloNumeros(event)">
+                                  </div>
+
+                                </div>
+                              </div>
+
+                            </div>
+                        </div>
+
+                        <div class="card card-secondary">
+                          <div class="card-header">
+                            <h3 class="card-title">Configurar Existencias: {{descripcion}}</h3>
+                          </div>
+                            <div class="card-body">
+                              <div class="row">
+          
+                                <!-- <div class="col-md-12">
+
+                                  <div class="row">
+                                    <p *ngFor="let item of datosexistencias; let i = index">
+                                      <a class="btn btn-secondary btn-flat btn-sm" data-toggle="collapse" href="#collapseExample{{i}}" role="button" aria-expanded="false" aria-controls="collapseExample"><i class="fa fa-home"></i>
+                                        {{item.sucursal}}
+                                      </a>
+                                    </p>
+                                  </div>
+
+                                  <div *ngFor="let item of datosexistencias; let i = index">
+                                    
+                                    <div class="collapse" id="collapseExample{{i}}">
+                                      <div class="card card-body">
+
+                                        
+                                            
+                                          <div class="col-md-12">
+
+                                            <div class="form-group">
+                                              <label class="text-primary">{{item.sucursal}}</label>
+                                            </div>
+
+                                            <div class="form-group">
+                                              <label>Habilitar Almacenamiento:</label>
+                                              <input type="checkbox" [checked]="item.habilitar" (change)="changeHabilitar(i)">
+                                            </div>
+
+                                            <div class="form-group" *ngIf="this.fraccionado=='SI'">
+                                              <label>Cantidad Existentes:</label>
+                                              <input [disabled]="!item.habilitar" [(ngModel)]="item.cantidad_denominacion" onKeyPress="return soloNumeros(event)" class="form-control form-control-sm" maxlength="9" placeholder="Cantidad Existentes" type="text" (keyup)="keyUpCalcularExistencias(i)">
+                                            </div>
+                                
+                                            <div class="form-group" *ngIf="this.fraccionado=='SI'">
+                                              <label class="text-primary">Total Unidades:</label>
+                                              <label class="form-control form-control-sm">{{item.total_unidades}}</label>
+                                            </div>
+                                
+                                            <div class="form-group">
+                                              <label>Ajustar Existencias:</label>
+                                              <input [disabled]="!item.habilitar" [(ngModel)]="item.ajustar_existencia" onKeyPress="return soloNumeros(event)" class="form-control form-control-sm" maxlength="9" placeholder="Ajustar Existencias" type="text" (keyup)="keyUpAjustarExistencias(i)">
+                                            </div>
+                                
+                                            <div class="form-group">
+                                              <label class="text-danger">Existencias:</label>
+                                              <label class="form-control form-control-sm">{{item.existencia}}</label>
+                                            </div>
+          
+
+                                          </div>
+                                      </div>
+                                    </div>
+                                  </div>
+
+                                </div> -->
+
+                               
+                                
+                               
+
+                                <div class="col-md-12">
+
+                                  <div id="accordion" role="tablist" aria-multiselectable="true" *ngFor="let item of datosexistencias; let i = index">
+                                    <div class="card card-outline">
+          
+                                        <a class="d-block w-100 collapsed" data-toggle="collapse" href="#collapseExample{{i}}" aria-expanded="false">
+                                          <div class="card-header">
+                                              <h4 class="card-title w-100">
+                                                <i class="fa fa-dolly-flatbed"></i> {{item.sucursal}}
+                                              </h4>
+                                          </div>
+                                        </a>
+          
+                                        <div id="collapseExample{{i}}" class="collapse" role="tabpanel" aria-labelledby="headinginteriorcontenedor">
+                                            <div class="card-body">
+                                                <div class="row">			 
+
+                                                  <div class="col-md-12">
+
+                                                    <div *ngIf="ban == 0" class="form-group">
+                                                      <label>Habilitar Almacenamiento:</label>
+                                                      <input type="checkbox" [checked]="item.habilitar" (change)="changeHabilitar(i)">
+                                                    </div>
+      
+                                                    <div *ngIf="item.habilitar == true && ban == 1" class="form-group">
+                                                      <label>Habilitar Almacenamiento:</label>
+                                                      <input type="checkbox" [checked]="item.habilitar" disabled>
+                                                    </div>
+      
+                                                    <div *ngIf="ban == 1 && item.habilitar == false" class="form-group">
+                                                      <label>Habilitar Almacenamiento:</label>
+                                                      <input type="checkbox" [checked]="item.habilitar" (change)="changeHabilitar(i)">
+                                                    </div>
+      
+                                                  </div>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                  </div>
+
+
+
+                                </div>
+
+                             
+
+         
+                                
+          
+          
+          
+          
+                              </div>
+                            </div>
+                        </div>
+
+                        <div class="d-flex justify-content-end align-items-center">
+                          <button [ngClass]="{'d-none': flagocultarboton}" (click)="clickGuardar();" class="btn btn-primary btn-sm mr-1" type="button"><i class="fas fa-save"></i> Guardar</button>
+                          <button [ngClass]="{'d-none': !flagocultarboton}" (click)="clickActualizar();" class="btn btn-warning btn-sm mr-1" type="button"><i class="fas fa-save"></i> Actualizar</button>
+                          <button class="btn btn-secondary btn-sm" type="button" data-dismiss="modal"><i class="fas fa-times-circle"></i> Cerrar</button>
+                        </div>
+                        
+                        
+                        
+                        
+
+                      
+                      
+                      </div>
+
+
+                          
+
+                   
+
+
+                  </div>
+
+        </div>
+
+    </div>
+
+  </div>
+</div>

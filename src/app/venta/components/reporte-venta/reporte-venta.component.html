@@ -1,0 +1,542 @@
+<div id="mymodalats" class="modal fade" role="dialog" data-backdrop="false">
+  <div class="modal-dialog">
+    <!-- Modal content -->
+    <div class="modal-content">
+      <div class="modal-header">
+      <h5 class="modal-title">GENERACIÓN DE ATS</h5>
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">×</span>
+          </button>
+      </div>
+      <div class="modal-body">
+
+            <div class="row">
+              <div class="col-md-12">
+                <div class="form-group">
+                  <label>Mes a Exportar:</label>
+                  <div class="input-group input-group-sm">
+                      <select (change)="changemes($event)" class="form-control form-control-sm">
+                          <option value="{{item.cod_mes}}" *ngFor="let item of datosmes" [selected]="this.cod_mes == item.cod_mes">
+                              {{item.mes}}
+                          </option>
+                      </select>
+                      <span class="input-group-append">
+                          <button (click)="descargarAtsVentas();" class="btn btn-success btn-flat" type="button"><i class="fas fa-file-download"></i></button>
+                      </span>
+                  </div>
+              </div>	 
+            </div>
+          </div>
+
+      </div>
+
+    </div>
+
+  </div>
+</div>
+
+<app-listado-empleado (datosenviar)="recibirDatosEmpleados($event)"></app-listado-empleado>
+
+<app-listado-cliente (datosenviar)="recibirDatosCliente($event)"></app-listado-cliente>
+
+<app-listado-vendedor (datosenviar)="recibirDatosVendedor($event)"></app-listado-vendedor>
+  
+  <section class="content-header">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-12">
+              <div class="btn-toolbar" role="toolbar">
+                <div class="btn-group">
+                    <!-- <button *ngIf="this.opcionesprivilegios['generaratsventas']" (click)="clickExportarAts();" class="btn btn-success btn-flat btn-sm float-right" type="button"><i class="fa fa-file-excel"></i> ATS</button> -->
+                    <button (click)="clickDeshacer();" class="btn btn-secondary btn-flat btn-sm float-right" type="button"><i class="fas fa-redo-alt"></i> Deshacer</button>
+                    <button routerLink="/menuventa" class="btn btn-secondary btn-flat btn-sm" type="button"><i class="fas fa-undo"></i> Atrás</button>
+                </div>
+              </div>
+          </div>
+          
+        </div>
+        
+      </div><!-- /.container-fluid -->
+    </section>
+    
+    <!-- Main content -->
+  <section class="content">
+      <div class="container-fluid">
+
+        <div style="text-align:center">
+          <div *ngIf="loading" class="spinner-border text-primary" style="width: 3rem; height: 3rem;"></div>
+        </div>
+
+        <div class="row">
+
+          <div class="col-md-12">
+
+
+
+            <div class="row">
+
+              <div class="col-md-3 d-flex align-items-center">
+                <a class="btn btn-primary btn-flat btn-sm" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample"><i class="fa fa-cogs"></i>
+                  Más Formas de búsqueda
+                </a>
+              </div>
+
+              <div class="col-md-3">
+                <div class="form-group">
+                  <label>Fecha a Buscar:</label>
+                  <select (change)="changeFechaBuscar($event)" class="form-control form-control-sm">
+                    <option value="{{item.cod_tipo_fecha}}" *ngFor="let item of datostipofecha" [selected]="item.cod_tipo_fecha == cod_tipo_fecha">
+                      {{item.tipo_fecha}}
+                  </option>
+                  </select>
+                </div>
+              </div>
+  
+              <div class="col-md-3">
+                
+                  <div class="form-group">
+                      <label>Fecha Desde:</label>
+                      <div class="input-group input-group-sm">
+                      <div class="input-group-prepend">
+                          <span class="input-group-text"><i class="fas fa-calendar"></i></span>
+                      </div>
+                      <input [(ngModel)]="fechadesde" type="date" class="form-control">
+                      </div>
+                  </div>		 
+              </div>
+  
+              <div class="col-md-3">
+                  <div class="form-group">
+                      <label>Fecha Hasta:</label>
+                      <div class="input-group input-group-sm">
+                          <div class="input-group-prepend">
+                              <span class="input-group-text"><i class="fas fa-calendar"></i></span>
+                          </div>
+                          <input [(ngModel)]="fechahasta" type="date" class="form-control">
+                          <span class="input-group-append">
+                              <button (click)="buscar();" class="btn btn-primary btn-flat" type="button"><i class="fa fa-search"></i></button>
+                          </span>
+                      </div>
+                  </div>	 
+              </div>
+
+            </div>
+
+            <div class="collapse" id="collapseExample">
+              <div class="card card-body">
+                  <div class="col-md-12">
+   
+                    <div class="row">
+
+
+                          <div *ngIf="multisucursal=='1' && opcionesprivilegios['bloqueogestionlocales']!=1" class="col-md-6">
+                              <div class="form-group">
+                                  <label>Sucursal:</label>
+                                  <select (change)="changeSucursal($event)" class="form-control form-control-sm">
+                                      <option value="{{item.cod_sucursal}}" *ngFor="let item of datossucursal" [selected]="this.cod_sucursal == item.cod_sucursal">
+                                          {{item.sucursal}}
+                                      </option>
+                                  </select>
+                              </div>	
+                          </div>
+
+                          <div *ngIf="firmasruc=='1' && cod_sucursal!='0'" class="col-md-6">
+                            <div class="form-group">
+                                <label>Ruc Empresa:</label>
+                                <select (change)="changeEmpresa($event)" class="form-control form-control-sm">
+                                    <option value="{{item.cod_ruc}}" *ngFor="let item of datosrucempresa" [selected]="this.cod_ruc == item.cod_ruc">
+                                        {{item.empresa}}
+                                    </option>
+                                </select>
+                            </div>	
+                          </div>
+
+                          <div *ngIf="firmasruc=='1' && cod_sucursal=='0'" class="col-md-6">
+                            <div class="form-group">
+                                <label>Ruc Empresa:</label>
+                                 <ng-select class="ng-select-bootstrap"
+                                            [items]="datosrucempresa" 
+                                            bindLabel="empresa" 
+                                            bindValue="cod_ruc"
+                                            [(ngModel)]="selecteditemsruc" 
+                                            [multiple]="true" 
+                                            placeholder="">
+                                  </ng-select>
+                            </div>
+                          </div>
+            
+                          <div class="col-md-6">
+                            <div class="form-group">
+                              <label>Personal:</label>
+                              
+                              <div class="input-group input-group-sm">
+                                  <div class="input-group-prepend">
+                                    <span class="input-group-text"><input (change)="changeChkEmpleado();" [checked]="chkempleado" type="checkbox"> TODOS</span>
+                                  </div>
+                                  <label class="form-control">{{this.empleado}}</label>
+                                  <span class="input-group-append">
+                                    <button (click) = "listarEmpleados();" class="btn btn-primary btn-flat" type="button"><i class="fa fa-list"></i></button>
+                                  </span>
+                              </div>
+                            </div>
+                          </div>
+
+                          <div *ngIf="this.comision_venta == '1'" class="col-md-6">
+                            <div class="form-group">
+                              <label>Vendedor:</label>
+                              
+                              <div class="input-group input-group-sm">
+                                  <div class="input-group-prepend">
+                                    <span class="input-group-text"><input (change)="changeChkVendedor();" [checked]="chkvendedor" type="checkbox"> TODOS</span>
+                                  </div>
+                                  <label class="form-control">{{this.vendedor}}</label>
+                                  <span class="input-group-append">
+                                    <button (click) = "listarVendedor();" class="btn btn-primary btn-flat" type="button"><i class="fa fa-list"></i></button>
+                                  </span>
+                              </div>
+                            </div>
+                          </div>
+
+                          <div class="col-md-6">
+                            <div class="form-group">
+                              <label>Cliente:</label>
+                              <div class="input-group input-group-sm">
+                                  <div class="input-group-prepend">
+                                    <span class="input-group-text"><input (change)="changechkcliente();" [checked]="chkcliente" type="checkbox"> TODOS</span>
+                                  </div>
+                                  <label class="form-control">{{this.cliente}}</label>
+                                  <span class="input-group-append">
+                                    <button (click) = "listarClientes();" class="btn btn-primary btn-flat" type="button"><i class="fa fa-list"></i></button>
+                                  </span>
+                              </div>
+                            </div>
+                          </div>
+
+                          <div class="col-md-6">
+                            <div class="form-group">
+                                <label>Tipo Documento:</label>
+                                <select (change)="changeTipoDocumento($event)" class="form-control form-control-sm">
+                                    <option [value]="item.cod_tipo_documento" *ngFor="let item of datostipodocumento" [selected]="item.cod_tipo_documento == cod_tipo_documento">
+                                        {{item.tipo_documento}}
+                                    </option>
+                                </select>
+                            </div>	
+                          </div>
+            
+                          <div class="col-md-6">
+                            <div class="form-group">
+                                <label>Tipo Deuda:</label>
+                                <select (change)="changeTipoDeuda($event)" class="form-control form-control-sm">
+                                    <option [value]="item.cod_tipo_deuda" *ngFor="let item of datostipodeuda" [selected]="item.cod_tipo_deuda == cod_tipo_deuda">
+                                        {{item.tipo_deuda}}
+                                    </option>
+                                </select>
+                                
+                            </div>	
+                          </div>
+
+                          <div class="col-md-6">
+                            <div class="form-group">
+                              <label>Identificación:</label>
+                              <select (change)="changeIdentificacion($event)" class="form-control form-control-sm">
+                                <option value="{{item.cod_identificacion}}" *ngFor="let item of datosidentificacion" [selected]="item.cod_identificacion == cod_identificacion">
+                                  {{item.identificacion}}
+                              </option>
+                              </select>
+                            </div>
+                          </div>
+
+                          <div *ngIf="this.recaudador == '1'" class="col-md-6">
+                            <div class="form-group">
+                              <label>Estado Recaudado:</label>
+                              <select (change)="changeEstadoRecaudacion($event)" class="form-control form-control-sm">
+                                <option value="{{item.cod_estado_recaudacion}}" *ngFor="let item of datosestadorecaudacion" [selected]="item.cod_estado_recaudacion == cod_estado_recaudacion">
+                                  {{item.estado_recaudacion}}
+                              </option>
+                              </select>
+                            </div>
+                          </div>
+
+
+                    </div>
+
+                  </div>
+              </div>
+            </div>
+
+
+            <div class="row">
+
+
+              <div class="col-lg-4 col-6">
+                <div class="small-box bg-success">
+                  <div class="inner">
+                    <h3>$ {{ total | number:'1.2-2' }}</h3>
+                    <p>Total General</p>
+                  </div>
+                  <div class="icon">
+                    <i class="fas fa-dollar-sign"></i>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-lg-4 col-6">
+                <div class="small-box bg-primary">
+                  <div class="inner">
+                    <h3>$ {{ totalimpuesto | number:'1.2-2' }}</h3>
+                    <p>Total Impuesto</p>
+                  </div>
+                  <div class="icon">
+                    <i class="fas fa-file-invoice-dollar"></i>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-lg-4 col-6 mx-auto">
+                <div class="small-box bg-info">
+                  <div class="inner">
+                    <h3>{{ cantidad_registros }}</h3>
+                    <p>N° de Ventas</p>
+                  </div>
+                  <div class="icon">
+                    <i class="fas fa-shopping-cart"></i>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+
+            <div class="row mt-2">
+
+              <div class="col-lg-4 col-6">
+                <div class="small-box bg-success">
+                  <div class="inner">
+                    <h3 class="mb-0">$ {{ totalautorizadas | number:'1.2-2' }}</h3>
+                    <small>{{ cantidadautorizadas }} ventas</small>
+                    <p class="mb-0">Autorizadas</p>
+                  </div>
+                  <div class="icon">
+                    <i class="fas fa-check-circle"></i>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-lg-4 col-6">
+                <div class="small-box bg-warning">
+                  <div class="inner">
+                    <h3 class="mb-0">$ {{ totalenproceso | number:'1.2-2' }}</h3>
+                    <small>{{ cantidadenproceso }} ventas</small>
+                    <p class="mb-0">En proceso</p>
+                  </div>
+                  <div class="icon">
+                    <i class="fas fa-clock"></i>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-lg-4 col-6 mx-auto">
+                <div class="small-box bg-secondary">
+                  <div class="inner">
+                    <h3 class="mb-0">$ {{ totalnotaventa | number:'1.2-2' }}</h3>
+                    <small>{{ cantidadnotaventa }} ventas</small>
+                    <p class="mb-0">Recibo de venta</p>
+                  </div>
+                  <div class="icon">
+                    <i class="fas fa-file-alt"></i>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+
+            <div class="row mt-2 justify-content-center">
+
+              <div class="col-lg-4 col-6">
+                <div class="small-box bg-success">
+                  <div class="inner">
+                    <h3 class="mb-0">$ {{ totalcobrado | number:'1.2-2' }}</h3>
+                    <small>{{ cantidadcobrado }} ventas</small>
+                    <p class="mb-0">Cobrado</p>
+                  </div>
+                  <div class="icon">
+                    <i class="fas fa-money-bill-wave"></i>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-lg-4 col-6">
+                <div class="small-box bg-warning">
+                  <div class="inner">
+                    <h3 class="mb-0">$ {{ totalporcobrar | number:'1.2-2' }}</h3>
+                    <small>{{ cantidadporcobrar }} ventas</small>
+                    <p class="mb-0">Por cobrar</p>
+                  </div>
+                  <div class="icon">
+                    <i class="fas fa-hand-holding-usd"></i>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+            
+          <!-- /.Inicia form1 -->
+          <!-- /.Inicia form1 -->
+          <!-- /.Inicia form1 -->
+            <div class="card card-primary card-outline">
+              <div class="card-header">
+                <h3 class="card-title"><i class="fa fa-file-alt"></i><span class="labeloculto">&nbsp;Reporte</span></h3>
+                <div class="card-tools">
+                  <div class="input-group input-group-sm">
+
+                      <div class="btn-group">
+                          <button type="button"
+                                  class="btn btn-primary btn-sm dropdown-toggle mr-1"
+                                  data-toggle="dropdown"
+                                  aria-haspopup="true"
+                                  aria-expanded="false">
+                              <i class="fa fa-download"></i> Exportar
+                          </button>
+
+                          <div class="dropdown-menu dropdown-menu-right">
+                              <h6 class="dropdown-header text-left">Excel</h6>
+
+                              <a class="dropdown-item cursor-pointer" (click)="exportarExcelVentasAutorizacion()">
+                                  <i class="fa fa-file-excel text-success"></i>
+                                  Venta Autorización
+                              </a>
+
+                              <a class="dropdown-item cursor-pointer" (click)="exportarExcelVentasTotales()">
+                                  <i class="fa fa-file-excel text-success"></i>
+                                  Venta Totales
+                              </a>
+
+                              <div class="dropdown-divider"></div>
+
+                              <h6 class="dropdown-header text-left">PDF</h6>
+
+                              <a class="dropdown-item cursor-pointer" (click)="exportarPdfVentasAutorizacion()">
+                                  <i class="fa fa-file-pdf text-danger"></i>
+                                  Venta Autorización
+                              </a>
+
+                              <a class="dropdown-item cursor-pointer" (click)="exportarPdfVentasTotales()">
+                                  <i class="fa fa-file-pdf text-danger"></i>
+                                  Venta Totales
+                              </a>
+                          </div>
+                      </div>
+                      
+                      <input (keyup)="keyFiltrado();" type="text" class="form-control float-right" oninput="javascript:this.value=this.value.toUpperCase();" placeholder="Buscar" [(ngModel)]="filterpost" name="filterpost" autocomplete="off" />
+                  </div>
+                </div>
+    
+    
+              </div>
+              <div class="card-body">
+                  
+                    <div *ngIf="loadinglistado" class="d-flex justify-content-center align-items-center">
+                      <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;"></div>
+                    </div>
+                      <div class="table-responsive">
+                          <table class="design-table">
+                            <thead>
+                              <tr>
+                                <th width="50px">Nº</th>
+                                <th width="50px">ESTADO</th>
+                                <th width="300px">CLIENTE</th>
+                                <th width="100px">FECHA</th>
+                                <th width="100px">TIPO VENTA</th>
+                                <th width="50px">TOTAL</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              <tr *ngFor="let item of (datos | filterGenerico:filterpost:['numero_factura', 'estado', 'cedula', 'cliente', 'fecha_registro', 'tipo_venta', 'importetotal']) | paginate : {
+                                itemsPerPage: pagesize,
+                                currentPage: page,
+                                totalItems: count
+                              }">
+                                <td>{{item.numero_factura}}</td>
+                                <td>{{item.estado}}</td>
+                                <td>
+                                  <div>{{item.cliente}}</div>
+                                  <div><small class="badge badge-primary">{{item.cedula}}</small></div>
+                                </td>
+                                <td>
+                                  <div>
+                                    <small class="badge badge-primary"><i class="fas fa-cash-register mr-1"></i> {{item.fecha_registro}}</small>
+                                  </div>
+                                  <div *ngIf="item.tipo_venta=='ELECTRONICA'" class="mt-1">
+                                    <small class="badge badge-success"><i class="fas fa-file-invoice mr-1"></i> {{item.fecha_hora}}</small>
+                                  </div>
+                                </td>
+                                <td>
+                                  {{item.tipo_venta}}
+                                  <div><small *ngIf="firmasruc=='1'" class="badge badge-primary">{{item.empresa}}</small></div>
+                                </td>
+                                <td><label class="text-success">{{item.importetotal | number}}</label></td>
+                              </tr>
+                            </tbody>
+                          </table>
+                      </div>
+                      <div class="row">
+                        <div class="col-md-12">
+                          <div class="float-right text-right">
+                            <table class="design-table">
+                              <tr>
+                                <td><label>SUBTOTAL IMP</label></td>
+                                <td><label class="text-success">{{subtotalconimpuesto}}</label></td>
+                              </tr>
+                              <tr>
+                                <td><label>SUBTOTAL 0</label></td>
+                                <td><label class="text-success">{{subtotal0}}</label></td>
+                              </tr>
+                              <tr>
+                                <td><label>TOTAL IMP</label></td>
+                                <td><label class="text-success">{{totalimpuesto}}</label></td>
+                              </tr>
+                              <tr>
+                                <td><label>TOTAL GENERAL</label></td>
+                                <td><label class="text-success">{{total}}</label></td>
+                              </tr>
+                            </table>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="row">
+                        <div class="col-md-12">
+                          <div class="float-right">
+                            <pagination-controls class="pagination-controls"
+                            previousLabel="Anterior"
+                            nextLabel="Siguiente"
+                            [responsive]="true"
+                            (pageChange)="handlePageChange($event)">
+                            </pagination-controls>
+                          </div>
+                        </div>
+                      </div>
+                  
+    
+    
+    
+    
+    
+    
+              </div>
+              <!-- /.card-body -->
+            </div>
+          <!-- /.Termina form1 -->
+          <!-- /.Termina form1 -->
+          <!-- /.Termina form1 -->
+          </div>
+    
+        </div>
+    
+    
+    
+        
+    
+    
+    
+      </div>
+    </section>
