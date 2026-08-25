@@ -14,7 +14,7 @@ export class VentaService {
   }
 
   private get apisri() {
-    return this.configService.settings.baseUrlSri + "/api/comprobante/" + "facturaventa/";
+    return this.configService.settings.baseUrlSri + "/api/factura/";
   }
 
   private get apisriride() {

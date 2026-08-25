@@ -3,6 +3,6 @@
   "cod_proyecto": 1758928830,
   "baseRuta": "",
   "baseUrl": "http://localhost/apis/apidevfact/public",
-  "baseUrlSri": "http://localhost/wscomprobantes",
+  "baseUrlSri": "http://localhost/apisri/public",
   "baseUrlLocalGym": "http://localhost/apis/apidevfactmonitor/apigestion/public/api"
 }

@@ -864,6 +864,28 @@ export class OpcionesExploradorVentaComponent implements OnInit {
     }
   }
 
+
+
+  async crearFirmaXml()
+  {
+    const cod_proyecto = this.cod_proyecto;
+    const { cliente, rucempresa, facturaventa, formapago, datosdetalles } = await this.sriventa.buscarFactura(this.cod_factura_venta, this.codigo_iva);
+
+    const resultado = await this.sriventa.crearFirmaXml(cod_proyecto, cliente, rucempresa, facturaventa, formapago, datosdetalles, "reenvio");
+  }
+
+  
+
+
+
+
+
+
+
+
+
+
+
   async confirmarReenvioComprobante()
   {
     const ok = await this.swalservice.alertConfirmNoRequerido({

@@ -727,6 +727,7 @@ export class SriVentaService {
     let respuesta = {} as RespuestaSri;
       try
       {
+        
         let arrfacturaventa: any;
         if(metodoproceso=="envio")
         {
@@ -1150,6 +1151,37 @@ export class SriVentaService {
           } finally {
             return respuesta;
           }
+  }
+
+
+
+
+
+
+
+
+
+
+  async crearFirmaXml(cod_proyecto: string, cliente: ClienteDTO, rucempresa: RucEmpresaDTO, facturaventa: FacturaVentaDTO, datosformapagoseleccion: any, datosdetalles: any, metodoproceso: string)
+  {
+    let respuesta = {} as RespuestaSri;
+      try
+      {
+        
+        let arrfacturaventa: any;
+ 
+        arrfacturaventa = await this.crearFirmarXml2(cod_proyecto, cliente, rucempresa, facturaventa, datosformapagoseleccion, datosdetalles);
+        
+
+        
+
+      } catch (err) {
+        this.toastr.error("Comprobante Nº " + facturaventa.numero_factura + " " + err.message || err, "INFORMACIÓN DEL SISTEMA");
+        respuesta.error_proceso = true;
+      } finally {
+        return respuesta;
+      }
+      
   }
 
 }
