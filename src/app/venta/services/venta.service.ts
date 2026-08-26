@@ -116,7 +116,7 @@ export class VentaService {
 
   crearRide(parametros: any)
   {
-    return this.http.post(this.apisriride, parametros);
+    return this.http.post(this.apisri + "crearride", parametros);
   }
 
   enviarCorreoFactura(parametros: any)
