@@ -112,12 +112,12 @@ export class OpcionesExploradorNotaCreditoComponent implements OnInit {
 
   descargarDocumentos()
   {
-	  window.open(this.configService.settings.baseUrlSri + "/ride/descargararchivonotacredito.php?cod_proyecto=" + this.cod_proyecto + "&cod_nota_credito=" + this.cod_nota_credito + "&numero_nota_credito=" + this.padLeft(this.numero_nota_credito, 9) + "&serieestab=" + this.serieestab + "&ptoemi=" + this.ptoemi + "&op=2");
+	  window.open(this.configService.settings.baseUrlSri + "/api/notacredito/descargararchivonotacredito.php?cod_proyecto=" + this.cod_proyecto + "&cod_nota_credito=" + this.cod_nota_credito + "&numero_nota_credito=" + this.padLeft(this.numero_nota_credito, 9) + "&serieestab=" + this.serieestab + "&ptoemi=" + this.ptoemi + "&op=2");
   }
 
   descargarXmlAutorizado()
   {
-	  window.open(this.configService.settings.baseUrlSri + "/ride/descargararchivonotacredito.php?cod_proyecto=" + this.cod_proyecto + "&cod_nota_credito=" + this.cod_nota_credito + "&numero_nota_credito=" + this.padLeft(this.numero_nota_credito, 9) + "&serieestab=" + this.serieestab + "&ptoemi=" + this.ptoemi + "&op=1");
+	  window.open(this.configService.settings.baseUrlSri + "/api/notacredito/descargararchivonotacredito.php?cod_proyecto=" + this.cod_proyecto + "&cod_nota_credito=" + this.cod_nota_credito + "&numero_nota_credito=" + this.padLeft(this.numero_nota_credito, 9) + "&serieestab=" + this.serieestab + "&ptoemi=" + this.ptoemi + "&op=1");
   }
 
   async clickCrearRide()

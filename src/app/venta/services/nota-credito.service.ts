@@ -14,7 +14,7 @@ export class NotaCreditoService {
   }
 
   private get apisri() {
-    return this.configService.settings.baseUrlSri + "/api/comprobante/" + "notacredito/";
+    return this.configService.settings.baseUrlSri + "/api/notacredito/";
   }
 
   private get apisriride() {

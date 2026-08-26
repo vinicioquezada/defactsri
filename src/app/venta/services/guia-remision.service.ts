@@ -14,7 +14,7 @@ export class GuiaRemisionService {
   }
 
   private get apisri() {
-    return this.configService.settings.baseUrlSri + "/api/comprobante/" + "guiaremision/";
+    return this.configService.settings.baseUrlSri + "/api/guiaremision/";
   }
 
   private get apisriride() {

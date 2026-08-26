@@ -106,6 +106,7 @@ export class OpcionesExploradorVentaComponent implements OnInit {
     this.recaudador = this.usersession.getConfiguracion("recaudador");
     this.codigo_iva = this.usersession.getConfiguracion("codigo_iva");
     this.monitor_actividades = this.usersession.getConfiguracion("monitor_actividades");
+    this.nombre_comercial = this.usersession.getConfiguracion("nombrecomercial");
     this.formularioNormal();
   }
 
@@ -140,12 +141,12 @@ export class OpcionesExploradorVentaComponent implements OnInit {
 
   descargarDocumentos()
   {
-	  window.open(this.configService.settings.baseUrlSri + "/ride/descargararchivofacuraventa.php?cod_proyecto=" + this.cod_proyecto + "&cod_factura_venta=" + this.cod_factura_venta + "&numero_factura=" + this.padLeft(this.numero_factura, 9) + "&serieestab=" + this.serieestab + "&ptoemi=" + this.ptoemi + "&op=2");
+	  window.open(this.configService.settings.baseUrlSri + "/api/factura/descargararchivoszip?cod_proyecto=" + this.cod_proyecto + "&cod_factura_venta=" + this.cod_factura_venta + "&numero_factura=" + this.padLeft(this.numero_factura, 9) + "&serieestab=" + this.serieestab + "&ptoemi=" + this.ptoemi + "&op=2");
   }
 
   descargarXmlAutorizado()
   {
-	  window.open(this.configService.settings.baseUrlSri + "/ride/descargararchivofacuraventa.php?cod_proyecto=" + this.cod_proyecto + "&cod_factura_venta=" + this.cod_factura_venta + "&numero_factura=" + this.padLeft(this.numero_factura, 9) + "&serieestab=" + this.serieestab + "&ptoemi=" + this.ptoemi + "&op=1");
+	  window.open(this.configService.settings.baseUrlSri + "/api/factura/descargararchivoxml?cod_proyecto=" + this.cod_proyecto + "&cod_factura_venta=" + this.cod_factura_venta + "&numero_factura=" + this.padLeft(this.numero_factura, 9) + "&serieestab=" + this.serieestab + "&ptoemi=" + this.ptoemi + "&op=1");
   }
 
   imprimirVenta()

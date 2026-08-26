@@ -74,8 +74,8 @@
                 <button *ngIf="this.opcionesprivilegios['bloqueoenviosri']" disabled="disabled" class="btn btn-secondary btn-flat btn-sm btn-block" type="button"><i class="fas fa-paper-plane"></i> ENVIAR SRI</button>
               </div>
 
-              <div *ngIf="tipo_venta == 'ELECTRONICA'" class="col-md-4 pb-1">
-                <button (click)="descargarRide();" [disabled]="disabledbtndescargarride" class="btn btn-primary btn-flat btn-sm btn-block" type="button"><i class="fas fa-file-pdf"></i> RIDE</button>
+              <div class="col-md-4 pb-1">
+                <button (click)="descargarRide();" class="btn btn-primary btn-flat btn-sm btn-block" type="button"><i class="fas fa-file-pdf"></i> RIDE</button>
               </div>
 
 
@@ -96,8 +96,8 @@
                 <button (click)="comprobarSri();" [disabled]="disabledbtncomprobarsri" class="btn btn-primary btn-flat btn-sm btn-block" type="button"><i class="fas fa-search"></i> COMPROBAR</button>
               </div>
               
-              <div *ngIf="tipo_venta == 'ELECTRONICA'" class="col-md-4 pb-1">
-                <button (click)="clickCrearRide();" [disabled]="disabledbtncrearride" class="btn btn-primary btn-flat btn-sm btn-block" type="button"><i class="fas fa-file-pdf"></i> CREAR RIDE</button>
+              <div class="col-md-4 pb-1">
+                <button (click)="clickCrearRide();" class="btn btn-primary btn-flat btn-sm btn-block" type="button"><i class="fas fa-file-pdf"></i> CREAR RIDE</button>
               </div>
 
               <div *ngIf="estado_comprobante == 'DEVUELTA' || estado_comprobante=='NO AUTORIZADO'" class="col-md-4 pb-1">

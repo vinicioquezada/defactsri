@@ -106,12 +106,12 @@ export class OpcionesExploradorGuiaRemisionComponent implements OnInit {
 
   descargarDocumentos()
   {
-	  window.open(this.configService.settings.baseUrlSri + "/ride/descargararchivoguiaremision.php?cod_proyecto=" + this.cod_proyecto + "&cod_guia_remision=" + this.cod_guia_remision + "&numero_guia=" + this.padLeft(this.numero_guia, 9) + "&serieestab=" + this.serieestab + "&ptoemi=" + this.ptoemi + "&op=2");
+	  window.open(this.configService.settings.baseUrlSri + "/api/guiaremision/descargararchivoguiaremision.php?cod_proyecto=" + this.cod_proyecto + "&cod_guia_remision=" + this.cod_guia_remision + "&numero_guia=" + this.padLeft(this.numero_guia, 9) + "&serieestab=" + this.serieestab + "&ptoemi=" + this.ptoemi + "&op=2");
   }
 
   descargarXmlAutorizado()
   {
-	  window.open(this.configService.settings.baseUrlSri + "/ride/descargararchivoguiaremision.php?cod_proyecto=" + this.cod_proyecto + "&cod_guia_remision=" + this.cod_guia_remision + "&numero_guia=" + this.padLeft(this.numero_guia, 9) + "&serieestab=" + this.serieestab + "&ptoemi=" + this.ptoemi + "&op=1");
+	  window.open(this.configService.settings.baseUrlSri + "/api/guiaremision/descargararchivoguiaremision.php?cod_proyecto=" + this.cod_proyecto + "&cod_guia_remision=" + this.cod_guia_remision + "&numero_guia=" + this.padLeft(this.numero_guia, 9) + "&serieestab=" + this.serieestab + "&ptoemi=" + this.ptoemi + "&op=1");
   }
 
   clickCrearRide()

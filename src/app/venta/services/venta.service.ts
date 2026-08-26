@@ -17,10 +17,6 @@ export class VentaService {
     return this.configService.settings.baseUrlSri + "/api/factura/";
   }
 
-  private get apisriride() {
-    return this.configService.settings.baseUrlSri + "/ride/facturaventa.php";
-  }
-
   private get apiReportes() {
     return this.configService.settings.baseUrl + "/reportes/ventas/";
   }
@@ -262,7 +258,7 @@ export class VentaService {
   async descargarXMLMasivo(parametros: any): Promise<Blob>
   {
     return await this.http.post(
-      this.configService.settings.baseUrlSri + "/ride/descargararchivofacuraventa.php?op=4",
+      this.configService.settings.baseUrlSri + "/api/factura/descargarxmlsmasivo",
       parametros,
       {
         responseType: 'blob'
@@ -273,7 +269,7 @@ export class VentaService {
   async descargarRidesMasivo(parametros: any): Promise<Blob>
   {
     return await this.http.post(
-      this.configService.settings.baseUrlSri + "/ride/descargararchivofacuraventa.php?op=3",
+      this.configService.settings.baseUrlSri + "/api/factura/descargarridesmasivo",
       parametros,
       {
         responseType: 'blob'
