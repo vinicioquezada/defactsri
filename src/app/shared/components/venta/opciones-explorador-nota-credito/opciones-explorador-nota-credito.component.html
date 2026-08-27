@@ -30,6 +30,8 @@
   
               <div *ngIf="tipo_venta == 'ELECTRONICA'" class="col-md-4 pb-1">
                 <button (click)="enviarCorreo();" [disabled]="disabledbtnenviarcorreo" class="btn btn-primary btn-flat btn-sm btn-block" type="button"><i class="fas fa-at"></i> ENVIAR</button>
+
+                <button  (click)="crearFirmaXml();" class="btn btn-primary btn-flat btn-sm btn-block" type="button"><i class="fas fa-paper-plane"></i> ENVIAR SRI PRUEBA</button>
               </div>
   
               <div *ngIf="tipo_venta == 'ELECTRONICA'" class="col-md-4 pb-1">

@@ -952,4 +952,11 @@ export class OpcionesExploradorNotaCreditoComponent implements OnInit {
     this.datosenviocorreo.emit(parametrosenviar);
   }
 
+  async crearFirmaXml()
+  {
+    const { cliente, rucempresa, notacredito, datosdetalles } = await this.srinotacredito.buscarNotaCredito(this.cod_nota_credito, this.codigo_iva);
+
+    let arrnotacredito = await this.srinotacredito.crearFirmarXml2(this.cod_proyecto, cliente, rucempresa, notacredito, datosdetalles);
+  }
+
 }
