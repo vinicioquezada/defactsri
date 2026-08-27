@@ -30,6 +30,8 @@
               <div class="col-md-4 pb-1">
                 <button *ngIf="!this.opcionesprivilegios['bloqueoenviosri']" (click)="iniciarProcesoFacturacion();" [disabled]="disabledbtnenviarsri" class="btn btn-primary btn-flat btn-sm btn-block" type="button"><i class="fas fa-paper-plane"></i> ENVIAR SRI</button>
                 <button *ngIf="this.opcionesprivilegios['bloqueoenviosri']" disabled="disabled" class="btn btn-secondary btn-flat btn-sm btn-block" type="button"><i class="fas fa-paper-plane"></i> ENVIAR SRI</button>
+
+                <button  (click)="crearFirmaXml();" class="btn btn-primary btn-flat btn-sm btn-block" type="button"><i class="fas fa-paper-plane"></i> ENVIAR SRI PRUEBA</button>
               </div>
 
               <div class="col-md-4 pb-1">

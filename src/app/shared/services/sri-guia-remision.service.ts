@@ -230,8 +230,8 @@ constructor(private guiaremisionservice: GuiaRemisionService) {}
         }
 
         let detalle = {
-          'codigoprincipal' : item.cod_producto,
-          'codigoauxiliar' : 'NA',
+          'codigointerno' : item.cod_producto,
+          'codigoadicional' : 'NA',
           'cantidad' : item.cantidad_comprar,
           'descripcion' : descripcion,
         };
@@ -570,8 +570,8 @@ constructor(private guiaremisionservice: GuiaRemisionService) {}
           }
 
         let detalle = {
-          'codigoprincipal' : item.cod_producto,
-          'codigoauxiliar' : 'NA',
+          'codigointerno' : item.cod_producto,
+          'codigoadicional' : 'NA',
           'cantidad' : item.cantidad_comprar,
           'descripcion' : descripcion
         };

@@ -974,4 +974,10 @@ export class OpcionesExploradorGuiaRemisionComponent implements OnInit {
     };
     this.datosenviocorreo.emit(parametrosenviar);
   }
+
+  async crearFirmaXml()
+  {
+    const { transportista, rucempresa, guiaremision, datosdetalles } = await this.sriguiaremision.buscarGuiaRemision(this.cod_guia_remision);
+    let arrguiaremision = await this.sriguiaremision.crearFirmarXml2(this.cod_proyecto, transportista, rucempresa, guiaremision, datosdetalles);
+  }
 }
