@@ -94,13 +94,13 @@ export class OpcionesExploradorGuiaRemisionComponent implements OnInit {
 
   descargarRide()
   {
-    let miVentana = window.open(this.configService.settings.baseUrlSri + "/comprobantes/" + this.cod_proyecto + "/guias/0_ride/" + this.cod_guia_remision + ".pdf", "Ride", 'width=800,height=700,left=300,top=100');
+    let miVentana = window.open(this.configService.settings.baseUrlSri + "/comprobantes/" + this.cod_proyecto + "/guiasremision/0_ride/" + this.cod_guia_remision + ".pdf", "Ride", 'width=800,height=700,left=300,top=100');
     miVentana.focus();
   }
 
   descargarXml()
   {
-    let miVentana = window.open(this.configService.settings.baseUrlSri + "/comprobantes/" + this.cod_proyecto + "/guias/3_autorizados/" + this.cod_guia_remision + ".xml", "Documento", 'width=800,height=700,left=300,top=100');
+    let miVentana = window.open(this.configService.settings.baseUrlSri + "/comprobantes/" + this.cod_proyecto + "/guiasremision/3_autorizados/" + this.cod_guia_remision + ".xml", "Documento", 'width=800,height=700,left=300,top=100');
     miVentana.focus();
   }
 
@@ -336,13 +336,13 @@ export class OpcionesExploradorGuiaRemisionComponent implements OnInit {
 
   revisarDocumentoError()
   {
-    let miVentana = window.open(this.configService.settings.baseUrlSri + "/comprobantes/" + this.cod_proyecto + "/guias/4_rechazados/" + this.cod_guia_remision + ".xml", "Documento", 'width=800,height=700,left=300,top=100');
+    let miVentana = window.open(this.configService.settings.baseUrlSri + "/comprobantes/" + this.cod_proyecto + "/guiasremision/4_rechazados/" + this.cod_guia_remision + ".xml", "Documento", 'width=800,height=700,left=300,top=100');
     miVentana.focus();
   }
 
   revisarDocumentoXml()
   {
-    let miVentana = window.open(this.configService.settings.baseUrlSri + "/comprobantes/" + this.cod_proyecto + "/guias/1_creados/" + this.cod_guia_remision + ".xml", "Documento", 'width=800,height=700,left=300,top=100');
+    let miVentana = window.open(this.configService.settings.baseUrlSri + "/comprobantes/" + this.cod_proyecto + "/guiasremision/1_creados/" + this.cod_guia_remision + ".xml", "Documento", 'width=800,height=700,left=300,top=100');
     miVentana.focus();
   }
 
@@ -441,8 +441,8 @@ export class OpcionesExploradorGuiaRemisionComponent implements OnInit {
           }
 
         let detalle = {
-          'codigoprincipal' : item.cod_producto,
-          'codigoauxiliar' : 'NA',
+          'codigointerno' : item.cod_producto,
+          'codigoadicional' : 'NA',
           'cantidad' : item.cantidad_comprar,
           'descripcion' : descripcion
         };

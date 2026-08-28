@@ -207,8 +207,6 @@ constructor(private notacreditoservice: NotaCreditoService) {}
 
   async crearFirmarXml2(cod_proyecto: string, cliente: ClienteDTO, rucempresa: RucEmpresaDTO, notacredito: NotaCreditoDTO, datosdetalles: any): Promise<any>
   {
-    
-
     let detalles = [];
       datosdetalles.forEach(item => {
 
@@ -650,7 +648,7 @@ constructor(private notacreditoservice: NotaCreditoService) {}
         'observacion' : notacredito.observacion,
         'detalles' : detalles,
         'facturaversion' : rucempresa.facturaversion,
-        //'iva' : notacredito.iva_general
+        'iva' : notacredito.iva,
         'codigoiva' : notacredito.codigo_iva,//Agregado recien,
         'fechaautorizacion': notacredito.fechaautorizacion,
       };
